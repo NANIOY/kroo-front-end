@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import App from './App.vue'
 import './style.css'
 import Login from './views/Login.vue'
 import Calendar from './views/Calendar.vue'
@@ -9,9 +10,7 @@ import Search from './views/Search.vue'
 import Settings from './views/Settings.vue'
 import Tools from './views/Tools.vue'
 import Tracker from './views/Tracker.vue'
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-Vue.use(VueRouter);
+import { createRouter, createWebHashHistory } from 'vue-router';
 
 const routes = [
   { path: '/', component: Login },
@@ -23,16 +22,13 @@ const routes = [
   { path: '/settings', component: Settings },
   { path: '/tools', component: Tools },
   { path: '/tracker', component: Tracker },
-
 ];
 
-const router = new VueRouter({
+const router = createRouter({
+  history: createWebHashHistory(),
   routes,
 });
 
-new Vue({
-  router,
-  render: (h) => h(App),
-}).$mount('#app');
-
-createApp(App).mount('#app')
+createApp(App)
+  .use(router)
+  .mount('#app');
