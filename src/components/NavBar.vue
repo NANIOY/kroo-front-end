@@ -3,13 +3,13 @@
       <div id="navbar_contents">
         <div id="navbar_contents--logo">Logo</div>
         <div id="navbar_contents--items">
-          <div class="navbar_item">Dashboard Icon</div>
+          <div class="navbar_item--items_menu">Dashboard Icon</div>
           <div class="navbar_item">Schedule Icon</div>
           <div class="navbar_item">Search Icon</div>
           <div class="navbar_item">Tracker Icon</div>
           <div class="navbar_item">Tools Icon</div>
         </div>
-        <div id="navbar_contents--items">
+        <div id="navbar_contents--items_account">
           <div class="navbar_item">User Icon</div>
           <div class="navbar_item">Notifications Icon</div>
           <div class="navbar_item">Settings Icon</div>
