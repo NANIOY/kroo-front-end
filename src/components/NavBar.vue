@@ -1,51 +1,135 @@
+<script setup>
+
+import { IconoirProvider, Iconoir, ReportColumns, Calendar, Search, Tools, User, Bookmark, Bell, Settings, HelpCircle} from '@iconoir/vue';
+
+</script>
+
+
 <template>
+
+<IconoirProvider
+    :icon-props="{
+      'color': '#F5F5F5',
+      'width': '24',
+      'height': '24',
+    }"
+  >
+  </IconoirProvider>
+
     <div id="navbar">
-      <div id="navbar_contents">
-        <div id="navbar_contents--logo">Logo</div>
-        <div id="navbar_contents--items">
-          <div class="navbar_item--items_menu">Dashboard Icon</div>
-          <div class="navbar_item">Schedule Icon</div>
-          <div class="navbar_item">Search Icon</div>
-          <div class="navbar_item">Tracker Icon</div>
-          <div class="navbar_item">Tools Icon</div>
+      <div id="navbar__contents">
+        <div id="navbar_contents__logo">
+          <img src="../assets/logomark-color.webp" alt="Logo" width="40" height="40" />
         </div>
+        <div id="navbar_contents--items">
+
+        <div id="navbar_item--items_menu">
+
+          <div class="navbar_item">
+            <ReportColumns/>
+          </div>
+
+          <div class="navbar_item">
+            <Calendar/>
+          </div>
+
+          <div class="navbar_item"> 
+            <Search/>
+          </div>
+
+          <div class="navbar_item">
+            <Bookmark/>
+          </div>
+          
+          <div class="navbar_item">
+            <Tools/>
+          </div>
+
+        </div>
+
+        
+        
         <div id="navbar_contents--items_account">
-          <div class="navbar_item">User Icon</div>
-          <div class="navbar_item">Notifications Icon</div>
-          <div class="navbar_item">Settings Icon</div>
-          <div class="navbar_item">Help & Support Icon</div>
+
+          <div class="navbar_item">
+            <User/>
+          </div>
+          
+          <div class="navbar_item">
+            <Bell/>
+          </div>
+
+          <div class="navbar_item">
+            <Settings/>
+          </div>
+
+          <div class="navbar_item">
+            <HelpCircle/>
+          <div>
+
+          </div>
+
+              </div>
+            </div>
         </div>
       </div>
     </div>
   </template>
   
   <style>
-#navbar {
-  background-color: #0E0F0F;
-  color: white;
-  display: flex;
-  flex-direction: column; /* Set the direction to column for vertical layout */
+  
+    #navbar {
+      background-color: #0E0F0F;
+      color: white;
+      display: flex;
+      flex-direction: column; /* Set the direction to column for vertical layout */
+      width: 96px; 
+      height: 100dvh;
+      position: fixed;
+      top: 0%;
+      left: 0%;
+      padding: 1rem 0.1rem 0rem 0.1rem;
+    }
+
+    #navbar_contents__logo {
+      padding-bottom: 3.5rem;
+    }
+
+    #navbar__contents {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+
+    }
+
+    #navbar_contents--logo {
+      font-size: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    #navbar_contents--items {
+      display: flex;
+      flex-direction: column; /* Set the direction to column for vertical layout */
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .navbar_item {
+      cursor: pointer;
+    }
+
+    #navbar_contents--items_account, #navbar_item--items_menu {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    #navbar_contents--items_account {
+      margin-bottom: 3.5rem;
 }
 
-#navbar_contents {
-  padding: 10px;
-}
-
-#navbar_contents--logo {
-  font-size: 1.5rem;
-}
-
-#navbar_contents--items {
-  display: flex;
-  flex-direction: column; /* Set the direction to column for vertical layout */
-  gap: 10px;
-}
-
-.navbar_item {
-  cursor: pointer;
-}
-
-.icon-space {
-  margin-top: 20px; /* Adjust the margin as needed */
-}
 </style>
