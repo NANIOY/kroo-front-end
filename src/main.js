@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import NavBar from './components/NavBar.vue'  // Update the path
 import './style.css'
 import Login from './views/Login.vue'
 import Calendar from './views/Calendar.vue'
@@ -31,4 +32,5 @@ const router = createRouter({
 
 createApp(App)
   .use(router)
+  .component('NavBar', NavBar)  // Register the NavBar component
   .mount('#app');
