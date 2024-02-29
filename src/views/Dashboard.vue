@@ -1,15 +1,12 @@
 <template>
     <div>
-      <Navbar>
-        
-      </Navbar>
+Dashboard
     </div>
   
   </template>
   
   <script setup>
-  import Navbar from './components/NavBar.vue'
-  
+
   </script>
   
   <style scoped>
