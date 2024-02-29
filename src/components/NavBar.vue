@@ -11,7 +11,7 @@ import { IconoirProvider, Iconoir, ReportColumns, Calendar, Search, Tools, User,
     :icon-props="{
       'color': '#F5F5F5',
       'width': '24',
-      'height': '24',
+      'height': '24'
     }"
   >
   </IconoirProvider>
@@ -26,45 +26,43 @@ import { IconoirProvider, Iconoir, ReportColumns, Calendar, Search, Tools, User,
         <div id="navbar_item--items_menu">
 
           <div class="navbar_item">
-            <ReportColumns/>
+            <a href="../views/Dashboard.vue"><ReportColumns/></a>
           </div>
 
           <div class="navbar_item">
-            <Calendar/>
+            <a href="../views/Calendar.vue"><Calendar/></a>
           </div>
 
           <div class="navbar_item"> 
-            <Search/>
+            <a href="../views/Search.vue"><Search/></a>
           </div>
 
           <div class="navbar_item">
-            <Bookmark/>
+            <a href="../views/Tracker.vue"><Bookmark/></a>
           </div>
           
           <div class="navbar_item">
-            <Tools/>
+            <a href="../views/Tools.vue"><Tools/></a>
           </div>
 
         </div>
 
-        
-        
         <div id="navbar_contents--items_account">
 
           <div class="navbar_item">
-            <User/>
+            <a href="../views/User.vue"><User/></a>
           </div>
           
           <div class="navbar_item">
-            <Bell/>
+            <a href="#"><Bell/></a>
           </div>
 
           <div class="navbar_item">
-            <Settings/>
+            <a href="../views/Settings.vue"><Settings/></a>
           </div>
 
           <div class="navbar_item">
-            <HelpCircle/>
+            <a href="../views/Help.vue"><HelpCircle/></a>
           <div>
 
           </div>

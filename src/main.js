@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import NavBar from './components/NavBar.vue'  // Update the path
+import NavBar from './components/NavBar.vue' 
+import NavBarTop from './components/NavBarTop.vue';
 import './style.css'
 import Login from './views/Login.vue'
 import Calendar from './views/Calendar.vue'
