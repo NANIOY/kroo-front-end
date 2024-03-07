@@ -26,9 +26,72 @@
     src: url('../assets/fonts/Orkney-Medium.otf') format('opentype');
   }
 
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-header);
+    line-height: 100%;
+  }
 
-  body {
+  h1 {
+    font-size: 64px;
+  }
+
+  h2 {
+    font-size: 48px;
+  }
+
+  h3 {
+    font-size: 40px;
+  }
+
+  h4 {
+    font-size: 32px;
+  }
+
+  h5 {
+    font-size: 24px;
+  }
+
+  h6 {
+    font-size: 20px;
+  }
+
+  p, a, button, label, input, textarea {
     font-family: var(--font-body);
-    font-size: 16px;
     line-height: 140%;
   }
+
+  .text-bold-xl, .text-bold-l, .text-bold-normal, .text-bold-s, .text-bold-xs, .text-bold-xxs {
+    font-family: var(--font-bold);
+    line-height: 140%;
+  }
+
+  .button-xl, .button-l, .button-normal, .button-s, .button-xs, .button-xxs {
+    font-family: var(--font-button);
+    line-height: 100%;
+  }
+
+  .text-reg-xl, .text-bold-xl, .button-xl {
+    font-size: 24px;
+  }
+
+  .text-reg-l, .text-bold-l, .button-l {
+    font-size: 20px;
+  }
+
+  .text-reg-normal, .text-bold-normal, .button-normal {
+    font-size: 16px;
+  }
+
+  .text-reg-s, .text-bold-s, .button-s {
+    font-size: 14px;
+  }
+
+  .text-reg-xs, .text-bold-xs, .button-xs {
+    font-size: 12px;
+  }
+
+  .text-reg-xxs, .text-bold-xxs, .button-xxs {
+    font-size: 10px;
+  }
+
+
