@@ -78,7 +78,6 @@ import { IconoirProvider, Iconoir, ReportColumns, Calendar, Search, Tools, User,
   
     #navbar {
       background-color: #0E0F0F;
-      color: white;
       display: flex;
       flex-direction: column; /* Set the direction to column for vertical layout */
       width: 96px; 
@@ -87,6 +86,8 @@ import { IconoirProvider, Iconoir, ReportColumns, Calendar, Search, Tools, User,
       top: 0%;
       left: 0%;
       padding: 1rem 0.1rem 0rem 0.1rem;
+      text-align: center;
+      line-height: 1.5;
     }
 
     #navbar_contents__logo {
