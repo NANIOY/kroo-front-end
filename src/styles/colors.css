@@ -73,11 +73,16 @@
 }
 
 .button-bg-tertiary {
-  background-color: var(--blurple-70);
+  background-color: var(--white);
 }
 
 .button-bg-disabled {
-  background-color: var(--neutral-70);
+  background-color: var(--neutral-50);
+}
+
+/* button stroke */
+.button-stroke{
+  border: var(--blurple-70) solid 2px;
 }
 
 /* buttons interact */
@@ -104,6 +109,10 @@
 }
 
 .button-text-secondary {
+  color: var(--black);
+}
+
+.button-text-tertiary {
   color: var(--black);
 }
 

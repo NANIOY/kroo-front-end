@@ -7,12 +7,120 @@
 
 <div>   
 
-    <button class="button button--large button--primary">Label</button>
-    <button class="button button--no-background button--tertiary">Label</button>
-    <button class="button button--idle button--secondary">Label</button>
-    <button class="button button--hover button--secondary">Label</button>
-    <button class="button button--active button--secondary">Label</button>
-    <button class="button button--disabled button--secondary" disabled>Label</button>
+    <p>Idle</p>
+
+    <div style="margin-left: 15%;">
+        <div>
+            <button class="button button-bg-primary button-text-primary button--large button--primary button--idle--standard"> > Label</button>
+            <br>
+            <button class="button button-bg-primary button-text-primary button--large button--primary button--idle--label">  Label</button>
+            <br>
+            <button class="button  button-bg-primary button-text-primary button--large button--secondary button--idle--icon" > > </button>
+            <br>   <br>
+
+            <button class="button button-bg-secondary button-text-secondary button--large button--secondary button--idle--standard"> > Label</button>
+            <br>
+            <button class="button button-bg-secondary button-text-secondary button--large button--secondary button--idle--label"> Label</button>
+            <br>
+            <button class="button button-bg-secondary button-text-secondary button---large button--secondary button--idle--icon"> > </button>
+            <br>   <br>
+
+            <button class="button button-stroke button-bg-tertiary button-text-tertiary button--large button--tertiary button--idle--standard"> > Label</button>
+            <br>
+            <button class="button button-stroke button-bg-tertiary button-text-tertiary button--large button--tertiary button--idle--label"> Label</button>
+            <br>
+            <button class="button button-stroke button-bg-tertiary button-text-tertiary button---large button--tertiary button--idle--icon"> > </button>
+    </div>
+
+
+
+    <br>   <br>
+    <p>hover</p>
+
+    <div style="margin-left: 15%;">
+    <div>
+        <button class="button button-bg-primary-hover  button-text-primary button--large button--primary button--hover--standard"> > Label</button>
+        <br>
+        <button class="button button-bg-primary-hover  button-text-primary button--large button--primary button--hover--label">  Label</button>
+        <br>
+        <button class="button button-bg-primary-hover  button-text-primary button--large button--primary button--hover--icon" > > </button>
+        <br>   <br>
+
+        <button class="button button-bg-secondary-hover button-text-secondary button--large button--secondary button--hover--standard"> > Label</button>
+        <br>
+        <button class="button button-bg-secondary-hover  button-text-secondary button--large button--secondary button--hover--label"> Label</button>
+        <br>
+        <button class="button button-bg-secondary-hover  button-text-secondary button---large button--secondary button--hover--icon"> > </button>
+        <br>   <br>
+
+        <button class="button button-stroke button-bg-primary-hover  button-text-primary button--large button--primary button--hover--standard"> > Label</button>
+        <br>
+        <button class="button button-stroke button-bg-primary-hover button-text-primary button--large button--primary button--hover--label"> Label</button>
+        <br>
+        <button class="button button-stroke button-bg-primary-hover  button-text-primary button--large button--primary button--hover--icon"> > </button>
+    </div>
+</div>
+
+<br>   <br>
+<p>Active</p>
+
+<div style="margin-left: 15%;">
+    <div>
+        <button class="button button-bg-primary-active button-text-primary button--large button--primary button--active--standard"> > Label</button>
+        <br>
+        <button class="button button-bg-primary-active button-text-primary button--large button--primary button--active--label">  Label</button>
+        <br>
+        <button class="button  button-bg-primary-active button-text-primary button--large button--secondary button--active--icon" > > </button>
+        <br>   <br>
+
+        <button class="button button-bg-secondary-active button-text-secondary button--large button--secondary button--active--standard"> > Label</button>
+        <br>
+        <button class="button button-bg-secondary-active button-text-secondary button--large button--secondary button--active--label"> Label</button>
+        <br>
+        <button class="button button-bg-secondary-active button-text-secondary button---large button--secondary button--active--icon"> > </button>
+        <br>   <br>
+
+        <button class="button button-stroke button-bg-primary-active button-text-primary button--large button--tertiary button--active--standard"> > Label</button>
+        <br>
+        <button class="button button-stroke button-bg-primary-active button-text-primary button--large button--tertiary button--active--label"> Label</button>
+        <br>
+        <button class="button button-stroke button-bg-primary-active button-text-primary button---large button--tertiary button--active--icon"> > </button>
+    </div>
+</div>
+
+<br>   <br>
+
+<p>Disabled</p>
+
+<div style="margin-left: 15%;">
+    <div>
+        <button class="button button-bg-disabled button-text-disabled button--large button--disabled button--disabled--standard"> > Label</button>
+        <br>
+        <button class="button button-bg-disabled button-text-disabled button--large button--disabled button--disabled--label">  Label</button>
+        <br>
+        <button class="button  button-bg-disabled button-text-disabled button--large button--disabled button--disabled--icon" > > </button>
+        <br>   <br>
+
+        <button class="button button-bg-disabled button-text-disabled button--large button--disabled button--disabled--standard"> > Label</button>
+        <br>
+        <button class="button button-bg-disabled button-text-disabled button--large button--disabled button--disabled--label"> Label</button>
+        <br>
+        <button class="button button-bg-disabled button-text-disabled button---large button--disabled button--disabled--icon"> > </button>
+        <br>   <br>
+
+        <button class="button button-bg-disabled button-text-disabled button--large button--disabled button--disabled--standard"> > Label</button>
+        <br>
+        <button class="button  button-bg-disabled button-text-disabled button--large button--disabled button--disabled--label"> Label</button>
+        <br>
+        <button class="button button-bg-disabled button-text-disabled button---large button--disabled button--disabled--icon"> > </button>
+    </div>
+</div>
+
+
+
+
+  </div>
+
 
 </div>
 
@@ -22,15 +130,13 @@
     /* Base styles */
     button {
         border: none;
-        border-radius: 5%;
+        border-radius:5px;
         color: white;
         padding: 14px 60px;
         margin-left: 10%;
         text-align: center;
         text-decoration: none;
         font-size: 16px;
-        width: 160px;
-        height:40px;
       }
 
     /* Large version */
@@ -49,21 +155,20 @@
 
     /* Primary State */
     .button--primary {
-        background-color: #7140ED;
-        color: #F5F5F5;
+        width: 160px;
+        height:40px;
     }
 
     /* Secondary State */
     .button--secondary {
-        background-color: #99ED40;
-        color: #F5F5F5;
+        width: 160px;
+        height:40px;
     }
 
     /* Tertiary State */
     .button--tertiary {
-        background-color: #F5F5F5;
-        color: #0E0F0F;
-        border: #0E0F0F solid 2.5px;
+        width: 160px;
+        height:40px;
     }
 
     /* Idle State */
@@ -93,57 +198,72 @@
 
      /* Additional variations for Idle state */
      .button--idle--standard {
-        /* Idle standard style */
+        width: 160px;
+        height:40px;
+        padding: 0;
     }
 
     .button--idle--label {
-        /* Idle state with label specific style */
+        width: 160px;
+        height:40px;
+        padding: 0;
     }
 
     .button--idle--icon {
-        /* Idle state with icon specific style */
+        width: 28px;
+        height:28px;
+        padding: 0;
     }
 
     /* Additional variations for Hover state */
     .button--hover--standard:hover {
-        /* Hover standard style */
+        width: 160px;
+        height:40px;
     }
 
     .button--hover--label:hover {
-        /* Hover state with label specific style */
+        width: 160px;
+        height:40px;
     }
 
     .button--hover--icon:hover {
-        /* Hover state with icon specific style */
+        width: 28px;
+        height:28px;
     }
 
     /* Additional variations for Active state */
     .button--active--standard:active {
-        /* Active standard style */
+        width: 160px;
+        height:40px;
     }
 
     .button--active--label:active {
-        /* Active state with label specific style */
+        width: 160px;
+        height:40px;
     }
 
     .button--active--icon:active {
-        /* Active state with icon specific style */
+        width: 28px;
+        height:28px;
     }
 
     /* Additional variations for Disabled state */
     .button--disabled--standard {
-        /* Disabled standard style */
+        width: 160px;
+        height:40px;
     }
 
     .button--disabled--label {
-        /* Disabled state with label specific style */
+        width: 160px;
+        height:40px;
     }
 
     .button--disabled--icon {
-        /* Disabled state with icon specific style */
+        width: 28px;
+        height:28px;
     }
 
-    /* Add more variations as needed */
+
    
 </style>
 
