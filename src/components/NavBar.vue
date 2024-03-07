@@ -75,6 +75,11 @@ import { IconoirProvider, Iconoir, ReportColumns, Calendar, Search, Tools, User,
   </template>
   
   <style>
+
+    .navbar_item a {
+      color: #F5F5F5;
+      text-decoration: none;
+    }
   
     #navbar {
       background-color: #0E0F0F;
