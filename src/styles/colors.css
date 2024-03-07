@@ -38,20 +38,124 @@
   
   }
 
-  /* text styles */
+  /* text */
 
-  .text__color--white {
-    color: var(--white);
-  }
-  
-  .text__color--black {
-    color: var(--black);
-  }
+.text-primary {
+  color: var(--black);
+}
 
-  /* global styles */
-.body {
-    background-color: var(--white);
-    color: var(--black);
-  }
+.text-secondary {
+  color: var(--neutral-80);
+}
+
+.text-tertiary {
+  color: var(--blurple-70);
+}
+
+/* surface */
+
+.surface-primary {
+  background-color: var(--white);
+}
+
+.surface-secondary {
+  background-color: var(--black);
+}
+
+/* buttons */
+
+.button-bg-primary {
+  background-color: var(--blurple);
+}
+
+.button-bg-secondary {
+  background-color: var(--green);
+}
+
+.button-bg-tertiary {
+  background-color: var(--blurple-70);
+}
+
+.button-bg-disabled {
+  background-color: var(--neutral-70);
+}
+
+/* buttons interact */
+
+.button-bg-primary-hover {
+  background-color: var(--blurple-30);
+}
+
+.button-bg-secondary-hover {
+  background-color: var(--green-30);
+}
+
+.button-bg-primary-active {
+  background-color: var(--blurple-20);
+}
+
+.button-bg-secondary-active {
+  background-color: var(--green-20);
+}
+
+/* buttons text */
+.button-text-primary {
+  color: var(--white);
+}
+
+.button-text-secondary {
+  color: var(--black);
+}
+
+.button-text-disabled {
+  color: var(--neutral-30);
+}
+
+.button-text-reversable {
+  color: var(--white);
+}
+
+/* icons */
+
+.icon-black {
+  color: var(--black);
+}
+
+.icon-white {
+  color: var(--white);
+}
+
+.icon-active {
+  color: var(--blurple);
+}
+
+.icon-disabled {
+  color: var(--neutral-30);
+}
+
+/* semantic */
+
+.warning {
+  color: var(--warning);
+}
+
+.notice {
+  color: var(--notice);
+}
+
+.positive {
+  color: var(--positive);
+}
+
+.info {
+  color: var(--info);
+}
+
+
+
+
+
+
+
   
 
