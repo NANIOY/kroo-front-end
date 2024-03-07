@@ -12,6 +12,9 @@ import Settings from './views/Settings.vue'
 import Tools from './views/Tools.vue'
 import Tracker from './views/Tracker.vue'
 import { createRouter, createWebHashHistory } from 'vue-router';
+import './styles/normalize.css';
+import './styles/colors.css';
+import './styles/fonts.css';
 
 const routes = [
   { path: '/', component: Login },
