@@ -35,31 +35,6 @@
 
 
     <br>   <br>
-    <p>hover</p>
-
-    <div style="margin-left: 15%;">
-    <div>
-        <button class="button button-bg-primary-hover  button-text-primary button--large button--primary button--hover--standard"> > Label</button>
-        <br>
-        <button class="button button-bg-primary-hover  button-text-primary button--large button--primary button--hover--label">  Label</button>
-        <br>
-        <button class="button button-bg-primary-hover  button-text-primary button--large button--primary button--hover--icon" > > </button>
-        <br>   <br>
-
-        <button class="button button-bg-secondary-hover button-text-secondary button--large button--secondary button--hover--standard"> > Label</button>
-        <br>
-        <button class="button button-bg-secondary-hover  button-text-secondary button--large button--secondary button--hover--label"> Label</button>
-        <br>
-        <button class="button button-bg-secondary-hover  button-text-secondary button---large button--secondary button--hover--icon"> > </button>
-        <br>   <br>
-
-        <button class="button button-stroke button-bg-primary-hover  button-text-primary button--large button--primary button--hover--standard"> > Label</button>
-        <br>
-        <button class="button button-stroke button-bg-primary-hover button-text-primary button--large button--primary button--hover--label"> Label</button>
-        <br>
-        <button class="button button-stroke button-bg-primary-hover  button-text-primary button--large button--primary button--hover--icon"> > </button>
-    </div>
-</div>
 
 <br>   <br>
 <p>Active</p>
@@ -127,17 +102,6 @@
 </template>
 
 <style>
-    /* Base styles */
-    button {
-        border: none;
-        border-radius:5px;
-        color: white;
-        padding: 14px 60px;
-        margin-left: 10%;
-        text-align: center;
-        text-decoration: none;
-        font-size: 16px;
-      }
 
     /* Large version */
     .button--large {
