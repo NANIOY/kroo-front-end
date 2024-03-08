@@ -1,10 +1,13 @@
 <template>
   <div>
-    <NavBar /> <!-- Include the NavBar component -->
+    <!-- <NavBar />  -->
     <NavBarTop/>
-    <Buttons /> <!-- Include the Buttons component -->
+    <LargeButton class="button--primary"
+      :hasIcon="true"
+      :hasLabel="false"
+      label="Label"
+    />
     <div>
-      <!-- Your other content goes here -->
       Fake Dashboard
     </div>
   </div>
@@ -13,7 +16,8 @@
 <script setup>
 import NavBar from './components/NavBar.vue';
 import NavBarTop from './components/NavBarTop.vue';
-import Buttons from './components/Buttons.vue';
+// import Buttons from './components/Buttons.vue';
+import LargeButton from './components/buttons/LargeButton.vue';
 </script>
 
 <style scoped>
