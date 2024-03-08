@@ -1,5 +1,6 @@
 @import './colors.css';
 @import './fonts.css';
+@import './buttons.css';
 
 .border-min {
     border: 1px solid;
@@ -32,6 +33,4 @@
 .border-full {
     border: 9999px solid;
 }
-
-
 
