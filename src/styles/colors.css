@@ -62,70 +62,7 @@
   background-color: var(--black);
 }
 
-/* buttons */
-
-.button-bg-primary {
-  background-color: var(--blurple);
-}
-
-.button-bg-secondary {
-  background-color: var(--green);
-}
-
-.button-bg-tertiary {
-  background-color: var(--white);
-}
-
-.button-bg-disabled {
-  background-color: var(--neutral-50);
-}
-
-/* button stroke */
-.button-stroke{
-  border: var(--blurple-70) solid 2px;
-}
-
-/* buttons interact */
-
-.button-bg-primary-hover {
-  background-color: var(--blurple-30);
-}
-
-.button-bg-secondary-hover {
-  background-color: var(--green-30);
-}
-
-.button-bg-primary-active {
-  background-color: var(--blurple-20);
-}
-
-.button-bg-secondary-active {
-  background-color: var(--green-20);
-}
-
-/* buttons text */
-.button-text-primary {
-  color: var(--white);
-}
-
-.button-text-secondary {
-  color: var(--black);
-}
-
-.button-text-tertiary {
-  color: var(--black);
-}
-
-.button-text-disabled {
-  color: var(--neutral-30);
-}
-
-.button-text-reversable {
-  color: var(--white);
-}
-
-/* icons */
-
+/* ICONS */
 .icon-black {
   color: var(--black);
 }
@@ -142,8 +79,7 @@
   color: var(--neutral-30);
 }
 
-/* semantic */
-
+/* SEMANTIC */
 .warning {
   color: var(--warning);
 }
@@ -159,12 +95,3 @@
 .info {
   color: var(--info);
 }
-
-
-
-
-
-
-
-  
-
