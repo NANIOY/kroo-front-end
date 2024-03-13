@@ -12,9 +12,9 @@
       :hasLabel="false"
       label="Label"
     />
-    <TransparentButton class="button--primary button--primary:hover"
+    <TransparentButton class="button--primary"
       :hasIcon="true"
-      :hasLabel="false"
+      :hasLabel="true"
       label="Label"
     />
 

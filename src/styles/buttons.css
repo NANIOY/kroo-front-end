@@ -65,4 +65,38 @@ button {
   .button__text--disabled {
     color: var(--neutral-30);
   }
+
+  /* Transparent button */
+  .TransparentButton.button--primary {
+    color: var(--blurple);
+  }
+  
+  .TransparentButton.button--secondary {
+    color: var(--black);
+  }
+  
+  .TransparentButton.button--tertiary {
+    color: var(--black);
+  }
+
+  .TransparentButton.button--primary:hover {
+  color: var(--blurple-30); 
+  background-color: transparent;
+}
+
+.TransparentButton.button--secondary:hover {
+  color: var(--black); 
+  background-color: transparent;
+}
+
+.TransparentButton.button--tertiary:hover {
+  color: var(--black); 
+  background-color: transparent;
+}
+  
+  .TransparentButton:disabled {
+    /* Styles for disabled state */
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
   
