@@ -32,6 +32,7 @@ export default {
     width: 96px;
     height: 40px;
     background-color: transparent;
+    font-weight: bold;
   }
   </style>
   

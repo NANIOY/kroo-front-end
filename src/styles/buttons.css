@@ -42,6 +42,11 @@ button {
   .button--secondary:hover {
     background-color: var(--green-30);
   }
+
+  .button--tertiary:hover {
+    background-color: var(--blurple-30);
+    color: white;
+  }
   
   .button--primary:active {
     background-color: var(--blurple-20);
@@ -49,6 +54,10 @@ button {
   
   .button--secondary:active {
     background-color: var(--green-20);
+  }
+
+  .button--tertiary:active {
+    background-color: var(--blurple-20);
   }
   
   /* BUTTON TEXT */
@@ -66,13 +75,15 @@ button {
     color: var(--neutral-30);
   }
 
+
+
   /* Transparent button */
   .TransparentButton.button--primary {
     color: var(--blurple);
   }
   
   .TransparentButton.button--secondary {
-    color: var(--black);
+    color: var(--green);
   }
   
   .TransparentButton.button--tertiary {
@@ -85,12 +96,12 @@ button {
 }
 
 .TransparentButton.button--secondary:hover {
-  color: var(--black); 
+  color: var(--green-30); 
   background-color: transparent;
 }
 
 .TransparentButton.button--tertiary:hover {
-  color: var(--black); 
+  color: var(--blurple-30); 
   background-color: transparent;
 }
   

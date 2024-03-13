@@ -7,16 +7,68 @@
       :hasLabel="false"
       label="Label"
     />
-    <NormalButton class="button--primary"
+    <LargeButton class="button--secondary"
       :hasIcon="true"
       :hasLabel="false"
       label="Label"
     />
-    <TransparentButton class="button--primary"
+    <LargeButton class="button--tertiary button__stroke"
       :hasIcon="true"
-      :hasLabel="true"
+      :hasLabel="false"
       label="Label"
     />
+    <LargeButton class="button--primary"
+      :hasIcon="true"
+      :hasLabel="false"
+      label="Label"
+      :disabled="true"
+    />
+
+    <br><br>
+    <NormalButton class="button--primary "
+      :hasIcon="true"
+      :hasLabel="false"
+      label="Label"
+    />
+    <NormalButton class="button--secondary "
+      :hasIcon="true"
+      :hasLabel="false"
+      label="Label"
+    />
+    <NormalButton class="button--tertiary button__stroke"
+      :hasIcon="true"
+      :hasLabel="false"
+      label="Label"
+    />
+    <NormalButton class="button--primary "
+      :hasIcon="true"
+      :hasLabel="false"
+      label="Label"
+    />
+
+    <br><br>
+    <TransparentButton class="button--primary"
+      :hasIcon="true"
+      :hasLabel="false"
+      label="Label"
+    />
+    <TransparentButton class="button--secondary"
+      :hasIcon="true"
+      :hasLabel="false"
+      label="Label"
+    />
+    <TransparentButton class="button--tertiary "
+      :hasIcon="true"
+      :hasLabel="false"
+      label="Label"
+    />
+    <TransparentButton class="button--tertiary "
+      :hasIcon="true"
+      :hasLabel="false"
+      label="Label"
+      :disabled="true"
+    />
+
 
     <div>
       Fake Dashboard
