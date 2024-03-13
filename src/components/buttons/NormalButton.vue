@@ -1,7 +1,7 @@
 <template>
     <button
         :class="[
-            'largebutton',
+            'NormalButton',
         ]"
         :disabled="state === 'disabled'"
     >
@@ -27,9 +27,9 @@ export default {
 </script>
 
 <style scoped>
-.largebutton {
-    font-size: 20px;
+.NormalButton{
+    font-size: 16px;
     width: 160px;
-    height: 48px;
+    height: 40px;
 }
 </style>
