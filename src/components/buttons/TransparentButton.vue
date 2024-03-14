@@ -1,69 +1,70 @@
 <template>
-    <button
-      :class="[
-        'TransparentButton',
-      ]"
-      :disabled="state === 'disabled'"
-    >
-      <span v-if="hasIcon">></span>
-      <span v-if="hasLabel && label">{{ label }}</span>
-    </button>
-  </template>
-  
-  <script>
+  <button :class="[
+    'TransparentButton',
+  ]">
+    <span v-if="hasIcon">></span>
+    <span v-if="hasLabel && label">{{ label }}</span>
+  </button>
+</template>
+
+<script>
 export default {
-    props: {
-        hasIcon: {
-            type: Boolean,
-            default: true
-        },
-        hasLabel: {
-            type: Boolean,
-            default: true
-        },
-        label: String
-    }
+  props: {
+    hasIcon: {
+      type: Boolean,
+      default: true
+    },
+    hasLabel: {
+      type: Boolean,
+      default: true
+    },
+    label: String
+  }
 };
 </script>
-  
-  <style scoped>
-  .TransparentButton {
-    font-size: 16px;
-    width: 96px;
-    height: 40px;
-    background-color: transparent;
-  }
 
-    /* Transparent button */
-    .TransparentButton.button--primary {
-    color: var(--blurple);
-  }
-  
-  .TransparentButton.button--secondary {
-    color: var(--green);
-  }
-  
-  .TransparentButton.button--tertiary {
-    color: var(--black);
-  }
+<style scoped>
+.TransparentButton {
+  font-size: 16px;
+  width: 96px;
+  height: 40px;
+  background-color: transparent;
+}
 
-  .TransparentButton.button--primary:hover {
-  color: var(--blurple-30); 
+/* Default styles */
+.button--primary--transparent {
+  color: var(--blurple);
+}
+
+.button--secondary--transparent {
+  color: var(--green);
+}
+
+.button--tertiary--transparent {
+  color: var(--black);
+}
+
+/* Pseudo classes */
+.button--primary--transparent:hover {
+  color: var(--blurple-20);
   background-color: transparent;
   transition: 0.3s;
 }
 
-.TransparentButton.button--secondary:hover {
-  color: var(--green-30); 
+.button--secondary--transparent:hover {
+  color: var(--green-20);
   background-color: transparent;
   transition: 0.3s;
 }
 
-.TransparentButton.button--tertiary:hover {
-  color: var(--blurple-30); 
+.button--tertiary--transparent:hover {
+  color: var(--blurple-30);
   background-color: transparent;
   transition: 0.3s;
 }
-  
-  </style>
-  
+
+.button--disabled--transparent {
+  color: var(--neutral-30);
+
+}
+</style>

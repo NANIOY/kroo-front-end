@@ -1,10 +1,7 @@
 <template>
-    <button
-        :class="[
-            'NormalButton',
-        ]"
-        :disabled="state === 'disabled'"
-    >
+    <button :class="[
+        'NormalButton',
+    ]">
         <span v-if="hasIcon">></span>
         <span v-if="hasLabel && label">{{ label }}</span>
     </button>
@@ -27,7 +24,7 @@ export default {
 </script>
 
 <style scoped>
-.NormalButton{
+.NormalButton {
     font-size: 16px;
     width: 160px;
     height: 40px;

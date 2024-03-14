@@ -1,10 +1,7 @@
 <template>
-    <button
-        :class="[
-            'largebutton',
-        ]"
-        :disabled="state === 'disabled'"
-    >
+    <button :class="[
+        'largebutton',
+    ]">
         <span v-if="hasIcon">></span>
         <span v-if="hasLabel && label">{{ label }}</span>
     </button>

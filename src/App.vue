@@ -47,26 +47,26 @@
     />
 
     <br><br>
-    <TransparentButton class="button--primary"
+    <TransparentButton class="button--primary--transparent"
       :hasIcon="true"
       :hasLabel="false"
       label="Label"
     />
-    <TransparentButton class="button--secondary"
+    <TransparentButton class="button--secondary--transparent"
       :hasIcon="true"
       :hasLabel="false"
       label="Label"
     />
-    <TransparentButton class="button--tertiary "
+    <TransparentButton class="button--tertiary--transparent"
       :hasIcon="true"
       :hasLabel="false"
       label="Label"
     />
-    <TransparentButton class="button--disabled"
+    <TransparentButton class="button--disabled--transparent"
       :hasIcon="true"
       :hasLabel="false"
       label="Label"
-      :disabled="true"
+      
     />
 
 

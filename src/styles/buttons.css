@@ -64,8 +64,6 @@ button {
   .button--tertiary:active {
     background-color: var(--blurple-20);
   }
-  
-
 
   /* BUTTON TEXT */
   .button__text--primary,
