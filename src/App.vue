@@ -1,7 +1,10 @@
 <template>
   <div>
-    <!-- <NavBar />  -->
-    <NavBarTop/>
+    <!--<NavBar />-->
+    <!--<topNavDash/>-->
+    <topNav
+    pageName="Dashboard"
+    />
     <largeButton
       class="button--primary"
       :hasIcon="true"
@@ -32,7 +35,8 @@
 
 <script setup>
 import NavBar from './components/NavBar.vue';
-import NavBarTop from './components/NavBarTop.vue';
+import topNavDash from './components/topNav/topNavDash.vue';
+import topNav from './components/topNav/topNav.vue';
 import largeButton from './components/buttons/LargeButton.vue';
 import transparentButton from './components/buttons/TransparentButton.vue';
 import normalButton from './components/buttons/NormalButton.vue';
