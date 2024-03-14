@@ -5,7 +5,7 @@
     ]">
         <!-- Dynamically render the icon based on the iconName prop -->
         <component :is="iconName" v-if="hasIcon" />
-        <span v-if="hasLabel && label">{{ label }}</span>
+        <span v-if="hasLabel && label" class="normalButton__label">{{ label }}</span>
     </button>
 </template>
 
@@ -74,5 +74,9 @@ export default {
 .normalButton.no-label {
     width: 28px;
     height: 28px;
+}
+
+.normalButton__label {
+    padding-top: 2px;
 }
 </style>

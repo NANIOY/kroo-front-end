@@ -4,7 +4,7 @@
         { 'no-label': !hasLabel }
     ]">
         <span v-if="hasIcon">></span>
-        <span v-if="hasLabel && label">{{ label }}</span>
+        <span v-if="hasLabel && label" class="normalButton__label">{{ label }}</span>
     </button>
 </template>
 
