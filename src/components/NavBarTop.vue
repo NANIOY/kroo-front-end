@@ -1,5 +1,19 @@
-<script setup>
- import { Iconoir, NavArrowDown, NavArrowUp} from '@iconoir/vue';
+<script>
+import { Iconoir, NavArrowDown, NavArrowUp } from '@iconoir/vue';
+
+export default {
+  setup() {
+    const currentDate = new Date();
+    const options = { day: 'numeric', month: 'long' };
+    const formattedDate = currentDate.toLocaleDateString('en-GB', options);
+    const dayName = currentDate.toLocaleDateString('en-GB', { weekday: 'long' });
+
+    return {
+      formattedDate,
+      dayName
+    };
+  }
+};
 </script>
 
 <template>
@@ -8,11 +22,11 @@
     <div id="navbarTop_left">
       
       <div id="navbarTop_left_date">
-        <p class="text-bold-l">date</p>
+        <p class="text-bold-l">{{ formattedDate }}</p>
       </div>
 
       <div id="navbarTop_left_day">
-        <p class="text-reg-normal">day</p>
+        <p class="text-reg-normal">{{ dayName }}</p>
       </div>
 
     </div>
