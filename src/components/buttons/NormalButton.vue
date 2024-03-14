@@ -3,12 +3,16 @@
         'normalButton',
         { 'no-label': !hasLabel }
     ]">
-        <span v-if="hasIcon">></span>
+        <span v-if="hasIcon">
+            <Iconoir :icon="iconName" /> 
+        </span>
         <span v-if="hasLabel && label">{{ label }}</span>
     </button>
 </template>
 
 <script>
+import { IconoirProvider, Iconoir, NavArrowDown, NavArrowUp, NavArrowLeft, NavArrowRight, User, HandCard, Bell, Accessibility, Behance, Tiktok, Threads, X, Linkedin, Youtube, Instagram, Facebook, Dribbble, MapPin, AtSign, CheckCircle, MoreHoriz, Xmark, Learning, CinemaOld, DragHandGesture, Attachment, Calendar, Search, Plus, Clock, BadgeCheck} from '@iconoir/vue';
+
 export default {
     props: {
         hasIcon: {
@@ -19,11 +23,13 @@ export default {
             type: Boolean,
             default: true
         },
-        label: String
+        label: String,
+        iconName: String 
+    },
+    components: {
+        Iconoir // Register Iconoir component
     }
 };
-
-import { IconoirProvider, Iconoir, NavArrowDown, NavArrowUp, NavArrowLeft, NavArrowRight, User, HandCard, Bell, Accessibility, Behance, Tiktok, Threads, X, Linkedin, Youtube, Instagram, Facebook, Dribbble, MapPin, AtSign, CheckCircle, MoreHoriz, Xmark, Learning, CinemaOld, DragHandGesture, Attachment, Calendar, Search, Plus, Clock, BadgeCheck} from '@iconoir/vue';
 </script>
 
 <style scoped>
@@ -34,7 +40,7 @@ import { IconoirProvider, Iconoir, NavArrowDown, NavArrowUp, NavArrowLeft, NavAr
 }
 
 .normalButton.no-label {
-  width: 28px;
-  height: 28px;
+    width: 28px;
+    height: 28px;
 }
 </style>

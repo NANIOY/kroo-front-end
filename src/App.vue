@@ -25,10 +25,12 @@
     />
 
     <br><br>
-    <normalButton class="button--primary "
+    <normalButton
+      class="button--primary"
       :hasIcon="true"
       :hasLabel="false"
       label="Label"
+      :iconName="'User'" 
     />
     <normalButton class="button--secondary "
       :hasIcon="true"
