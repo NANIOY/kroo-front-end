@@ -3,15 +3,14 @@
         'normalButton',
         { 'no-label': !hasLabel }
     ]">
-        <span v-if="hasIcon">
-            <Iconoir :icon="iconName" /> 
-        </span>
+        <!-- Dynamically render the icon based on the iconName prop -->
+        <component :is="iconName" v-if="hasIcon" />
         <span v-if="hasLabel && label">{{ label }}</span>
     </button>
 </template>
 
 <script>
-import { IconoirProvider, Iconoir, NavArrowDown, NavArrowUp, NavArrowLeft, NavArrowRight, User, HandCard, Bell, Accessibility, Behance, Tiktok, Threads, X, Linkedin, Youtube, Instagram, Facebook, Dribbble, MapPin, AtSign, CheckCircle, MoreHoriz, Xmark, Learning, CinemaOld, DragHandGesture, Attachment, Calendar, Search, Plus, Clock, BadgeCheck} from '@iconoir/vue';
+import { NavArrowDown, NavArrowUp, NavArrowLeft, NavArrowRight, User, HandCard, Bell, Accessibility, Behance, Tiktok, Threads, X, Linkedin, Youtube, Instagram, Facebook, Dribbble, MapPin, AtSign, CheckCircle, MoreHoriz, Xmark, Learning, CinemaOld, DragHandGesture, Attachment, Calendar, Search, Plus, Clock, BadgeCheck } from '@iconoir/vue';
 
 export default {
     props: {
@@ -24,10 +23,43 @@ export default {
             default: true
         },
         label: String,
-        iconName: String 
+        iconName: {
+            type: String,
+            default: '' // Default empty string to prevent errors
+        }
     },
     components: {
-        Iconoir // Register Iconoir component
+        NavArrowDown,
+        NavArrowUp,
+        NavArrowLeft,
+        NavArrowRight,
+        User,
+        HandCard,
+        Bell,
+        Accessibility,
+        Behance,
+        Tiktok,
+        Threads,
+        X,
+        Linkedin,
+        Youtube,
+        Instagram,
+        Facebook,
+        Dribbble,
+        MapPin,
+        AtSign,
+        CheckCircle,
+        MoreHoriz,
+        Xmark,
+        Learning,
+        CinemaOld,
+        DragHandGesture,
+        Attachment,
+        Calendar,
+        Search,
+        Plus,
+        Clock,
+        BadgeCheck
     }
 };
 </script>
