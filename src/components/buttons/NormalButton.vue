@@ -1,6 +1,7 @@
 <template>
     <button :class="[
-        'NormalButton',
+        'normalButton',
+        { 'no-label': !hasLabel }
     ]">
         <span v-if="hasIcon">></span>
         <span v-if="hasLabel && label">{{ label }}</span>
@@ -24,9 +25,14 @@ export default {
 </script>
 
 <style scoped>
-.NormalButton {
+.normalButton {
     font-size: 16px;
     width: 160px;
     height: 40px;
+}
+
+.normalButton.no-label {
+  width: 28px;
+  height: 28px;
 }
 </style>

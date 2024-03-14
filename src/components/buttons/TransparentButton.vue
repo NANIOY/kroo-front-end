@@ -1,6 +1,7 @@
 <template>
   <button :class="[
-    'TransparentButton',
+    'transparentButton',
+    { 'no-label': !hasLabel }
   ]">
     <span v-if="hasIcon">></span>
     <span v-if="hasLabel && label">{{ label }}</span>
@@ -24,7 +25,7 @@ export default {
 </script>
 
 <style scoped>
-.TransparentButton {
+.transparentButton {
   font-size: 16px;
   width: 96px;
   height: 40px;
@@ -66,5 +67,10 @@ export default {
 .button--disabled--transparent {
   color: var(--neutral-30);
 
+}
+
+.transparentButton.no-label {
+  width: 28px;
+  height: 28px;
 }
 </style>

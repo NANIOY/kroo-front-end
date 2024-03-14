@@ -2,22 +2,22 @@
   <div>
     <!-- <NavBar />  -->
     <NavBarTop/>
-    <LargeButton class="button--primary"
+    <largeButton class="button--primary"
       :hasIcon="true"
       :hasLabel="false"
       label="Label"
     />
-    <LargeButton class="button--secondary"
+    <largeButton class="button--secondary"
       :hasIcon="true"
       :hasLabel="false"
       label="Label"
     />
-    <LargeButton class="button--tertiary button__stroke"
+    <largeButton class="button--tertiary button__stroke"
       :hasIcon="true"
       :hasLabel="false"
       label="Label"
     />
-    <LargeButton class="button--disabled"
+    <largeButton class="button--disabled"
       :hasIcon="true"
       :hasLabel="false"
       label="Label"
@@ -25,44 +25,44 @@
     />
 
     <br><br>
-    <NormalButton class="button--primary "
+    <normalButton class="button--primary "
       :hasIcon="true"
       :hasLabel="false"
       label="Label"
     />
-    <NormalButton class="button--secondary "
+    <normalButton class="button--secondary "
       :hasIcon="true"
       :hasLabel="false"
       label="Label"
     />
-    <NormalButton class="button--tertiary button__stroke"
+    <normalButton class="button--tertiary button__stroke"
       :hasIcon="true"
       :hasLabel="false"
       label="Label"
     />
-    <NormalButton class="button--disabled "
+    <normalButton class="button--disabled "
       :hasIcon="true"
       :hasLabel="false"
       label="Label"
     />
 
     <br><br>
-    <TransparentButton class="button--primary--transparent"
+    <transparentButton class="button--primary--transparent"
       :hasIcon="true"
       :hasLabel="false"
       label="Label"
     />
-    <TransparentButton class="button--secondary--transparent"
+    <transparentButton class="button--secondary--transparent"
       :hasIcon="true"
       :hasLabel="false"
       label="Label"
     />
-    <TransparentButton class="button--tertiary--transparent"
+    <transparentButton class="button--tertiary--transparent"
       :hasIcon="true"
       :hasLabel="false"
       label="Label"
     />
-    <TransparentButton class="button--disabled--transparent"
+    <transparentButton class="button--disabled--transparent"
       :hasIcon="true"
       :hasLabel="false"
       label="Label"
@@ -80,9 +80,9 @@
 import NavBar from './components/NavBar.vue';
 import NavBarTop from './components/NavBarTop.vue';
 // import Buttons from './components/Buttons.vue';
-import LargeButton from './components/buttons/LargeButton.vue';
-import TransparentButton from './components/buttons/TransparentButton.vue';
-import NormalButton from './components/buttons/NormalButton.vue';
+import largeButton from './components/buttons/LargeButton.vue';
+import transparentButton from './components/buttons/TransparentButton.vue';
+import normalButton from './components/buttons/NormalButton.vue';
 </script>
 
 <style scoped>
