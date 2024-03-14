@@ -38,6 +38,12 @@
   
   }
 
+  /* body */
+
+  body {
+    background-color: var(--white);
+  }
+
   /* text */
 
 .text-primary {
