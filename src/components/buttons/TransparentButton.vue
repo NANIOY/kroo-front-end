@@ -32,7 +32,38 @@ export default {
     width: 96px;
     height: 40px;
     background-color: transparent;
-    font-weight: bold;
   }
+
+    /* Transparent button */
+    .TransparentButton.button--primary {
+    color: var(--blurple);
+  }
+  
+  .TransparentButton.button--secondary {
+    color: var(--green);
+  }
+  
+  .TransparentButton.button--tertiary {
+    color: var(--black);
+  }
+
+  .TransparentButton.button--primary:hover {
+  color: var(--blurple-30); 
+  background-color: transparent;
+  transition: 0.3s;
+}
+
+.TransparentButton.button--secondary:hover {
+  color: var(--green-30); 
+  background-color: transparent;
+  transition: 0.3s;
+}
+
+.TransparentButton.button--tertiary:hover {
+  color: var(--blurple-30); 
+  background-color: transparent;
+  transition: 0.3s;
+}
+  
   </style>
   

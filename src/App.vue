@@ -17,7 +17,7 @@
       :hasLabel="false"
       label="Label"
     />
-    <LargeButton class="button--primary"
+    <LargeButton class="button--disabled"
       :hasIcon="true"
       :hasLabel="false"
       label="Label"
@@ -40,7 +40,7 @@
       :hasLabel="false"
       label="Label"
     />
-    <NormalButton class="button--primary "
+    <NormalButton class="button--disabled "
       :hasIcon="true"
       :hasLabel="false"
       label="Label"
@@ -62,7 +62,7 @@
       :hasLabel="false"
       label="Label"
     />
-    <TransparentButton class="button--tertiary "
+    <TransparentButton class="button--disabled"
       :hasIcon="true"
       :hasLabel="false"
       label="Label"

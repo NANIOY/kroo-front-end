@@ -7,6 +7,8 @@ button {
     font-size: 16px;
 }
 
+
+
 /* BUTTONS */
 .button--primary {
     background-color: var(--blurple);
@@ -23,12 +25,15 @@ button {
   .button--tertiary {
     background-color: var(--white);
     color: var(--black);
+    transition: 0.3s;
   }
   
   .button--disabled {
     background-color: var(--neutral-50);
   }
   
+
+
   /* BUTTON STROKE */
   .button__stroke{
     border: var(--blurple-70) solid 2px;
@@ -60,6 +65,8 @@ button {
     background-color: var(--blurple-20);
   }
   
+
+
   /* BUTTON TEXT */
   .button__text--primary,
   .button__text--reversable {
@@ -74,40 +81,3 @@ button {
   .button__text--disabled {
     color: var(--neutral-30);
   }
-
-
-
-  /* Transparent button */
-  .TransparentButton.button--primary {
-    color: var(--blurple);
-  }
-  
-  .TransparentButton.button--secondary {
-    color: var(--green);
-  }
-  
-  .TransparentButton.button--tertiary {
-    color: var(--black);
-  }
-
-  .TransparentButton.button--primary:hover {
-  color: var(--blurple-30); 
-  background-color: transparent;
-}
-
-.TransparentButton.button--secondary:hover {
-  color: var(--green-30); 
-  background-color: transparent;
-}
-
-.TransparentButton.button--tertiary:hover {
-  color: var(--blurple-30); 
-  background-color: transparent;
-}
-  
-  .TransparentButton:disabled {
-    /* Styles for disabled state */
-    opacity: 0.7;
-    cursor: not-allowed;
-  }
-  
