@@ -2,23 +2,26 @@
   <div>
     <!-- <NavBar />  -->
     <NavBarTop/>
-
-    <br><br>
-    <normalButton
-      class="button--secondary"
+    <largeButton
+      class="button--primary"
       :hasIcon="true"
       :hasLabel="true"
-      label="Link tools"
-      iconName="NavArrowDown" 
+      label="Label"
+      iconName="User"
     />
-    <br><br>
-
     <normalButton
       class="button--secondary"
       :hasIcon="true"
       :hasLabel="true"
       label="Label"
       iconName="User" 
+    />
+    <transparentButton
+      class="button--tertiary"
+      :hasIcon="true"
+      :hasLabel="true"
+      label="Label"
+      iconName="User"
     />
   
     <div>
