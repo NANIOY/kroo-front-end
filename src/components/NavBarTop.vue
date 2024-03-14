@@ -8,11 +8,11 @@
     <div id="navbarTop_left">
       
       <div id="navbarTop_left_date">
-        <p>date</p>
+        <p class="text-bold-l">date</p>
       </div>
 
       <div id="navbarTop_left_day">
-        <p>day</p>
+        <p class="text-bold-l">day</p>
       </div>
 
     </div>
@@ -58,5 +58,23 @@
 </template>
 
 <style>
+  #navbarTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  #navbarTop_left {
+    display: flex;
+    align-items: center;
+  }
+
+  #navbarTop_right {
+    display: flex;
+    align-items: center;
+  }
+
+
+
 
 </style>
