@@ -7,11 +7,19 @@
     <normalButton
       class="button--secondary"
       :hasIcon="true"
-      :hasLabel="false"
-      label="Label"
+      :hasLabel="true"
+      label="Link tools"
       iconName="NavArrowDown" 
     />
     <br><br>
+
+    <normalButton
+      class="button--secondary"
+      :hasIcon="true"
+      :hasLabel="true"
+      label="Label"
+      iconName="User" 
+    />
   
     <div>
       Fake Dashboard
