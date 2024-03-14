@@ -83,7 +83,9 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 8px;
+    padding: 8px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--black);
   }
 
   #navbarTop_left {
