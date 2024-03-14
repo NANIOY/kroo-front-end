@@ -22,6 +22,8 @@ export default {
     label: String
   }
 };
+
+import { IconoirProvider, Iconoir, NavArrowDown, NavArrowUp, NavArrowLeft, NavArrowRight, User, HandCard, Bell, Accessibility, Behance, Tiktok, Threads, X, Linkedin, Youtube, Instagram, Facebook, Dribbble, MapPin, AtSign, CheckCircle, MoreHoriz, Xmark, Learning, CinemaOld, DragHandGesture, Attachment, Calendar, Search, Plus, Clock, BadgeCheck} from '@iconoir/vue';
 </script>
 
 <style scoped>
