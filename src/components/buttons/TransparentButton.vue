@@ -1,29 +1,67 @@
 <template>
   <button :class="[
-    'transparentButton',
-    { 'no-label': !hasLabel }
+      'transparentButton',
+      { 'no-label': !hasLabel }
   ]">
-    <span v-if="hasIcon">></span>
-    <span v-if="hasLabel && label">{{ label }}</span>
+      <!-- Dynamically render the icon based on the iconName prop -->
+      <component :is="iconName" v-if="hasIcon" />
+      <span v-if="hasLabel && label" class="transparentButton__label">{{ label }}</span>
   </button>
 </template>
 
 <script>
+import { NavArrowDown, NavArrowUp, NavArrowLeft, NavArrowRight, User, HandCard, Bell, Accessibility, Behance, Tiktok, Threads, X, Linkedin, Youtube, Instagram, Facebook, Dribbble, MapPin, AtSign, CheckCircle, MoreHoriz, Xmark, Learning, CinemaOld, DragHandGesture, Attachment, Calendar, Search, Plus, Clock, BadgeCheck } from '@iconoir/vue';
+
 export default {
   props: {
-    hasIcon: {
-      type: Boolean,
-      default: true
-    },
-    hasLabel: {
-      type: Boolean,
-      default: true
-    },
-    label: String
+      hasIcon: {
+          type: Boolean,
+          default: true
+      },
+      hasLabel: {
+          type: Boolean,
+          default: true
+      },
+      label: String,
+      iconName: {
+          type: String,
+          default: '' // Default empty string to prevent errors
+      }
+  },
+  components: {
+      NavArrowDown,
+      NavArrowUp,
+      NavArrowLeft,
+      NavArrowRight,
+      User,
+      HandCard,
+      Bell,
+      Accessibility,
+      Behance,
+      Tiktok,
+      Threads,
+      X,
+      Linkedin,
+      Youtube,
+      Instagram,
+      Facebook,
+      Dribbble,
+      MapPin,
+      AtSign,
+      CheckCircle,
+      MoreHoriz,
+      Xmark,
+      Learning,
+      CinemaOld,
+      DragHandGesture,
+      Attachment,
+      Calendar,
+      Search,
+      Plus,
+      Clock,
+      BadgeCheck
   }
 };
-
-import { IconoirProvider, Iconoir, NavArrowDown, NavArrowUp, NavArrowLeft, NavArrowRight, User, HandCard, Bell, Accessibility, Behance, Tiktok, Threads, X, Linkedin, Youtube, Instagram, Facebook, Dribbble, MapPin, AtSign, CheckCircle, MoreHoriz, Xmark, Learning, CinemaOld, DragHandGesture, Attachment, Calendar, Search, Plus, Clock, BadgeCheck} from '@iconoir/vue';
 </script>
 
 <style scoped>
@@ -74,5 +112,9 @@ import { IconoirProvider, Iconoir, NavArrowDown, NavArrowUp, NavArrowLeft, NavAr
 .transparentButton.no-label {
   width: 28px;
   height: 28px;
+}
+
+.transparentButton__label {
+  padding-top: 2px;
 }
 </style>
