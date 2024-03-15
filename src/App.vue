@@ -58,6 +58,7 @@ import topNav from './components/topNav/topNav.vue';
 import largeButton from './components/buttons/LargeButton.vue';
 import transparentButton from './components/buttons/TransparentButton.vue';
 import normalButton from './components/buttons/NormalButton.vue';
+import appliedJobs from './components/jobs/appliedJobs.vue';
 </script>
 
 <style scoped></style>
