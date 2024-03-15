@@ -1,5 +1,6 @@
 <script setup>
-
+import transparentButton from '../buttons/TransparentButton.vue';
+import normalButton from '../buttons/NormalButton.vue';
 
 
 </script>
@@ -7,10 +8,96 @@
 
 <template>
 
-applied jobs
+<div id="applied__job" class="border radius-xs">
+    <div id="applied__job__top">
+        <div id="applied__job__top__business">
+            <div id="applied__job__top__business__image">
+                <img class="radius-full" src="https://placehold.co/56x56" alt="">
+            </div>
+            <div id="applied__job__top__business__name">
+                <p>name</p>
+            </div>
+        </div>
+        <div id="applied__job__top__settings">
+            <transparentButton
+            class="button--tertiary"
+                :hasIcon="true"
+                :hasLabel="false"
+                label="Details"
+                iconName="MoreHoriz" 
+            />
+        </div>
+    </div>
+    <div id="applied__job__buttons">
+        <div id="applied_job__buttons-details">
+            <normalButton id="normalButton__details"
+                class="button--primary"
+                  :hasIcon="false"
+                  :hasLabel="true"
+                  label="Details"
+                  iconName="" 
+                  /> 
+        </div>
+        <div id="applied_job__buttons-cancel">
+            <normalButton id="normalButton__cancel"
+                class="button--tertiary button__stroke"
+                  :hasIcon="false"
+                  :hasLabel="true"
+                  label="Cancel"
+                  iconName="" 
+                  /> 
+        </div>
+    </div>
+</div>
 
 </template>
   
 <style>
+
+p {
+    margin: 0;
+}
+
+img {
+    max-width: 24px;
+}
+
+#applied__job {
+    display: flex;
+    flex-direction: column;
+    width: 360px;
+    padding: 12px;
+}
+
+#applied__job__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#applied__job__top__business {
+    display: flex;
+    align-items: center;
+}
+
+#applied__job__top__business__image {
+    margin-right: 8px;
+}
+
+#applied__job__jobTitle p {
+    margin: 0;
+    margin-top: 12px;
+}
+
+#applied__job__buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+}
+
+#normalButton__details, #normalButton__cancel {
+    
+}
+
 
 </style>

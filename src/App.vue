@@ -7,6 +7,8 @@
     <normalButton class="button--secondary" :hasIcon="true" :hasLabel="true" label="Label" iconName="User" />
     <transparentButton class="button--tertiary" :hasIcon="true" :hasLabel="true" label="Label" iconName="User" />
     <appliedJobs />
+    <offeredJobs />
+    <ongoingJobs />
 
     <div>
       <router-view v-if="$route.path === '/dashboard'"></router-view>
@@ -60,6 +62,9 @@ import largeButton from './components/buttons/LargeButton.vue';
 import transparentButton from './components/buttons/TransparentButton.vue';
 import normalButton from './components/buttons/NormalButton.vue';
 import appliedJobs from './components/jobs/appliedJobs.vue';
+import offeredJobs from './components/jobs/offeredJobs.vue';
+import savedJobs from './components/jobs/savedJobs.vue';
+import ongoingJobs from './components/jobs/ongoingJobs.vue';
 </script>
 
 <style scoped></style>

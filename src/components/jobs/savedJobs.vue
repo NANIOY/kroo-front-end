@@ -8,17 +8,17 @@ import normalButton from '../buttons/NormalButton.vue';
 
 <template>
 
-<div id="applied__job" class="border radius-xs">
-    <div id="applied__job__top">
-        <div id="applied__job__top__business">
-            <div id="applied__job__top__business__image">
+<div id="saved__job" class="border radius-xs">
+    <div id="saved__job__top">
+        <div id="saved__job__top__business">
+            <div id="saved__job__top__business__image">
                 <img class="radius-full" src="https://placehold.co/56x56" alt="">
             </div>
-            <div id="applied__job__top__business__name">
+            <div id="saved__job__top__business__name">
                 <p>name</p>
             </div>
         </div>
-        <div id="applied__job__top__settings">
+        <div id="saved__job__top__settings">
             <transparentButton
             class="button--tertiary"
                 :hasIcon="true"
@@ -29,30 +29,30 @@ import normalButton from '../buttons/NormalButton.vue';
         </div>
     </div>
 
-    <div id="applied__job__jobTitle">
+    <div id="saved__job__jobTitle">
         <p class="text-bold-l">job title</p>
     </div>
 
-    <div id="applied__job__info">
-        <div id="applied__job__info__date">
-            <div id="applied__job__info__date__day">
+    <div id="saved__job__info">
+        <div id="saved__job__info__date">
+            <div id="saved__job__info__date__day">
                 <p>day</p>
             </div>
-            <div id="applied__job__info__date__month">
+            <div id="saved__job__info__date__month">
                 <p>month</p>
             </div>
         </div>
-        <div id="applied__job__info__place">
-            <div id="applied__job__info__place__code">
+        <div id="saved__job__info__place">
+            <div id="saved__job__info__place__code">
                 <p>zip code</p>
             </div>
-            <div id="applied__job__info__place__country">
+            <div id="saved__job__info__place__country">
                 <p>country</p>
             </div>
         </div>
     </div>
 
-    <normalButton id="applied__job__details"
+    <normalButton id="saved__job__details"
     class="button--tertiary button__stroke"
       :hasIcon="false"
       :hasLabel="true"
@@ -74,36 +74,36 @@ img {
     max-width: 24px;
 }
 
-#applied__job {
+#saved__job {
     display: flex;
     flex-direction: column;
     width: 360px;
     padding: 12px;
 }
 
-#applied__job__top {
+#saved__job__top {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-#applied__job__top__business {
+#saved__job__top__business {
     display: flex;
     align-items: center;
 }
 
-#applied__job__top__business__image {
+#saved__job__top__business__image {
     margin-right: 8px;
 }
 
-#applied__job__jobTitle p {
+#saved__job__jobTitle p {
     margin: 0;
     margin-top: 12px;
 }
 
 
 
-#applied__job__info {
+#saved__job__info {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -111,7 +111,7 @@ img {
     margin-bottom: 12px;
 }
 
-#applied__job__details {
+#saved__job__details {
     width: 100%;
 }
 
