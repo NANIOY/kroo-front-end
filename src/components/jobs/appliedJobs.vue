@@ -52,7 +52,7 @@ import normalButton from '../buttons/NormalButton.vue';
         </div>
     </div>
 
-    <normalButton
+    <normalButton id="applied__job__details"
     class="button--tertiary button__stroke"
       :hasIcon="false"
       :hasLabel="true"
@@ -64,11 +64,21 @@ import normalButton from '../buttons/NormalButton.vue';
 
 </template>
   
-<style>
+<style scoped>
+
+p {
+    margin: 0;
+}
+
+img {
+    max-width: 24px;
+}
+
 #applied__job {
     display: flex;
     flex-direction: column;
     width: 360px;
+    padding: 12px;
 }
 
 #applied__job__top {
@@ -83,17 +93,26 @@ import normalButton from '../buttons/NormalButton.vue';
 }
 
 #applied__job__top__business__image {
-    margin-right: 16px;
+    margin-right: 8px;
 }
 
 #applied__job__jobTitle p {
     margin: 0;
+    margin-top: 12px;
 }
+
+
 
 #applied__job__info {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+#applied__job__details {
+    width: 100%;
 }
 
 

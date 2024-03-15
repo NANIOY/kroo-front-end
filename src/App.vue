@@ -1,11 +1,12 @@
 <template>
   <div>
-    <NavBar />
+    <!--<NavBar />-->
     <!--<topNavDash/>-->
     <topNav pageName="Dashboard" />
     <largeButton class="button--primary" :hasIcon="true" :hasLabel="true" label="Label" iconName="User" />
     <normalButton class="button--secondary" :hasIcon="true" :hasLabel="true" label="Label" iconName="User" />
     <transparentButton class="button--tertiary" :hasIcon="true" :hasLabel="true" label="Label" iconName="User" />
+    <appliedJobs />
 
     <div>
       <router-view v-if="$route.path === '/dashboard'"></router-view>
