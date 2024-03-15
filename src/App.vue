@@ -7,7 +7,6 @@
     <normalButton class="button--secondary" :hasIcon="true" :hasLabel="true" label="Label" iconName="User" />
     <transparentButton class="button--tertiary" :hasIcon="true" :hasLabel="true" label="Label" iconName="User" />
     <offeredJobs />
-    <ongoingJobs />
 
     <div>
       <router-view v-if="$route.path === '/dashboard'"></router-view>
