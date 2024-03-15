@@ -6,7 +6,6 @@
     <largeButton class="button--primary" :hasIcon="true" :hasLabel="true" label="Label" iconName="User" />
     <normalButton class="button--secondary" :hasIcon="true" :hasLabel="true" label="Label" iconName="User" />
     <transparentButton class="button--tertiary" :hasIcon="true" :hasLabel="true" label="Label" iconName="User" />
-    <appliedJobs />
     <offeredJobs />
     <ongoingJobs />
 

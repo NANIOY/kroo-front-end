@@ -95,9 +95,5 @@ img {
     margin-top: 24px;
 }
 
-#normalButton__details, #normalButton__cancel {
-    
-}
-
 
 </style>
