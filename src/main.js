@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import NavBar from './components/NavBar.vue' 
+import NavBar from './components/NavBar.vue'
 import topNavDash from './components/topNav/topNavDash.vue';
 import topNav from './components/topNav/topNav.vue';
 import Login from './views/Login.vue'
@@ -12,7 +12,7 @@ import Search from './views/Search.vue'
 import Settings from './views/Settings.vue'
 import Tools from './views/Tools.vue'
 import Tracker from './views/Tracker.vue'
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router'
 import './styles/normalize.css';
 import './styles/global.css';
 
@@ -29,11 +29,11 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHashHistory(), // Assuming you want hash-based routing
   routes,
 });
 
-createApp(App)
-  .use(router)
-  .component('NavBar', NavBar)  // Register the NavBar component
-  .mount('#app');
+const app = createApp(App); // Updated
+app.use(router);
+app.component('NavBar', NavBar); // Register the NavBar component
+app.mount('#app');

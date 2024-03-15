@@ -1,15 +1,13 @@
 <template>
-    <div>
-Help
-    </div>
-  
-  </template>
-  
-  <script setup>
+  <div>
+    <h1>Help</h1>
+    <p>This is the help page</p>
+  </div>
 
-  </script>
-  
-  <style scoped>
-  
-  </style>
-  
+</template>
+
+<script setup>
+
+</script>
+
+<style scoped></style>

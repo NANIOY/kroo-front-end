@@ -1,15 +1,13 @@
 <template>
-    <div>
-        Tracker
-    </div>
-  
-  </template>
-  
-  <script setup>
+  <div>
+    <h1>Tracker</h1>
+    <p>This is tracker</p>
+  </div>
 
-  </script>
-  
-  <style scoped>
-  
-  </style>
-  
+</template>
+
+<script setup>
+
+</script>
+
+<style scoped></style>

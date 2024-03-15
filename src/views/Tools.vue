@@ -1,15 +1,13 @@
 <template>
-    <div>
-      Tools
-    </div>
-  
-  </template>
-  
-  <script setup>
+  <div>
+    <h1>Tools</h1>
+    <p>This is tools</p>
+  </div>
 
-  </script>
-  
-  <style scoped>
-  
-  </style>
-  
+</template>
+
+<script setup>
+
+</script>
+
+<style scoped></style>

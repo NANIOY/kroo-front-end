@@ -1,15 +1,14 @@
 <template>
-    <div>
-Calendar
-    </div>
-  
-  </template>
-  
-  <script setup>
+  <div>
+    <h1>Calendar</h1>
+    <p>This is where your calendar implementation would go.</p>
+  </div>
+</template>
 
-  </script>
-  
-  <style scoped>
-  
-  </style>
-  
+<script setup>
+// Import and use your calendar library or component if required
+</script>
+
+<style scoped>
+/* Add styles for your calendar component here */
+</style>

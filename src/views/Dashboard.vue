@@ -1,15 +1,13 @@
 <template>
-    <div>
-Dashboard
-    </div>
-  
-  </template>
-  
-  <script setup>
+  <div>
+    <h1>Dashboard</h1>
+    <p>This is the Dashboard</p>
+  </div>
 
-  </script>
-  
-  <style scoped>
-  
-  </style>
-  
+</template>
+
+<script setup>
+
+</script>
+
+<style scoped></style>

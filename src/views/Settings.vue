@@ -1,15 +1,13 @@
 <template>
-    <div>
-Settings
-    </div>
-  
-  </template>
-  
-  <script setup>
+  <div>
+    <h1>Settings</h1>
+    <p>This is settings</p>
+  </div>
 
-  </script>
-  
-  <style scoped>
-  
-  </style>
-  
+</template>
+
+<script setup>
+
+</script>
+
+<style scoped></style>

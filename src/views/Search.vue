@@ -1,15 +1,13 @@
 <template>
-    <div>
-        Search
-    </div>
-  
-  </template>
-  
-  <script setup>
+  <div>
+    <h1>Search</h1>
+    <p>This is search</p>
+  </div>
 
-  </script>
-  
-  <style scoped>
-  
-  </style>
-  
+</template>
+
+<script setup>
+
+</script>
+
+<style scoped></style>
