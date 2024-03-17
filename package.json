@@ -11,7 +11,7 @@
   "dependencies": {
     "@iconoir/vue": "^7.4.0",
     "iconoir": "^7.4.0",
-    "primevue": "^3.49.1",
+    "primevue": "^3.50.0",
     "vue": "^3.4.19",
     "vue-router": "^4.3.0",
     "vuetify": "^3.5.6"

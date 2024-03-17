@@ -48,6 +48,11 @@
     <div>
       Fake Dashboard
     </div>
+    <br><br>
+    <div>
+      <SearchFilter />
+    </div>
+
   </div>
 </template>
 
@@ -63,6 +68,7 @@ import appliedJobs from './components/jobs/appliedJobs.vue';
 import offeredJobs from './components/jobs/offeredJobs.vue';
 import savedJobs from './components/jobs/savedJobs.vue';
 import ongoingJobs from './components/jobs/ongoingJobs.vue';
+import SearchFilter from './components/SearchFilter.vue';
 </script>
 
 <style scoped></style>
