@@ -58,8 +58,11 @@
   color: var(--blurple-70);
 }
 
-/* surface */
+.text-disabled {
+  color: var(--neutral-30);
+}
 
+/* surface */
 .surface-primary {
   background-color: var(--white);
 }
