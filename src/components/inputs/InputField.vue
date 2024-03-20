@@ -77,6 +77,7 @@ export default {
 
 label {
   margin-bottom: 4px;
+  font-size: 16px;
 }
 
 .inputContainer__wrapper input {
