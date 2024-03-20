@@ -153,7 +153,7 @@ img {
 }
 
 #normalButton__details, #normalButton__accept {
-    width: ;
+    /* width: ; */
 }
 
 
