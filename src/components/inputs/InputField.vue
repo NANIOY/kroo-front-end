@@ -1,0 +1,84 @@
+<template>
+  <div class="inputContainer">
+    <label v-if="hasLabel">{{ label }}</label>
+    <div class="inputContainer__wrapper">
+      <span v-if="hasIconLeft" class="icon icon--left">
+        <component :is="iconLeftName" />
+      </span>
+      <input type="text" :placeholder="placeholder" />
+      <span v-if="hasIconRight" class="icon icon--right">
+        <component :is="iconRightName" />
+      </span>
+    </div>
+  </div>
+</template>
+
+<script>
+import { NavArrowDown, User, Search, Mail, Attachment, Eye, EyeClosed } from '@iconoir/vue';
+
+export default {
+  props: {
+    label: String,
+    hasLabel: {
+      type: Boolean,
+      default: false
+    },
+    iconLeftName: String,
+    hasIconLeft: {
+      type: Boolean,
+      default: false
+    },
+    iconRightName: String,
+    hasIconRight: {
+      type: Boolean,
+      default: false
+    },
+    placeholder: {
+      type: String,
+      default: ''
+    }
+  },
+  components: {
+    NavArrowDown, User, Search, Mail, Attachment, Eye, EyeClosed
+  }
+};
+</script>
+
+<style scoped>
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputContainer__wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: fit-content;
+}
+
+label {
+  margin-bottom: 4px;
+}
+
+.inputContainer__wrapper input {
+  font-size: 20px;
+  padding: 12px 12px;
+  border: 2px solid var(--black);
+  border-radius: 4px;
+  padding-left: 44px;
+  padding-right: 44px;
+}
+
+.icon {
+  position: absolute;
+}
+
+.icon--left {
+  left: 12px;
+}
+
+.icon--right {
+  right: 12px;
+}
+</style>
