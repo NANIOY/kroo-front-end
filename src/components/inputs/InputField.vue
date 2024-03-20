@@ -5,7 +5,7 @@
       <span v-if="hasIconLeft" class="icon icon--left">
         <component :is="iconLeftName" />
       </span>
-      <input type="text" :placeholder="placeholder" />
+      <input type="text" :placeholder="placeholder" :class="{ error: isError }" />
       <span v-if="hasIconRight" class="icon icon--right">
         <component :is="iconRightName" />
       </span>
@@ -36,6 +36,10 @@ export default {
     placeholder: {
       type: String,
       default: ''
+    },
+    isError: {
+      type: Boolean,
+      default: false
     }
   },
   components: {
@@ -71,8 +75,17 @@ label {
   padding-right: 44px;
 }
 
+input.error {
+  border-color: var(--warning); /* Adjust the color for the error state */
+}
+
 input::placeholder {
   color: var(--neutral-30);
+}
+
+.inputContainer__wrapper input:focus {
+  border-color: var(--blurple-50);
+  outline: none;
 }
 
 .icon {
