@@ -6,8 +6,12 @@
     <largeButton class="button--primary" :hasIcon="true" :hasLabel="true" label="Label" iconName="User" />
     <normalButton class="button--secondary" :hasIcon="true" :hasLabel="true" label="Label" iconName="User" />
     <transparentButton class="button--tertiary" :hasIcon="true" :hasLabel="true" label="Label" iconName="User" />
+    
+    <br>
     <inputField label="Label" hasLabel iconLeftName="User" hasIconLeft iconRightName="Eye" hasIconRight
-      placeholder="Placeholder" />
+    placeholder="Placeholder" :isPassword="true" />
+    <br>
+
     <offeredJobs />
 
     <div>

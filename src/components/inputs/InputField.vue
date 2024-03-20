@@ -5,8 +5,8 @@
       <span v-if="hasIconLeft" class="icon icon--left">
         <component :is="iconLeftName" />
       </span>
-      <input type="text" :placeholder="placeholder" :class="{ error: isError }" />
-      <span v-if="hasIconRight" class="icon icon--right">
+      <input :type="inputType" :placeholder="placeholder" :class="{ error: isError }" />
+      <span v-if="hasIconRight" class="icon icon--right" @click="togglePasswordVisibility">
         <component :is="iconRightName" />
       </span>
     </div>
@@ -40,10 +40,24 @@ export default {
     isError: {
       type: Boolean,
       default: false
+    },
+    isPassword: {
+      type: Boolean,
+      default: false
     }
+  },
+  data() {
+    return {
+      inputType: this.isPassword ? 'password' : 'text'
+    };
   },
   components: {
     NavArrowDown, User, Search, Mail, Attachment, Eye, EyeClosed
+  },
+  methods: {
+    togglePasswordVisibility() {
+      this.inputType = this.inputType === 'password' ? 'text' : 'password';
+    }
   }
 };
 </script>
