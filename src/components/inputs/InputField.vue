@@ -65,9 +65,14 @@ label {
   font-size: 20px;
   padding: 12px 12px;
   border: 2px solid var(--black);
+  background-color: transparent;
   border-radius: 4px;
   padding-left: 44px;
   padding-right: 44px;
+}
+
+input::placeholder {
+  color: var(--neutral-30);
 }
 
 .icon {
