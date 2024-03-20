@@ -73,19 +73,20 @@ label {
   border-radius: 4px;
   padding-left: 44px;
   padding-right: 44px;
-}
-
-input.error {
-  border-color: var(--warning); /* Adjust the color for the error state */
-}
-
-input::placeholder {
-  color: var(--neutral-30);
+  transition: border-color 0.3s ease;
 }
 
 .inputContainer__wrapper input:focus {
   border-color: var(--blurple-50);
   outline: none;
+}
+
+input.error {
+  border-color: var(--warning);
+}
+
+input::placeholder {
+  color: var(--neutral-30);
 }
 
 .icon {
