@@ -8,7 +8,7 @@ import normalButton from '../buttons/NormalButton.vue';
 
 <template>
 
-<div id="ongoing__job" class="border radius-xs">
+<div id="ongoing__job" class="surface-tertiary radius-xs">
     <div id="ongoing__job__top">
         <div id="ongoing__job__top__business">
             <div id="ongoing__job__top__business__image">
@@ -17,15 +17,6 @@ import normalButton from '../buttons/NormalButton.vue';
             <div id="ongoing__job__top__business__name">
                 <p>name</p>
             </div>
-        </div>
-        <div id="ongoing__job__top__settings">
-            <transparentButton
-            class="button--tertiary"
-                :hasIcon="true"
-                :hasLabel="false"
-                label="Details"
-                iconName="MoreHoriz" 
-            />
         </div>
     </div>
 
@@ -51,14 +42,26 @@ import normalButton from '../buttons/NormalButton.vue';
             </div>
         </div>
     </div>
-
-    <normalButton id="ongoing__job__details"
-    class="button--tertiary button__stroke"
-      :hasIcon="false"
-      :hasLabel="true"
-      label="Details"
-      iconName="" 
-      />
+      <div id="ongoing__job__buttons">
+        <div id="ongoing_job__buttons-cancel">
+            <normalButton id="normalButton__cancel"
+                class="button--tertiary button__stroke"
+                  :hasIcon="false"
+                  :hasLabel="true"
+                  label="Cancel"
+                  iconName="" 
+                  /> 
+        </div>
+        <div id="applied_job__buttons-details">
+            <normalButton id="normalButton__details"
+                class="button--primary"
+                  :hasIcon="false"
+                  :hasLabel="true"
+                  label="Details"
+                  iconName="" 
+                  /> 
+        </div>
+    </div>
 
 </div>
 
@@ -113,6 +116,12 @@ img {
 
 #ongoing__job__details {
     width: 100%;
+}
+
+#ongoing__job__buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
 }
 
 

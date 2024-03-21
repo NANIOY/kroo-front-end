@@ -8,7 +8,7 @@ import normalButton from '../buttons/NormalButton.vue';
 
 <template>
 
-<div id="saved__job" class="border radius-xs">
+<div id="saved__job" class="surface-tertiary radius-xs">
     <div id="saved__job__top">
         <div id="saved__job__top__business">
             <div id="saved__job__top__business__image">
@@ -51,14 +51,26 @@ import normalButton from '../buttons/NormalButton.vue';
             </div>
         </div>
     </div>
-
-    <normalButton id="saved__job__details"
-    class="button--tertiary button__stroke"
-      :hasIcon="false"
-      :hasLabel="true"
-      label="Details"
-      iconName="" 
-      />
+      <div id="saved__job__buttons">
+        <div id="saved_job__buttons-cancel">
+            <normalButton id="normalButton__cancel"
+                class="button--tertiary button__stroke"
+                  :hasIcon="false"
+                  :hasLabel="true"
+                  label="Unsave"
+                  iconName="" 
+                  /> 
+        </div>
+        <div id="applied_job__buttons-details">
+            <normalButton id="normalButton__details"
+                class="button--primary"
+                  :hasIcon="false"
+                  :hasLabel="true"
+                  label="Details"
+                  iconName="" 
+                  /> 
+        </div>
+    </div>
 
 </div>
 
@@ -113,6 +125,16 @@ img {
 
 #saved__job__details {
     width: 100%;
+}
+
+#saved__job__buttons {
+    display: flex;
+    margin-top: 24px;
+}
+
+#normalButton__cancel, #normalButton__details {
+    
+
 }
 
 

@@ -8,7 +8,7 @@ import normalButton from '../buttons/NormalButton.vue';
 
 <template>
 
-<div id="offered__job" class="border radius-xs">
+<div id="offered__job" class="surface-tertiary radius-xs">
     <div id="offered__job__top">
         <div id="offered__job__top__business">
             <div id="offered__job__top__business__image">

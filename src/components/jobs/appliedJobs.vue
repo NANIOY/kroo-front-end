@@ -8,7 +8,7 @@ import normalButton from '../buttons/NormalButton.vue';
 
 <template>
 
-<div id="applied__job" class="border radius-xs">
+<div id="applied__job" class="radius-xs surface-tertiary">
     <div id="applied__job__top">
         <div id="applied__job__top__business">
             <div id="applied__job__top__business__image">
@@ -18,32 +18,23 @@ import normalButton from '../buttons/NormalButton.vue';
                 <p>name</p>
             </div>
         </div>
-        <div id="applied__job__top__settings">
-            <transparentButton
-            class="button--tertiary"
-                :hasIcon="true"
-                :hasLabel="false"
-                label="Details"
-                iconName="MoreHoriz" 
-            />
-        </div>
     </div>
     <div id="applied__job__buttons">
-        <div id="applied_job__buttons-details">
-            <normalButton id="normalButton__details"
-                class="button--primary"
-                  :hasIcon="false"
-                  :hasLabel="true"
-                  label="Details"
-                  iconName="" 
-                  /> 
-        </div>
         <div id="applied_job__buttons-cancel">
             <normalButton id="normalButton__cancel"
                 class="button--tertiary button__stroke"
                   :hasIcon="false"
                   :hasLabel="true"
                   label="Cancel"
+                  iconName="" 
+                  /> 
+        </div>
+        <div id="applied_job__buttons-details">
+            <normalButton id="normalButton__details"
+                class="button--primary"
+                  :hasIcon="false"
+                  :hasLabel="true"
+                  label="Details"
                   iconName="" 
                   /> 
         </div>
