@@ -8,43 +8,32 @@ import normalButton from '../buttons/NormalButton.vue';
 
 <template>
 
-<div id="applied__job" class="radius-xs surface-tertiary">
-    <div id="applied__job__top">
-        <div id="applied__job__top__business">
-            <div id="applied__job__top__business__image">
-                <img class="radius-full" src="https://placehold.co/56x56" alt="">
+    <div id="applied__job" class="radius-xs surface-tertiary">
+        <div id="applied__job__top">
+            <div id="applied__job__top__business">
+                <div id="applied__job__top__business__image">
+                    <img class="radius-full" src="https://placehold.co/56x56" alt="">
+                </div>
+                <div id="applied__job__top__business__name">
+                    <p>name</p>
+                </div>
             </div>
-            <div id="applied__job__top__business__name">
-                <p>name</p>
+        </div>
+        <div id="applied__job__buttons">
+            <div id="applied_job__buttons-cancel">
+                <normalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
+                    :hasLabel="true" label="Cancel" iconName="" />
+            </div>
+            <div id="applied_job__buttons-details">
+                <normalButton id="normalButton__details" class="button--primary" :hasIcon="false" :hasLabel="true"
+                    label="Details" iconName="" />
             </div>
         </div>
     </div>
-    <div id="applied__job__buttons">
-        <div id="applied_job__buttons-cancel">
-            <normalButton id="normalButton__cancel"
-                class="button--tertiary button__stroke"
-                  :hasIcon="false"
-                  :hasLabel="true"
-                  label="Cancel"
-                  iconName="" 
-                  /> 
-        </div>
-        <div id="applied_job__buttons-details">
-            <normalButton id="normalButton__details"
-                class="button--primary"
-                  :hasIcon="false"
-                  :hasLabel="true"
-                  label="Details"
-                  iconName="" 
-                  /> 
-        </div>
-    </div>
-</div>
 
 </template>
-  
-<style scoped>
 
+<style scoped>
 p {
     margin: 0;
 }
@@ -85,6 +74,4 @@ img {
     justify-content: space-between;
     margin-top: 24px;
 }
-
-
 </style>

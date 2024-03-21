@@ -15,85 +15,84 @@ import { IconoirProvider, Iconoir, ReportColumns, Calendar, Search, Tools, User,
   }">
 
 
-  <div id="navbar">
-    <div id="navbar__contents">
-      <div id="navbar_contents__logo">
-        <img src="../assets/logomark-color.webp" alt="Logo" width="40" height="40" />
-      </div>
-      <div id="navbar_contents--items">
-
-        <div id="navbar_item--items_menu">
-
-          <div class="navbar_item">
-            <router-link to="/dashboard">
-              <ReportColumns />
-            </router-link>
-          </div>
-
-          <div class="navbar_item">
-            <router-link to="/calendar">
-              <Calendar />
-            </router-link>
-          </div>
-
-          <div class="navbar_item">
-            <router-link to="/search">
-              <Search />
-            </router-link>
-          </div>
-
-          <div class="navbar_item">
-            <router-link to="/tracker">
-              <Bookmark />
-            </router-link>
-          </div>
-
-          <div class="navbar_item">
-            <router-link to="/tools">
-              <Tools />
-            </router-link>
-          </div>
+    <div id="navbar">
+      <div id="navbar__contents">
+        <div id="navbar_contents__logo">
+          <img src="../assets/logomark-color.webp" alt="Logo" width="40" height="40" />
         </div>
+        <div id="navbar_contents--items">
 
-        <div id="navbar_contents--items_account">
-          <div class="navbar_item">
-            <router-link to="/profile">
-              <User />
-            </router-link>
+          <div id="navbar_item--items_menu">
+
+            <div class="navbar_item">
+              <router-link to="/dashboard">
+                <ReportColumns />
+              </router-link>
+            </div>
+
+            <div class="navbar_item">
+              <router-link to="/calendar">
+                <Calendar />
+              </router-link>
+            </div>
+
+            <div class="navbar_item">
+              <router-link to="/search">
+                <Search />
+              </router-link>
+            </div>
+
+            <div class="navbar_item">
+              <router-link to="/tracker">
+                <Bookmark />
+              </router-link>
+            </div>
+
+            <div class="navbar_item">
+              <router-link to="/tools">
+                <Tools />
+              </router-link>
+            </div>
           </div>
 
-          <div class="navbar_item">
-            <a href="#">
-              <Bell />
-            </a>
+          <div id="navbar_contents--items_account">
+            <div class="navbar_item">
+              <router-link to="/profile">
+                <User />
+              </router-link>
+            </div>
+
+            <div class="navbar_item">
+              <a href="#">
+                <Bell />
+              </a>
+            </div>
+
+            <div class="navbar_item">
+              <router-link to="/settings">
+                <Settings />
+              </router-link>
+            </div>
+
+            <div class="navbar_item">
+              <router-link to="/help">
+                <HelpCircle />
+              </router-link>
+            </div>
+
+
+
+
+
           </div>
-
-          <div class="navbar_item">
-            <router-link to="/settings">
-              <Settings />
-            </router-link>
-          </div>
-
-          <div class="navbar_item">
-            <router-link to="/help">
-              <HelpCircle />
-            </router-link>
-          </div>
-
-
-
-
-
         </div>
       </div>
     </div>
-  </div>
 
-</IconoirProvider>
+  </IconoirProvider>
 </template>
 
 <style>
-
 #navbar {
   background-color: #0E0F0F;
   display: flex;
