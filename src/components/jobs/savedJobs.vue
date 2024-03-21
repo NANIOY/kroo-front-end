@@ -1,11 +1,3 @@
-<script setup>
-import transparentButton from '../buttons/TransparentButton.vue';
-import normalButton from '../buttons/NormalButton.vue';
-
-
-</script>
-
-
 <template>
 
     <div id="saved__job" class="surface-tertiary radius-xs">
@@ -61,6 +53,11 @@ import normalButton from '../buttons/NormalButton.vue';
 
 </template>
 
+<script setup>
+import transparentButton from '../buttons/TransparentButton.vue';
+import normalButton from '../buttons/NormalButton.vue';
+</script>
+
 <style scoped>
 p {
     margin: 0;
@@ -96,8 +93,6 @@ img {
     margin: 0;
     margin-top: 12px;
 }
-
-
 
 #saved__job__info {
     display: flex;
