@@ -112,4 +112,9 @@ img {
     justify-content: space-between;
     margin-top: 24px;
 }
+
+#normalButton__cancel,
+#normalButton__details {
+    width: 168px;
+}
 </style>
