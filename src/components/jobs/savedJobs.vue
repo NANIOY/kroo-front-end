@@ -129,14 +129,14 @@ img {
 
 #saved__job__buttons {
     display: flex;
-    margin-top: 24px;
+    justify-content: space-between;
+    margin-top: 12px;
+    width: 100%;
 }
 
-#normalButton__cancel, #normalButton__details {
-    
-
+#normalButton__cancel,
+#normalButton__details {
+    width: 168px;
 }
-
-
 
 </style>
