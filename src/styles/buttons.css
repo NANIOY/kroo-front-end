@@ -42,7 +42,7 @@ button {
 
   /* BUTTON STROKE */
   .button__stroke{
-    border: var(--blurple-70) solid 2px;
+    border: var(--blurple) solid 2px;
   }
   
   /* BUTTON INTERACTION */
