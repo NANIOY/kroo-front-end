@@ -14,7 +14,7 @@
 
     <offeredJobs />
 
-    <div>
+    <div id="body">
       <router-view v-if="$route.path === '/dashboard'"></router-view>
       <router-view v-if="$route.path === '/calendar'"></router-view>
       <router-view v-if="$route.path === '/help'"></router-view>
@@ -52,5 +52,8 @@ import SearchFilter from './components/SearchFilter.vue';
 </script>
 
 <style scoped>
+#body {
+  margin-left: 144px;
+}
 
 </style>
