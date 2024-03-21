@@ -1,5 +1,5 @@
 <template>
-  <router-view id="body"></router-view>
+  <router-view></router-view>
   <NavBar />
 </template>
 
@@ -10,8 +10,5 @@ import NavBar from './components/NavBar.vue';
 </script>
 
 <style scoped>
-#body {
-  margin-left: 144px;
-}
 
 </style>
