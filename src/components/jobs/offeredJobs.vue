@@ -1,12 +1,20 @@
 <script setup>
 import transparentButton from '../buttons/TransparentButton.vue';
 import normalButton from '../buttons/NormalButton.vue';
+import { IconoirProvider, Calendar } from '@iconoir/vue';
 
 
 </script>
 
 
 <template>
+
+<IconoirProvider :icon-props="{
+    'color': 'var(--black)',
+    'width': '16',
+    'height': '16',
+    'stroke-width': '1.5'
+  }">
 
     <div id="offered__job" class="surface-tertiary radius-xs">
         <div id="offered__job__top">
@@ -18,14 +26,17 @@ import normalButton from '../buttons/NormalButton.vue';
                     <p>name</p>
                 </div>
             </div>
-            <div id="offered__job__top__calendar">
+
+            <div id="offered_job__top__right">
+            <div id="offered__job__top__right__calendar">
                 <div>
-                    <transparentButton class="button--tertiary" :hasIcon="true" :hasLabel="false" label="Details"
-                        iconName="Calendar" />
+                    <Calendar />
                 </div>
-                <div id="offered__job__top__days">
+                <div id="offered__job__top__right__days">
                     <p>days</p>
                 </div>
+
+            </div>
 
 
             </div>
@@ -71,6 +82,7 @@ import normalButton from '../buttons/NormalButton.vue';
 
 
     </div>
+</IconoirProvider>
 
 </template>
 
@@ -120,6 +132,11 @@ img {
 
 #offered__job__details {
     width: 100%;
+}
+
+#offered_job__top__right {
+    display: flex;
+    align-items: center;
 }
 
 #offered__job__bottom {
