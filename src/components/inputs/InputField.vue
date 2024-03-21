@@ -1,18 +1,3 @@
-<template>
-  <div class="inputContainer">
-    <label v-if="hasLabel">{{ label }}</label>
-    <div class="inputContainer__wrapper">
-      <span v-if="hasIconLeft" class="icon icon--left">
-        <component :is="iconLeftName" />
-      </span>
-      <input :type="inputType" :placeholder="placeholder" :class="{ error: isError }" />
-      <span v-if="hasIconRight" class="icon icon--right" @click="togglePasswordVisibility">
-        <component :is="iconRightName" />
-      </span>
-    </div>
-  </div>
-</template>
-
 <script>
 import { NavArrowDown, User, Search, Mail, Attachment, Eye, EyeClosed } from '@iconoir/vue';
 
@@ -61,6 +46,21 @@ export default {
   }
 };
 </script>
+
+<template>
+  <div class="inputContainer">
+    <label v-if="hasLabel">{{ label }}</label>
+    <div class="inputContainer__wrapper">
+      <span v-if="hasIconLeft" class="icon icon--left">
+        <component :is="iconLeftName" />
+      </span>
+      <input :type="inputType" :placeholder="placeholder" :class="{ error: isError }" />
+      <span v-if="hasIconRight" class="icon icon--right" @click="togglePasswordVisibility">
+        <component :is="iconRightName" />
+      </span>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .inputContainer {

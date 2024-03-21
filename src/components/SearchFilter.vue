@@ -1,3 +1,38 @@
+<script>
+export default {
+  data() {
+    return {
+      activeDropdown: null,
+      functionOptions: ['Option 1', 'Option 2', 'Option 3'],
+      urgencyOptions: ['Option 1', 'Option 2', 'Option 3'],
+      productionTypeOptions: ['Option 1', 'Option 2', 'Option 3'],
+      timeOptions: ['Only show when I’m available', 'Option 2', 'Option 3', 'more'],
+      selectedOptions: [], // Array to store the selected options
+      sliderValue: 0 // Slider value
+    };
+  },
+  methods: {
+    toggleDropdown(option) {
+      this.activeDropdown = (this.activeDropdown === option) ? null : option;
+    },
+    toggleOption(index) {
+      if (this.selectedOptions.includes(index)) {
+        this.selectedOptions = this.selectedOptions.filter(optionIndex => optionIndex !== index);
+      } else {
+        this.selectedOptions.push(index);
+      }
+    },
+    toggleMoreOptions(option) {
+      // Handle showing more options if needed
+    },
+    sortBy(option) {
+      // Handle sorting logic based on the selected option
+      console.log('Sorting by:', option);
+    }
+  }
+};
+</script>
+
 <template>
   <div class="search-filter">
     <div class="search-input">
@@ -69,41 +104,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      activeDropdown: null,
-      functionOptions: ['Option 1', 'Option 2', 'Option 3'],
-      urgencyOptions: ['Option 1', 'Option 2', 'Option 3'],
-      productionTypeOptions: ['Option 1', 'Option 2', 'Option 3'],
-      timeOptions: ['Only show when I’m available', 'Option 2', 'Option 3', 'more'],
-      selectedOptions: [], // Array to store the selected options
-      sliderValue: 0 // Slider value
-    };
-  },
-  methods: {
-    toggleDropdown(option) {
-      this.activeDropdown = (this.activeDropdown === option) ? null : option;
-    },
-    toggleOption(index) {
-      if (this.selectedOptions.includes(index)) {
-        this.selectedOptions = this.selectedOptions.filter(optionIndex => optionIndex !== index);
-      } else {
-        this.selectedOptions.push(index);
-      }
-    },
-    toggleMoreOptions(option) {
-      // Handle showing more options if needed
-    },
-    sortBy(option) {
-      // Handle sorting logic based on the selected option
-      console.log('Sorting by:', option);
-    }
-  }
-};
-</script>
 
 <style scoped>
 .search-filter {

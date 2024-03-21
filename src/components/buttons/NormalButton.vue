@@ -1,14 +1,3 @@
-<template>
-    <button :class="[
-        'normalButton',
-        { 'no-label': !hasLabel }
-    ]">
-        <!-- Dynamically render the icon based on the iconName prop -->
-        <component :is="iconName" v-if="hasIcon" />
-        <span v-if="hasLabel && label" class="normalButton__label">{{ label }}</span>
-    </button>
-</template>
-
 <script>
 import { NavArrowDown, NavArrowUp, NavArrowLeft, NavArrowRight, User, HandCard, Bell, Accessibility, Behance, Tiktok, Threads, X, Linkedin, Youtube, Instagram, Facebook, Dribbble, MapPin, AtSign, CheckCircle, MoreHoriz, Xmark, Learning, CinemaOld, DragHandGesture, Attachment, Calendar, Search, Plus, Clock, BadgeCheck } from '@iconoir/vue';
 
@@ -63,6 +52,17 @@ export default {
     }
 };
 </script>
+
+<template>
+    <button :class="[
+        'normalButton',
+        { 'no-label': !hasLabel }
+    ]">
+        <!-- Dynamically render the icon based on the iconName prop -->
+        <component :is="iconName" v-if="hasIcon" />
+        <span v-if="hasLabel && label" class="normalButton__label">{{ label }}</span>
+    </button>
+</template>
 
 <style scoped>
 .normalButton {
