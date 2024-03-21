@@ -8,11 +8,12 @@ import { IconoirProvider, Iconoir, ReportColumns, Calendar, Search, Tools, User,
 <template>
 
   <IconoirProvider :icon-props="{
-    'color': '#F5F5F5',
+    'color': 'var(--white)',
     'width': '24',
-    'height': '24'
+    'height': '24',
+    'stroke-width': '1.5'
   }">
-  </IconoirProvider>
+
 
   <div id="navbar">
     <div id="navbar__contents">
@@ -24,31 +25,31 @@ import { IconoirProvider, Iconoir, ReportColumns, Calendar, Search, Tools, User,
         <div id="navbar_item--items_menu">
 
           <div class="navbar_item">
-            <router-link to="/dashboard">Dashboard
+            <router-link to="/dashboard">
               <ReportColumns />
             </router-link>
           </div>
 
           <div class="navbar_item">
-            <router-link to="/calendar">Calendar
+            <router-link to="/calendar">
               <Calendar />
             </router-link>
           </div>
 
           <div class="navbar_item">
-            <router-link to="/search">Search
+            <router-link to="/search">
               <Search />
             </router-link>
           </div>
 
           <div class="navbar_item">
-            <router-link to="/tracker">Tracker
+            <router-link to="/tracker">
               <Bookmark />
             </router-link>
           </div>
 
           <div class="navbar_item">
-            <router-link to="/tools">Tools
+            <router-link to="/tools">
               <Tools />
             </router-link>
           </div>
@@ -56,7 +57,7 @@ import { IconoirProvider, Iconoir, ReportColumns, Calendar, Search, Tools, User,
 
         <div id="navbar_contents--items_account">
           <div class="navbar_item">
-            <router-link to="/profile">profile
+            <router-link to="/profile">
               <User />
             </router-link>
           </div>
@@ -68,13 +69,13 @@ import { IconoirProvider, Iconoir, ReportColumns, Calendar, Search, Tools, User,
           </div>
 
           <div class="navbar_item">
-            <router-link to="/settings">Settings
+            <router-link to="/settings">
               <Settings />
             </router-link>
           </div>
 
           <div class="navbar_item">
-            <router-link to="/help">Help
+            <router-link to="/help">
               <HelpCircle />
             </router-link>
           </div>
@@ -87,13 +88,11 @@ import { IconoirProvider, Iconoir, ReportColumns, Calendar, Search, Tools, User,
       </div>
     </div>
   </div>
+
+</IconoirProvider>
 </template>
 
 <style>
-.navbar_item a {
-  color: #F5F5F5;
-  text-decoration: none;
-}
 
 #navbar {
   background-color: #0E0F0F;

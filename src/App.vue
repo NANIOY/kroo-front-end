@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!--<NavBar />-->
+    
     <!--<topNavDash/>-->
     <topNav pageName="Dashboard" />
     <largeButton class="button--primary" :hasIcon="true" :hasLabel="true" label="Label" iconName="User" />
@@ -32,6 +32,7 @@
     </div>
 
   </div>
+  <NavBar />
 </template>
 
 <script setup>
@@ -50,4 +51,6 @@ import ongoingJobs from './components/jobs/ongoingJobs.vue';
 import SearchFilter from './components/SearchFilter.vue';
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>

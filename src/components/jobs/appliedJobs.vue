@@ -52,7 +52,7 @@ import normalButton from '../buttons/NormalButton.vue';
 
 </template>
   
-<style>
+<style scoped>
 
 p {
     margin: 0;
