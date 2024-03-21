@@ -1,9 +1,9 @@
-<template id="body">
+<template>
 
-  <!-- <appliedJobs /> -->
-  <!-- <offeredJobs /> -->
-  <!-- <ongoingJobs /> -->
-  <savedJobs />
+  <appliedJobs style="margin-left: 144px"/>
+  <offeredJobs style="margin-left: 144px"/>
+  <ongoingJobs style="margin-left: 144px"/>
+  <savedJobs style="margin-left: 144px"/>
 
 </template>
 
