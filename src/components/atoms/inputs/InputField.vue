@@ -29,6 +29,10 @@ export default {
     isPassword: {
       type: Boolean,
       default: false
+    },
+    inputWidth: {
+      type: String,
+      default: '100%'
     }
   },
   data() {
@@ -54,7 +58,7 @@ export default {
       <span v-if="hasIconLeft" class="icon icon--left">
         <component :is="iconLeftName" />
       </span>
-      <input :type="inputType" :placeholder="placeholder" :class="{ error: isError }" />
+      <input :type="inputType" :placeholder="placeholder" :class="{ error: isError }" :style="{ width: inputWidth }" />
       <span v-if="hasIconRight" class="icon icon--right" @click="togglePasswordVisibility">
         <component :is="iconRightName" />
       </span>
