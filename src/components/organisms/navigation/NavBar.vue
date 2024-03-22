@@ -1,6 +1,6 @@
 <script setup>
 
-import { IconoirProvider, Iconoir, ReportColumns, Calendar, Search, Tools, User, Bookmark, Bell, Settings, HelpCircle } from '@iconoir/vue';
+import { IconoirProvider, ReportColumns, Calendar, Search, Tools, User, Bookmark, Bell, Settings, HelpCircle } from '@iconoir/vue';
 
 </script>
 
