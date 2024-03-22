@@ -18,7 +18,7 @@ import { IconoirProvider, Iconoir, ReportColumns, Calendar, Search, Tools, User,
     <div id="navbar">
       <div id="navbar__contents">
         <div id="navbar_contents__logo">
-          <img src="../assets/logomark-color.webp" alt="Logo" width="40" height="40" />
+          <img src="../../../assets/logomark-color.webp" alt="Logo" width="40" height="40" />
         </div>
         <div id="navbar_contents--items">
 
