@@ -1,8 +1,8 @@
 <script setup>
-import appliedJobs from '../components/jobs/appliedJobs.vue';
-import offeredJobs from '../components/jobs/offeredJobs.vue';
-import ongoingJobs from '../components/jobs/ongoingJobs.vue';
-import savedJobs from '../components/jobs/savedJobs.vue';
+import appliedJobs from '../components/molecules/jobs/appliedJobs.vue';
+import offeredJobs from '../components/molecules/jobs/offeredJobs.vue';
+import ongoingJobs from '../components/molecules/jobs/ongoingJobs.vue';
+import savedJobs from '../components/molecules/jobs/savedJobs.vue';
 </script>
 
 <template>

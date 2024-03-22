@@ -1,6 +1,6 @@
 <script setup>
-import transparentButton from '../buttons/TransparentButton.vue';
-import normalButton from '../buttons/NormalButton.vue';
+import transparentButton from '../../atoms/buttons/TransparentButton.vue';
+import normalButton from '../../atoms/buttons//NormalButton.vue';
 </script>
 
 <template>
