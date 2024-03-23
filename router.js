@@ -16,6 +16,7 @@ const routes = [
   { path: '/calendar', component: () => import('./src/views/Calendar.vue') }, // Lazy loading
   { path: '/login', component: () => import('./src/views/Login.vue') }, // Lazy loading
   { path: '/dashboard', component: () => import('./src/views/Dashboard.vue') }, // Lazy loading
+  { path: '/test', component: () => import('./src/views/Test.vue') }, // Lazy loading
 ];
 
 const router = createRouter({
