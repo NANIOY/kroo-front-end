@@ -4,19 +4,15 @@ import router from './router'
 import './styles/normalize.css';
 import './styles/global.css';
 
-// Vuetify
-import 'vuetify/styles'
-import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
+// Primevue
+import PrimeVue from 'primevue/config';
 
-const vuetify = createVuetify({
-    components,
-    directives,
-  })
-  
 
-const app = createApp(App).use(vuetify);
+const app = createApp(App);
 
+app.use(PrimeVue, {
+  unstyled: true
+});
 app.use(router);
+
 app.mount('#app');
