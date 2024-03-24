@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps, ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { ReportColumns, Calendar, Search, Tools, User, Bookmark, Bell, Settings, HelpCircle, Community, HandCard, Accessibility } from '@iconoir/vue';
 
 const props = defineProps({
@@ -19,14 +20,48 @@ const props = defineProps({
     }
 });
 
+const router = useRouter();
+
 const iconComponents = {
     ReportColumns, Calendar, Search, Tools, User, Bookmark, Bell, Settings, HelpCircle, Community, HandCard, Accessibility
 };
 
 const isActive = ref(props.isActive);
 
-const toggleActive = () => {
-    isActive.value = !isActive.value;
+const navigateToRoute = () => {
+    let route = '';
+    switch (props.iconName) {
+        case 'ReportColumns':
+            route = '/dashboard';
+            break;
+        case 'Calendar':
+            route = '/calendar';
+            break;
+        case 'Search':
+            route = '/search';
+            break;
+        case 'Bookmark':
+            route = '/tracker';
+            break;
+        case 'Tools':
+            route = '/tools';
+            break;
+        case 'User':
+            route = '/profile';
+            break;
+        case 'Bell':
+            route = '/notifications';
+            break;
+        case 'Settings':
+            route = '/settings';
+            break;
+        case 'HelpCircle':
+            route = '/help';
+            break;
+        default:
+            break;
+    }
+    router.push(route);
 };
 
 const hasLabelProp = props.hasLabel === 'true' || props.hasLabel === true;
@@ -40,7 +75,7 @@ const navbarLabelClass = computed(() => {
 </script>
 
 <template>
-    <div :class="[navbarLabelClass]" @click="toggleActive">
+    <div :class="[navbarLabelClass]" @click="navigateToRoute">
         <div class="navbarLabel__iconWrapper">
             <component :is="iconComponents[iconName]" class="navbarLabel__icon"
                 :style="{ color: isActive.value ? (props.darkMode ? 'var(--white)' : 'var(--black)') : '' }" />
@@ -101,5 +136,4 @@ const navbarLabelClass = computed(() => {
     background-color: var(--blurple);
     color: var(--white);
 }
-
 </style>
