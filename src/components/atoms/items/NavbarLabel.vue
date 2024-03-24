@@ -69,7 +69,6 @@ const navbarLabelClass = computed(() => {
 .navbarLabel--noLabel {
     width: 40px;
     height: 40px;
-    transition: background-color 0.3s, color 0.3s;
 }
 
 .navbarLabel__iconWrapper {
@@ -89,11 +88,12 @@ const navbarLabelClass = computed(() => {
     color: var(--white);
 }
 
-.navbarLabel__icon{
+.navbarLabel__icon {
     transition: color 0.3s;
 }
 
-.navbarLabel:not(.navbarLabel--active):hover .navbarLabel__iconWrapper .navbarLabel__icon, .navbarLabel:hover  {
+.navbarLabel:not(.navbarLabel--active):hover .navbarLabel__iconWrapper .navbarLabel__icon,
+.navbarLabel:hover {
     color: var(--blurple-20);
 }
 
