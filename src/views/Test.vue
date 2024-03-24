@@ -1,9 +1,9 @@
 <script setup>
-import tag from '../components/atoms/items/Tag.vue';
+import iconLabel from '../components/atoms/items/IconLabel.vue';
 </script>
 
 <template>
-    <tag type="transparent">Label</tag>
+    <iconLabel iconName="Calendar" label="Hello World" size="large" />
 </template>
 
 <style scoped></style>
