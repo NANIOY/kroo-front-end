@@ -43,12 +43,11 @@ const navbarLabelClass = computed(() => {
     <div :class="[navbarLabelClass]" @click="toggleActive">
         <div class="navbarLabel__iconWrapper">
             <component :is="iconComponents[iconName]" class="navbarLabel__icon"
-                :style="{ color: (isActive && props.darkMode) ? 'var(--white)' : (isActive ? 'var(--black)' : '') }" />
+                :style="{ color: isActive.value ? (props.darkMode ? 'var(--white)' : 'var(--black)') : '' }" />
         </div>
         <span v-if="hasLabelProp" class="navbarLabel__label button-normal">{{ props.label }}</span>
     </div>
 </template>
-
 
 <style scoped>
 .navbarLabel {
@@ -81,11 +80,17 @@ const navbarLabelClass = computed(() => {
     transition: color 0.3s;
 }
 
+.navbarLabel--dark .navbarLabel__icon,
 .navbarLabel--dark {
     color: var(--white);
 }
 
 .navbarLabel:hover {
     background-color: var(--neutral-20);
+}
+
+.navbarLabel--active:hover {
+    background-color: var(--blurple);
+    color: var(--white);
 }
 </style>
