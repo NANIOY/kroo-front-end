@@ -30,16 +30,18 @@ const props = defineProps({
 
 <style scoped>
 .container {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-size: 16px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  display: flex;
+  align-items: center; /* Vertically center items */
+  position: relative;
+  padding-left: 31px;
+  margin-right: 8px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /* Hide the browser's default checkbox */
@@ -56,11 +58,21 @@ const props = defineProps({
     position: absolute;
     top: 0;
     left: 0;
-    height: 16px;
-    width: 16px;
+    height: 20px;
+    width: 20px;
     border: 2px solid var(--black);
     border-radius: 3px;
-    color: transparent
+    color: transparent;
+    transition: background-color 0.3s;
+    stroke-width: 2;
+}
+
+.container:hover .checkmark{
+    border-color: var(--blurple-20);
+}
+
+.container:hover .checkbox-label {
+  color: var(--blurple-20);
 }
 
 /* When the checkbox is checked, hide the border */
