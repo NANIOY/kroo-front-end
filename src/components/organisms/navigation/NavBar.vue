@@ -31,10 +31,9 @@ import NavbarLabel from '../../atoms/items/NavbarLabel.vue';
 
 <style>
 #navbar {
-  background-color: #0E0F0F;
+  background-color: var(--black);
   display: flex;
   flex-direction: column;
-  /* Set the direction to column for vertical layout */
   width: 96px;
   height: 100dvh;
   position: fixed;
@@ -68,7 +67,6 @@ import NavbarLabel from '../../atoms/items/NavbarLabel.vue';
 #navbar_contents--items {
   display: flex;
   flex-direction: column;
-  /* Set the direction to column for vertical layout */
   justify-content: space-between;
   height: 100%;
 }
