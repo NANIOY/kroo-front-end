@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref } from 'vue';
+import { defineProps, ref, computed } from 'vue';
 import { Community, User, HandCard, Accessibility } from '@iconoir/vue';
 
 const props = defineProps({
@@ -8,6 +8,10 @@ const props = defineProps({
     isActive: {
         type: Boolean,
         default: false
+    },
+    hasLabel: {
+        type: Boolean,
+        default: true
     }
 });
 
@@ -20,15 +24,24 @@ const isActive = ref(props.isActive);
 const toggleActive = () => {
     isActive.value = !isActive.value;
 };
+
+const hasLabelProp = props.hasLabel === 'true' || props.hasLabel === true;
+const navbarLabelClass = computed(() => {
+    if (!hasLabelProp) {
+        return 'navbarLabel navbarLabel--noLabel' + (isActive.value ? ' navbarLabel--active' : '');
+    } else {
+        return isActive.value ? 'navbarLabel navbarLabel--active' : 'navbarLabel';
+    }
+});
 </script>
 
 <template>
-    <div :class="['navbarLabel', { 'navbarLabel--active': isActive }]" @click="toggleActive">
+    <div :class="[navbarLabelClass]" @click="toggleActive">
         <div class="navbarLabel__iconWrapper">
             <component :is="iconComponents[iconName]" class="navbarLabel__icon"
                 :style="{ color: isActive ? 'var(--white)' : 'var(--black)' }" />
         </div>
-        <span class="navbarLabel__label button-normal">{{ props.label }}</span>
+        <span v-if="hasLabelProp" class="navbarLabel__label button-normal">{{ props.label }}</span>
     </div>
 </template>
 
@@ -47,6 +60,12 @@ const toggleActive = () => {
 .navbarLabel--active {
     background-color: var(--blurple);
     color: var(--white);
+}
+
+.navbarLabel--noLabel {
+    width: 40px;
+    height: 40px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .navbarLabel__iconWrapper {

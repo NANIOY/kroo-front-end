@@ -3,7 +3,9 @@
 </script>
 
 <template>
-    <navbarLabel label="Team" iconName="Community" />
+        <navbarLabel iconName="Community" label="Label Text" />
+
+        <navbarLabel iconName="User" hasLabel="false" />
 </template>
 
 <style scoped></style>
