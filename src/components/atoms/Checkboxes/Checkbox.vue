@@ -29,6 +29,7 @@ const props = defineProps({
 </template>
 
 <style scoped>
+/* Container: the whole div that the checkbox and label are in */   
 .container {
     display: flex;
     align-items: center;
@@ -44,7 +45,7 @@ const props = defineProps({
     user-select: none;
 }
 
-
+/* Input styles: Hide the default webbrowser checkbox input */
 .container input {
     position: absolute;
     opacity: 0;
@@ -53,7 +54,7 @@ const props = defineProps({
     width: 0;
 }
 
-
+/* Styling for the checkmark - non active state  */
 .checkmark {
     position: absolute;
     top: 0;
@@ -68,21 +69,19 @@ const props = defineProps({
     vertical-align: middle;
 }
 
-.checkbox-container {
-    display: inline-block;
-    vertical-align: middle;
-}
-
+/* Styling for the checkbox label */
 .checkbox-label {
     display: inline-block;
     vertical-align: middle;
     margin-top: 3px;
 }
 
+/* Styling for the checkmark when hovered */
 .container:hover .checkmark {
     border-color: var(--blurple-20);
 }
 
+/* Styling for the label when .checkbox-label is hovered */
 .container:hover .checkbox-label {
     color: var(--blurple-20);
 }
@@ -106,7 +105,7 @@ const props = defineProps({
     display: block;
 }
 
-/* Style the checkmark/indicator */
+/* Style the checkmark box  when active / when you see the icon */
 .container .checkmark:after {
     left: 9px;
     top: 5px;
@@ -119,25 +118,25 @@ const props = defineProps({
     transform: rotate(45deg);
 }
 
-    /* Style for the disabled state */
-    .disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
+/* Style for the disabled state */
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
 
-    /* Style the custom checkbox for the disabled state */
-    .disabled .checkmark {
-        background-color: var(--white);
-        border-color: var(--black);
-    }
+/* Style the custom checkbox for the disabled state */
+.disabled .checkmark {
+    background-color: var(--white);
+    border-color: var(--black);
+}
 
-    /* Prevent hover effect on disabled checkbox */
+/* Prevent hover effect on disabled checkbox */
 .disabled:hover .checkmark {
     border-color: var(--black);
 }
 
-    /* Style the checkmark/indicator for the disabled state */
-    .disabled input[type="checkbox"]+.checkmark:after {
-        border-color: var(--white);
-    }
+/* Style the checkmark/indicator for the disabled state */
+.disabled input[type="checkbox"]+.checkmark:after {
+    border-color: var(--white);
+}
 </style>
