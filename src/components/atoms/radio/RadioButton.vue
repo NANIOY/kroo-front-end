@@ -37,11 +37,11 @@ export default {
 .radio-button:hover, .radio-checkmark:hover {
     color: var(--blurple);
     opacity: 0.8;
-    transition: 0.5s;
+    transition: 0.3s;
 }
 
 .radio-button:not(:hover), .radio-checkmark:not(:hover) {
-    transition: 0.5s;
+    transition: 0.3s;
 }
 
 .radio-checkmark:hover {
@@ -54,13 +54,13 @@ export default {
     border-color: var(--blurple); 
     color: var(--blurple);
     opacity: 0.8;
-    transition: 0.5s;
+    transition: 0.3s;
 }
 
 .radio-checkmark:hover {
     border-color: var(--blurple); 
     opacity: 0.8;
-    transition: 0.5s;
+    transition: 0.3s;
 }
 
 .radio-button:hover .radio-checkmark:before {
