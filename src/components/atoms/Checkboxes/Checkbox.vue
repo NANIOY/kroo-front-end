@@ -65,6 +65,18 @@ const props = defineProps({
     color: transparent;
     transition: background-color 0.3s;
     stroke-width: 2;
+    vertical-align: middle;
+}
+
+.checkbox-container {
+    display: inline-block;
+    vertical-align: middle; /* Align items vertically */
+}
+
+.checkbox-label {
+    display: inline-block;
+    vertical-align: middle; 
+    margin-top: 3px;
 }
 
 .container:hover .checkmark{
