@@ -5,28 +5,28 @@ import NavbarLabel from '../../atoms/items/NavbarLabel.vue';
 
 
 <template>
-    <div id="navbar">
-      <div id="navbar__contents">
-        <div id="navbar_contents__logo">
-          <img src="../../../assets/logomark-color.webp" alt="Logo" width="40" height="40" />
+  <div id="navbar">
+    <div id="navbar__contents">
+      <div id="navbar_contents__logo">
+        <img src="../../../assets/logomark-color.webp" alt="Logo" width="40" height="40" />
+      </div>
+      <div id="navbar_contents--items">
+        <div id="navbar_item--items_menu">
+          <NavbarLabel iconName="ReportColumns" :hasLabel=false darkMode />
+          <NavbarLabel iconName="Calendar" :hasLabel=false darkMode />
+          <NavbarLabel iconName="Search" :hasLabel=false darkMode />
+          <NavbarLabel iconName="Bookmark" :hasLabel=false darkMode />
+          <NavbarLabel iconName="Tools" :hasLabel=false darkMode />
         </div>
-        <div id="navbar_contents--items">
-          <div id="navbar_item--items_menu">
-            <NavbarLabel iconName="ReportColumns" :hasLabel=false darkMode />
-            <NavbarLabel iconName="Calendar" :hasLabel=false darkMode />
-            <NavbarLabel iconName="Search" :hasLabel=false darkMode />
-            <NavbarLabel iconName="Bookmark" :hasLabel=false darkMode />
-            <NavbarLabel iconName="Tools" :hasLabel=false darkMode />
-          </div>
-          <div id="navbar_contents--items_account">
-            <NavbarLabel iconName="User" :hasLabel=false darkMode />
-            <NavbarLabel iconName="Bell" :hasLabel=false darkMode />
-            <NavbarLabel iconName="Settings" :hasLabel=false darkMode />
-            <NavbarLabel iconName="HelpCircle" :hasLabel=false darkMode />
-          </div>
+        <div id="navbar_contents--items_account">
+          <NavbarLabel iconName="User" :hasLabel=false darkMode />
+          <NavbarLabel iconName="Bell" :hasLabel=false darkMode />
+          <NavbarLabel iconName="Settings" :hasLabel=false darkMode />
+          <NavbarLabel iconName="HelpCircle" :hasLabel=false darkMode />
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <style>
