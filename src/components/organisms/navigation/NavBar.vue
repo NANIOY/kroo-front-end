@@ -1,95 +1,32 @@
 <script setup>
-
-import { IconoirProvider, ReportColumns, Calendar, Search, Tools, User, Bookmark, Bell, Settings, HelpCircle } from '@iconoir/vue';
+import NavbarLabel from '../../atoms/items/NavbarLabel.vue';
 
 </script>
 
 
 <template>
-
-  <IconoirProvider :icon-props="{
-    'color': 'var(--white)',
-    'width': '24',
-    'height': '24',
-    'stroke-width': '1.5'
-  }">
-
-
     <div id="navbar">
       <div id="navbar__contents">
         <div id="navbar_contents__logo">
           <img src="../../../assets/logomark-color.webp" alt="Logo" width="40" height="40" />
         </div>
         <div id="navbar_contents--items">
-
           <div id="navbar_item--items_menu">
-
-            <div class="navbar_item">
-              <router-link to="/dashboard">
-                <ReportColumns />
-              </router-link>
-            </div>
-
-            <div class="navbar_item">
-              <router-link to="/calendar">
-                <Calendar />
-              </router-link>
-            </div>
-
-            <div class="navbar_item">
-              <router-link to="/search">
-                <Search />
-              </router-link>
-            </div>
-
-            <div class="navbar_item">
-              <router-link to="/tracker">
-                <Bookmark />
-              </router-link>
-            </div>
-
-            <div class="navbar_item">
-              <router-link to="/tools">
-                <Tools />
-              </router-link>
-            </div>
+            <NavbarLabel label="Report Columns" iconName="ReportColumns" :hasLabel="false" darkMode />
+            <NavbarLabel label="Calendar" iconName="Calendar" :hasLabel="false" darkMode />
+            <NavbarLabel label="Search" iconName="Search" :hasLabel="false" darkMode />
+            <NavbarLabel label="Bookmark" iconName="Bookmark" :hasLabel="false" darkMode />
+            <NavbarLabel label="Tools" iconName="Tools" :hasLabel="false" darkMode />
           </div>
-
           <div id="navbar_contents--items_account">
-            <div class="navbar_item">
-              <router-link to="/profile">
-                <User />
-              </router-link>
-            </div>
-
-            <div class="navbar_item">
-              <a href="#">
-                <Bell />
-              </a>
-            </div>
-
-            <div class="navbar_item">
-              <router-link to="/settings">
-                <Settings />
-              </router-link>
-            </div>
-
-            <div class="navbar_item">
-              <router-link to="/help">
-                <HelpCircle />
-              </router-link>
-            </div>
-
-
-
-
-
+            <NavbarLabel label="User" iconName="User" :hasLabel="false" darkMode />
+            <NavbarLabel label="Bell" iconName="Bell" :hasLabel="false" darkMode />
+            <NavbarLabel label="Settings" iconName="Settings" :hasLabel="false" darkMode />
+            <NavbarLabel label="Help Circle" iconName="HelpCircle" :hasLabel="false" darkMode />
           </div>
         </div>
       </div>
     </div>
-
-  </IconoirProvider>
 </template>
 
 <style>
@@ -145,6 +82,7 @@ import { IconoirProvider, ReportColumns, Calendar, Search, Tools, User, Bookmark
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  align-items: center;
 }
 
 #navbar_contents--items_account {
