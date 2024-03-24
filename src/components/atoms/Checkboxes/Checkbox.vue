@@ -30,21 +30,21 @@ const props = defineProps({
 
 <style scoped>
 .container {
-  display: flex;
-  align-items: center; /* Vertically center items */
-  position: relative;
-  padding-left: 31px;
-  margin-right: 8px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  font-size: 16px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 31px;
+    margin-right: 8px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-/* Hide the browser's default checkbox */
+
 .container input {
     position: absolute;
     opacity: 0;
@@ -53,7 +53,7 @@ const props = defineProps({
     width: 0;
 }
 
-/* Create a custom checkbox */
+
 .checkmark {
     position: absolute;
     top: 0;
@@ -70,38 +70,38 @@ const props = defineProps({
 
 .checkbox-container {
     display: inline-block;
-    vertical-align: middle; /* Align items vertically */
+    vertical-align: middle;
 }
 
 .checkbox-label {
     display: inline-block;
-    vertical-align: middle; 
+    vertical-align: middle;
     margin-top: 3px;
 }
 
-.container:hover .checkmark{
+.container:hover .checkmark {
     border-color: var(--blurple-20);
 }
 
 .container:hover .checkbox-label {
-  color: var(--blurple-20);
+    color: var(--blurple-20);
 }
 
-/* When the checkbox is checked, hide the border */
+/* Styling for when the checkbox is checked */
 .container input:checked~.checkmark {
     background-color: var(--blurple);
     border-color: transparent;
     color: var(--white);
 }
 
-/* Create the checkmark/indicator (hidden when not checked) */
+/* Styling for checkmark when not active */
 .checkmark:after {
     content: "";
     position: absolute;
     display: none;
 }
 
-/* Show the checkmark when checked */
+/* Show the checkmark when active */
 .container input:checked~.checkmark:after {
     display: block;
 }
@@ -119,23 +119,25 @@ const props = defineProps({
     transform: rotate(45deg);
 }
 
-/* Style for the disabled state */
-.disabled {
-    opacity: 0.5;
-    /* Adjust opacity for the disabled effect */
-    cursor: not-allowed;
-    /* Change cursor to indicate disabled state */
+    /* Style for the disabled state */
+    .disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    /* Style the custom checkbox for the disabled state */
+    .disabled .checkmark {
+        background-color: var(--white);
+        border-color: var(--black);
+    }
+
+    /* Prevent hover effect on disabled checkbox */
+.disabled:hover .checkmark {
+    border-color: var(--black);
 }
 
-/* Style the custom checkbox for the disabled state */
-.disabled .checkmark {
-    background-color: var(--white);
-    /* Adjust background color for disabled checkbox */
-}
-
-/* Style the checkmark/indicator for the disabled state */
-.disabled input[type="checkbox"]+.checkmark:after {
-    border-color: var(--white);
-    /* Adjust border color for the checkmark */
-}
+    /* Style the checkmark/indicator for the disabled state */
+    .disabled input[type="checkbox"]+.checkmark:after {
+        border-color: var(--white);
+    }
 </style>
