@@ -12,6 +12,10 @@ const props = defineProps({
     hasLabel: {
         type: Boolean,
         default: true
+    },
+    darkMode: {
+        type: Boolean,
+        default: false
     }
 });
 
@@ -28,9 +32,9 @@ const toggleActive = () => {
 const hasLabelProp = props.hasLabel === 'true' || props.hasLabel === true;
 const navbarLabelClass = computed(() => {
     if (!hasLabelProp) {
-        return 'navbarLabel navbarLabel--noLabel' + (isActive.value ? ' navbarLabel--active' : '');
+        return `navbarLabel navbarLabel--noLabel${props.darkMode ? ' navbarLabel--dark' : ''}${isActive.value ? ' navbarLabel--active' : ''}`;
     } else {
-        return isActive.value ? 'navbarLabel navbarLabel--active' : 'navbarLabel';
+        return `navbarLabel${props.darkMode ? ' navbarLabel--dark' : ''}${isActive.value ? ' navbarLabel--active' : ''}`;
     }
 });
 </script>
@@ -39,11 +43,12 @@ const navbarLabelClass = computed(() => {
     <div :class="[navbarLabelClass]" @click="toggleActive">
         <div class="navbarLabel__iconWrapper">
             <component :is="iconComponents[iconName]" class="navbarLabel__icon"
-                :style="{ color: isActive ? 'var(--white)' : 'var(--black)' }" />
+                :style="{ color: (isActive && props.darkMode) ? 'var(--white)' : (isActive ? 'var(--black)' : '') }" />
         </div>
         <span v-if="hasLabelProp" class="navbarLabel__label button-normal">{{ props.label }}</span>
     </div>
 </template>
+
 
 <style scoped>
 .navbarLabel {
@@ -74,6 +79,10 @@ const navbarLabelClass = computed(() => {
 
 .navbarLabel__icon {
     transition: color 0.3s;
+}
+
+.navbarLabel--dark {
+    color: var(--white);
 }
 
 .navbarLabel:hover {

@@ -1,11 +1,11 @@
 <script setup>
-    import navbarLabel from '../components/atoms/items/NavbarLabel.vue';
+import navbarLabel from '../components/atoms/items/NavbarLabel.vue';
 </script>
 
 <template>
-        <navbarLabel iconName="Community" label="Label Text" />
+    <navbarLabel iconName="Community" label="Label Text" darkMode />
 
-        <navbarLabel iconName="User" hasLabel="false" />
+    <navbarLabel iconName="User" hasLabel="false" />
 </template>
 
 <style scoped></style>
