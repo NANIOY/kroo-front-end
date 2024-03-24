@@ -16,7 +16,7 @@ const sliderValue = ref(0); // Initial slider value
 .slider {
     width: 200px;
     margin-right: 10px;
-    background-color: #858585;
+    background-color: var(--neutral-30);
     outline: none;
     appearance: none;
     height: 5px;
@@ -28,13 +28,13 @@ const sliderValue = ref(0); // Initial slider value
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #0E0F0F;
+    background: var(--black);
     cursor: pointer;
 }
 
 .slider-value {
     font-size: 16px;
-    border: #0E0F0F
+    border: var(--black);
 }
 
 .slider-container {
@@ -43,7 +43,7 @@ const sliderValue = ref(0); // Initial slider value
 
 .slider-value-container {
     display: inline-block;
-    border: 3px solid #0E0F0F;
+    border: 3px solid var(--black);
     padding: 5px;
     border-radius: 4px;
 }

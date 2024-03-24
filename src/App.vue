@@ -1,6 +1,5 @@
 <script setup>
 import NavBar from './components/organisms/navigation/NavBar.vue';
-
 </script>
 
 <template>
