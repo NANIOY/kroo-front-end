@@ -33,30 +33,39 @@ const navigateToRoute = () => {
     switch (props.iconName) {
         case 'ReportColumns':
             route = '/dashboard';
+            isActive.value = !isActive.value;
             break;
         case 'Calendar':
             route = '/calendar';
+            isActive.value = !isActive.value;
             break;
         case 'Search':
             route = '/search';
+            isActive.value = !isActive.value;
             break;
         case 'Bookmark':
             route = '/tracker';
+            isActive.value = !isActive.value;
             break;
         case 'Tools':
             route = '/tools';
+            isActive.value = !isActive.value;
             break;
         case 'User':
             route = '/profile';
+            isActive.value = !isActive.value;
             break;
         case 'Bell':
             route = '/notifications';
+            isActive.value = !isActive.value;
             break;
         case 'Settings':
             route = '/settings';
+            isActive.value = !isActive.value;
             break;
         case 'HelpCircle':
             route = '/help';
+            isActive.value = !isActive.value;
             break;
         default:
             break;

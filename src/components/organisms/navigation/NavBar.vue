@@ -12,17 +12,17 @@ import NavbarLabel from '../../atoms/items/NavbarLabel.vue';
         </div>
         <div id="navbar_contents--items">
           <div id="navbar_item--items_menu">
-            <NavbarLabel iconName="ReportColumns" :hasLabel="false" darkMode />
-            <NavbarLabel iconName="Calendar" :hasLabel="false" darkMode />
-            <NavbarLabel iconName="Search" :hasLabel="false" darkMode />
-            <NavbarLabel iconName="Bookmark" :hasLabel="false" darkMode />
-            <NavbarLabel iconName="Tools" :hasLabel="false" darkMode />
+            <NavbarLabel iconName="ReportColumns" :hasLabel=false darkMode />
+            <NavbarLabel iconName="Calendar" :hasLabel=false darkMode />
+            <NavbarLabel iconName="Search" :hasLabel=false darkMode />
+            <NavbarLabel iconName="Bookmark" :hasLabel=false darkMode />
+            <NavbarLabel iconName="Tools" :hasLabel=false darkMode />
           </div>
           <div id="navbar_contents--items_account">
-            <NavbarLabel iconName="User" :hasLabel="false" darkMode />
-            <NavbarLabel iconName="Bell" :hasLabel="false" darkMode />
-            <NavbarLabel iconName="Settings" :hasLabel="false" darkMode />
-            <NavbarLabel iconName="HelpCircle" :hasLabel="false" darkMode />
+            <NavbarLabel iconName="User" :hasLabel=false darkMode />
+            <NavbarLabel iconName="Bell" :hasLabel=false darkMode />
+            <NavbarLabel iconName="Settings" :hasLabel=false darkMode />
+            <NavbarLabel iconName="HelpCircle" :hasLabel=false darkMode />
           </div>
         </div>
       </div>
