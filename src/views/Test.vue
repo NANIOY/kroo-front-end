@@ -1,9 +1,9 @@
 <script setup>
-import iconLabel from '../components/atoms/items/IconLabel.vue';
+    import navbarLabel from '../components/atoms/items/NavbarLabel.vue';
 </script>
 
 <template>
-    <iconLabel iconName="Calendar" label="Hello World" size="large" />
+    <navbarLabel label="Team" iconName="Community" />
 </template>
 
 <style scoped></style>
