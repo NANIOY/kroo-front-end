@@ -75,4 +75,8 @@ const navbarLabelClass = computed(() => {
 .navbarLabel__icon {
     transition: color 0.3s;
 }
+
+.navbarLabel:hover {
+    background-color: var(--neutral-20);
+}
 </style>
