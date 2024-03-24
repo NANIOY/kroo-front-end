@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps, ref, computed } from 'vue';
-import { IconoirProvider, ReportColumns, Calendar, Search, Tools, User, Bookmark, Bell, Settings, HelpCircle, Community, HandCard, Accessibility } from '@iconoir/vue';
+import { ReportColumns, Calendar, Search, Tools, User, Bookmark, Bell, Settings, HelpCircle, Community, HandCard, Accessibility } from '@iconoir/vue';
 
 const props = defineProps({
     label: String,
@@ -73,11 +73,15 @@ const navbarLabelClass = computed(() => {
 }
 
 .navbarLabel__iconWrapper {
-    padding: 0 8px;
+    padding: 4px 8px 0 8px;
 }
 
-.navbarLabel__icon {
-    transition: color 0.3s;
+.navbarLabel__label {
+    padding-top: 2px;
+}
+
+.navbarLabel--noLabel .navbarLabel__iconWrapper {
+    padding: 7px 8px 0 8px;
 }
 
 .navbarLabel--dark .navbarLabel__icon,
@@ -85,12 +89,17 @@ const navbarLabelClass = computed(() => {
     color: var(--white);
 }
 
-.navbarLabel:hover {
-    background-color: var(--neutral-20);
+.navbarLabel__icon{
+    transition: color 0.3s;
+}
+
+.navbarLabel:not(.navbarLabel--active):hover .navbarLabel__iconWrapper .navbarLabel__icon, .navbarLabel:hover  {
+    color: var(--blurple-20);
 }
 
 .navbarLabel--active:hover {
     background-color: var(--blurple);
     color: var(--white);
 }
+
 </style>
