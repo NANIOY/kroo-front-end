@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps, ref, computed } from 'vue';
-import { Community, User, HandCard, Accessibility } from '@iconoir/vue';
+import { IconoirProvider, ReportColumns, Calendar, Search, Tools, User, Bookmark, Bell, Settings, HelpCircle, Community, HandCard, Accessibility } from '@iconoir/vue';
 
 const props = defineProps({
     label: String,
@@ -20,7 +20,7 @@ const props = defineProps({
 });
 
 const iconComponents = {
-    Community, User, HandCard, Accessibility
+    ReportColumns, Calendar, Search, Tools, User, Bookmark, Bell, Settings, HelpCircle, Community, HandCard, Accessibility
 };
 
 const isActive = ref(props.isActive);
