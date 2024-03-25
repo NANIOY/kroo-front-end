@@ -82,7 +82,7 @@ const logLabel = () => {
         <div class="navbarLabel__iconWrapper">
             <component :is="iconComponents[iconName]" class="navbarLabel__icon" />
         </div>
-        <span v-if="hasLabel" class="navbarLabel__label button-normal">{{ props.label }}</span>
+        <span v-if="hasLabel" class="navbarLabel__label">{{ props.label }}</span>
         <div class="hoverLabel">{{ props.label }}</div>
     </div>
 </template>
