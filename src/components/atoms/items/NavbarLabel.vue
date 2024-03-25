@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { ReportColumns, Calendar, Search, Tools, User, Bookmark, Bell, Settings, HelpCircle, Community, HandCard, Accessibility } from '@iconoir/vue';
 
@@ -68,20 +68,29 @@ const navigateToRoute = () => {
         emit('toggleActive', props.iconName);
     }
 };
+
+// variable to control visibility of hover label
+const showHoverLabel = ref(false);
+
+const logLabel = () => {
+    console.log('Label:', props.label);
+};
 </script>
 
 <template>
-    <div class="navbarLabel" :class="{ 'navbarLabel--active': props.isActive }" @click="navigateToRoute">
+    <div class="navbarLabel" :class="{ 'navbarLabel--active': props.isActive }" @click="navigateToRoute" @mouseenter="logLabel()" @mouseleave="logLabel()">
         <div class="navbarLabel__iconWrapper">
             <component :is="iconComponents[iconName]" class="navbarLabel__icon" />
         </div>
         <span v-if="hasLabel" class="navbarLabel__label button-normal">{{ props.label }}</span>
+        <div class="hoverLabel">{{ props.label }}</div>
     </div>
 </template>
 
 <style scoped>
 /* BASE STYLES */
 .navbarLabel {
+    position: relative;
     width: 40px;
     height: 40px;
     display: flex;
@@ -123,5 +132,40 @@ const navigateToRoute = () => {
 
 .navbarLabel--active .navbarLabel__icon {
     color: var(--white);
+}
+
+/* HOVER LABEL */
+.hoverLabel {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 4px);
+    transform: translateY(-50%);
+    background-color: var(--blurple);
+    color: var(--white);
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-family: var(--font-button);
+    font-size: 12px;
+    text-transform: uppercase;
+    z-index: 999;
+    opacity: 0;
+    transition: 0.2s ease-in-out;
+    pointer-events: none;
+    /* TRIANGLE */
+    &:before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 100%;
+        transform: translateY(-50%);
+        border-style: solid;
+        border-width: 6px;
+        border-color: transparent var(--blurple) transparent transparent;
+    }
+}
+
+.navbarLabel:hover .hoverLabel {
+    opacity: 1;
+    pointer-events: auto;
 }
 </style>

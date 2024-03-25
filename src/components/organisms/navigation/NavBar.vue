@@ -17,32 +17,31 @@ const toggleActiveLabel = (iconName) => {
       </div>
       <div id="navbar_contents--items">
         <div id="navbar_item--items_menu">
-          <NavbarLabel iconName="ReportColumns" :hasLabel="false" :darkMode="true"
+          <NavbarLabel iconName="ReportColumns" label="Dashboard" :hasLabel="false" :darkMode="true"
             :isActive="activeLabel === 'ReportColumns'" @toggleActive="toggleActiveLabel" />
-          <NavbarLabel iconName="Calendar" :hasLabel="false" :darkMode="true" :isActive="activeLabel === 'Calendar'"
-            @toggleActive="toggleActiveLabel" />
-          <NavbarLabel iconName="Search" :hasLabel="false" :darkMode="true" :isActive="activeLabel === 'Search'"
-            @toggleActive="toggleActiveLabel" />
-          <NavbarLabel iconName="Bookmark" :hasLabel="false" :darkMode="true" :isActive="activeLabel === 'Bookmark'"
-            @toggleActive="toggleActiveLabel" />
-          <NavbarLabel iconName="Tools" :hasLabel="false" :darkMode="true" :isActive="activeLabel === 'Tools'"
-            @toggleActive="toggleActiveLabel" />
+          <NavbarLabel iconName="Calendar" label="Calendar" :hasLabel="false" :darkMode="true"
+            :isActive="activeLabel === 'Calendar'" @toggleActive="toggleActiveLabel" />
+          <NavbarLabel iconName="Search" label="Search" :hasLabel="false" :darkMode="true"
+            :isActive="activeLabel === 'Search'" @toggleActive="toggleActiveLabel" />
+          <NavbarLabel iconName="Bookmark" label="Tracker" :hasLabel="false" :darkMode="true"
+            :isActive="activeLabel === 'Bookmark'" @toggleActive="toggleActiveLabel" />
+          <NavbarLabel iconName="Tools" label="Tools" :hasLabel="false" :darkMode="true"
+            :isActive="activeLabel === 'Tools'" @toggleActive="toggleActiveLabel" />
         </div>
         <div id="navbar_contents--items_account">
-          <NavbarLabel iconName="User" :hasLabel="false" :darkMode="true" :isActive="activeLabel === 'User'"
-            @toggleActive="toggleActiveLabel" />
-          <NavbarLabel iconName="Bell" :hasLabel="false" :darkMode="true" :isActive="activeLabel === 'Bell'"
-            @toggleActive="toggleActiveLabel" />
-          <NavbarLabel iconName="Settings" :hasLabel="false" :darkMode="true" :isActive="activeLabel === 'Settings'"
-            @toggleActive="toggleActiveLabel" />
-          <NavbarLabel iconName="HelpCircle" :hasLabel="false" :darkMode="true" :isActive="activeLabel === 'HelpCircle'"
-            @toggleActive="toggleActiveLabel" />
+          <NavbarLabel iconName="User" label="Profile" :hasLabel="false" :darkMode="true"
+            :isActive="activeLabel === 'User'" @toggleActive="toggleActiveLabel" />
+          <NavbarLabel iconName="Bell" label="Notifications" :hasLabel="false" :darkMode="true"
+            :isActive="activeLabel === 'Bell'" @toggleActive="toggleActiveLabel" />
+          <NavbarLabel iconName="Settings" label="Settings" :hasLabel="false" :darkMode="true"
+            :isActive="activeLabel === 'Settings'" @toggleActive="toggleActiveLabel" />
+          <NavbarLabel iconName="HelpCircle" label="Help" :hasLabel="false" :darkMode="true"
+            :isActive="activeLabel === 'HelpCircle'" @toggleActive="toggleActiveLabel" />
         </div>
       </div>
     </div>
   </div>
 </template>
-
 
 <style>
 #navbar {
