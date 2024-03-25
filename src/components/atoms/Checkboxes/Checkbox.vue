@@ -18,9 +18,12 @@ const props = defineProps({
 });
 </script>
 
+
+
 <template>
+    <!--  Container: Represents the box that wraps around the custom checkbox and its label text. It holds the entire checkbox component together. -->
     <div>
-        <label :class="{ 'container': true, 'disabled': isDisabled }">
+        <label :class="{ 'container': true, 'disabled': isDisabled }"> 
             <input type="checkbox" :disabled="isDisabled">
             <Check class="checkmark" />
             <span v-if="hasLabel" class="checkbox-label">{{ label }}</span>
