@@ -62,7 +62,9 @@ const navigateToRoute = () => {
             break;
     }
     router.push(route);
-    emit('toggleActive', props.iconName);
+    if (!props.isActive) {
+        emit('toggleActive', props.iconName);
+    }
 };
 </script>
 
