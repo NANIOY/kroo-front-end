@@ -1,8 +1,9 @@
 <script setup>
-import { defineProps, ref, computed, defineEmits } from 'vue';
+import { defineProps, defineEmits } from 'vue';
 import { useRouter } from 'vue-router';
 import { ReportColumns, Calendar, Search, Tools, User, Bookmark, Bell, Settings, HelpCircle, Community, HandCard, Accessibility } from '@iconoir/vue';
 
+// component props
 const props = defineProps({
     label: String,
     iconName: String,
@@ -20,14 +21,15 @@ const props = defineProps({
     }
 });
 
+// component methods
 const router = useRouter();
-
 const iconComponents = {
     ReportColumns, Calendar, Search, Tools, User, Bookmark, Bell, Settings, HelpCircle, Community, HandCard, Accessibility
 };
 
 const emit = defineEmits(['toggleActive']);
 
+// navigate to route based on icon clicked
 const navigateToRoute = () => {
     let route = '';
     switch (props.iconName) {
@@ -62,7 +64,7 @@ const navigateToRoute = () => {
             break;
     }
     router.push(route);
-    if (!props.isActive) {
+    if (!props.isActive) { // only emit if icon is not active
         emit('toggleActive', props.iconName);
     }
 };
@@ -78,6 +80,7 @@ const navigateToRoute = () => {
 </template>
 
 <style scoped>
+/* BASE STYLES */
 .navbarLabel {
     width: 40px;
     height: 40px;
@@ -89,10 +92,6 @@ const navigateToRoute = () => {
     transition: background-color 0.3s, color 0.3s;
 }
 
-.navbarLabel--active {
-    background-color: var(--blurple);
-}
-
 .navbarLabel__iconWrapper {
     padding: 4px 8px 0 8px;
 }
@@ -101,15 +100,20 @@ const navigateToRoute = () => {
     padding-top: 2px;
 }
 
+.navbarLabel__icon {
+    color: var(--white);
+    transition: color 0.3s;
+}
+
+/* ACTIVE STYLES */
+.navbarLabel--active {
+    background-color: var(--blurple);
+}
+
 /* DARK MODE */
 .navbarLabel--dark .navbarLabel__icon,
 .navbarLabel--dark {
     color: var(--white);
-}
-
-.navbarLabel__icon {
-    color: var(--white);
-    transition: color 0.3s;
 }
 
 /* HOVER EFFECT */
