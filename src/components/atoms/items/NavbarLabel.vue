@@ -166,6 +166,6 @@ const logLabel = () => {
 
 .navbarLabel:hover .hoverLabel {
     opacity: 1;
-    pointer-events: auto;
+    pointer-events: none; /* CHANGE TO AUTO IF WE WANT LABEL TO BE CICKABLE/HOVERALBE */
 }
 </style>
