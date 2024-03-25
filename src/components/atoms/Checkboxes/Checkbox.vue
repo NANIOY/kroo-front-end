@@ -1,8 +1,7 @@
 <script setup>
 import { Check } from '@iconoir/vue';
-import { defineProps } from 'vue';
 
-const props = defineProps({
+const props = {
     hasLabel: {
         type: Boolean,
         default: true
@@ -15,7 +14,8 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-});
+};
+
 </script>
 
 
@@ -23,7 +23,7 @@ const props = defineProps({
 <template>
     <!--  Container: Represents the box that wraps around the custom checkbox and its label text. It holds the entire checkbox component together. -->
     <div>
-        <label :class="{ 'container': true, 'disabled': isDisabled }"> 
+        <label :class="{ 'container': true, 'disabled': isDisabled }">
             <input type="checkbox" :disabled="isDisabled">
             <Check class="checkmark" />
             <span v-if="hasLabel" class="checkbox-label">{{ label }}</span>
@@ -32,7 +32,7 @@ const props = defineProps({
 </template>
 
 <style scoped>
-/* Container: the whole div that the checkbox and label are in */   
+/* Container: the whole div that the checkbox and label are in */
 .container {
     display: flex;
     align-items: center;
