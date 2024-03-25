@@ -68,17 +68,10 @@ const navigateToRoute = () => {
         emit('toggleActive', props.iconName);
     }
 };
-
-// variable to control visibility of hover label
-const showHoverLabel = ref(false);
-
-const logLabel = () => {
-    console.log('Label:', props.label);
-};
 </script>
 
 <template>
-    <div class="navbarLabel" :class="{ 'navbarLabel--active': props.isActive }" @click="navigateToRoute" @mouseenter="logLabel()" @mouseleave="logLabel()">
+    <div class="navbarLabel" :class="{ 'navbarLabel--active': props.isActive }" @click="navigateToRoute">
         <div class="navbarLabel__iconWrapper">
             <component :is="iconComponents[iconName]" class="navbarLabel__icon" />
         </div>
