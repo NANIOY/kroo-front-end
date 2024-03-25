@@ -131,7 +131,7 @@ const navigateToRoute = () => {
 .hoverLabel {
     position: absolute;
     top: 50%;
-    left: calc(100% + 4px);
+    left: calc(100% + 6px);
     transform: translateY(-50%);
     background-color: var(--blurple);
     color: var(--white);
@@ -144,6 +144,7 @@ const navigateToRoute = () => {
     opacity: 0;
     transition: 0.2s ease-in-out;
     pointer-events: none;
+
     /* TRIANGLE */
     &:before {
         content: '';
