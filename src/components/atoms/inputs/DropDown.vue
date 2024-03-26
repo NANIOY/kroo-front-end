@@ -6,18 +6,28 @@ const props = defineProps({
 });
 
 const options = ref(['Male', 'Female']);
+const selectedOption = ref('');
+const showDropdown = ref(false);
+
+const selectOption = (option) => {
+  selectedOption.value = option;
+  showDropdown.value = false;
+};
 </script>
 
 <template>
-    <div>
-      <label class="text-reg-normal">{{ label }}</label>
-      <select required  class="text-reg-l">
-        <option value="" disabled selected hidden> {{ label }}</option>
-        <option v-for="option in options" :key="option">{{ option }}</option>
-      </select>
+  <div class="dropdown-container">
+    <label class="text-reg-normal">{{ label }}</label>
+    <div class="custom-dropdown">
+      <input v-model="selectedOption" @focus="showDropdown = true" @blur="showDropdown = false" type="text" class="text-reg-l dropdown-input" placeholder="Placeholder">
+      <div v-if="showDropdown" class="dropdown-content">
+        <div v-for="option in options" :key="option" @click="selectOption(option)">{{ option }}</div>
+      </div>
     </div>
-  </template>
-  
+  </div>
+</template>
+
+
   <style scoped>
   select:invalid {
     color: gray;
@@ -30,6 +40,7 @@ const options = ref(['Male', 'Female']);
 label {
   display: block;
   margin-bottom: 5px;
+  font-size: 16px;
 }
 
 select {
@@ -38,18 +49,11 @@ select {
   padding: 8px;
   border: 2px solid var(--black);
   border-radius: 4px;
+  font-size: 20px;
 }
 
 option {
   color: var(--black);
 }
-
-.text-reg-l {
-  font-size: 20px;
-}
-
-.text-reg-normal{
-    font-size: 16px;
-  }
   </style>
   
