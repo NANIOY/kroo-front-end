@@ -23,8 +23,25 @@ const options = ref(['Male', 'Female']);
     color: gray;
   }
   
-  option {
-    color: black;
-  }
+  .dropdown-container {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+option {
+  color: black;
+}
   </style>
   
