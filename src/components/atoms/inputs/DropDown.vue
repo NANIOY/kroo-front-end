@@ -12,7 +12,7 @@ const options = ref(['Male', 'Female']);
     <div>
       <label>{{ label }}</label>
       <select required>
-        <option value="" disabled selected hidden>Choose {{ label }}...</option>
+        <option value="" disabled selected hidden> {{ label }}</option>
         <option v-for="option in options" :key="option">{{ option }}</option>
       </select>
     </div>
@@ -30,18 +30,20 @@ const options = ref(['Male', 'Female']);
 label {
   display: block;
   margin-bottom: 5px;
-}
-
-select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
   font-size: 16px;
 }
 
+select {
+  width: 536px;
+  height:48px;
+  padding: 8px;
+  border: 2px solid var(--black);
+  border-radius: 4px;
+  font-size: 20px;
+}
+
 option {
-  color: black;
+  color: var(--black);
 }
   </style>
   
