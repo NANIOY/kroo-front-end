@@ -19,7 +19,8 @@ const selectOption = (option) => {
   <div class="dropdown-container">
     <label class="text-reg-normal">{{ label }}</label>
     <div class="custom-dropdown">
-      <input v-model="selectedOption" @focus="showDropdown = true" @blur="showDropdown = false" type="text" class="text-reg-l dropdown-input" placeholder="Placeholder">
+      <input v-model="selectedOption" @focus="showDropdown = true" @blur="showDropdown = false" type="text"
+        class="text-reg-l dropdown-input" placeholder="Placeholder">
       <div v-if="showDropdown" class="dropdown-content">
         <div v-for="option in options" :key="option" @click="selectOption(option)">{{ option }}</div>
       </div>
@@ -28,12 +29,12 @@ const selectOption = (option) => {
 </template>
 
 
-  <style scoped>
-  select:invalid {
-    color: gray;
-  }
-  
-  .dropdown-container {
+<style scoped>
+select:invalid {
+  color: gray;
+}
+
+.dropdown-container {
   margin-bottom: 10px;
 }
 
@@ -47,7 +48,7 @@ const selectOption = (option) => {
   background-repeat: no-repeat;
   background-position: right 15px center;
   background-size: 16px 16px;
-  padding-left:12px;
+  padding-left: 12px;
 }
 
 .dropdown-content div {
@@ -68,7 +69,7 @@ label {
 
 select {
   width: 536px;
-  height:48px;
+  height: 48px;
   padding: 8px;
   border: 2px solid var(--black);
   border-radius: 4px;
@@ -78,7 +79,4 @@ select {
 option {
   color: var(--black);
 }
-
-
-  </style>
-  
+</style>
