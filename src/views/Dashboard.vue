@@ -1,11 +1,10 @@
 <script setup>
-
+  import JobCard from '../components/molecules/dashboard/JobCard.vue';
 </script>
 
 <template>
   <div>
-    <h1>Dashboard</h1>
-    <p>This is the Dashboard</p>
+    <JobCard jobFunction="Software Engineer" city="Berlin" street="Karl-Liebknecht-Straße 5" />
   </div>
 
 </template>
