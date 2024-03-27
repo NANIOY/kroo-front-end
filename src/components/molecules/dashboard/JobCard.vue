@@ -7,17 +7,21 @@ const props = defineProps({
   city: String,
   street: String,
   date: String,
-  time: String
+  time: String,
+  cardType: {
+    type: String,
+    default: 'default'
+  }
 });
 </script>
 
 <template>
-  <div class="jobCard jobCard--default">
+  <div :class="[`jobCard jobCard--${cardType}`]">
     <div class="jobCard__content">
       <div class="jobCard__topSection">
         <div class="jobCard__topSection__labels">
-          <IconLabel :iconName="'Calendar'" :label="date" size="small" />
-          <IconLabel :iconName="'Clock'" :label="time" size="small" />
+          <IconLabel :iconName="'Calendar'" :label="date" size="small" textColor="var(--white)" />
+          <IconLabel :iconName="'Clock'" :label="time" size="small" textColor="var(--white)" />
         </div>
         <TransparentButton class="jobCard__topSection__button no-label" :hasIcon="true" iconName="MoreHoriz" />
       </div>
@@ -33,6 +37,7 @@ const props = defineProps({
 </template>
 
 <style scoped>
+/*  JOB CARD  */
 .jobCard,
 .jobCard__topSection,
 .jobCard__topSection__labels,
@@ -43,10 +48,20 @@ const props = defineProps({
 }
 
 .jobCard {
-  width: 276px;
-  height: 304px;
   border-radius: 4px;
   background-color: var(--neutral-20);
+  height: 304px;
+}
+
+.jobCard--default {
+  width: 276px;
+  color: var(--black);
+}
+
+.jobCard--highlight {
+  width: 552px;
+  background-color: var(--blurple);
+  color: var(--white);
 }
 
 .jobCard__content {
