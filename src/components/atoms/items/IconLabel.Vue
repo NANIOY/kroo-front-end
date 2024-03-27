@@ -49,7 +49,6 @@ const iconSize = {
 .icon-label {
     display: inline-block;
     color: var(--black);
-    background-color: red;
 }
 
 .icon {
