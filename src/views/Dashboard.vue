@@ -4,7 +4,7 @@
 
 <template>
   <div>
-    <JobCard jobFunction="Software Engineer" city="Berlin" street="Karl-Liebknecht-Straße, 5" />
+    <JobCard date="Month 00" time="00:00 - 00:00" jobFunction="Function" city="City" street="Street, Number" />
   </div>
 
 </template>

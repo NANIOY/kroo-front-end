@@ -5,7 +5,9 @@ import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 const props = defineProps({
   jobFunction: String,
   city: String,
-  street: String
+  street: String,
+  date: String,
+  time: String
 });
 </script>
 
@@ -14,8 +16,8 @@ const props = defineProps({
     <div class="jobCard__content">
       <div class="jobCard__topSection">
         <div class="jobCard__topSection__labels">
-          <IconLabel iconName="Calendar" label="Date" size="small" />
-          <IconLabel iconName="Clock" label="Time" size="small" />
+          <IconLabel :iconName="'Calendar'" :label="date" size="small" />
+          <IconLabel :iconName="'Clock'" :label="time" size="small" />
         </div>
         <TransparentButton class="jobCard__topSection__button no-label" :hasIcon="true" iconName="MoreHoriz" />
       </div>
@@ -48,6 +50,9 @@ const props = defineProps({
 }
 
 .jobCard__content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   padding: 24px;
 }
 
@@ -59,14 +64,15 @@ const props = defineProps({
   justify-content: space-between;
 }
 
-.jobCard__topSection__labels,
-.jobCard__bottomSection {
+.jobCard__topSection__labels {
   gap: 12px;
 }
 
-.jobCard__topSection__button {}
-
 /*  BOTTOM SECTION  */
+.jobCard__bottomSection {
+  margin-top: auto;
+  gap: 12px;
+}
 
 .jobCard__bottomSection__function {
   font-family: var(--font-header);
@@ -76,11 +82,11 @@ const props = defineProps({
 
 .jobCard__bottomSection__location {
   gap: 6px;
-
 }
 
 h3,
 h5 {
   margin: 0;
+  font-weight: 100;
 }
 </style>
