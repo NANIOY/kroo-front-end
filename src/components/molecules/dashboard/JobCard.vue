@@ -20,8 +20,8 @@ const props = defineProps({
     <div class="jobCard__content">
       <div class="jobCard__topSection">
         <div class="jobCard__topSection__labels">
-          <IconLabel :iconName="'Calendar'" :label="date" size="small" textColor="var(--white)" />
-          <IconLabel :iconName="'Clock'" :label="time" size="small" textColor="var(--white)" />
+          <IconLabel :iconName="'Calendar'" :label="date" size="small" :textColor="cardType === 'highlight' ? 'var(--white)' : null" />
+          <IconLabel :iconName="'Clock'" :label="time" size="small" :textColor="cardType === 'highlight' ? 'var(--white)' : null" />
         </div>
         <TransparentButton class="jobCard__topSection__button no-label" :hasIcon="true" iconName="MoreHoriz" />
       </div>
