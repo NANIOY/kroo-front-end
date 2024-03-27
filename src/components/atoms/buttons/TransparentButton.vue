@@ -14,7 +14,11 @@ export default {
     label: String,
     iconName: {
       type: String,
-      default: '' // Default empty string to prevent errors
+      default: ''
+    },
+    color: {
+      type: String,
+      default: 'var(--black)'
     }
   },
   components: {
@@ -57,8 +61,7 @@ export default {
   <button :class="[
     'transparentButton',
     { 'no-label': !hasLabel }
-  ]">
-    <!-- Dynamically render the icon based on the iconName prop -->
+  ]" :style="{ color: color }">
     <component :is="iconName" v-if="hasIcon" />
     <span v-if="hasLabel && label" class="transparentButton__label">{{ label }}</span>
   </button>
