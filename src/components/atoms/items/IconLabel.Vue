@@ -9,6 +9,10 @@ const props = defineProps({
         type: String,
         default: 'default',
         validator: (value) => ['small', 'default', 'large'].includes(value)
+    },
+    textColor: {
+        type: String,
+        default: 'var(--black)'
     }
 });
 
@@ -31,17 +35,15 @@ const iconSize = {
 
 <template>
     <IconoirProvider :icon-props="{
-        'color': 'var(--black)',
+        'color': textColor,
         'width': iconSize[size],
         'height': iconSize[size],
         'stroke-width': '2'
     }">
-
         <div :class="['icon-label', size]">
             <component :is="iconComponents[iconName]" class="icon" />
-            <span class="label">{{ label }}</span>
+            <span :style="{ color: textColor }" class="label">{{ label }}</span>
         </div>
-
     </IconoirProvider>
 </template>
 
