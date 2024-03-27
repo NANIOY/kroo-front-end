@@ -38,7 +38,7 @@ const selectOption = (option) => {
 }
 
 .dropdown-input {
-  width: 536px;
+  width: 392px;
   height: 48px;
   border: 2px solid var(--black);
   border-radius: 4px;
@@ -47,6 +47,17 @@ const selectOption = (option) => {
   background-repeat: no-repeat;
   background-position: right 15px center;
   background-size: 16px 16px;
+  padding-left:12px;
+}
+
+.dropdown-content div {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdown-input:focus {
+  border-color: var(--blurple-50);
+  outline: none;
 }
 
 label {
@@ -67,5 +78,7 @@ select {
 option {
   color: var(--black);
 }
+
+
   </style>
   
