@@ -54,6 +54,7 @@ const props = defineProps({
   border-radius: 4px;
   background-color: var(--neutral-20);
   height: 304px;
+  transition: 0.3s ease-in-out;
 }
 
 .jobCard--default {
@@ -106,5 +107,14 @@ h3,
 h5 {
   margin: 0;
   font-weight: 100;
+}
+
+/*  PSEUDO CLASSES  */
+.jobCard--default:hover {
+  background-color: var(--neutral-30);
+}
+
+.jobCard--highlight:hover {
+  background-color: var(--blurple-30);
 }
 </style>
