@@ -10,73 +10,77 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="jobCard">
-    <div class="topSection">
-      <div class="frame">
-        <div class="iconLabelWrapper">
-          <IconLabel icon="Icon1" label="Label1" />
-          <IconLabel icon="Icon2" label="Label2" />
+  <div class="jobCard jobCard--default">
+    <div class="jobCard__content">
+      <div class="jobCard__topSection">
+        <div class="jobCard__topSection__labels">
+          <IconLabel iconName="Calendar" label="Date" size="small" />
+          <IconLabel iconName="Clock" label="Time" size="small" />
         </div>
-        <TransparentButton
-          class="button--tertiary--transparent, no-label" :hasIcon="true"
-          iconName="MoreHoriz" />
+        <TransparentButton class="jobCard__topSection__button no-label" :hasIcon="true" iconName="MoreHoriz" />
       </div>
-    </div>
-    <div class="bottomSection">
-      <div class="jobDetails">
-        <div class="jobFunction">{{ jobFunction }}</div>
-        <div class="jobLocation">
-          <span>{{ city }}</span>, <span>{{ street }}</span>
+      <div class="jobCard__bottomSection">
+        <div class="jobCard__bottomSection__function">{{ jobFunction }}</div>
+        <div class="jobCard__bottomSection__location">
+          <h3 class="jobCard__bottomSection__location__city">{{ city }}</h3>
+          <h5 class="jobCard__bottomSection__location__street">{{ street }}</h5>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-
 <style scoped>
+.jobCard,
+.jobCard__topSection,
+.jobCard__topSection__labels,
+.jobCard__bottomSection,
+.jobCard__bottomSection__location {
+  display: flex;
+  flex-direction: column;
+}
+
 .jobCard {
   width: 276px;
   height: 304px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
+  border-radius: 4px;
+  background-color: var(--neutral-20);
+}
+
+.jobCard__content {
+  padding: 24px;
+}
+
+/*  TOP SECTION  */
+.jobCard__topSection {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: start;
+  justify-content: space-between;
 }
 
-.topSection {
-  padding: 20px;
-  border-bottom: 1px solid #f0f0f0;
+.jobCard__topSection__labels,
+.jobCard__bottomSection {
+  gap: 12px;
 }
 
-.frame {
-  display: flex;
-  align-items: center;
-}
+.jobCard__topSection__button {}
 
-.iconLabelWrapper {
-  margin-right: 10px;
-}
+/*  BOTTOM SECTION  */
 
-.bottomSection {
-  flex: 1;
-  padding: 20px;
-}
-
-.jobDetails {
-  display: flex;
-  flex-direction: column;
-}
-
-.jobFunction {
-  font-weight: bold;
+.jobCard__bottomSection__function {
+  font-family: var(--font-header);
   font-size: 16px;
-  margin-bottom: 8px;
+  text-transform: uppercase;
 }
 
-.jobLocation {
-  font-size: 14px;
-  color: #666666;
+.jobCard__bottomSection__location {
+  gap: 6px;
+
+}
+
+h3,
+h5 {
+  margin: 0;
 }
 </style>
