@@ -42,7 +42,7 @@ const iconSize = {
     }">
         <div :class="['icon-label', size]">
             <component :is="iconComponents[iconName]" class="icon" />
-            <span :style="{ color: textColor }" class="label">{{ label }}</span>
+            <span :style="{ color: textColor }" class="label text-reg-s">{{ label }}</span>
         </div>
     </IconoirProvider>
 </template>
@@ -61,6 +61,7 @@ const iconSize = {
 .label {
     display: inline-block;
     vertical-align: middle;
+    line-height: 100%;
 }
 
 .small {
