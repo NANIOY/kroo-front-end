@@ -3,9 +3,13 @@ import { NavArrowDown } from '@iconoir/vue';
 
 export default {
   props: {
-    placeholder: {
+    label: {
       type: String,
       default: 'Select an option'
+    },
+    placeholder: {
+      type: String,
+      default: ''
     },
     options: {
       type: Array,
@@ -16,7 +20,7 @@ export default {
     return {
       isOpen: false,
       selectedOption: '',
-      inputId: 'custom-select-' + Math.random().toString(36).substring(2, 15) // generate unique ID for input
+      inputId: 'container__dropdown__box-' + Math.random().toString(36).substring(2, 15)
     };
   },
   components: {
@@ -35,29 +39,39 @@ export default {
 </script>
 
 <template>
-  <label class="text-reg-" :for="inputId">{{ placeholder }}</label>
-  <div class="select">
-    <div class="custom-select" @click="toggleDropdown" :class="{ 'open': isOpen }">
-      <span>{{ selectedOption || placeholder }}</span>
-      <NavArrowDown />
+  <div class="container">
+    <label class="text-reg-normal" :for="inputId">{{ label }}</label>
+    <div class="container__dropdown text-reg-normal">
+      <div class="container__dropdown__box" @click="toggleDropdown" :class="{ 'open': isOpen }">
+        <span :class="{ 'text-disabled': !selectedOption }">{{ selectedOption || placeholder }}</span>
+        <NavArrowDown />
+      </div>
+      <ul v-if="isOpen" class="container__dropdown__items" @click.stop>
+        <li v-for="option in options" :key="option" @click="selectOption(option)">
+          {{ option }}
+        </li>
+      </ul>
     </div>
-    <ul v-if="isOpen" class="dropdown" @click.stop>
-      <li v-for="option in options" :key="option" @click="selectOption(option)">
-        {{ option }}
-      </li>
-    </ul>
   </div>
 </template>
 
 <style scoped>
-.select {
+.container {
+  display: inline-block;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
+.container__dropdown {
   position: relative;
   width: 392px;
-  font-family: var(--font-body);
   color: var(--black);
 }
 
-.custom-select {
+.container__dropdown__box {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -73,11 +87,12 @@ export default {
   box-sizing: border-box;
 }
 
-.custom-select:hover, .custom-select.open {
+.container__dropdown__box:hover,
+.container__dropdown__box.open {
   border-color: var(--blurple);
 }
 
-.dropdown {
+.container__dropdown__items {
   position: absolute;
   display: none;
   width: 100%;
@@ -92,12 +107,12 @@ export default {
   animation: dropdownAnimation 0.3s ease-out forwards;
 }
 
-.custom-select.open+.dropdown {
+.container__dropdown__box.open+.container__dropdown__items {
   display: block;
   animation: dropdownAnimation 0.3s ease-out forwards;
 }
 
-.dropdown li {
+.container__dropdown__items li {
   display: flex;
   align-items: center;
   height: 40px;
@@ -106,7 +121,7 @@ export default {
   transition: 0.3s;
 }
 
-.dropdown li:hover {
+.container__dropdown__items li:hover {
   background-color: var(--neutral-20);
 }
 
