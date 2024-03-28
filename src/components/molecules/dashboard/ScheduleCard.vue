@@ -8,8 +8,7 @@ const props = defineProps({
     label: String,
     type: {
         type: String,
-        default: 'default',
-        validator: (value) => ['default', 'personal'].includes(value)
+        default: 'default'
     }
 });
 </script>
