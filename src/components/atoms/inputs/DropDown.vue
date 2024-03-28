@@ -1,6 +1,12 @@
+<script>
+export default {
+  name: 'StandardSelect'
+}
+</script>
+
 <template>
   <div style="margin-left: 20%;">
-    <label class="text-reg-normal" for="standard-select">Standard Select</label>
+    <label class="text-reg-" for="standard-select">Standard Select</label>
     <div class="select">
       <select id="standard-select">
         <option value="Option 1">Option 1</option>
@@ -15,15 +21,27 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'StandardSelect'
-}
-</script>
-
 <style scoped>
 
-select {
+.select {
+  font-family: var(--font-body);
+  color: var(--black);
+}
+
+#standard-select {
+  width: 392px;
+  height: 48px;
+  border: 2px solid var(--black);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#standard-select:hover {
+  border-color: var(--blurple);
+}
+
+
+/* select {
   appearance: none;
   background-color: transparent;
   border: none;
@@ -81,5 +99,5 @@ select:focus + .focus {
   bottom: -1px;
   border: 2px solid var(--select-focus);
   border-radius: inherit;
-}
+} */
 </style>
