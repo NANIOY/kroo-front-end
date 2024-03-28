@@ -3,8 +3,20 @@ import NavBar from './components/organisms/navigation/NavBar.vue';
 </script>
 
 <template>
-  <router-view style="margin-left: 144px;"></router-view>
   <NavBar />
+  <div class="router">
+    <div class="content">
+      <router-view></router-view>
+    </div>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.router {
+  margin-left: 96px;
+}
+
+.content {
+  margin-left: 48px;
+}
+</style>
