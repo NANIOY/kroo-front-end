@@ -69,6 +69,7 @@ label {
   position: relative;
   width: 392px;
   color: var(--black);
+  user-select: none;
 }
 
 .container__dropdown__box {
