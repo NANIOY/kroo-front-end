@@ -104,12 +104,11 @@ label {
   margin-top: 0;
   max-height: 0;
   overflow: hidden;
-  animation: dropdownAnimation 0.3s ease-out forwards;
 }
 
 .container__dropdown__box.open+.container__dropdown__items {
   display: block;
-  animation: dropdownAnimation 0.3s ease-out forwards;
+  animation: dropdownAnimation 0.2s forwards;
 }
 
 .container__dropdown__items li {
