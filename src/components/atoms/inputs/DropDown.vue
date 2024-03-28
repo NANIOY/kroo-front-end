@@ -1,43 +1,105 @@
+<script>
+import { NavArrowDown } from '@iconoir/vue';
+
+export default {
+  props: {
+    placeholder: {
+      type: String,
+      default: 'Select an option'
+    },
+    options: {
+      type: Array,
+      default: () => []
+    }
+  },
+  data() {
+    return {
+      isOpen: false,
+      selectedOption: '',
+      inputId: 'custom-select-' + Math.random().toString(36).substring(2, 15) // Generate unique ID for the input
+    };
+  },
+  components: {
+    NavArrowDown
+  },
+  methods: {
+    toggleDropdown() {
+      console.log("Dropdown toggled");
+      this.isOpen = !this.isOpen;
+    },
+    selectOption(option) {
+      this.selectedOption = option;
+      this.isOpen = false;
+    }
+  }
+};
+</script>
+
 <template>
-  <div>
-    <label class="text-reg-" for="standard-select">Standard Select</label>
-    <div class="select">
-      <select id="standard-select" class="custom-select">
-        <option value="Option 1">Option 1</option>
-        <option value="Option 2">Option 2</option>
-        <option value="Option 3">Option 3</option>
-        <option value="Option 4">Option 4</option>
-        <option value="Option 5">Option 5</option>
-        <option value="Option length">Option that has too long of a value to fit</option>
-      </select>
-      <span class="focus"></span>
+  <label class="text-reg-" :for="inputId">{{ placeholder }}</label>
+  <div class="select">
+    <div class="custom-select" @click="toggleDropdown" :class="{ 'open': isOpen }">
+      <span>{{ selectedOption || placeholder }}</span>
+      <NavArrowDown />
     </div>
+    <ul v-if="isOpen" class="dropdown" @click.stop>
+      <li v-for="option in options" :key="option" @click="selectOption(option)">
+        {{ option }}
+      </li>
+    </ul>
   </div>
 </template>
 
 <style scoped>
 .select {
+  position: relative;
+  width: 392px;
   font-family: var(--font-body);
   color: var(--black);
 }
 
 .custom-select {
-  width: 392px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 392px;
   height: 48px;
+  padding-left: 12px;
+  cursor: pointer;
+  background-color: var(--white);
   border: 2px solid var(--black);
   border-radius: 4px;
-  cursor: pointer;
-  padding-left: 12px;
-  background-color: var(--your-custom-background-color); /* Customize background color */
+  transition: 0.3s;
+  box-sizing: border-box;
 }
 
 .custom-select:hover {
   border-color: var(--blurple);
 }
 
-.custom-select option {
-  color: var(--blurple); /* Customize option text color */
-  padding: 10px; /* Customize option padding */
-  background-color: var(--your-custom-option-background-color); /* Customize option background color */
+.dropdown {
+  position: absolute;
+  display: none;
+  width: 100%;
+  background-color: var(--white);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  list-style-type: none;
+  padding: 4px 0 0 0;
+  margin-top: 0;
+}
+
+.dropdown li {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding-left: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.custom-select.open+.dropdown {
+  display: block;
 }
 </style>
