@@ -44,7 +44,7 @@ export default {
     <div class="container__dropdown text-reg-normal">
       <div class="container__dropdown__box" @click="toggleDropdown" :class="{ 'open': isOpen }">
         <span :class="{ 'text-disabled': !selectedOption }">{{ selectedOption || placeholder }}</span>
-        <NavArrowDown :class="{ 'rotate': isOpen }" />
+        <NavArrowDown :class="{ 'container__dropdown__box__icon': isOpen }" />
       </div>
       <ul v-if="isOpen" class="container__dropdown__items" @click.stop>
         <li v-for="option in options" :key="option" @click="selectOption(option)">
@@ -125,12 +125,13 @@ label {
   background-color: var(--neutral-20);
 }
 
-.rotate {
+.container__dropdown__box svg {
+  margin-right: 12px !important;
   transition: transform 0.3s ease-in-out;
   transform-origin: center;
 }
 
-.container__dropdown__box.open .rotate {
+.container__dropdown__box__icon {
   transform: rotate(180deg);
 }
 
