@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-left: 20%;">
+  <div>
     <label class="text-reg-" for="standard-select">Standard Select</label>
     <div class="select">
       <select id="standard-select" class="custom-select">
