@@ -1,14 +1,8 @@
-<script>
-export default {
-  name: 'StandardSelect'
-}
-</script>
-
 <template>
   <div style="margin-left: 20%;">
     <label class="text-reg-" for="standard-select">Standard Select</label>
     <div class="select">
-      <select id="standard-select">
+      <select id="standard-select" class="custom-select">
         <option value="Option 1">Option 1</option>
         <option value="Option 2">Option 2</option>
         <option value="Option 3">Option 3</option>
@@ -22,82 +16,28 @@ export default {
 </template>
 
 <style scoped>
-
 .select {
   font-family: var(--font-body);
   color: var(--black);
 }
 
-#standard-select {
+.custom-select {
   width: 392px;
   height: 48px;
   border: 2px solid var(--black);
   border-radius: 4px;
   cursor: pointer;
+  padding-left: 12px;
+  background-color: var(--your-custom-background-color); /* Customize background color */
 }
 
-#standard-select:hover {
+.custom-select:hover {
   border-color: var(--blurple);
 }
 
-
-/* select {
-  appearance: none;
-  background-color: transparent;
-  border: none;
-  padding: 0 1em 0 0;
-  margin: 0;
-  width: 100%;
-  font-family: inherit;
-  font-size: inherit;
-  cursor: inherit;
-  line-height: inherit;
-  z-index: 1;
-
-  &::-ms-expand {
-    display: none;
-  }
-
-  outline: none;
+.custom-select option {
+  color: var(--blurple); /* Customize option text color */
+  padding: 10px; /* Customize option padding */
+  background-color: var(--your-custom-option-background-color); /* Customize option background color */
 }
-
-.select {
-  display: grid;
-  grid-template-areas: "select";
-  align-items: center;
-  position: relative;
-  select,
-  &::after {
-    grid-area: select;
-  }
-  min-width: 15ch;
-  max-width: 30ch;
-  border: 1px solid var(--select-border);
-  border-radius: 0.25em;
-  padding: 0.25em 0.5em;
-  font-size: 1.25rem;
-  cursor: pointer;
-  line-height: 1.1;
-  background-color: #fff;
-  background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
-
-  &:not(.select--multiple)::after {
-    content: "";
-    justify-self: end;
-    width: 0.8em;
-    height: 0.5em;
-    background-color: var(--select-arrow);
-    clip-path: polygon(100% 0%, 0 0%, 50% 100%);
-  }
-}
-
-select:focus + .focus {
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  right: -1px;
-  bottom: -1px;
-  border: 2px solid var(--select-focus);
-  border-radius: inherit;
-} */
 </style>
