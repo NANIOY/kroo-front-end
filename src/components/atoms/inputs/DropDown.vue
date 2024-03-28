@@ -1,98 +1,85 @@
-<script setup>
-import { ref, defineProps } from 'vue';
-
-const props = defineProps({
-  label: String,
-});
-
-const options = ref(['Male', 'Female']);
-const selectedOption = ref('');
-const showDropdown = ref(false);
-
-const selectOption = (option) => {
-  selectedOption.value = option;
-  showDropdown.value = false;
-};
-</script>
-
 <template>
-  <div class="dropdown-container">
-    <label class="text-reg-normal">{{ label }}</label>
-    <div class="custom-dropdown">
-      <select v-model="selectedOption" @change="selectOption(selectedOption)" class="text-reg-l dropdown-select"
-        required>
-        <option value="" disabled selected hidden>Placeholder</option>
-        <option v-for="option in options" :key="option" :value="option">{{ option }}</option>
+  <div style="margin-left: 20%;">
+    <label class="text-reg-normal" for="standard-select">Standard Select</label>
+    <div class="select">
+      <select id="standard-select">
+        <option value="Option 1">Option 1</option>
+        <option value="Option 2">Option 2</option>
+        <option value="Option 3">Option 3</option>
+        <option value="Option 4">Option 4</option>
+        <option value="Option 5">Option 5</option>
+        <option value="Option length">Option that has too long of a value to fit</option>
       </select>
+      <span class="focus"></span>
     </div>
   </div>
 </template>
 
+<script>
+export default {
+  name: 'StandardSelect'
+}
+</script>
 
 <style scoped>
-select:invalid {
-  color: gray;
-}
-
-.custom-dropdown select {
-  font-family: var(--font-body);
-}
 
 select {
-  width: 392px;
-  height: 48px;
-  padding: 8px;
-  border: 2px solid var(--black);
-  border-radius: 4px;
-  font-size: 20px;
-}
-select option {
-  background-color: var(--white); /* Background color of options */
-  color: black; /* Text color of options */
-  padding: 8px 16px; /* Padding around text in options */
-  font-size: 16px; /* Font size of options */
-}
-
-.custom-dropdown {
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  padding: 0 1em 0 0;
+  margin: 0;
   width: 100%;
-  display: inline-block;
-  border-radius: 4px;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+  z-index: 1;
+
+  &::-ms-expand {
+    display: none;
+  }
+
+  outline: none;
 }
 
-.dropdown-container {
-  margin-bottom: 10px;
-  width: 392px;
+.select {
+  display: grid;
+  grid-template-areas: "select";
+  align-items: center;
+  position: relative;
+  select,
+  &::after {
+    grid-area: select;
+  }
+  min-width: 15ch;
+  max-width: 30ch;
+  border: 1px solid var(--select-border);
+  border-radius: 0.25em;
+  padding: 0.25em 0.5em;
+  font-size: 1.25rem;
+  cursor: pointer;
+  line-height: 1.1;
+  background-color: #fff;
+  background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+
+  &:not(.select--multiple)::after {
+    content: "";
+    justify-self: end;
+    width: 0.8em;
+    height: 0.5em;
+    background-color: var(--select-arrow);
+    clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+  }
 }
 
-.dropdown-content {
-  width: 100%;
-  border: 2px solid var(--black);
-  border-radius: 4px;
-  margin-top: 4px;
+select:focus + .focus {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  border: 2px solid var(--select-focus);
+  border-radius: inherit;
 }
-
-.dropdown-option {
-  padding-left: 16px;
-  padding-right: 16px;
-  height: 40px;
-  line-height: 40px;
-
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 16px;
-}
-
-
-option {
-  color: var(--black);
-  
-}
-
-.text-reg-l.dropdown-select:hover {
-  border-color: var(--blurple);
-}
-
 </style>
