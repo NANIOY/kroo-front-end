@@ -91,7 +91,6 @@ export default {
   margin-bottom: 16px;
   border-bottom: 1px solid var(--black);
   margin: 32px 56px 32px 0px;
-  /* width: 1712px; */
 }
 
 #navbarTop_left {
