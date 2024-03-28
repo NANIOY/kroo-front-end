@@ -33,13 +33,24 @@ export default {
     selectOption(option) {
       this.selectedOption = option;
       this.isOpen = false;
+    },
+    closeDropdownOnClickOutside(event) {
+      if (!this.$refs.dropdownContainer.contains(event.target)) {
+        this.isOpen = false;
+      }
     }
+  },
+  mounted() {
+    document.addEventListener('click', this.closeDropdownOnClickOutside);
+  },
+  beforeDestroy() {
+    document.removeEventListener('click', this.closeDropdownOnClickOutside);
   }
 };
 </script>
 
 <template>
-  <div class="container">
+  <div class="container" ref="dropdownContainer">
     <label class="text-reg-normal" :for="inputId">{{ label }}</label>
     <div class="container__dropdown text-reg-normal">
       <div class="container__dropdown__box" @click="toggleDropdown" :class="{ 'open': isOpen }">
