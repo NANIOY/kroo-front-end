@@ -19,11 +19,10 @@ const selectOption = (option) => {
   <div class="dropdown-container">
     <label class="text-reg-normal">{{ label }}</label>
     <div class="custom-dropdown">
-      <input v-model="selectedOption" @focus="showDropdown = true" @blur="showDropdown = false" type="text"
-        class="text-reg-l dropdown-input" placeholder="Placeholder">
-      <div v-if="showDropdown" class="dropdown-content">
-        <div v-for="option in options" :key="option" @click="selectOption(option)">{{ option }}</div>
-      </div>
+      <select v-model="selectedOption" @change="selectOption(selectedOption)" class="text-reg-l dropdown-select" required>
+        <option value="" disabled selected hidden>Placeholder</option>
+        <option v-for="option in options" :key="option" :value="option">{{ option }}</option>
+      </select>
     </div>
   </div>
 </template>
@@ -44,19 +43,6 @@ select:invalid {
   width: 392px;
 }
 
-.dropdown-input {
-  width: 100%;
-  height: 48px;
-  border: 2px solid var(--black);
-  border-radius: 4px;
-  /* arrow down inside the input field */
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
-  background-repeat: no-repeat;
-  background-position: right 15px center;
-  background-size: 16px 16px;
-  padding-left: 12px;
-}
-
 .dropdown-content {
   width: 100%;
   border: 2px solid var(--black); 
@@ -69,11 +55,6 @@ select:invalid {
   padding-right: 16px;
   height: 40px;
   line-height: 40px;
-}
-
-.dropdown-input:focus {
-  border-color: var(--blurple-50);
-  outline: none;
 }
 
 label {
