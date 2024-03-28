@@ -16,7 +16,7 @@ export default {
     return {
       isOpen: false,
       selectedOption: '',
-      inputId: 'custom-select-' + Math.random().toString(36).substring(2, 15) // Generate unique ID for the input
+      inputId: 'custom-select-' + Math.random().toString(36).substring(2, 15) // generate unique ID for input
     };
   },
   components: {
@@ -24,7 +24,6 @@ export default {
   },
   methods: {
     toggleDropdown() {
-      console.log("Dropdown toggled");
       this.isOpen = !this.isOpen;
     },
     selectOption(option) {
@@ -70,11 +69,11 @@ export default {
   background-color: var(--white);
   border: 2px solid var(--black);
   border-radius: 4px;
-  transition: 0.3s;
+  transition: border-color 0.3s;
   box-sizing: border-box;
 }
 
-.custom-select:hover {
+.custom-select:hover, .custom-select.open {
   border-color: var(--blurple);
 }
 
@@ -88,6 +87,14 @@ export default {
   list-style-type: none;
   padding: 4px 0 0 0;
   margin-top: 0;
+  max-height: 0;
+  overflow: hidden;
+  animation: dropdownAnimation 0.3s ease-out forwards;
+}
+
+.custom-select.open+.dropdown {
+  display: block;
+  animation: dropdownAnimation 0.3s ease-out forwards;
 }
 
 .dropdown li {
@@ -99,7 +106,17 @@ export default {
   transition: 0.3s;
 }
 
-.custom-select.open+.dropdown {
-  display: block;
+.dropdown li:hover {
+  background-color: var(--neutral-20);
+}
+
+@keyframes dropdownAnimation {
+  from {
+    max-height: 0;
+  }
+
+  to {
+    max-height: 200px;
+  }
 }
 </style>
