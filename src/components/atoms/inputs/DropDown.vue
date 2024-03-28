@@ -34,12 +34,18 @@ select:invalid {
   color: gray;
 }
 
+.custom-dropdown{
+  width:100%;
+  display: inline-block;
+}
+
 .dropdown-container {
   margin-bottom: 10px;
+  width: 392px;
 }
 
 .dropdown-input {
-  width: 392px;
+  width: 100%;
   height: 48px;
   border: 2px solid var(--black);
   border-radius: 4px;
@@ -51,9 +57,18 @@ select:invalid {
   padding-left: 12px;
 }
 
-.dropdown-content div {
-  padding: 8px;
-  cursor: pointer;
+.dropdown-content {
+  width: 100%;
+  border: 2px solid var(--black); 
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.dropdown-option {
+  padding-left: 16px;
+  padding-right: 16px;
+  height: 40px;
+  line-height: 40px;
 }
 
 .dropdown-input:focus {
