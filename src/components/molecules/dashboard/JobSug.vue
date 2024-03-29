@@ -12,43 +12,43 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="job-suggestion">
-        <div class="image-title">
-            <img :src="image" class="job-image" alt="Job Image" width="56" height="56">
-            <div class="title">{{ title }}</div>
-            <TransparentButton class="button--primary--transparent no-label" :hasIcon="true" iconName="MoreHoriz"
-                color="green" />
+    <div class="jobSug">
+        <div class="jobSug__top">
+            <img :src="image" class="jobSug__top__img" alt="Business logo" width="56" height="56">
+            <div class="jobSug__top__title">{{ title }}</div>
+            <TransparentButton class="jobSug__top__button no-label" :hasIcon="true" iconName="Bookmark"
+                color="var(--blurple)" />
         </div>
-        <div class="details">
+        <div class="jobSug__bot">
             <IconLabel :iconName="'MapPin'" :label="location" size="small" />
-            <span class="separator">|</span>
+            <span class="jobSug__bot__sep">|</span>
             <IconLabel :iconName="'Calendar'" :label="date" size="small" />
-            <span class="separator">|</span>
+            <span class="jobSug__bot__sep">|</span>
             <IconLabel :iconName="'Clock'" :label="time" size="small" />
         </div>
     </div>
 </template>
 
 <style scoped>
-.job-suggestion {
+.jobSug {
     width: 564px;
     height: 160px;
     background-color: var(--neutral-20);
     padding: 16px;
 }
 
-.image-title {
+.jobSug__top {
     display: flex;
     align-items: center;
 }
 
-.job-image {
+.jobSug__top__img {
     width: 56px;
     height: 56px;
     margin-right: 16px;
 }
 
-.title {
+.jobSug__top__title {
     max-width: 388px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -59,13 +59,13 @@ const props = defineProps({
     margin-left: auto;
 }
 
-.details {
+.jobSug__bot {
     display: flex;
     align-items: center;
     margin-top: 8px;
 }
 
-.separator {
+.jobSug__bot__sep {
     margin: 0 8px;
 }
 </style>
