@@ -16,7 +16,7 @@ const props = defineProps({
     <div class="jobSug">
         <div class="jobSug__top">
             <img :src="image" class="jobSug__top__img" alt="Business logo" width="56" height="56">
-            <div class="jobSug__top__title">{{ title }}</div>
+            <h4 class="jobSug__top__title">{{ title }}</h4>
             <IconoirProvider :icon-props="{
                 'stroke-width': '2'
             }">
@@ -26,9 +26,9 @@ const props = defineProps({
         </div>
         <div class="jobSug__bot">
             <IconLabel :iconName="'MapPin'" :label="location" size="small" />
-            <span class="jobSug__bot__sep">|</span>
+            <span class="jobSug__bot__sep text-secondary text-reg-l">|</span>
             <IconLabel :iconName="'Calendar'" :label="date" size="small" />
-            <span class="jobSug__bot__sep">|</span>
+            <span class="jobSug__bot__sep text-secondary text-reg-l">|</span>
             <IconLabel :iconName="'Clock'" :label="time" size="small" />
         </div>
     </div>
@@ -36,25 +36,34 @@ const props = defineProps({
 
 <style scoped>
 .jobSug {
-    width: 564px;
-    height: 160px;
+    width: calc(564px - 48px);
+    height: calc(160px - 64px);
     background-color: var(--neutral-20);
-    padding: 16px;
+    padding: 32px 24px;
+    border-radius: 4px;
+    color: var(--black);
+    display: flex;
+    flex-direction: column;
 }
 
 .jobSug__top {
     display: flex;
     align-items: center;
+    gap: 16px;
 }
 
 .jobSug__top__img {
     width: 56px;
     height: 56px;
-    margin-right: 16px;
+    border-radius: 4px;
 }
 
 .jobSug__top__title {
     max-width: 388px;
+    height: 56px;
+    margin: 0;
+    font-weight: 100;
+    line-height: 58px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -68,10 +77,11 @@ const props = defineProps({
 .jobSug__bot {
     display: flex;
     align-items: center;
-    margin-top: 8px;
+    margin-top: auto;
 }
 
 .jobSug__bot__sep {
-    margin: 0 8px;
+    margin: 0 12px;
+    opacity: 50%;
 }
 </style>
