@@ -1,20 +1,47 @@
 <script setup>
+import { ref } from 'vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 
-const currentDate = new Date();
-const options = { month: 'long', year: 'numeric' };
-const monthYear = currentDate.toLocaleDateString('en-GB', options);
-const formattedDate = `${monthYear.substr(0, monthYear.lastIndexOf(' '))}, ${monthYear.substr(monthYear.lastIndexOf(' ') + 1)}`;
+const currentDate = ref(new Date());
 
-const weekDays = [
-    { abbr: 'Mo', number: currentDate.getDate() },
-    { abbr: 'Tu', number: new Date(currentDate.getTime() + 86400000).getDate() },
-    { abbr: 'We', number: new Date(currentDate.getTime() + 2 * 86400000).getDate() },
-    { abbr: 'Th', number: new Date(currentDate.getTime() + 3 * 86400000).getDate() },
-    { abbr: 'Fr', number: new Date(currentDate.getTime() + 4 * 86400000).getDate() },
-    { abbr: 'Sa', number: new Date(currentDate.getTime() + 5 * 86400000).getDate() },
-    { abbr: 'Su', number: new Date(currentDate.getTime() + 6 * 86400000).getDate() }
-];
+const options = { month: 'long', year: 'numeric' };
+const formattedDate = ref(getFormattedDate(currentDate.value));
+const weekDays = ref(getWeekDays(currentDate.value));
+
+function getFormattedDate(date) {
+    const monthYear = date.toLocaleDateString('en-GB', options);
+    return `${monthYear.substr(0, monthYear.lastIndexOf(' '))}, ${monthYear.substr(monthYear.lastIndexOf(' ') + 1)}`;
+}
+
+function getWeekDays(date) {
+    const days = [];
+    const firstDayOfWeek = date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1); // get first day of week
+    const monday = new Date(date.setDate(firstDayOfWeek)); // set start of week to monday
+    for (let i = 0; i < 7; i++) {
+        const day = new Date(monday.getTime() + i * 86400000); // 86400000 ms = 1 day
+        const abbr = day.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2); // get first 2 letters of weekday
+        days.push({ abbr: abbr, number: day.getDate() });
+    }
+    return days;
+}
+
+// go to next week
+function nextWeek() {
+    currentDate.value.setDate(currentDate.value.getDate() + 7);
+    updateWeek();
+}
+
+// go to previous week
+function previousWeek() {
+    currentDate.value.setDate(currentDate.value.getDate() - 7);
+    updateWeek();
+}
+
+// update week
+function updateWeek() {
+    formattedDate.value = getFormattedDate(currentDate.value);
+    weekDays.value = getWeekDays(currentDate.value);
+}
 </script>
 
 <template>
