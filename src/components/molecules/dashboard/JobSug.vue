@@ -35,6 +35,7 @@ const props = defineProps({
 </template>
 
 <style scoped>
+/* GENERAL */
 .jobSug {
     width: calc(564px - 48px);
     height: calc(160px - 64px);
@@ -44,8 +45,15 @@ const props = defineProps({
     color: var(--black);
     display: flex;
     flex-direction: column;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
+.jobSug:hover {
+    filter: brightness(92%);
+}
+
+/* TOP */
 .jobSug__top {
     display: flex;
     align-items: center;
@@ -72,8 +80,10 @@ const props = defineProps({
 .jobSug__top__save {
     margin-left: auto;
     width: 32px !important;
+    height: 32px !important;
 }
 
+/* BOTTOM */
 .jobSug__bot {
     display: flex;
     align-items: center;
