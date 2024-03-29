@@ -1,17 +1,22 @@
 <script setup>
-  import { useRoute } from 'vue-router';
-  import NavBar from './components/organisms/navigation/NavBar.vue';
-  import TopNav from './components/organisms/navigation/topNav/topNav.vue';
+import { ref, watchEffect } from 'vue';
+import { useRoute } from 'vue-router';
+import NavBar from './components/organisms/navigation/NavBar.vue';
+import TopNav from './components/organisms/navigation/topNav/topNav.vue';
 
-  const route = useRoute();
-  const isDashboardRoute = route.path === '/dashboard';
+const route = useRoute();
+const isDashboardRoute = ref(route.path === '/dashboard');
+
+watchEffect(() => {
+  isDashboardRoute.value = route.path === '/dashboard';
+});
 </script>
 
 <template>
   <NavBar />
   <div class="router">
     <div class="content">
-      <TopNav v-if="!isDashboardRoute" />
+      <TopNav v-if="!isDashboardRoute || $route.path !== '/dashboard'" />
       <router-view></router-view>
     </div>
   </div>
