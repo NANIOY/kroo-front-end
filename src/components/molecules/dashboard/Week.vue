@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 
 const currentDate = ref(new Date());
@@ -42,6 +42,12 @@ function updateWeek() {
     formattedDate.value = getFormattedDate(currentDate.value);
     weekDays.value = getWeekDays(currentDate.value);
 }
+
+// check if day is active
+const isActiveDay = (dayNumber) => {
+    const currentDay = currentDate.value.getDate();
+    return dayNumber === currentDay;
+};
 </script>
 
 <template>
@@ -58,7 +64,9 @@ function updateWeek() {
         <div class="container__bot">
             <div v-for="(day, index) in weekDays" :key="index" class="container__bot__days">
                 <div class="container__bot__days__abbr text-bold-normal text-secondary">{{ day.abbr }}</div>
-                <div class="container__bot__days__number text-reg-l text-secondary">{{ day.number }}</div>
+                <div :class="['container__bot__days__number', { 'active-day': isActiveDay(day.number) }]">
+                    {{ day.number }}
+                </div>
             </div>
         </div>
     </div>
@@ -78,6 +86,8 @@ function updateWeek() {
     width: 496px;
     flex-direction: column;
     gap: 24px;
+    border-bottom: 1.5px solid var(--neutral-80);
+    padding-bottom: 16px;
 }
 
 /* TOP */
@@ -109,6 +119,17 @@ h5 {
 }
 
 .container__bot__days__number {
-    margin-top: 10px;
+    margin-top: 6px;
+    border-radius: 100%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.active-day {
+    background-color: var(--green);
 }
 </style>
