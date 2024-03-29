@@ -45,57 +45,56 @@ function updateWeek() {
 </script>
 
 <template>
-    <div class="week">
-        <div class="top-section">
+    <div class="container">
+        <div class="container__top">
             <h5>{{ formattedDate }}</h5>
-            <div class="button-group">
+            <div class="container__top__buttons">
                 <TransparentButton class="no-label" hasLabel="false" iconName="NavArrowLeft" @click="previousWeek" />
                 <TransparentButton class="no-label" hasLabel="false" iconName="NavArrowRight" @click="nextWeek" />
             </div>
         </div>
-        <div class="bottom-section">
-            <div v-for="(day, index) in weekDays" :key="index" class="day">
-                <div class="day-abbr">{{ day.abbr }}</div>
-                <div class="day-number">{{ day.number }}</div>
+        <div class="container__bot">
+            <div v-for="(day, index) in weekDays" :key="index" class="container__bot__days">
+                <div class="container__bot__days__abbr">{{ day.abbr }}</div>
+                <div class="container__bot__days__abbr__number">{{ day.number }}</div>
             </div>
         </div>
     </div>
 </template>
 
-
 <style scoped>
-.week {
+.container {
     width: 496px;
     display: flex;
     flex-direction: column;
 }
 
-.top-section {
+.container__top {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.button-group {
+.container__top__buttons {
     display: flex;
 }
 
-.bottom-section {
+.container__bot {
     display: flex;
 }
 
-.day {
+.container__bot__days {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.day-abbr {
+.container__bot__days__abbr {
     font-weight: bold;
 }
 
-.day-number {
+.container__bot__days__abbr__number {
     margin-top: 4px;
 }
 </style>
