@@ -5,70 +5,67 @@ export default {
   props: {
     pageName: String,
   },
+  computed: {
+    dynamicPageName() {
+      const routeName = this.$route.name;
+      if (routeName) {
+        return this.capitalizeFirstLetter(routeName);
+      } else {
+        const segments = this.$route.path.split('/');
+        return this.capitalizeFirstLetter(segments[segments.length - 1]);
+      }
+    },
+  },
+  methods: {
+    capitalizeFirstLetter(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+  }
 };
-
 </script>
+
 
 <template>
   <div id="navbarTop">
-
     <div id="navbarTop_left">
-
       <div id="navbarTop_left_page">
-        <h3>{{ pageName }}</h3>
+        <h3>{{ dynamicPageName }}</h3>
       </div>
-
     </div>
 
     <div id="navbarTop_right">
-
       <div id="navbarTop_right_account">
-
         <div id="navbarTop_right_account_image">
-
           <div id="navbarTop_right_account_image_wrapper">
             <img class="radius-full" src="https://placehold.co/56x56" alt="">
           </div>
-
         </div>
-
         <div id="navbarTop_right_account_info">
-
           <div id="navbarTop_right_account_info_name">
             <p class="text-bold-l">name</p>
           </div>
-
           <div id="navbarTop_right_account_info_function">
             <p class="text-reg-normal">function</p>
           </div>
         </div>
-
       </div>
 
       <div>
-
         <div id="navbarTop__right__switch">
-
           <div id="navbarTop__right__switch__arrowUp">
             <a href="#">
               <NavArrowUp />
             </a>
           </div>
-
           <div id="navbarTop__right__switch__arrowDown">
             <a href="#">
               <NavArrowDown />
             </a>
           </div>
-
         </div>
-
       </div>
-
     </div>
-
   </div>
-
 </template>
 
 <style>

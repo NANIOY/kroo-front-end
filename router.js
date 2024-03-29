@@ -1,27 +1,29 @@
-import { createRouter, createWebHashHistory } from 'vue-router'; // Updated
-
-import DashboardView from './src/views/Dashboard.vue'; // Assuming your dashboard component
+import { createRouter, createWebHashHistory } from 'vue-router';
+import DashboardView from './src/views/Dashboard.vue';
 
 const routes = [
-  // Set the default route to your dashboard component
-  { path: '/', component: DashboardView },
+  // default route
+  { path: '/', name: 'Dashboard', component: DashboardView },
 
-  // Routes for other views
-  { path: '/help', component: () => import('./src/views/Help.vue') }, // Lazy loading
-  { path: '/profile', component: () => import('./src/views/Profile.vue') }, // Lazy loading
-  { path: '/search', component: () => import('./src/views/Search.vue') }, // Lazy loading
-  { path: '/settings', component: () => import('./src/views/Settings.vue') }, // Lazy loading
-  { path: '/tools', component: () => import('./src/views/Tools.vue') }, // Lazy loading
-  { path: '/tracker', component: () => import('./src/views/Tracker.vue') }, // Lazy loading
-  { path: '/calendar', component: () => import('./src/views/Calendar.vue') }, // Lazy loading
-  { path: '/login', component: () => import('./src/views/Login.vue') }, // Lazy loading
-  { path: '/dashboard', component: () => import('./src/views/Dashboard.vue') }, // Lazy loading
-  { path: '/test', component: () => import('./src/views/Test.vue') }, // Lazy loading
+  // other routes
+  { path: '/help', name: 'Help', component: () => import('./src/views/Help.vue') },
+  { path: '/profile', name: 'Profile', component: () => import('./src/views/Profile.vue') },
+  { path: '/search', name: 'Search', component: () => import('./src/views/Search.vue') },
+  { path: '/settings', name: 'Settings', component: () => import('./src/views/Settings.vue') },
+  { path: '/tools', name: 'Tools', component: () => import('./src/views/Tools.vue') },
+  { path: '/tracker', name: 'Tracker', component: () => import('./src/views/Tracker.vue') },
+  { path: '/calendar', name: 'Calendar', component: () => import('./src/views/Calendar.vue') },
+  { path: '/login', name: 'Login', component: () => import('./src/views/Login.vue') },
+  { path: '/test', name: 'Test', component: () => import('./src/views/Test.vue') },
 ];
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes
+});
+
+router.afterEach((to) => {
+  document.title = `${to.meta.title} | kroo`;
 });
 
 export default router;
