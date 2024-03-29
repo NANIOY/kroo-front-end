@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 
 const currentDate = ref(new Date());
@@ -7,7 +7,6 @@ const currentDate = ref(new Date());
 const options = { month: 'long', year: 'numeric' };
 const formattedDate = ref(getFormattedDate(currentDate.value));
 const weekDays = ref(getWeekDays(currentDate.value));
-
 function getFormattedDate(date) {
     const monthYear = date.toLocaleDateString('en-GB', options);
     return `${monthYear.substr(0, monthYear.lastIndexOf(' '))}, ${monthYear.substr(monthYear.lastIndexOf(' ') + 1)}`;
@@ -16,7 +15,8 @@ function getFormattedDate(date) {
 function getWeekDays(date) {
     const days = [];
     const firstDayOfWeek = date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1); // get first day of week
-    const monday = new Date(date.setDate(firstDayOfWeek)); // set start of week to monday
+    const monday = new Date(date.getTime()); // create a new Date object
+    monday.setDate(firstDayOfWeek); // set start of week to monday
     for (let i = 0; i < 7; i++) {
         const day = new Date(monday.getTime() + i * 86400000); // 86400000 ms = 1 day
         const abbr = day.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2); // get first 2 letters of weekday
@@ -27,13 +27,18 @@ function getWeekDays(date) {
 
 // go to next week
 function nextWeek() {
-    currentDate.value.setDate(currentDate.value.getDate() + 7);
+    const nextDate = new Date(currentDate.value.getTime()); // create a new Date object
+    nextDate.setDate(nextDate.getDate() + 7);
+    currentDate.value = nextDate;
     updateWeek();
+
 }
 
 // go to previous week
 function previousWeek() {
-    currentDate.value.setDate(currentDate.value.getDate() - 7);
+    const prevDate = new Date(currentDate.value.getTime()); // create a new Date object
+    prevDate.setDate(prevDate.getDate() - 7);
+    currentDate.value = prevDate;
     updateWeek();
 }
 
@@ -41,14 +46,33 @@ function previousWeek() {
 function updateWeek() {
     formattedDate.value = getFormattedDate(currentDate.value);
     weekDays.value = getWeekDays(currentDate.value);
+    markActiveDay();
 }
 
-// check if day is active
-const isActiveDay = (dayNumber) => {
-    const currentDay = currentDate.value.getDate();
-    return dayNumber === currentDay;
-};
+// mark active day based on current date
+function markActiveDay() {
+    const today = new Date();
+    const currentWeekStartDate = getWeekStartDate(today); // get start date of current week
+    const currentWeekEndDate = new Date(currentWeekStartDate.getTime() + 6 * 24 * 60 * 60 * 1000); // get end date of current week
+
+    // iterate through the week days and mark the current day as active if it falls within the current week
+    weekDays.value.forEach((day) => {
+        const dayDate = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth(), day.number);
+        day.isActive = (dayDate >= currentWeekStartDate && dayDate <= currentWeekEndDate && dayDate.toDateString() === today.toDateString());
+    });
+}
+
+markActiveDay();
+
+// get start date of the week
+function getWeekStartDate(date) {
+    const firstDayOfWeek = date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1);
+    return new Date(date.getFullYear(), date.getMonth(), firstDayOfWeek);
+}
+
+
 </script>
+
 
 <template>
     <div class="container">
@@ -64,7 +88,7 @@ const isActiveDay = (dayNumber) => {
         <div class="container__bot">
             <div v-for="(day, index) in weekDays" :key="index" class="container__bot__days">
                 <div class="container__bot__days__abbr text-bold-normal text-secondary">{{ day.abbr }}</div>
-                <div :class="['container__bot__days__number', { 'active-day': isActiveDay(day.number) }]">
+                <div :class="['container__bot__days__number', { 'active-day': day.isActive }]">
                     {{ day.number }}
                 </div>
             </div>
@@ -126,7 +150,6 @@ h5 {
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 
 .active-day {
