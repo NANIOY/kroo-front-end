@@ -1,4 +1,5 @@
 <script setup>
+import { IconoirProvider } from '@iconoir/vue';
 import IconLabel from '../../atoms/items/IconLabel.vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 
@@ -16,8 +17,12 @@ const props = defineProps({
         <div class="jobSug__top">
             <img :src="image" class="jobSug__top__img" alt="Business logo" width="56" height="56">
             <div class="jobSug__top__title">{{ title }}</div>
-            <TransparentButton class="jobSug__top__button no-label" :hasIcon="true" iconName="Bookmark"
-                color="var(--blurple)" />
+            <IconoirProvider :icon-props="{
+                'stroke-width': '2'
+            }">
+                <TransparentButton class="jobSug__top__save no-label" :hasIcon="true" iconName="Bookmark"
+                    color="var(--blurple)" />
+            </IconoirProvider>
         </div>
         <div class="jobSug__bot">
             <IconLabel :iconName="'MapPin'" :label="location" size="small" />
@@ -55,8 +60,9 @@ const props = defineProps({
     white-space: nowrap;
 }
 
-.save-button {
+.jobSug__top__save {
     margin-left: auto;
+    width: 32px !important;
 }
 
 .jobSug__bot {
