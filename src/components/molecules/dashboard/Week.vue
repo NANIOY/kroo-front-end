@@ -49,52 +49,66 @@ function updateWeek() {
         <div class="container__top">
             <h5>{{ formattedDate }}</h5>
             <div class="container__top__buttons">
-                <TransparentButton class="no-label" hasLabel="false" iconName="NavArrowLeft" @click="previousWeek" />
-                <TransparentButton class="no-label" hasLabel="false" iconName="NavArrowRight" @click="nextWeek" />
+                <TransparentButton class="container__top__button no-label" hasLabel="false" iconName="NavArrowLeft"
+                    @click="previousWeek" />
+                <TransparentButton class="container__top__button no-label" hasLabel="false" iconName="NavArrowRight"
+                    @click="nextWeek" />
             </div>
         </div>
         <div class="container__bot">
             <div v-for="(day, index) in weekDays" :key="index" class="container__bot__days">
-                <div class="container__bot__days__abbr">{{ day.abbr }}</div>
-                <div class="container__bot__days__abbr__number">{{ day.number }}</div>
+                <div class="container__bot__days__abbr text-bold-normal text-secondary">{{ day.abbr }}</div>
+                <div class="container__bot__days__number text-reg-l text-secondary">{{ day.number }}</div>
             </div>
         </div>
     </div>
 </template>
 
 <style scoped>
-.container {
-    width: 496px;
+/* GENERAL */
+.container,
+.container__top,
+.container__top__buttons,
+.container__bot,
+.container__bot__days {
     display: flex;
-    flex-direction: column;
 }
 
+.container {
+    width: 496px;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* TOP */
 .container__top {
-    display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.container__top__buttons {
-    display: flex;
+h5 {
+    margin: 0;
+    color: var(--black);
+    font-weight: 100;
 }
 
+.container__top__button {
+    width: 32px !important;
+    height: 32px !important;
+}
+
+/* BOTTOM */
 .container__bot {
-    display: flex;
+    justify-content: space-between;
 }
 
 .container__bot__days {
     flex: 1;
-    display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.container__bot__days__abbr {
-    font-weight: bold;
-}
-
-.container__bot__days__abbr__number {
-    margin-top: 4px;
+.container__bot__days__number {
+    margin-top: 10px;
 }
 </style>
