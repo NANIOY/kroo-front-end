@@ -15,19 +15,14 @@ watchEffect(() => {
 <template>
   <NavBar />
   <div class="router">
-    <div class="content">
       <TopNav v-if="!isDashboardRoute || $route.path !== '/dashboard'" />
       <router-view></router-view>
-    </div>
   </div>
 </template>
 
 <style scoped>
 .router {
-  margin-left: 96px;
-}
-
-.content {
-  margin-left: 48px;
+  margin-left: 144px;
+  margin-right: 56px;
 }
 </style>
