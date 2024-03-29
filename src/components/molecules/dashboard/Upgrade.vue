@@ -9,20 +9,23 @@ import NormalButton from '../../atoms/buttons/NormalButton.vue';
         <div class="upgrade__content">
             <div class="upgrade__content__text">
                 <h4>Upgrade to Pro</h4>
-                <p>Unlock new way to make your profile shine!</p>
+                <p class="text-reg-s">Unlock new way to make your profile shine!</p>
             </div>
-            <NormalButton text="Upgrade" />
+            <NormalButton class="button--secondary" hasLabel="true" label="Upgrade" />
         </div>
     </div>
 </template>
 
 <style scoped>
+/* GENERAL */
 .upgrade {
     width: 496px;
     height: 200px;
     position: relative;
     border-radius: 4px;
     overflow: hidden;
+    cursor: pointer;
+    user-select: none;
 }
 
 .upgrade__bg {
@@ -35,7 +38,9 @@ import NormalButton from '../../atoms/buttons/NormalButton.vue';
     background-size: cover;
 }
 
-.upgrade__content, .upgrade__content__text {
+/* CONTENT */
+.upgrade__content,
+.upgrade__content__text {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -50,14 +55,28 @@ import NormalButton from '../../atoms/buttons/NormalButton.vue';
     backdrop-filter: blur(20px);
     color: var(--white);
     gap: 16px;
+    transition: 0.3s;
 }
 
+.upgrade__content:hover {
+    background-color: rgba(14, 15, 15, 0.24);
+}
+
+/* TEXT */
 .upgrade__content__text {
     gap: 8px;
+    width: 232px;
+    text-align: center;
 }
 
 h4,
 p {
     margin: 0;
+    font-weight: 100;
+}
+
+/* BUTTON */
+.button--secondary {
+    width: 232px;
 }
 </style>
