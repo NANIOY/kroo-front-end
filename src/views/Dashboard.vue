@@ -74,28 +74,54 @@ import TransparentButton from '../components/atoms/buttons/TransparentButton.vue
 </template>
 
 <style scoped>
+.dashboard,
+.dashboard__left,
+.dashboard__left__block,
+.dashboard__left__header,
+.dashboard__left__block--active__jobs,
+.dashboard__right,
+.dashboard__right__schedule,
+.dashboard__right__schedule__cards,
+.schedulecard {
+  display: flex;
+}
+
+.dashboard,
+.dashboard__left__block--active__jobs {
+  flex-direction: row;
+}
+
+.dashboard__left,
+.dashboard__left__block,
+.dashboard__right,
+.dashboard__right__schedule,
+.dashboard__right__schedule__cards {
+  flex-direction: column;
+}
+
+.dashboard__left__block,
+.dashboard__left__block--sug__jobs,
+.dashboard__right,
+.dashboard__right__schedule__cards {
+  gap: 16px;
+}
+
+.dashboard__left__block--active__jobs,
+.dashboard__right__schedule {
+  gap: 24px;
+}
+
 /* GENERAL */
 .dashboard {
-  display: flex;
-  flex-direction: row;
   gap: 64px;
 }
 
 /* LEFT */
 .dashboard__left {
-  display: flex;
-  flex-direction: column;
   gap: 32px;
 }
 
-.dashboard__left__block {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
 .dashboard__left__header {
-  display: flex;
   justify-content: space-between;
   align-items: center;
 }
@@ -114,12 +140,6 @@ h5 {
 }
 
 /* LEFT TOP */
-.dashboard__left__block--active__jobs {
-  display: flex;
-  flex-direction: row;
-  gap: 24px;
-}
-
 .dashboard__left__header__button--active {
   margin-right: -32px;
 }
@@ -128,7 +148,6 @@ h5 {
 .dashboard__left__block--sug__jobs {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
 }
 
 .dashboard__left__block--sug__jobs__job {
@@ -136,24 +155,12 @@ h5 {
 }
 
 /* RIGHT */
-.dashboard__right {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  flex: 1;
-}
-
+.dashboard__right,
 .dashboard__right__schedule {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
 }
 
 .dashboard__right__schedule__cards {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
   max-height: 392px;
   overflow-y: scroll;
   overflow-x: hidden;
