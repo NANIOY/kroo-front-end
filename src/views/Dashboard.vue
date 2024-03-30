@@ -60,9 +60,12 @@ import TransparentButton from '../components/atoms/buttons/TransparentButton.vue
       <div class="dashboard__right__schedule">
         <Week />
         <div class="dashboard__right__schedule__cards">
-          <ScheduleCard title="Meeting with John" label="10:00 - 11:00" />
-          <ScheduleCard title="Design review" label="13:00 - 14:00" type="personal" />
-          <ScheduleCard title="Team meeting" label="15:00 - 16:00" />
+          <ScheduleCard title="Meeting with John" label="10:00 - 11:00" class="schedulecard"/>
+          <ScheduleCard title="Design review" label="13:00 - 14:00" type="personal" class="schedulecard"/>
+          <ScheduleCard title="Team meeting" label="15:00 - 16:00" class="schedulecard"/>
+          <ScheduleCard title="Meeting with John" label="10:00 - 11:00" class="schedulecard"/>
+          <ScheduleCard title="Design review" label="13:00 - 14:00" type="personal" class="schedulecard"/>
+          <ScheduleCard title="Team meeting" label="15:00 - 16:00" class="schedulecard"/>
         </div>
       </div>
       <Upgrade />
@@ -136,7 +139,7 @@ h5 {
 .dashboard__right {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 16px;
   flex: 1;
 }
 
@@ -151,5 +154,13 @@ h5 {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  max-height: 392px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: none; 
+}
+
+.schedulecard {
+  min-height: 80px;
 }
 </style>
