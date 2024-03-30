@@ -49,23 +49,18 @@ const capitalizeFirstLetter = (str) => {
 </template>
 
 <style scoped>
-#navbarTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px 8px 16px 8px;
-  margin: 32px 0px 36px 0px;
-  border-bottom: 1px solid var(--neutral-70);
-}
-
-#navbarTop_right {
-  display: flex;
-  align-items: center;
-}
-
+#navbarTop,
+#navbarTop_right,
 #navbarTop_right_account {
   display: flex;
   align-items: center;
+}
+
+#navbarTop {
+  justify-content: space-between;
+  padding: 0px 8px 16px 8px;
+  margin: 32px 0px 36px 0px;
+  border-bottom: 1px solid var(--neutral-70);
 }
 
 img {
