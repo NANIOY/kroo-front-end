@@ -7,11 +7,14 @@ const currentDate = ref(new Date());
 const options = { month: 'long', year: 'numeric' };
 const formattedDate = ref(getFormattedDate(currentDate.value));
 const weekDays = ref(getWeekDays(currentDate.value));
+
+// get formatted date (e.g. "April, 2024")
 function getFormattedDate(date) {
     const monthYear = date.toLocaleDateString('en-GB', options);
     return `${monthYear.substr(0, monthYear.lastIndexOf(' '))}, ${monthYear.substr(monthYear.lastIndexOf(' ') + 1)}`;
 }
 
+// get week days (e.g. [{ abbr: "Mo", number: 1 }, { abbr: "Tu", number: 2 }, ...])
 function getWeekDays(date) {
     const days = [];
     const firstDayOfWeek = date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1); // get first day of week
@@ -25,7 +28,7 @@ function getWeekDays(date) {
     return days;
 }
 
-// go to next week
+// go to next week 
 function nextWeek() {
     const nextDate = new Date(currentDate.value.getTime()); // create a new Date object
     nextDate.setDate(nextDate.getDate() + 7);
@@ -44,10 +47,12 @@ function previousWeek() {
 
 // update week
 function updateWeek() {
-    formattedDate.value = getFormattedDate(currentDate.value);
+    const currentWeekStartDate = getWeekStartDate(currentDate.value); // get start date of current week
+    formattedDate.value = getFormattedDate(currentWeekStartDate); // use start date to get formatted date
     weekDays.value = getWeekDays(currentDate.value);
     markActiveDay();
 }
+
 
 // mark active day based on current date
 function markActiveDay() {
