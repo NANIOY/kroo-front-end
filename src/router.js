@@ -8,6 +8,7 @@ import Search from './views/Search.vue'
 import Settings from './views/Settings.vue'
 import Tools from './views/Tools.vue'
 import Tracker from './views/Tracker.vue'
+import Upgrade from './views/Upgrade.vue'
 import Test from './views/Test.vue' // REMOVE FROM PRODUCTION
 
 const routes = [
@@ -20,6 +21,7 @@ const routes = [
     { path: '/settings', component: Settings },
     { path: '/tools', component: Tools },
     { path: '/tracker', component: Tracker },
+    { path: '/upgrade', component: Upgrade },
     { path: '/test', component: Test }, // REMOVE FROM PRODUCTION
 ];
 
