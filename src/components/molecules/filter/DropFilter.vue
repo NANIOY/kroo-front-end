@@ -1,28 +1,36 @@
 <script setup>
-import { defineProps } from 'vue';
-import DropDown from '../../atoms/inputs/DropDown.vue';
-import Checkbox from '../../atoms/checkboxes/Checkbox.vue';
-import Slider from '../../atoms/inputs/Slider.vue'; 
+import { ref } from 'vue';
+import Slider from '../../atoms/inputs/Slider.vue';
 
-const props = defineProps({
-  numberOfCheckboxes: Number,
-});
+const showSliderDropdown = ref(false);
+
+function toggleSliderDropdown() {
+  showSliderDropdown.value = !showSliderDropdown.value;
+}
 </script>
 
 <template>
   <div class="drop-filter">
-    <!-- Checkbox Dropdown -->
-    <DropDown label="Checkbox Options">
-      <Checkbox :number-of-checkboxes="numberOfCheckboxes" />
-    </DropDown>
-
     <!-- Slider Dropdown -->
-    <DropDown label="Slider Option">
-      <Slider />
-    </DropDown>
+    <div class="dropdown">
+      <button @click="toggleSliderDropdown" class="dropdown-button">Slider Option</button>
+      <div v-show="showSliderDropdown" class="dropdown-content">
+        <Slider />
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
-/* Your scoped styles here */
+.dropdown-button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+.dropdown-content[v-show] {
+  display: block;
+}
 </style>
