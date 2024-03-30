@@ -17,13 +17,13 @@ import TransparentButton from '../components/atoms/buttons/TransparentButton.vue
   <div class="dashboard">
 
     <div class="dashboard__left">
-      <div class="dashboard__left__active">
+      <div class="dashboard__left__block">
         <div class="dashboard__left__header">
           <h5>Active Jobs</h5>
-          <TransparentButton class="dashboard__left__header__button" hasLabel="true" label="All jobs"
-            iconName="NavArrowRight" iconPosition="right" />
+          <TransparentButton class="dashboard__left__header__button dashboard__left__header__button--active"
+            hasLabel="true" label="All jobs" iconName="NavArrowRight" iconPosition="right" />
         </div>
-        <div class="dashboard__left__active__jobs">
+        <div class="dashboard__left__block--active__jobs">
           <JobCard cardType="highlight" date="Month 00" time="00:00 - 00:00" jobFunction="Function" city="City"
             street="Street, Number" />
           <JobCard cardType="default" date="Month 00" time="00:00 - 00:00" jobFunction="Function" city="City"
@@ -32,9 +32,28 @@ import TransparentButton from '../components/atoms/buttons/TransparentButton.vue
             street="Street, Number" />
         </div>
       </div>
-      <!-- <div class="dashboard__left__sug">
-        <JobSug />
-      </div> -->
+
+      <div class="dashboard__left__block">
+        <div class="dashboard__left__header">
+          <h5>Job Suggestions</h5>
+          <TransparentButton class="dashboard__left__header__button dashboard__left__header__button--sug"
+            hasLabel="true" label="Search more" iconName="NavArrowRight" iconPosition="right" />
+        </div>
+        <div class="dashboard__left__block--sug__jobs">
+          <JobSug class="dashboard__left__block--sug__jobs__job"
+            image="https://fakeimg.pl/400x400/000000/ffffff?text=logo" title="Job title" location="Location" date="Date"
+            time="00:00 - 00:00" />
+          <JobSug class="dashboard__left__block--sug__jobs__job"
+            image="https://fakeimg.pl/400x400/000000/ffffff?text=logo" title="Job title" location="Location" date="Date"
+            time="00:00 - 00:00" />
+          <JobSug class="dashboard__left__block--sug__jobs__job"
+            image="https://fakeimg.pl/400x400/000000/ffffff?text=logo" title="Job title" location="Location" date="Date"
+            time="00:00 - 00:00" />
+          <JobSug class="dashboard__left__block--sug__jobs__job"
+            image="https://fakeimg.pl/400x400/000000/ffffff?text=logo" title="Job title" location="Location" date="Date"
+            time="00:00 - 00:00" />
+        </div>
+      </div>
     </div>
 
     <!-- <div class="dashboard__right">
@@ -62,6 +81,12 @@ import TransparentButton from '../components/atoms/buttons/TransparentButton.vue
   gap: 32px;
 }
 
+.dashboard__left__block {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .dashboard__left__header {
   display: flex;
   justify-content: space-between;
@@ -76,22 +101,29 @@ h5 {
 }
 
 .dashboard__left__header__button {
-  width: 100px;
-  margin-right: -8px;
+  width: 136px;
+  margin-right: -12px;
 }
 
 /* LEFT TOP */
-.dashboard__left__active {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.dashboard__left__active__jobs {
+.dashboard__left__block--active__jobs {
   display: flex;
   flex-direction: row;
   gap: 24px;
 }
 
+.dashboard__left__header__button--active {
+  margin-right: -32px;
+}
+
 /* LEFT BOTTOM */
+.dashboard__left__block--sug__jobs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.dashboard__left__block--sug__jobs__job {
+  width: calc(568px - 48px);
+}
 </style>
