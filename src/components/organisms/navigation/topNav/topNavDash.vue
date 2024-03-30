@@ -1,85 +1,46 @@
-<script>
-import { Iconoir, NavArrowDown, NavArrowUp } from '@iconoir/vue';
+<script setup>
+import TransparentButton from '../../../atoms/buttons/TransparentButton.vue';
 
-export default {
-  setup() {
-    const currentDate = new Date();
-    const options = { day: 'numeric', month: 'long' };
-    const formattedDate = currentDate.toLocaleDateString('en-GB', options);
-    const dayName = currentDate.toLocaleDateString('en-GB', { weekday: 'long' });
+const currentDate = new Date();
+const options = { day: 'numeric', month: 'long' };
+const formattedDate = currentDate.toLocaleDateString('en-GB', options);
+const dayName = currentDate.toLocaleDateString('en-GB', { weekday: 'long' });
 
-    return {
-      formattedDate,
-      dayName
-    };
-  }
-};
 </script>
 
 <template>
   <div id="navbarTop">
-
     <div id="navbarTop_left">
-
       <div id="navbarTop_left_date">
         <p class="text-bold-l">{{ formattedDate }}</p>
       </div>
-
       <div id="navbarTop_left_day">
         <p class="text-reg-normal">{{ dayName }}</p>
       </div>
-
     </div>
 
     <div id="navbarTop_right">
-
       <div id="navbarTop_right_account">
-
         <div id="navbarTop_right_account_image">
-
           <div id="navbarTop_right_account_image_wrapper">
             <img class="radius-full" src="https://placehold.co/56x56" alt="">
           </div>
-
         </div>
-
         <div id="navbarTop_right_account_info">
-
           <div id="navbarTop_right_account_info_name">
             <p class="text-bold-l">name</p>
           </div>
-
           <div id="navbarTop_right_account_info_function">
             <p class="text-reg-normal">function</p>
           </div>
         </div>
-
       </div>
-
-      <div>
-
-        <div id="navbarTop__right__switch">
-
-          <div id="navbarTop__right__switch__arrowUp">
-            <a href="#">
-              <NavArrowUp />
-            </a>
-          </div>
-
-          <div id="navbarTop__right__switch__arrowDown">
-            <a href="#">
-              <NavArrowDown />
-            </a>
-          </div>
-
-        </div>
-
+      <div id="navbarTop__right__switch">
+        <TransparentButton class="no-label" iconName="NavArrowUp" />
+        <TransparentButton class="no-label" iconName="NavArrowDown" />
       </div>
-
     </div>
-
   </div>
-
 </template>
 
 <style scoped>
