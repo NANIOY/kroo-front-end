@@ -12,9 +12,9 @@ const toggleActiveLabel = (iconName) => {
 <template>
   <div id="navbar">
     <div id="navbar__contents">
-      <div id="navbar_contents__logo">
+      <a id="navbar_contents__logo" href="http://kroo.site/">
         <img src="../../../assets/logomark-color.webp" alt="Logo" width="40" height="40" />
-      </div>
+      </a>
       <div id="navbar_contents--items">
         <div id="navbar_item--items_menu">
           <NavbarLabel iconName="ReportColumns" label="Dashboard" :hasLabel="false" :darkMode="true"
