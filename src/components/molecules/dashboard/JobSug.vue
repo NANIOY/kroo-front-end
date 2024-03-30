@@ -44,6 +44,7 @@ const props = defineProps({
     border-radius: 4px;
     color: var(--black);
     display: flex;
+    gap: 20px;
     flex-direction: column;
     cursor: pointer;
     transition: 0.3s;
