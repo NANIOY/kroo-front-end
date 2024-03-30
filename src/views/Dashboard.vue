@@ -139,19 +139,13 @@ h5 {
   margin-top: -8px;
 }
 
-/* LEFT TOP */
 .dashboard__left__header__button--active {
   margin-right: -32px;
 }
 
-/* LEFT BOTTOM */
 .dashboard__left__block--sug__jobs {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-}
-
-.dashboard__left__block--sug__jobs__job {
-  width: calc(568px - 48px);
 }
 
 /* RIGHT */

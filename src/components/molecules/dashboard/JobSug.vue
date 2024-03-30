@@ -37,7 +37,7 @@ const props = defineProps({
 <style scoped>
 /* GENERAL */
 .jobSug {
-    width: calc(564px - 48px);
+    width: calc(568px - 48px);
     height: calc(160px - 64px);
     background-color: var(--neutral-20);
     padding: 32px 24px;
