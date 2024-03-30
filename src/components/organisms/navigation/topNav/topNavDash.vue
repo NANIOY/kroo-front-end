@@ -1,11 +1,13 @@
 <script setup>
+import { defineProps } from 'vue';
 import TransparentButton from '../../../atoms/buttons/TransparentButton.vue';
+
+const props = defineProps(['name', 'func', 'profileImage']);
 
 const currentDate = new Date();
 const options = { day: 'numeric', month: 'long' };
 const formattedDate = currentDate.toLocaleDateString('en-GB', options);
 const dayName = currentDate.toLocaleDateString('en-GB', { weekday: 'long' });
-
 </script>
 
 <template>
@@ -23,15 +25,15 @@ const dayName = currentDate.toLocaleDateString('en-GB', { weekday: 'long' });
       <div id="navbarTop_right_account">
         <div id="navbarTop_right_account_image">
           <div id="navbarTop_right_account_image_wrapper">
-            <img class="radius-full" src="https://placehold.co/56x56" alt="profile image">
+            <img class="radius-full" :src="profileImage" alt="profile image">
           </div>
         </div>
         <div id="navbarTop_right_account_info">
           <div id="navbarTop_right_account_info_name">
-            <p class="text-bold-l">name</p>
+            <p class="text-bold-l">{{ name }}</p>
           </div>
-          <div id="navbarTop_right_account_info_function">
-            <p class="text-reg-normal">function</p>
+          <div id="navbarTop_right_account_info_func">
+            <p class="text-reg-normal">{{ func }}</p>
           </div>
         </div>
       </div>
@@ -68,8 +70,8 @@ const dayName = currentDate.toLocaleDateString('en-GB', { weekday: 'long' });
 }
 
 #navbarTop_right_account_image_wrapper img {
-  max-width: 56px;
-  max-height: 56px;
+  width: 56px;
+  height: 56px;
 }
 
 #navbarTop_right_account_info {
