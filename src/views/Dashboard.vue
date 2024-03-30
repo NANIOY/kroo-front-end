@@ -56,13 +56,17 @@ import TransparentButton from '../components/atoms/buttons/TransparentButton.vue
       </div>
     </div>
 
-    <!-- <div class="dashboard__right">
-      <Week />
-      <ScheduleCard title="Meeting with John" label="10:00 - 11:00" />
-      <ScheduleCard title="Design review" label="13:00 - 14:00" type="personal" />
-      <ScheduleCard title="Team meeting" label="15:00 - 16:00" />
+    <div class="dashboard__right">
+      <div class="dashboard__right__schedule">
+        <Week />
+        <div class="dashboard__right__schedule__cards">
+          <ScheduleCard title="Meeting with John" label="10:00 - 11:00" />
+          <ScheduleCard title="Design review" label="13:00 - 14:00" type="personal" />
+          <ScheduleCard title="Team meeting" label="15:00 - 16:00" />
+        </div>
+      </div>
       <Upgrade />
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -103,6 +107,7 @@ h5 {
 .dashboard__left__header__button {
   width: 136px;
   margin-right: -12px;
+  margin-top: -8px;
 }
 
 /* LEFT TOP */
@@ -125,5 +130,26 @@ h5 {
 
 .dashboard__left__block--sug__jobs__job {
   width: calc(568px - 48px);
+}
+
+/* RIGHT */
+.dashboard__right {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  flex: 1;
+}
+
+.dashboard__right__schedule {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.dashboard__right__schedule__cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 </style>
