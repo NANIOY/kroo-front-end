@@ -13,16 +13,16 @@ const dayName = currentDate.toLocaleDateString('en-GB', { weekday: 'long' });
 <template>
   <div id="navbarTop">
     <div id="navbarTop_left">
-      <p class="text-bold-l">{{ formattedDate }}</p>
-      <p class="text-reg-normal">{{ dayName }}</p>
+      <p class="text-bold-l text-primary">{{ formattedDate }}</p>
+      <p class="text-reg-normal text-secondary">{{ dayName }}</p>
     </div>
 
     <div id="navbarTop_right">
       <div id="navbarTop_right_account">
         <img class="radius-full" :src="profileImage" alt="profile image">
         <div id="navbarTop_right_account_info">
-          <p class="text-bold-l">{{ name }}</p>
-          <p class="text-reg-normal">{{ func }}</p>
+          <p class="text-bold-l text-primary">{{ name }}</p>
+          <p class="text-reg-normal text-secondary">{{ func }}</p>
         </div>
       </div>
       <div id="navbarTop__right__switch">
