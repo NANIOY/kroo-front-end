@@ -68,7 +68,7 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 #navbarTop {
   display: flex;
   justify-content: space-between;
