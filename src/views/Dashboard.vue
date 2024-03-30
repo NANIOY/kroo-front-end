@@ -28,7 +28,7 @@ const goToUpgrade = () => {
 </script>
 
 <template>
-  <topNavDash />
+  <topNavDash name="John Doe" func="Software Engineer" :profileImage="'https://placehold.co/56x56'" />
 
   <div class="dashboard">
 
