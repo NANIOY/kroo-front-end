@@ -23,7 +23,7 @@ const dayName = currentDate.toLocaleDateString('en-GB', { weekday: 'long' });
       <div id="navbarTop_right_account">
         <div id="navbarTop_right_account_image">
           <div id="navbarTop_right_account_image_wrapper">
-            <img class="radius-full" src="https://placehold.co/56x56" alt="">
+            <img class="radius-full" src="https://placehold.co/56x56" alt="profile image">
           </div>
         </div>
         <div id="navbarTop_right_account_info">
@@ -48,20 +48,9 @@ const dayName = currentDate.toLocaleDateString('en-GB', { weekday: 'long' });
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px;
-  margin-bottom: 16px;
-  border-bottom: 1px solid var(--black);
-  margin: 32px 0px 32px 0px;
-}
-
-#navbarTop_left {
-  display: flex;
-  flex-direction: column;
-}
-
-#navbarTop_left_day p,
-#navbarTop_left_date p {
-  margin: 0;
+  padding: 0px 8px 16px 8px;
+  margin: 32px 0px 36px 0px;
+  border-bottom: 1px solid var(--neutral-70);
 }
 
 #navbarTop_right {
@@ -87,19 +76,7 @@ const dayName = currentDate.toLocaleDateString('en-GB', { weekday: 'long' });
   margin-right: 8px;
 }
 
-#navbarTop_right_account_info_name p,
-#navbarTop_right_account_info_function p {
+p {
   margin: 0;
-}
-
-#navbarTop__right__switch {
-  display: flex;
-  flex-direction: column;
-
-}
-
-#navbarTop__right__switch__arrowUp a,
-#navbarTop__right__switch__arrowDown a {
-  color: var(--black);
 }
 </style>
