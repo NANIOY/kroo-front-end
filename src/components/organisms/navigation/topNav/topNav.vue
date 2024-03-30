@@ -29,9 +29,7 @@ const capitalizeFirstLetter = (str) => {
 <template>
   <div id="navbarTop">
     <div id="navbarTop_left">
-      <div id="navbarTop_left_page">
-        <h3>{{ dynamicPageName }}</h3>
-      </div>
+      <h3>{{ dynamicPageName }}</h3>
     </div>
 
     <div id="navbarTop_right">
@@ -55,19 +53,9 @@ const capitalizeFirstLetter = (str) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px;
-  margin-bottom: 16px;
-  border-bottom: 1px solid var(--black);
-  margin: 32px 0px 32px 0px;
-}
-
-#navbarTop_left {
-  display: flex;
-  flex-direction: column;
-}
-
-#navbarTop_left_page h3 {
-  margin: 0;
+  padding: 0px 8px 16px 8px;
+  margin: 32px 0px 36px 0px;
+  border-bottom: 1px solid var(--neutral-70);
 }
 
 #navbarTop_right {
@@ -80,32 +68,18 @@ const capitalizeFirstLetter = (str) => {
   align-items: center;
 }
 
-#navbarTop_right_account_image {
+img {
+  width: 56px;
+  height: 56px;
   margin-right: 16px;
-}
-
-#navbarTop_right_account_image_wrapper img {
-  max-width: 56px;
-  max-height: 56px;
 }
 
 #navbarTop_right_account_info {
   margin-right: 8px;
 }
 
-#navbarTop_right_account_info_name p,
-#navbarTop_right_account_info_function p {
+p,
+h3 {
   margin: 0;
-}
-
-#navbarTop__right__switch {
-  display: flex;
-  flex-direction: column;
-
-}
-
-#navbarTop__right__switch__arrowUp a,
-#navbarTop__right__switch__arrowDown a {
-  color: var(--black);
 }
 </style>
