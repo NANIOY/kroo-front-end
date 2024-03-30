@@ -129,6 +129,7 @@ h5 {
     margin: 0;
     color: var(--black);
     font-weight: 100;
+    text-transform: uppercase;
 }
 
 .container__top__button {
