@@ -13,28 +13,16 @@ const dayName = currentDate.toLocaleDateString('en-GB', { weekday: 'long' });
 <template>
   <div id="navbarTop">
     <div id="navbarTop_left">
-      <div id="navbarTop_left_date">
-        <p class="text-bold-l">{{ formattedDate }}</p>
-      </div>
-      <div id="navbarTop_left_day">
-        <p class="text-reg-normal">{{ dayName }}</p>
-      </div>
+      <p class="text-bold-l">{{ formattedDate }}</p>
+      <p class="text-reg-normal">{{ dayName }}</p>
     </div>
 
     <div id="navbarTop_right">
       <div id="navbarTop_right_account">
-        <div id="navbarTop_right_account_image">
-          <div id="navbarTop_right_account_image_wrapper">
-            <img class="radius-full" :src="profileImage" alt="profile image">
-          </div>
-        </div>
+        <img class="radius-full" :src="profileImage" alt="profile image">
         <div id="navbarTop_right_account_info">
-          <div id="navbarTop_right_account_info_name">
-            <p class="text-bold-l">{{ name }}</p>
-          </div>
-          <div id="navbarTop_right_account_info_func">
-            <p class="text-reg-normal">{{ func }}</p>
-          </div>
+          <p class="text-bold-l">{{ name }}</p>
+          <p class="text-reg-normal">{{ func }}</p>
         </div>
       </div>
       <div id="navbarTop__right__switch">
@@ -65,13 +53,10 @@ const dayName = currentDate.toLocaleDateString('en-GB', { weekday: 'long' });
   align-items: center;
 }
 
-#navbarTop_right_account_image {
-  margin-right: 16px;
-}
-
-#navbarTop_right_account_image_wrapper img {
+img {
   width: 56px;
   height: 56px;
+  margin-right: 16px;
 }
 
 #navbarTop_right_account_info {
