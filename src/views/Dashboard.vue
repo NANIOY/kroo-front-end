@@ -9,6 +9,22 @@ import Upgrade from '../components/molecules/dashboard/Upgrade.vue';
 
 // IMPORT OTHER
 import TransparentButton from '../components/atoms/buttons/TransparentButton.vue';
+
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const goToTracker = () => {
+  router.push('/tracker');
+};
+
+const goToSearch = () => {
+  router.push('/search');
+};
+
+const goToUpgrade = () => {
+  router.push('/upgrade');
+};
 </script>
 
 <template>
@@ -20,8 +36,9 @@ import TransparentButton from '../components/atoms/buttons/TransparentButton.vue
       <div class="dashboard__left__block">
         <div class="dashboard__left__header">
           <h5>Active Jobs</h5>
-          <TransparentButton class="dashboard__left__header__button dashboard__left__header__button--active"
-            hasLabel="true" label="All jobs" iconName="NavArrowRight" iconPosition="right" />
+          <TransparentButton @click="goToTracker"
+            class="dashboard__left__header__button dashboard__left__header__button--active" hasLabel="true"
+            label="All jobs" iconName="NavArrowRight" iconPosition="right" />
         </div>
         <div class="dashboard__left__block--active__jobs">
           <JobCard cardType="highlight" date="Month 00" time="00:00 - 00:00" jobFunction="Function" city="City"
@@ -36,8 +53,9 @@ import TransparentButton from '../components/atoms/buttons/TransparentButton.vue
       <div class="dashboard__left__block">
         <div class="dashboard__left__header">
           <h5>Job Suggestions</h5>
-          <TransparentButton class="dashboard__left__header__button dashboard__left__header__button--sug"
-            hasLabel="true" label="Search more" iconName="NavArrowRight" iconPosition="right" />
+          <TransparentButton @click="goToSearch"
+            class="dashboard__left__header__button dashboard__left__header__button--sug" hasLabel="true"
+            label="Search more" iconName="NavArrowRight" iconPosition="right" />
         </div>
         <div class="dashboard__left__block--sug__jobs">
           <JobSug class="dashboard__left__block--sug__jobs__job"
@@ -68,7 +86,7 @@ import TransparentButton from '../components/atoms/buttons/TransparentButton.vue
           <ScheduleCard title="Team meeting" label="15:00 - 16:00" class="schedulecard" />
         </div>
       </div>
-      <Upgrade />
+      <Upgrade @click="goToUpgrade" />
     </div>
   </div>
 </template>
