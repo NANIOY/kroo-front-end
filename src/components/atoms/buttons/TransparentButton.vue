@@ -16,6 +16,10 @@ export default {
       type: String,
       default: ''
     },
+    iconPosition: {
+      type: String,
+      default: 'left'
+    },
     color: {
       type: String,
       default: 'var(--black)'
@@ -63,8 +67,9 @@ export default {
     'transparentButton',
     { 'no-label': !hasLabel }
   ]" :style="{ color: color }">
-    <component :is="iconName" v-if="hasIcon" />
+    <component :is="iconName" v-if="hasIcon && iconPosition === 'left'" />
     <span v-if="hasLabel && label" class="transparentButton__label">{{ label }}</span>
+    <component :is="iconName" v-if="hasIcon && iconPosition === 'right'" />
   </button>
 </template>
 
