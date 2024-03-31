@@ -2,6 +2,7 @@
 import { ref, watch, defineProps } from 'vue';
 import Slider from '../../atoms/inputs/Slider.vue';
 import Checkbox from '../../atoms/selectors/Checkbox.vue';
+import { NavArrowDown, NavArrowUp } from '@iconoir/vue';
 
 const { useSlider, checkboxConfigurations, sliderConfigurations } = defineProps(['useSlider', 'checkboxConfigurations', 'sliderConfigurations']);
 
@@ -47,7 +48,7 @@ function generateCheckboxLabels(count) {
     <!-- Slider Dropdown -->
     <div v-if="useSlider" class="dropdown">
       <div class="dropdown-container">
-        <button @click="toggleSliderDropdown" class="dropdown-button">Slider Option</button>
+        <button @click="toggleSliderDropdown" class="dropdown-button">Slider Option <NavArrowDown class="arrow-icon" /></button>
         <div v-show="showSliderDropdown" class="dropdown-content">
           <Slider />
         </div>
@@ -57,7 +58,7 @@ function generateCheckboxLabels(count) {
     <!-- Checkbox Dropdown -->
     <div v-else v-for="(dropdown, index) in checkboxConfigurations" :key="index" class="dropdown">
       <div class="dropdown-container">
-        <button @click="toggleCheckboxDropdown(index)" class="dropdown-button">{{ dropdown.title }}</button>
+        <button @click="toggleCheckboxDropdown(index)" class="dropdown-button">{{ dropdown.title }} <NavArrowDown class="arrow-icon"/></button>
         <div v-show="activeDropdown === index" class="dropdown-content">
           <!-- Rendering checkboxes using Checkbox component -->
           <div v-for="(label, checkboxIndex) in dropdown.checkboxLabels" :key="checkboxIndex" class="checkbox-container">
@@ -83,6 +84,10 @@ border: none;
     justify-content: flex-start;
 }
 
+.arrow-icon {
+  margin-left: auto; /* Push the arrow icon to the right */
+}
+
 .drop-filter {
   width: 272px;
 }
@@ -106,7 +111,6 @@ border: none;
 }
 
 .dropdown-content {
-  display: none;
   padding: 10px;
 }
 
