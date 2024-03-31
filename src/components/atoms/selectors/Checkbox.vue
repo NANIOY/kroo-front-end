@@ -1,7 +1,8 @@
 <script setup>
 import { Check } from '@iconoir/vue';
+import { defineProps } from 'vue';
 
-const props = {
+const props = defineProps({
     hasLabel: {
         type: Boolean,
         default: true
@@ -14,8 +15,7 @@ const props = {
         type: Boolean,
         default: false
     },
-};
-
+});
 </script>
 
 <template>
