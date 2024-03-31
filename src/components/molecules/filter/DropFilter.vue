@@ -46,19 +46,23 @@ function generateCheckboxLabels(count) {
   <div class="drop-filter">
     <!-- Slider Dropdown -->
     <div v-if="useSlider" class="dropdown">
-      <button @click="toggleSliderDropdown" class="dropdown-button">Slider Option</button>
-      <div v-show="showSliderDropdown" class="dropdown-content">
-        <Slider />
+      <div class="dropdown-container">
+        <button @click="toggleSliderDropdown" class="dropdown-button">Slider Option</button>
+        <div v-show="showSliderDropdown" class="dropdown-content">
+          <Slider />
+        </div>
       </div>
     </div>
 
     <!-- Checkbox Dropdown -->
     <div v-else v-for="(dropdown, index) in checkboxConfigurations" :key="index" class="dropdown">
-      <button @click="toggleCheckboxDropdown(index)" class="dropdown-button">{{ dropdown.title }}</button>
-      <div v-show="activeDropdown === index" class="dropdown-content">
-        <!-- Rendering checkboxes using Checkbox component -->
-        <div v-for="(label, checkboxIndex) in dropdown.checkboxLabels" :key="checkboxIndex" class="checkbox-container">
-          <Checkbox :label="label" />
+      <div class="dropdown-container">
+        <button @click="toggleCheckboxDropdown(index)" class="dropdown-button">{{ dropdown.title }}</button>
+        <div v-show="activeDropdown === index" class="dropdown-content">
+          <!-- Rendering checkboxes using Checkbox component -->
+          <div v-for="(label, checkboxIndex) in dropdown.checkboxLabels" :key="checkboxIndex" class="checkbox-container">
+            <Checkbox :label="label" />
+          </div>
         </div>
       </div>
     </div>
@@ -66,22 +70,35 @@ function generateCheckboxLabels(count) {
 </template>
 
 <style scoped>
-.dropdown-button {
-  cursor: pointer;
-  background: none;
-  border: none;
-  outline: none;
-  font-size: 16px;
+.drop-filter {
+  width: 272px;
 }
 
-.dropdown-content.show {
+.dropdown {
+  margin-bottom: 20px;
+}
+
+.dropdown-container {
   display: flex;
   flex-direction: column;
 }
 
-/* Add margin between each checkbox */
-.checkbox-container {
-  margin-top: 12px;
-  margin-bottom: 36px;
+.dropdown-button {
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.dropdown-content {
+  display: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.dropdown-container:hover .dropdown-content {
+  display: flex;
+  flex-direction: column;
 }
 </style>
