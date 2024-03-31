@@ -16,15 +16,16 @@ const props = defineProps({
 
 <template>
     <div class="header">
-        <TransparentButton v-if="hasBack" class="no-label header__back" iconName="NavArrowLeft" />
 
         <div class="header__steps">
             <h5 v-if="hasSteps" class="header__steps__step">{{ steps }}</h5>
             <TransparentButton v-if="hasSkip" class="header__steps__skip" hasLabel="true" label="Skip"
                 iconName="NavArrowRight" iconPosition="right" />
         </div>
-
-        <h1>{{ header }}</h1>
+        <div class="header__backheader">
+            <TransparentButton v-if="hasBack" class="no-label header__backheader__back" iconName="NavArrowLeft" />
+            <h1 header__backheader__header>{{ header }}</h1>
+        </div>
 
         <p v-if="hasText" class="header__text text-secondary">{{ text }}</p>
 
@@ -32,9 +33,11 @@ const props = defineProps({
 </template>
 
 <style scoped>
+/* GENERAL */
 .header {
     display: flex;
     flex-direction: column;
+    gap: 20px;
     width: 536px;
     color: var(--black);
 }
@@ -46,8 +49,21 @@ h5 {
     font-weight: 100;
 }
 
+/* BACK + HEADER */
+.header__backheader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+
+.header__backheader__back {
+    width: 40px !important;
+    height: 40px !important;
+}
+
+/* STEPS */
 .header__steps {
-    margin-bottom: 20px;
     height: 24px;
     display: flex;
     justify-content: space-between;
