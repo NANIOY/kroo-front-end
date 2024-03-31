@@ -26,7 +26,6 @@ const props = defineProps({
 
         <h1>{{ header }}</h1>
 
-
         <p v-if="hasText" class="header__text text-secondary">{{ text }}</p>
 
     </div>
@@ -49,13 +48,18 @@ h5 {
 
 .header__steps {
     margin-bottom: 20px;
+    height: 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: lightblue;
 }
 
 .header__steps__step {
     text-transform: uppercase;
+    flex: 1;
+}
+
+.header__steps__skip {
+    margin-right: -20px;
 }
 </style>
