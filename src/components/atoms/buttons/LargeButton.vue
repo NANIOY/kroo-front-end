@@ -60,7 +60,7 @@ export default {
     ]">
         <!-- Dynamically render the icon based on the iconName prop -->
         <component :is="iconName" v-if="hasIcon" />
-        <span v-if="hasLabel && label" class="normalButton__label">{{ label }}</span>
+        <span v-if="hasLabel && label" class="largeButton__label">{{ label }}</span>
     </button>
 </template>
 

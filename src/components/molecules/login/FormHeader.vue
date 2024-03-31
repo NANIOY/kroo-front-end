@@ -25,7 +25,7 @@ const props = defineProps({
             <TransparentButton v-if="hasBack" class="no-label header__backheader__back" iconName="NavArrowLeft" />
             <h1>{{ header }}</h1>
         </div>
-        <p v-if="hasText">{{ text }}</p>
+        <p v-if="hasText" class="text-secondary">{{ text }}</p>
     </div>
 </template>
 
@@ -44,7 +44,7 @@ const props = defineProps({
 
 .header {
     flex-direction: column;
-    width: 536px;
+    width: 100%;
     color: var(--black);
 }
 
