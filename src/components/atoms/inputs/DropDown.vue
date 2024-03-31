@@ -78,7 +78,7 @@ label {
 
 .container__dropdown {
   position: relative;
-  width: 392px;
+  width: 100%;
   color: var(--black);
   user-select: none;
 }
@@ -88,7 +88,6 @@ label {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 392px;
   height: 48px;
   padding-left: 12px;
   cursor: pointer;
