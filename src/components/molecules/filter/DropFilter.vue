@@ -70,6 +70,19 @@ function generateCheckboxLabels(count) {
 </template>
 
 <style scoped>
+
+button{
+border: none;
+    text-decoration: none;
+    font-size: 16px;
+    display: flex;
+    gap: 6px;
+    font-weight: bold;
+    line-height: 100%;
+    cursor: pointer;
+    justify-content: flex-start;
+}
+
 .drop-filter {
   width: 272px;
 }
@@ -82,18 +95,18 @@ function generateCheckboxLabels(count) {
   display: flex;
   flex-direction: column;
 }
-
 .dropdown-button {
   cursor: pointer;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
+  border-bottom: 2px solid var(--neutral-80);
   padding: 10px;
+  padding-left: 2px;
+  padding-bottom: 2px;
+  background-color: transparent ;
+  border-radius: 0px;
 }
 
 .dropdown-content {
   display: none;
-  background-color: #fff;
-  border: 1px solid #ccc;
   padding: 10px;
 }
 
