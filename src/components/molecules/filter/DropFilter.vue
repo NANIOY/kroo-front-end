@@ -9,12 +9,12 @@
     </div>
 
     <!-- Checkbox Dropdown -->
-    <div class="dropdown">
-      <button @click="toggleCheckboxDropdown" class="dropdown-button">{{ dropdownTitle }}</button>
-      <div v-show="showCheckboxDropdown" class="dropdown-content">
+    <div v-for="(dropdown, index) in dropdowns" :key="index" class="dropdown">
+      <button @click="toggleCheckboxDropdown(index)" class="dropdown-button">{{ dropdown.title }}</button>
+      <div v-show="activeDropdown === index" class="dropdown-content">
         <!-- Pass label prop to Checkbox component -->
-        <div v-for="(label, index) in numberOfCheckboxes" :key="index" class="checkbox-container">
-          <Checkbox :label="checkboxLabels[index - 1]" />
+        <div v-for="(label, checkboxIndex) in dropdown.checkboxLabels" :key="checkboxIndex" class="checkbox-container">
+          <Checkbox :label="label" />
         </div>
       </div>
     </div>
@@ -24,34 +24,40 @@
 <script setup>
 import { ref, watch } from 'vue';
 import Slider from '../../atoms/inputs/Slider.vue';
-import Checkbox from '../../atoms/checkboxes/Checkbox.vue';
+import Checkbox from '../../atoms/selectors/Checkbox.vue';
 
 const showSliderDropdown = ref(false);
-const showCheckboxDropdown = ref(false);
-const numberOfCheckboxes = ref(null);
+const activeDropdown = ref(null);
+const dropdowns = ref([
+  { title: 'Checkbox Options', numberOfCheckboxes: 3 },
+  // Add more dropdown configurations as needed
+]);
 const checkboxLabels = ref([]);
-const dropdownTitle = ref("Checkbox Options");
 
 function toggleSliderDropdown() {
   showSliderDropdown.value = !showSliderDropdown.value;
-  // Ensure checkbox dropdown is hidden when slider dropdown is toggled
-  if (showSliderDropdown.value && showCheckboxDropdown.value) {
-    showCheckboxDropdown.value = false;
-  }
+  // Hide all checkbox dropdowns when slider dropdown is toggled
+  activeDropdown.value = null;
 }
 
-function toggleCheckboxDropdown() {
-  showCheckboxDropdown.value = !showCheckboxDropdown.value;
-  // Ensure slider dropdown is hidden when checkbox dropdown is toggled
-  if (showCheckboxDropdown.value && showSliderDropdown.value) {
-    showSliderDropdown.value = false;
+function toggleCheckboxDropdown(index) {
+  console.log("Toggling dropdown:", index);
+  console.log("Before toggle:", activeDropdown.value);
+  
+  if (activeDropdown.value === index) {
+    activeDropdown.value = null;
+  } else {
+    activeDropdown.value = index;
   }
+
+  console.log("After toggle:", activeDropdown.value);
 }
 
-watch(numberOfCheckboxes, (newValue) => {
-  if (newValue !== null) {
-    checkboxLabels.value = generateCheckboxLabels(newValue);
-  }
+
+watch(dropdowns, (newDropdowns) => {
+  newDropdowns.forEach((dropdown) => {
+    dropdown.checkboxLabels = generateCheckboxLabels(dropdown.numberOfCheckboxes);
+  });
 });
 
 function generateCheckboxLabels(count) {
@@ -72,9 +78,6 @@ function generateCheckboxLabels(count) {
   font-size: 16px;
 }
 
-.dropdown-content {
-  display: none;
-}
 
 .dropdown-content.show {
   display: flex;
