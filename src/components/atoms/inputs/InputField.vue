@@ -76,7 +76,7 @@ export default {
   display: flex;
   align-items: center;
   position: relative;
-  width: fit-content;
+  width: 100%;
 }
 
 label {
@@ -85,8 +85,9 @@ label {
 }
 
 .inputContainer__wrapper input {
+  box-sizing: border-box;
   font-size: 20px;
-  padding: 12px 12px;
+  height: 48px;
   border: 2px solid var(--black);
   background-color: transparent;
   border-radius: 4px;
@@ -118,5 +119,6 @@ input::placeholder {
 
 .icon--right {
   right: 12px;
+  cursor: pointer;
 }
 </style>
