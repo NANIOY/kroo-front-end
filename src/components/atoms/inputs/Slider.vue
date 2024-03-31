@@ -15,7 +15,8 @@ const updateSliderValue = (event) => {
     <div class="slider-container">
         <input type="range" min="0" max="100" v-model="sliderValue" class="slider" />
         <div class="slider-value-container">
-            <input type="number" min="0" max="100" v-model.number="sliderValue" class="slider-value" @input="updateSliderValue($event)" />
+            <input type="number" min="0" max="100" v-model.number="sliderValue" class="slider-value"
+                @input="updateSliderValue($event)" />
         </div>
     </div>
 </template>
@@ -42,23 +43,23 @@ const updateSliderValue = (event) => {
 
 .slider-value {
     font-size: 16px;
-    border:none;
+    border: none;
     width: 40px;
     height: 40px;
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }
 
 .slider-value:focus {
-    outline: none; /* Remove border when focused */
+    outline: none;
 }
 
 .slider-container {
     position: relative;
     display: flex;
-    align-items: center; /* Align vertically */
+    align-items: center;
 }
 
 .slider-value-container {
@@ -69,8 +70,8 @@ const updateSliderValue = (event) => {
     width: 40px;
     height: 40px;
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    justify-content: center;
+    align-items: center;
 }
 
 /* Remove arrow controls for number input */
