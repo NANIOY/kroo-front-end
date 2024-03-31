@@ -65,12 +65,12 @@
     transition: 0.3s;
 }
 
-input:checked + .slider {
+input:checked+.slider {
     background-color: var(--blurple);
     border: var(--blurple) solid 2px;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
     -webkit-transform: translateX(22px);
     -ms-transform: translateX(22px);
     transform: translateX(22px);
@@ -89,6 +89,4 @@ input:checked + .slider:before {
     opacity: 0.8;
     background-color: var(--blurple);
 }
-
-
 </style>

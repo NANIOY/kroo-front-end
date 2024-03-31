@@ -18,10 +18,7 @@ const props = {
 
 </script>
 
-
-
 <template>
-    <!--  Container: Represents the box that wraps around the custom checkbox and its label text. It holds the entire checkbox component together. -->
     <div>
         <label :class="{ 'container': true, 'disabled': isDisabled }">
             <input type="checkbox" :disabled="isDisabled">
