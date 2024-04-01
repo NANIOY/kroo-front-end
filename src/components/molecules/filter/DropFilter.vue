@@ -2,9 +2,9 @@
 import { ref, watch, defineProps } from 'vue';
 import Slider from '../../atoms/inputs/Slider.vue';
 import Checkbox from '../../atoms/selectors/Checkbox.vue';
-import { NavArrowDown, NavArrowUp } from '@iconoir/vue';
+import { NavArrowDown, Search } from '@iconoir/vue';
 
-const { useSlider, checkboxConfigurations, sliderConfigurations } = defineProps(['useSlider', 'checkboxConfigurations', 'sliderConfigurations']);
+const { useSlider, dropdowns, sliderConfigurations } = defineProps(['useSlider', 'dropdowns', 'sliderConfigurations']);
 
 const showSliderDropdown = ref(false);
 const activeDropdown = ref(null);
@@ -23,8 +23,8 @@ function toggleCheckboxDropdown(index) {
   }
 }
 
-watch(checkboxConfigurations, (newCheckboxConfigurations) => {
-  newCheckboxConfigurations.forEach((config) => {
+watch(dropdowns, (newDropdowns) => {
+  newDropdowns.forEach((config) => {
     config.checkboxLabels = generateCheckboxLabels(config.numberOfCheckboxes);
   });
 });
@@ -55,7 +55,7 @@ function generateCheckboxLabels(count) {
     </div>
 
     <!-- Checkbox Dropdown -->
-    <div v-else v-for="(dropdown, index) in checkboxConfigurations" :key="index" class="dropdown">
+    <div v-else v-for="(dropdown, index) in dropdowns" :key="index" class="dropdown">
       <div class="dropdown-container">
         <button @click="toggleCheckboxDropdown(index)"
           :class="{ 'dropdown-button': true, 'expanded': activeDropdown === index }">
@@ -69,6 +69,14 @@ function generateCheckboxLabels(count) {
           <div v-for="(label, checkboxIndex) in dropdown.checkboxLabels" :key="checkboxIndex"
             class="checkbox-container">
             <Checkbox :label="label" />
+          </div>
+          <!-- Render "More" option if hasMore prop is true -->
+          <div v-if="dropdown.hasMore" class="checkbox-container">
+            <button class="more-button" @click="handleMoreClick">
+              <Search />
+              More
+
+            </button>
           </div>
         </div>
       </div>
