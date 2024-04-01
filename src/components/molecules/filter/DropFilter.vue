@@ -16,16 +16,11 @@ function toggleSliderDropdown() {
 }
 
 function toggleCheckboxDropdown(index) {
-  console.log("Toggling dropdown:", index);
-  console.log("Before toggle:", activeDropdown.value);
-
   if (activeDropdown.value === index) {
     activeDropdown.value = null;
   } else {
     activeDropdown.value = index;
   }
-
-  console.log("After toggle:", activeDropdown.value);
 }
 
 watch(checkboxConfigurations, (newCheckboxConfigurations) => {
@@ -48,8 +43,11 @@ function generateCheckboxLabels(count) {
     <!-- Slider Dropdown -->
     <div v-if="useSlider" class="dropdown">
       <div class="dropdown-container">
-        <button @click="toggleSliderDropdown" class="dropdown-button">Slider Option <NavArrowDown class="arrow-icon" /></button>
-        <div v-show="showSliderDropdown" class="dropdown-content">
+        <button @click="toggleSliderDropdown" class="dropdown-button">Slider Option
+          <NavArrowDown class="arrow-icon" />
+        </button>
+        <div :class="{ 'dropdown-content': true, 'show': showSliderDropdown, 'slide-down-enter': showSliderDropdown }"
+          ref="sliderDropdown">
           <Slider />
         </div>
       </div>
@@ -58,10 +56,16 @@ function generateCheckboxLabels(count) {
     <!-- Checkbox Dropdown -->
     <div v-else v-for="(dropdown, index) in checkboxConfigurations" :key="index" class="dropdown">
       <div class="dropdown-container">
-        <button @click="toggleCheckboxDropdown(index)" class="dropdown-button">{{ dropdown.title }} <NavArrowDown class="arrow-icon"/></button>
-        <div v-show="activeDropdown === index" class="dropdown-content">
+        <button @click="toggleCheckboxDropdown(index)"
+          :class="{ 'dropdown-button': true, 'expanded': activeDropdown === index }">{{ dropdown.title }}
+          <NavArrowDown class="arrow-icon" />
+        </button>
+        <div
+          :class="{ 'dropdown-content': true, 'show': activeDropdown === index, 'slide-down-enter': activeDropdown === index }"
+          ref="checkboxDropdown">
           <!-- Rendering checkboxes using Checkbox component -->
-          <div v-for="(label, checkboxIndex) in dropdown.checkboxLabels" :key="checkboxIndex" class="checkbox-container">
+          <div v-for="(label, checkboxIndex) in dropdown.checkboxLabels" :key="checkboxIndex"
+            class="checkbox-container">
             <Checkbox :label="label" />
           </div>
         </div>
@@ -71,21 +75,45 @@ function generateCheckboxLabels(count) {
 </template>
 
 <style scoped>
+.dropdown-content {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
 
-button{
-border: none;
-    text-decoration: none;
-    font-size: 16px;
-    display: flex;
-    gap: 6px;
-    font-weight: bold;
-    line-height: 100%;
-    cursor: pointer;
-    justify-content: flex-start;
+.show {
+  display: block;
+  opacity: 1;
+}
+
+.slide-down-enter {
+  animation: slideDown 0.3s;
+}
+
+@keyframes slideDown {
+  0% {
+    transform: translateY(-5%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+button {
+  border: none;
+  text-decoration: none;
+  font-size: 16px;
+  display: flex;
+  gap: 6px;
+  font-weight: bold;
+  line-height: 100%;
+  cursor: pointer;
+  justify-content: flex-start;
 }
 
 .arrow-icon {
-  margin-left: auto; /* Push the arrow icon to the right */
+  margin-left: auto;
 }
 
 .drop-filter {
@@ -100,22 +128,18 @@ border: none;
   display: flex;
   flex-direction: column;
 }
+
 .dropdown-button {
   cursor: pointer;
   border-bottom: 2px solid var(--neutral-80);
   padding: 10px;
   padding-left: 2px;
   padding-bottom: 2px;
-  background-color: transparent ;
+  background-color: transparent;
   border-radius: 0px;
 }
 
 .dropdown-content {
   padding: 10px;
-}
-
-.dropdown-container:hover .dropdown-content {
-  display: flex;
-  flex-direction: column;
 }
 </style>
