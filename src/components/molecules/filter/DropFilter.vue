@@ -43,8 +43,9 @@ function generateCheckboxLabels(count) {
     <!-- Slider Dropdown -->
     <div v-if="useSlider" class="dropdown">
       <div class="dropdown-container">
-        <button @click="toggleSliderDropdown" class="dropdown-button">Slider Option
-          <NavArrowDown class="arrow-icon" />
+        <button @click="toggleSliderDropdown" class="dropdown-button">
+          Slider Option
+          <NavArrowDown :class="{ 'rotate': showSliderDropdown }" class="arrow-icon" />
         </button>
         <div :class="{ 'dropdown-content': true, 'show': showSliderDropdown, 'slide-down-enter': showSliderDropdown }"
           ref="sliderDropdown">
@@ -57,8 +58,9 @@ function generateCheckboxLabels(count) {
     <div v-else v-for="(dropdown, index) in checkboxConfigurations" :key="index" class="dropdown">
       <div class="dropdown-container">
         <button @click="toggleCheckboxDropdown(index)"
-          :class="{ 'dropdown-button': true, 'expanded': activeDropdown === index }">{{ dropdown.title }}
-          <NavArrowDown class="arrow-icon" />
+          :class="{ 'dropdown-button': true, 'expanded': activeDropdown === index }">
+          {{ dropdown.title }}
+          <NavArrowDown :class="{ 'rotate': activeDropdown === index }" class="arrow-icon" />
         </button>
         <div
           :class="{ 'dropdown-content': true, 'show': activeDropdown === index, 'slide-down-enter': activeDropdown === index }"
@@ -98,6 +100,10 @@ function generateCheckboxLabels(count) {
   100% {
     transform: translateY(0);
   }
+}
+
+.rotate {
+  transform: rotate(180deg);
 }
 
 button {
