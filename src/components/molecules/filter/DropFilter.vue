@@ -169,8 +169,8 @@ button {
 .search-icon {
   color: var(--blurple);
   stroke-width: 3px;
-  height: 16px;
-  width: 16px;
+  height: 24px;
+  width: 24px;
 }
 
 .more-button {
@@ -178,6 +178,7 @@ button {
   align-items: center;
   text-align: center;
   background-color: transparent;
+  padding-left: 0px;
 }
 
 .more-text {
