@@ -73,8 +73,8 @@ function generateCheckboxLabels(count) {
           <!-- Render "More" option if hasMore prop is true -->
           <div v-if="dropdown.hasMore" class="checkbox-container">
             <button class="more-button" @click="handleMoreClick">
-              <Search />
-              More
+              <Search class="search-icon" />
+              <span class="more-text">More</span>
 
             </button>
           </div>
@@ -143,6 +143,11 @@ button {
   flex-direction: column;
 }
 
+.checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
 .dropdown-button {
   cursor: pointer;
   border-bottom: 2px solid var(--neutral-80);
@@ -155,5 +160,26 @@ button {
 
 .dropdown-content {
   padding: 10px;
+}
+
+.search-icon {
+  color: var(--blurple);
+  stroke-width: 3px;
+  height: 16px;
+  width: 16px;
+}
+
+.more-button {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  background-color: transparent;
+}
+
+.more-text {
+  color: var(--blurple);
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 5px;
 }
 </style>
