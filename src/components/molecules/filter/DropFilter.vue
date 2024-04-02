@@ -4,7 +4,9 @@ import Slider from '../../atoms/inputs/Slider.vue';
 import Checkbox from '../../atoms/selectors/Checkbox.vue';
 import { NavArrowDown, Search } from '@iconoir/vue';
 
-const { useSlider, dropdowns, sliderConfigurations } = defineProps(['useSlider', 'dropdowns', 'sliderConfigurations']);
+const { useSlider, dropdowns: initialDropdowns, sliderConfigurations } = defineProps(['useSlider', 'dropdowns', 'sliderConfigurations']);
+
+const dropdowns = ref(initialDropdowns || []); // Define dropdowns as a ref and handle the case when it's undefined
 
 const showSliderDropdown = ref(false);
 const activeDropdown = ref(null);
@@ -24,6 +26,7 @@ function toggleCheckboxDropdown(index) {
 }
 
 watch(dropdowns, (newDropdowns) => {
+  if (!Array.isArray(newDropdowns)) return; // Check if dropdowns is an array
   newDropdowns.forEach((config) => {
     config.checkboxLabels = generateCheckboxLabels(config.numberOfCheckboxes);
   });
@@ -66,16 +69,17 @@ function generateCheckboxLabels(count) {
           :class="{ 'dropdown-content': true, 'show': activeDropdown === index, 'slide-down-enter': activeDropdown === index }"
           ref="checkboxDropdown">
           <!-- Rendering checkboxes using Checkbox component -->
-          <div v-for="(label, checkboxIndex) in dropdown.checkboxLabels" :key="checkboxIndex"
-            class="checkbox-container">
-            <Checkbox :label="label" />
+          <div v-if="dropdown.checkboxLabels">
+            <div v-for="(label, checkboxIndex) in dropdown.checkboxLabels" :key="checkboxIndex"
+              class="checkbox-container">
+              <Checkbox :label="label" />
+            </div>
           </div>
           <!-- Render "More" option if hasMore prop is true -->
           <div v-if="dropdown.hasMore" class="checkbox-container">
             <button class="more-button" @click="handleMoreClick">
               <Search class="search-icon" />
               <span class="more-text">More</span>
-
             </button>
           </div>
         </div>
