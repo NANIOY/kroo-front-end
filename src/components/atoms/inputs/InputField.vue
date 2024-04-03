@@ -40,13 +40,21 @@ export default {
       inputType: this.isPassword ? 'password' : 'text'
     };
   },
-  components: {
-    NavArrowDown, User, Search, Mail, Attachment, Eye, EyeClosed
+  computed: {
+    inputPaddingLeft() {
+      return this.hasIconLeft ? '44px' : '12px';
+    },
+    inputPaddingRight() {
+      return this.hasIconRight ? '44px' : '12px';
+    }
   },
   methods: {
     togglePasswordVisibility() {
       this.inputType = this.inputType === 'password' ? 'text' : 'password';
     }
+  },
+  components: {
+    NavArrowDown, User, Search, Mail, Attachment, Eye, EyeClosed
   }
 };
 </script>
@@ -58,7 +66,8 @@ export default {
       <span v-if="hasIconLeft" class="icon icon--left">
         <component :is="iconLeftName" />
       </span>
-      <input :type="inputType" :placeholder="placeholder" :class="{ error: isError }" :style="{ width: inputWidth }" />
+      <input :type="inputType" :placeholder="placeholder" :class="{ error: isError }" 
+             :style="{ width: inputWidth, paddingLeft: inputPaddingLeft, paddingRight: inputPaddingRight }" />
       <span v-if="hasIconRight" class="icon icon--right" @click="togglePasswordVisibility">
         <component :is="iconRightName" />
       </span>
@@ -91,8 +100,6 @@ label {
   border: 2px solid var(--black);
   background-color: transparent;
   border-radius: 4px;
-  padding-left: 44px;
-  padding-right: 44px;
   transition: border-color 0.3s ease;
 }
 
