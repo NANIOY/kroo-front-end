@@ -19,6 +19,7 @@ const props = defineProps({
     noteText: String,
     noteLink: String,
     forgotPassword: Boolean,
+    endpoint: String,
 
     inputFields: {
         type: Array,
@@ -64,7 +65,7 @@ const selectButton = (index) => {
         </div>
 
         <div class="form__buttons">
-            <LargeButton :label="buttonLabel" :href="buttonLink" class="form__buttons__button button--primary" />
+            <LargeButton :label="buttonLabel" :endpoint="endpoint" class="form__buttons__button button--primary" />
 
             <div class="form__buttons__note">
                 <p class="button-normal" v-if="!noteLink">{{ noteText }}</p>

@@ -26,7 +26,7 @@ const checkbox = { label: 'Remember me' };
 
 <template>
   <Form :hasText="false" header="Sign in" :inputFields="inputFields" :checkbox="checkbox" :forgotPassword="true"
-    buttonLabel="Sign in" noteText="Don’t have an account yet? Create an account" noteLink="register" />
+    buttonLabel="Sign in" endpoint="/test" noteText="Don’t have an account yet? Create an account" noteLink="register" />
 </template>
 
 <style scoped></style>
