@@ -42,11 +42,14 @@ const props = defineProps({
             <Checkbox v-if="checkbox" :label="checkbox.label" size="small" class="form__checkbox" />
         </div>
 
-        <LargeButton :label="buttonLabel" :href="buttonLink" class="form__button button--primary" />
+        <div class="form__buttons">
+            <LargeButton :label="buttonLabel" :href="buttonLink" class="form__buttons__button button--primary" />
 
-        <div v-if="hasText" class="form__text">
-            <p v-if="!noteLink">{{ noteText }}</p>
-            <router-link v-else :to="noteLink">{{ noteText }}</router-link>
+            <div v-if="hasText" class="form__buttons__note">
+                <p class="button-normal" v-if="!noteLink">{{ noteText }}</p>
+                <router-link class="button-normal form__buttons__note__link" v-else :to="noteLink">{{ noteText
+                    }}</router-link>
+            </div>
         </div>
     </div>
 </template>
@@ -58,12 +61,15 @@ const props = defineProps({
     flex-direction: column;
     width: 536px;
     gap: 32px;
+    color: var(--black);
 }
 
 .form__inputs,
 .form__inputs__field,
 .form__inputs__dropdown,
-.form__button {
+.form__buttons,
+.form__buttons__button,
+.form__buttons__note {
     width: 100%;
 }
 
@@ -77,9 +83,15 @@ const props = defineProps({
 /* CHECKBOX */
 .form__checkbox {}
 
-/* TEXT */
-.form__text {
-    text-align: center;
-    font-size: 14px;
+/* BUTTONS */
+.form__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form__buttons__note .form__buttons__note__link {
+    text-decoration: none;
+    color: inherit;
 }
 </style>
