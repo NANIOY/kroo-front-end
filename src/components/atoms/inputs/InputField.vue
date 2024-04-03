@@ -66,8 +66,8 @@ export default {
       <span v-if="hasIconLeft" class="icon icon--left">
         <component :is="iconLeftName" />
       </span>
-      <input :type="inputType" :placeholder="placeholder" :class="{ error: isError }" 
-             :style="{ width: inputWidth, paddingLeft: inputPaddingLeft, paddingRight: inputPaddingRight }" />
+      <input :type="inputType" :placeholder="placeholder" :class="{ error: isError }"
+        :style="{ width: inputWidth, paddingLeft: inputPaddingLeft, paddingRight: inputPaddingRight }" />
       <span v-if="hasIconRight" class="icon icon--right" @click="togglePasswordVisibility">
         <component :is="iconRightName" />
       </span>
@@ -95,6 +95,7 @@ label {
 
 .inputContainer__wrapper input {
   box-sizing: border-box;
+  padding-top: 2px;
   font-size: 20px;
   height: 48px;
   border: 2px solid var(--black);
@@ -118,6 +119,7 @@ input::placeholder {
 
 .icon {
   position: absolute;
+  display: flex;
 }
 
 .icon--left {
