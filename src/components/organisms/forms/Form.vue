@@ -4,7 +4,8 @@ import InputField from '../../atoms/inputs/InputField.vue';
 import DropDown from '../../atoms/inputs/DropDown.vue';
 import Checkbox from '../../atoms/selectors/Checkbox.vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
-import { defineProps } from 'vue';
+import NormalButton from '../../atoms/buttons/NormalButton.vue';
+import { defineProps, ref } from 'vue';
 
 const props = defineProps({
     hasSelectors: Boolean,
@@ -28,6 +29,12 @@ const props = defineProps({
     checkbox: Object,
     buttonLabel: String
 });
+
+const selectedButtonIndex = ref(null);
+
+const selectButton = (index) => {
+    selectedButtonIndex.value = index;
+};
 </script>
 
 <template>
@@ -36,8 +43,10 @@ const props = defineProps({
             :steps="steps" :text="text" />
 
         <div class="form__selectors" v-if="hasSelectors">
-            <LargeButton :label="buttonLabel" :href="buttonLink" class="form__buttons__button button--primary" />
-            <LargeButton :label="buttonLabel" :href="buttonLink" class="form__buttons__button button--primary" />
+            <NormalButton label="Crew" class="form__selectors__button button--tertiary"
+                :class="{ 'button--active': selectedButtonIndex === 0 }" @click="selectButton(0)" />
+            <NormalButton label="Business" class="form__selectors__button button--tertiary"
+                :class="{ 'button--active': selectedButtonIndex === 1 }" @click="selectButton(1)" />
         </div>
 
         <div class="form__inputs">
@@ -81,8 +90,21 @@ const props = defineProps({
 .form__inputs__dropdown,
 .form__buttons,
 .form__buttons__button,
-.form__buttons__note {
+.form__buttons__note,
+.form__selectors__button {
     width: 100%;
+}
+
+/* SELECTORS */
+.form__selectors {
+    display: flex;
+    gap: 32px;
+    justify-content: space-between;
+}
+
+.button--active {
+    background-color: var(--blurple);
+    color: var(--white);
 }
 
 /* INPUTS */
