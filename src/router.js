@@ -1,6 +1,11 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+
+// LOGIN / REGISTER ROUTES
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
+import ForgotPassword from './views/ForgotPassword.vue'
+
+// MAIN APP ROUTES
 import Calendar from './views/Calendar.vue'
 import Dashboard from './views/Dashboard.vue'
 import Help from './views/Help.vue'
@@ -10,11 +15,14 @@ import Settings from './views/Settings.vue'
 import Tools from './views/Tools.vue'
 import Tracker from './views/Tracker.vue'
 import Upgrade from './views/Upgrade.vue'
-import Test from './views/Test.vue' // REMOVE FROM PRODUCTION
+
+// REMOVE FROM PRODUCTION
+import Test from './views/Test.vue'
 
 const routes = [
     { path: '/', component: Login },
     { path: '/register', component: Register },
+    { path: '/forgot-password', component: ForgotPassword },
     { path: '/calendar', component: Calendar },
     { path: '/dashboard', component: Dashboard },
     { path: '/help', component: Help },
