@@ -4,6 +4,7 @@ import InputField from '../../atoms/inputs/InputField.vue';
 import DropDown from '../../atoms/inputs/DropDown.vue';
 import Checkbox from '../../atoms/selectors/Checkbox.vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
+import { defineProps } from 'vue';
 
 const props = defineProps({
     hasBack: Boolean,
@@ -15,6 +16,7 @@ const props = defineProps({
     text: String,
     noteText: String,
     noteLink: String,
+    forgotPassword: Boolean,
 
     inputFields: {
         type: Array,
@@ -39,7 +41,11 @@ const props = defineProps({
                 :isError="field.isError" :isPassword="field.isPassword" class="form__inputs__field" />
             <DropDown v-if="dropdown" :label="dropdown.label" :placeholder="dropdown.placeholder"
                 :items="dropdown.items" class="form__inputs__dropdown" />
-            <Checkbox v-if="checkbox" :label="checkbox.label" size="small" class="form__checkbox" />
+            <div class="form__inputs__bot">
+                <Checkbox v-if="checkbox" :label="checkbox.label" size="small" class="form__checkbox" />
+                <router-link v-if="forgotPassword" :to="'/forgot-password'"
+                    class="form__inputs__bot__forgot button-normal">Forgot password?</router-link>
+            </div>
         </div>
 
         <div class="form__buttons">
@@ -60,7 +66,7 @@ const props = defineProps({
     display: flex;
     flex-direction: column;
     width: 536px;
-    gap: 32px;
+    gap: 28px;
     color: var(--black);
 }
 
@@ -80,8 +86,17 @@ const props = defineProps({
     gap: 16px;
 }
 
-/* CHECKBOX */
-.form__checkbox {}
+/* INPUTS BOTTOM */
+.form__inputs__bot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form__inputs__bot__forgot {
+    color: inherit;
+    margin-top: 2px;
+}
 
 /* BUTTONS */
 .form__buttons {
