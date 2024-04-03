@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Login from './views/Login.vue'
+import Register from './views/Register.vue'
 import Calendar from './views/Calendar.vue'
 import Dashboard from './views/Dashboard.vue'
 import Help from './views/Help.vue'
@@ -13,6 +14,7 @@ import Test from './views/Test.vue' // REMOVE FROM PRODUCTION
 
 const routes = [
     { path: '/', component: Login },
+    { path: '/register', component: Register },
     { path: '/calendar', component: Calendar },
     { path: '/dashboard', component: Dashboard },
     { path: '/help', component: Help },
