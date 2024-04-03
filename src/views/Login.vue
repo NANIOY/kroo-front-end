@@ -23,22 +23,12 @@ const inputFields = ref([
 ]);
 
 const checkbox = { label: 'Remember me' };
-
-const getPostData = () => {
-  const data = {};
-
-  for (const field of inputFields.value) {
-    data[field.label] = field.value;
-  }
-
-  return data;
-};
 </script>
 
 <template>
   <Form :hasText="false" header="Sign in" :inputFields="inputFields" :checkbox="checkbox" :forgotPassword="true"
-    buttonLabel="Sign in" endpoint="/auth/login" :postData="getPostData()"
-    noteText="Don’t have an account yet? Create an account" noteLink="register" />
+    buttonLabel="Sign in" endpoint="/auth/login" noteText="Don’t have an account yet? Create an account"
+    noteLink="register" />
 </template>
 
 <style scoped></style>

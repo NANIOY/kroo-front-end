@@ -72,7 +72,8 @@ const updatePostData = (field, value) => {
         </div>
 
         <div class="form__buttons">
-            <LargeButton :label="buttonLabel" :endpoint="endpoint" :postData="postData" class="form__buttons__button button--primary" />
+            <LargeButton :label="buttonLabel" :endpoint="endpoint" :postData="postData"
+                class="form__buttons__button button--primary" />
 
             <div class="form__buttons__note">
                 <p class="button-normal" v-if="!noteLink">{{ noteText }}</p>
