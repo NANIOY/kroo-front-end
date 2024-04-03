@@ -33,8 +33,14 @@ const props = defineProps({
 
 const selectedButtonIndex = ref(null);
 
+const postData = ref({});
+
 const selectButton = (index) => {
     selectedButtonIndex.value = index;
+};
+
+const updatePostData = (field, value) => {
+    postData.value[field] = value;
 };
 </script>
 
@@ -54,7 +60,8 @@ const selectButton = (index) => {
             <InputField v-for="(field, index) in inputFields" :key="index" :label="field.label"
                 :hasLabel="field.hasLabel" :iconLeftName="field.iconLeftName" :hasIconLeft="field.hasIconLeft"
                 :iconRightName="field.iconRightName" :hasIconRight="field.hasIconRight" :placeholder="field.placeholder"
-                :isError="field.isError" :isPassword="field.isPassword" class="form__inputs__field" />
+                :isError="field.isError" :isPassword="field.isPassword" class="form__inputs__field"
+                @input="updatePostData(field.label, $event.target.value)" />
             <DropDown v-if="dropdown" :label="dropdown.label" :placeholder="dropdown.placeholder"
                 :items="dropdown.items" class="form__inputs__dropdown" />
             <div v-if="checkbox" class="form__inputs__bot">
@@ -65,7 +72,7 @@ const selectButton = (index) => {
         </div>
 
         <div class="form__buttons">
-            <LargeButton :label="buttonLabel" :endpoint="endpoint" class="form__buttons__button button--primary" />
+            <LargeButton :label="buttonLabel" :endpoint="endpoint" :postData="postData" class="form__buttons__button button--primary" />
 
             <div class="form__buttons__note">
                 <p class="button-normal" v-if="!noteLink">{{ noteText }}</p>
@@ -75,6 +82,7 @@ const selectButton = (index) => {
         </div>
     </div>
 </template>
+
 
 <style scoped>
 /* GENERAL */

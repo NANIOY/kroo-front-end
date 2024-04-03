@@ -1,6 +1,7 @@
 <script>
 import { NavArrowDown, NavArrowUp, NavArrowLeft, NavArrowRight, User, HandCard, Bell, Accessibility, Behance, Tiktok, Threads, X, Linkedin, Youtube, Instagram, Facebook, Dribbble, MapPin, AtSign, CheckCircle, MoreHoriz, Xmark, Learning, CinemaOld, DragHandGesture, Attachment, Calendar, Search, Plus, Clock, BadgeCheck } from '@iconoir/vue';
 import { ref } from 'vue';
+import axios from 'axios';
 
 export default {
     props: {
@@ -23,13 +24,28 @@ export default {
         },
         endpoint: {
             type: String,
+            required: true
+        },
+        postData: {
+            type: Object,
+            required: true
         }
     },
     setup(props) {
         const baseUrl = 'https://kroo-back-end.onrender.com/api/v1'; // base URL
 
+        console.log('Props received:', props);
+
         const handleClick = () => {
-            console.log('Performing a POST request to:', baseUrl + props.endpoint);
+            console.log('Sending POST data:', props.postData);
+            // Perform a POST request to the specified endpoint
+            axios.post(baseUrl + props.endpoint, props.postData)
+                .then(response => {
+                    console.log('POST request successful:', response.data);
+                })
+                .catch(error => {
+                    console.error('Error making POST request:', error);
+                });
         };
 
         return {
