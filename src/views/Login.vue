@@ -3,11 +3,11 @@ import Form from '../components/organisms/forms/Form.vue';
 import { ref } from 'vue';
 const inputFields = ref([
   {
-    label: 'Username',
+    label: 'Email',
     hasLabel: true,
-    placeholder: 'Enter your username',
+    placeholder: 'Enter your email address',
     hasIconLeft: false,
-    isError: false,
+    hasIconRight: false,
     isPassword: false,
   },
   {
@@ -18,26 +18,15 @@ const inputFields = ref([
     hasIconRight: true,
     iconRightName: 'Eye',
     isPassword: true,
-  },
+  }
 ]);
-
-const dropdown = {
-  label: 'Select Option',
-  placeholder: 'Choose an option',
-  items: [
-    { value: 'option1', text: 'Option 1' },
-    { value: 'option2', text: 'Option 2' },
-    { value: 'option3', text: 'Option 3' }
-  ]
-};
 
 const checkbox = { label: 'Remember me' };
 </script>
 
 <template>
-  <Form :hasBack="true" :hasText="true" :hasSteps="true" :hasSkip="true" header="Form Header" steps="Step 1: Step Name"
-    text="Choose between Crew or Business account to tailor your experience, and remember, you can always switch or create the other later."
-    :inputFields="inputFields" :dropdown="dropdown" :checkbox="checkbox" buttonLabel="Submit" />
+  <Form :hasText="false" header="Sign in" :inputFields="inputFields" :checkbox="checkbox" :forgotPassword="true"
+    buttonLabel="Submit" noteText="Don’t have an account yet? Create an account" noteLink="register" />
 </template>
 
 <style scoped></style>
