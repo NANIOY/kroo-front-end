@@ -15,16 +15,22 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
+    size: {
+        type: String,
+        default: 'default' // Possible values: 'default', 'small'
+    }
 });
 </script>
 
 <template>
-    <label :class="{ 'container': true, 'disabled': isDisabled }">
+    <label
+        :class="{ 'container': true, 'disabled': isDisabled, 'small': size === 'small', 'default': size === 'default' }">
         <input type="checkbox" :disabled="isDisabled">
-        <Check class="checkmark" />
+        <Check class="checkmark" :style="getSizeStyle" />
         <span v-if="hasLabel" class="checkbox-label">{{ label }}</span>
     </label>
 </template>
+
 
 <style scoped>
 /* Container: the whole div that the checkbox and label are in */
@@ -38,22 +44,28 @@ const props = defineProps({
 
 /* Input styles: Hide the default web browser checkbox input */
 .container input {
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
+    display: none;
 }
 
 /* Styling for the checkmark - non active state */
 .checkmark {
-    height: 20px;
-    width: 20px;
     border: 2px solid var(--black);
-    border-radius: 3px;
+    border-radius: 2px;
     color: transparent;
     transition: background-color 0.3s;
     stroke-width: 2;
     vertical-align: middle;
+}
+
+/* Size styles */
+.container.small .checkmark {
+    height: 16px;
+    width: 16px;
+}
+
+.container.default .checkmark {
+    height: 20px;
+    width: 20px;
 }
 
 .checkbox-label {
