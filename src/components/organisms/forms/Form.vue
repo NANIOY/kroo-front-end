@@ -51,7 +51,7 @@ const props = defineProps({
         <div class="form__buttons">
             <LargeButton :label="buttonLabel" :href="buttonLink" class="form__buttons__button button--primary" />
 
-            <div v-if="hasText" class="form__buttons__note">
+            <div class="form__buttons__note">
                 <p class="button-normal" v-if="!noteLink">{{ noteText }}</p>
                 <router-link class="button-normal form__buttons__note__link" v-else :to="noteLink">{{ noteText
                     }}</router-link>
