@@ -13,6 +13,8 @@ const props = defineProps({
     header: String,
     steps: String,
     text: String,
+    noteText: String,
+    noteLink: String,
 
     inputFields: {
         type: Array,
@@ -40,7 +42,12 @@ const props = defineProps({
             <Checkbox v-if="checkbox" :label="checkbox.label" size="small" class="form__checkbox" />
         </div>
 
-        <LargeButton :label="buttonLabel" class="form__button button--primary" />
+        <LargeButton :label="buttonLabel" :href="buttonLink" class="form__button button--primary" />
+
+        <div v-if="hasText" class="form__text">
+            <p v-if="!noteLink">{{ noteText }}</p>
+            <router-link v-else :to="noteLink">{{ noteText }}</router-link>
+        </div>
     </div>
 </template>
 
@@ -50,7 +57,7 @@ const props = defineProps({
     display: flex;
     flex-direction: column;
     width: 536px;
-    gap: 32px
+    gap: 32px;
 }
 
 .form__inputs,
@@ -69,4 +76,10 @@ const props = defineProps({
 
 /* CHECKBOX */
 .form__checkbox {}
+
+/* TEXT */
+.form__text {
+    text-align: center;
+    font-size: 14px;
+}
 </style>
