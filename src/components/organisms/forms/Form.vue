@@ -7,6 +7,7 @@ import LargeButton from '../../atoms/buttons/LargeButton.vue';
 import { defineProps } from 'vue';
 
 const props = defineProps({
+    hasSelectors: Boolean,
     hasBack: Boolean,
     hasText: Boolean,
     hasSteps: Boolean,
@@ -33,6 +34,11 @@ const props = defineProps({
     <div class="form">
         <FormHeader :hasBack="hasBack" :hasText="hasText" :hasSteps="hasSteps" :hasSkip="hasSkip" :header="header"
             :steps="steps" :text="text" />
+
+        <div class="form__selectors" v-if="hasSelectors">
+            <LargeButton :label="buttonLabel" :href="buttonLink" class="form__buttons__button button--primary" />
+            <LargeButton :label="buttonLabel" :href="buttonLink" class="form__buttons__button button--primary" />
+        </div>
 
         <div class="form__inputs">
             <InputField v-for="(field, index) in inputFields" :key="index" :label="field.label"
