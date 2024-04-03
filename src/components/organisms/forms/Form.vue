@@ -28,12 +28,13 @@ const props = defineProps({
 
     dropdown: Object,
     checkbox: Object,
-    buttonLabel: String
+    buttonLabel: String,
+    rememberMe: Boolean // Add rememberMe prop
 });
 
 const selectedButtonIndex = ref(null);
-
 const postData = ref({});
+const rememberMe = ref(false); // Initialize rememberMe to false
 
 const selectButton = (index) => {
     selectedButtonIndex.value = index;
@@ -41,6 +42,10 @@ const selectButton = (index) => {
 
 const updatePostData = (field, value) => {
     postData.value[field] = value;
+};
+
+const handleRememberMeChange = (value) => {
+    updatePostData('rememberMe', value);
 };
 </script>
 
@@ -65,7 +70,8 @@ const updatePostData = (field, value) => {
             <DropDown v-if="dropdown" :label="dropdown.label" :placeholder="dropdown.placeholder"
                 :items="dropdown.items" class="form__inputs__dropdown" />
             <div v-if="checkbox" class="form__inputs__bot">
-                <Checkbox v-if="checkbox" :label="checkbox.label" size="small" class="form__checkbox" />
+                <Checkbox v-if="checkbox" :label="checkbox.label" size="small" class="form__checkbox"
+                    :checked="rememberMe" @change="handleRememberMeChange" />
                 <router-link v-if="forgotPassword" :to="'/forgot-password'"
                     class="form__inputs__bot__forgot button-normal">Forgot password?</router-link>
             </div>
