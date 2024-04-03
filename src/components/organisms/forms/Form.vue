@@ -56,7 +56,7 @@ const selectButton = (index) => {
                 :isError="field.isError" :isPassword="field.isPassword" class="form__inputs__field" />
             <DropDown v-if="dropdown" :label="dropdown.label" :placeholder="dropdown.placeholder"
                 :items="dropdown.items" class="form__inputs__dropdown" />
-            <div class="form__inputs__bot">
+            <div v-if="checkbox" class="form__inputs__bot">
                 <Checkbox v-if="checkbox" :label="checkbox.label" size="small" class="form__checkbox" />
                 <router-link v-if="forgotPassword" :to="'/forgot-password'"
                     class="form__inputs__bot__forgot button-normal">Forgot password?</router-link>
