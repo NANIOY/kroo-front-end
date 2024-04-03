@@ -67,7 +67,6 @@ export default {
 <style scoped>
 .normalButton {
     font-size: 16px;
-    width: 160px;
     height: 40px;
 }
 
