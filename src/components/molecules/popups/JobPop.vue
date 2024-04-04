@@ -4,8 +4,6 @@ import LargeButton from '../../atoms/buttons/LargeButton.vue';
 import IconLabel from '../../atoms/items/IconLabel.vue';
 import Tag from '../../atoms/items/Tag.vue';
 import { defineProps } from 'vue';
-import setupAxios from '../../../setupAxios.js'; // Import the setupAxios function
-import { useRouter } from 'vue-router';
 
 const props = defineProps({
     job: Object,
