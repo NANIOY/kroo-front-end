@@ -21,6 +21,10 @@ const props = defineProps({
     skillTags: {
         type: Array,
         default: () => []
+    },
+    attachmentLabels: {
+        type: Array,
+        default: () => []
     }
 });
 
@@ -59,8 +63,8 @@ const iconNames = ['Learning', 'MapPin', 'CinemaOld', 'DragHandGesture'];
             <div class="jobpop__attachements">
                 <p class="jobpop__attachments__head text-bold-normal">Attachments</p>
                 <div class="jobpop__attachments__links">
-                    <IconLabel label="Attachment 1" iconName="Attachment" />
-                    <IconLabel label="Attachment 2" iconName="Attachment" />
+                    <IconLabel v-for="(label, index) in attachmentLabels" :key="index" :label="label"
+                        iconName="Attachment" />
                 </div>
             </div>
         </div>
