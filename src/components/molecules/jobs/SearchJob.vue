@@ -3,7 +3,6 @@ import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import { defineProps } from 'vue';
 
 const props = defineProps({
-    employer: Object,
     job: Object,
 });
 
@@ -22,10 +21,10 @@ const formatMonth = (dateString) => {
 <template>
     <div class="container">
         <div class="container__info">
-            <!-- <div class="container__top">
-                <img :src="employer.image" class="container__top__image" alt="Employer's Logo" />
-                <span class="container__top__name text-reg-s">{{ employer.name }}</span>
-            </div> -->
+            <div class="container__top" v-if="job.employer">
+                <img :src="job.employer.image" class="container__top__image" alt="Employer's Logo" />
+                <span class="container__top__name text-reg-s">{{ job.employer.name }}</span>
+            </div>
 
             <div class="container__mid">
                 <h4 class="container__mid__title">{{ job.title }}</h4>
@@ -106,7 +105,7 @@ const formatMonth = (dateString) => {
     margin: 0;
     font-weight: 100;
     display: flex;
-    flex-direction: column-reverse;
+    align-items: center;
     height: 64px;
 }
 
