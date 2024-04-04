@@ -3,6 +3,7 @@ import { NavArrowDown, NavArrowUp, NavArrowLeft, NavArrowRight, User, HandCard, 
 import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import setupAxios from '../../../setupAxios';
 
 export default {
     props: {
@@ -34,31 +35,64 @@ export default {
         redirect: {
             type: String,
         },
+        storeTokens: {
+            type: Boolean,
+            default: false
+        },
     },
     setup(props) {
         const router = useRouter();
+        const axiosInstance = setupAxios(router);
 
         const handleClick = () => {
+            // check if token are in session storage
+            const sessionToken = sessionStorage.getItem('sessionToken');
+            const rememberMeToken = sessionStorage.getItem('rememberMeToken');
+
+            // redirect to login page if tokens are not available
+            if (!sessionToken || !rememberMeToken) {
+                router.push('/login');
+                return;
+            }
+
+            // set tokens in headers and cookies
+            const headers = {
+                'Authorization': sessionToken,
+                'Cookie': `rememberMeToken=${rememberMeToken}`
+            };
+
             console.log('Sending POST data:', props.postData);
-            axios.post(props.endpoint, props.postData)
+            axiosInstance.post(props.endpoint, props.postData, { headers })
                 .then(response => {
-                    console.log('POST request successful:', response.data);
-                    if (props.redirect) {
-                        handleSuccessResponse(response.data, router);
-                    }
+                    console.log('POST request successful:', response);
+                    handleSuccessResponse(response, router);
                 })
                 .catch(error => {
                     console.error('Error making POST request:', error);
                 });
         };
 
-        const handleSuccessResponse = (responseData, router) => {
-            if (props.storeTokens) {
+        const handleSuccessResponse = (response, router) => {
+            console.log('Entire Response Object:', response);
+
+            if (response && Object.keys(response).length !== 0) {
+                console.log('Response Data:', response);
+                if (response.sessionToken) {
+                    sessionStorage.setItem('sessionToken', response.sessionToken);
+                }
+                if (response.rememberMeToken) {
+                    sessionStorage.setItem('rememberMeToken', response.rememberMeToken);
+                }
+            } else {
+                console.error('Empty or undefined response:', response);
             }
+
+            // Redirect if needed
             if (props.redirect) {
                 router.push(props.redirect);
             }
         };
+
 
         return {
             handleClick

@@ -7,7 +7,7 @@ const setupAxios = (router) => {
 
     axiosInstance.interceptors.response.use(
         response => {
-            handleSuccessResponse(response.data, router);
+            handleSuccessResponse(response, router);
             return response;
         },
         error => {
@@ -18,15 +18,13 @@ const setupAxios = (router) => {
         }
     );
 
-    const handleSuccessResponse = (responseData, router) => {
-        if (responseData.data.sessionToken) {
-            sessionStorage.setItem('sessionToken', responseData.data.sessionToken);
+    const handleSuccessResponse = (response, router) => {
+        const responseData = response.data;
+        if (responseData && responseData.sessionToken) {
+            sessionStorage.setItem('sessionToken', responseData.sessionToken);
         }
-        if (responseData.data.rememberMeToken) {
-            sessionStorage.setItem('rememberMeToken', responseData.data.rememberMeToken);
-        }
-        if (router.currentRoute.value.path !== '/dashboard') {
-            router.push('/dashboard');
+        if (responseData && responseData.rememberMeToken) {
+            sessionStorage.setItem('rememberMeToken', responseData.rememberMeToken);
         }
     };
 
