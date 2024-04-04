@@ -38,6 +38,13 @@
   grid-row-gap: 0px;
 }
 
+.tracker__container__AppliedJob,
+.tracker__container__OfferedJob,
+.tracker__container__OngoingJob,
+.tracker__container__SavedJob {
+  padding: 8px;
+}
+
 .tracker__container__SavedJob { 
   grid-area: 1 / 1 / 2 / 2; 
 }
