@@ -1,33 +1,36 @@
 import axios from 'axios';
 
-// function to setup axios with common configurations
-const setupAxios = () => {
-    // set base URL for API requests
-    axios.defaults.baseURL = 'https://kroo-back-end.onrender.com/api/v1';
+const setupAxios = (router) => {
+    const axiosInstance = axios.create({
+        baseURL: 'https://kroo-back-end.onrender.com/api/v1',
+    });
 
-    // add request interceptor to modify request config before sending
-    axios.interceptors.request.use(
-        (config) => {
-            // you can modify the request config here if needed (e.g., adding common headers)
-            return config;
-        },
-        (error) => {
-            // handle request errors
-            return Promise.reject(error);
-        }
-    );
-
-    // add response interceptor to handle responses
-    axios.interceptors.response.use(
-        (response) => {
-            // you can modify the response data here if needed
+    axiosInstance.interceptors.response.use(
+        response => {
+            handleSuccessResponse(response.data, router);
             return response;
         },
-        (error) => {
-            // handle response errors
+        error => {
+            if (error.response.status === 401) {
+                console.error('Unauthorized access.');
+            }
             return Promise.reject(error);
         }
     );
+
+    const handleSuccessResponse = (responseData, router) => {
+        if (responseData.data.sessionToken) {
+            sessionStorage.setItem('sessionToken', responseData.data.sessionToken);
+        }
+        if (responseData.data.rememberMeToken) {
+            sessionStorage.setItem('rememberMeToken', responseData.data.rememberMeToken);
+        }
+        if (router.currentRoute.value.path !== '/dashboard') {
+            router.push('/dashboard');
+        }
+    };
+
+    return axiosInstance;
 };
 
 export default setupAxios;
