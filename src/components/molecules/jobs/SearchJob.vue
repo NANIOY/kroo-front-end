@@ -6,20 +6,41 @@ const props = defineProps({
     employer: String,
     job: String
 });
+
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.getDate();
+};
+
+const formatMonth = (dateString) => {
+    const date = new Date(dateString);
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    return monthNames[date.getMonth()];
+};
 </script>
 
 <template>
     <div class="container">
-        <div class="container__top">
-            <img :src="employer.image" class="container__top__image" alt="Employer's Logo" />
-            <span class="container__top__name">{{ employer.name }}</span>
-        </div>
+        <div class="container__info">
+            <div class="container__top">
+                <img :src="employer.image" class="container__top__image" alt="Employer's Logo" />
+                <span class="container__top__name text-reg-s">{{ employer.name }}</span>
+            </div>
 
-        <div class="container__mid">
-            <h2 class="container__mid__title">{{ job.title }}</h2>
-            <div class="container__mid__info">
-                <span class="container__mid__info__date">{{ job.date }}</span>
-                <span class="container__mid__info__location">{{ job.location }}</span>
+            <div class="container__mid">
+                <h4 class="container__mid__title">{{ job.title }}</h4>
+                <div class="container__mid__data">
+                    <div class="container__mid__data__date">
+                        <span class="container__mid__data__date__day text-reg-l">{{ formatDate(job.date) }}</span>
+                        <span class="container__mid__data__date__month text-reg-normal">{{ formatMonth(job.date)
+                            }}</span>
+                    </div>
+                    <div class="container__mid__data__location">
+                        <span class="container__mid__data__location__city text-reg-l">{{ job.location.city }}</span>
+                        <span class="container__mid__data__location__country text-reg-normal">{{ job.location.country
+                            }}</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -34,62 +55,76 @@ const props = defineProps({
 </template>
 
 <style scoped>
+/* GENERAL */
 .container {
     width: 448px;
     height: 282px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    background-color: var(--neutral-20);
+    color: var(--black);
+    border-radius: 4px;
     padding: 16px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
+.container__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+/* TOP */
 .container__top {
     display: flex;
     align-items: center;
+    gap: 8px;
 }
 
 .container__top__image {
-    width: 40px;
-    height: 40px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
-    margin-right: 12px;
 }
 
+/* MIDDLE */
 .container__mid {
-    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .container__mid__title {
-    font-size: 18px;
-    margin-bottom: 8px;
+    margin: 0;
+    font-weight: 100;
 }
 
-.container__mid__info {
+.container__mid__data {
     display: flex;
+    justify-content: space-between;
 }
 
-.container__mid__info__date {
-    margin-right: 12px;
+.container__mid__data div {
+    display: flex;
+    flex-direction: column;
 }
 
+.container__mid__data__date {}
+
+/* BOTTOM */
 .container__bot {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.container__bot__rate {
-    font-size: 16px;
-}
+.container__bot__rate {}
 
 .container__bot__buttons {
     display: flex;
 }
 
 .container__bot__buttons__apply,
-.container__bot__buttons__save {
-    margin-left: 8px;
-}
+.container__bot__buttons__save {}
 </style>
