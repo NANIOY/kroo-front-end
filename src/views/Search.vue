@@ -23,26 +23,32 @@ const fetchJobs = async () => {
       }
     }));
 
-    // fetch location data for each job based on city name
-    await Promise.all(fetchedJobs.value.map(async (job) => {
-      try {
-        // use OpenStreetMap Nominatim API to fetch location data based on city name
-        const locationResponse = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(job.location)}`);
-        const locationData = locationResponse.data[0];
+    // batch processing for location data
+    const batchSize = 9;
+    for (let i = 0; i < fetchedJobs.value.length; i += batchSize) {
+      const batchJobs = fetchedJobs.value.slice(i, i + batchSize);
 
-        // extract country from location data
-        if (locationData) {
-          job.location = {
-            city: job.location,
-            country: locationData.display_name.split(',').pop().trim()
-          };
-        } else {
-          console.error('Location data not found for:', job.location);
+      // fetch location data for each job based on city name
+      await Promise.all(batchJobs.map(async (job) => {
+        try {
+          // use OpenStreetMap Nominatim API to fetch location data based on city name
+          const locationResponse = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(job.location)}`);
+          const locationData = locationResponse.data[0];
+
+          // extract country from location data
+          if (locationData) {
+            job.location = {
+              city: job.location,
+              country: locationData.display_name.split(',').pop().trim()
+            };
+          } else {
+            console.error('Location data not found for:', job.location);
+          }
+        } catch (error) {
+          console.error('Error fetching location data:', error);
         }
-      } catch (error) {
-        console.error('Error fetching location data:', error);
-      }
-    }));
+      }));
+    }
   } catch (error) {
     console.error('Error fetching jobs:', error);
   }
