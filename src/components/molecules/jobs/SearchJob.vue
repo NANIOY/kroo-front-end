@@ -16,10 +16,16 @@ const formatMonth = (dateString) => {
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     return monthNames[date.getMonth()];
 };
+
+const emits = defineEmits(['jobClick']);
+
+const openJobPop = () => {
+  emits('jobClick', props.job);
+};
 </script>
 
 <template>
-    <div class="container">
+    <div class="container" @click="openJobPop">
         <div class="container__info">
             <div class="container__top" v-if="job.employer">
                 <img :src="job.employer.image" class="container__top__image" alt="Employer's Logo" />

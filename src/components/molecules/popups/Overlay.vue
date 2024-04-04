@@ -1,13 +1,17 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineEmits } from 'vue';
 
-const props = defineProps({
-    show: Boolean,
-});
+const emits = defineEmits(['overlayClick']);
+
+const handleClick = () => {
+    emits('overlayClick');
+};
 </script>
 
 <template>
-    <div v-if="show" class="overlay"></div>
+    <div class="overlay" @click="handleClick">
+        <slot></slot>
+    </div>
 </template>
 
 <style scoped>
