@@ -51,16 +51,17 @@ const iconNames = ['Learning', 'MapPin', 'CinemaOld', 'DragHandGesture'];
 
         <!-- Middle Section -->
         <div class="jobpop__mid">
-            <p class="jobpop__heading text-bold-l">Details</p>
-            <hr class="jobpop__divider" />
-            <div class="jobpop__details">
+            <div class="jobpop__mid__details">
+                <p class="jobpop__mid__details__heading text-bold-l">Details</p>
                 <IconLabel v-for="(label, index) in iconLabels" :key="index" :label="label"
                     :iconName="iconNames[index]" />
             </div>
-            <p class="jobpop__attachments text-bold-normal">Attachments</p>
-            <div class="jobpop__attachment-details">
-                <IconLabel label="Attachment 1" iconName="Attachment" />
-                <IconLabel label="Attachment 2" iconName="Attachment" />
+            <div class="jobpop__attachements">
+                <p class="jobpop__attachments__head text-bold-normal">Attachments</p>
+                <div class="jobpop__attachments__links">
+                    <IconLabel label="Attachment 1" iconName="Attachment" />
+                    <IconLabel label="Attachment 2" iconName="Attachment" />
+                </div>
             </div>
         </div>
 
@@ -90,6 +91,7 @@ const iconNames = ['Learning', 'MapPin', 'CinemaOld', 'DragHandGesture'];
     display: flex;
     flex-direction: column;
     gap: 12px;
+    margin-bottom: 24px;
 }
 
 .jobpop__top__row {
@@ -130,17 +132,28 @@ p {
     margin-bottom: 4px;
 }
 
-.jobpop__tags {
+.jobpop__top__details__tags {
     display: flex;
+    gap: 8px;
 }
 
 /* MIDDLE */
-.jobpop__divider {
-    width: 100%;
-    border: 0;
-    border-bottom: 1px solid #ccc;
-    margin-top: 8px;
-    margin-bottom: 16px;
+.jobpop__mid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.jobpop__mid__details {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+}
+
+.jobpop__mid__details__heading {
+    border-bottom: 1.5px solid var(--black);
+    padding-bottom: 2px;
 }
 
 /* BOTTOM */
