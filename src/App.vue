@@ -1,14 +1,3 @@
-<template>
-  <div>
-    <NavBar />
-    <div class="router">
-      <TopNav v-if="!isDashboardRoute || $route.path !== '/dashboard'" name="John Smith" func="Gaffer"
-        :profileImage="'https://placehold.co/56x56'" />
-      <router-view></router-view>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import { ref, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
@@ -21,12 +10,26 @@ const isDashboardRoute = ref(route.path === '/dashboard');
 watchEffect(() => {
   isDashboardRoute.value = route.path === '/dashboard';
 });
-
 </script>
+
+<template>
+  <div>
+    <NavBar class="navbar"/>
+    <div class="router">
+      <TopNav v-if="!isDashboardRoute || $route.path !== '/dashboard'" name="John Smith" func="Gaffer"
+        :profileImage="'https://placehold.co/56x56'" />
+      <router-view></router-view>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .router {
   margin-left: 144px;
   margin-right: 56px;
+}
+
+.navbar {
+  z-index: 1000;
 }
 </style>
