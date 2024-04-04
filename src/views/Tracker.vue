@@ -9,20 +9,38 @@
 
   <div id="tracker__container">
 
-    <div class="tracker__container__SavedJob">
-      <SavedJob />
+    <div id="tracker__container--SavedJob"> 
+      <h6 class="tracker__container__title">SAVED &#8722;</h6>
+      
+      <div class="tracker__container__SavedJob">
+        <SavedJob />
+      </div>
+
     </div>
 
-    <div class="tracker__container__AppliedJob">
-      <AppliedJob />
+    <div id="tracker__container--AppliedJob">
+      <h6 class="tracker__container__title">APPLIED &#8722;</h6>
+
+      <div class="tracker__container__AppliedJob">
+        <AppliedJob />
+      </div>
     </div>
 
-    <div class="tracker__container__OngoingJob">
-      <OngoingJob />
+    <div id="tracker__container--OngoingJob">
+      <h6 class="tracker__container__title">ONGOING &#8722;</h6>
+
+      <div class="tracker__container__OngoingJob">
+        <OngoingJob />
+      </div>
     </div>
 
-    <div class="tracker__container__OfferedJob">
-      <OfferedJob />
+
+    <div id="tracker__container--OfferedJob">
+      <h6 class="tracker__container__title">OFFERED &#8722;</h6>
+
+      <div class="tracker__container__OfferedJob">
+        <OfferedJob />
+      </div>
     </div>
   </div>
 
@@ -59,6 +77,10 @@
 
 .tracker__container__OfferedJob { 
   grid-area: 1 / 4 / 2 / 5; 
+}
+
+.tracker__container__title {
+  margin-bottom: 8px;
 }
 
 </style>
