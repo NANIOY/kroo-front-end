@@ -43,5 +43,4 @@ const getPostData = () => {
     noteText="Don’t have an account yet? Create an account" noteLink="register" redirect="/dashboard" />
 </template>
 
-
 <style scoped></style>

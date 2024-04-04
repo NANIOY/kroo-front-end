@@ -5,9 +5,26 @@ const setupAxios = (router) => {
         baseURL: 'https://kroo-back-end.onrender.com/api/v1',
     });
 
+    axiosInstance.interceptors.request.use(
+        config => {
+            const sessionToken = sessionStorage.getItem('sessionToken');
+            const rememberMeToken = sessionStorage.getItem('rememberMeToken');
+
+            if (sessionToken && rememberMeToken) {
+                config.headers['Authorization'] = sessionToken;
+                config.headers['Cookie'] = `rememberMeToken=${rememberMeToken}`;
+            }
+
+            return config;
+        },
+        error => {
+            return Promise.reject(error);
+        }
+    );
+
     axiosInstance.interceptors.response.use(
         response => {
-            handleSuccessResponse(response, router);
+            handleSuccessResponse(response.data, router);
             return response;
         },
         error => {
@@ -18,13 +35,14 @@ const setupAxios = (router) => {
         }
     );
 
-    const handleSuccessResponse = (response, router) => {
-        const responseData = response.data;
-        if (responseData && responseData.sessionToken) {
-            sessionStorage.setItem('sessionToken', responseData.sessionToken);
-        }
-        if (responseData && responseData.rememberMeToken) {
-            sessionStorage.setItem('rememberMeToken', responseData.rememberMeToken);
+    const handleSuccessResponse = (responseData, router) => {
+        if (responseData && responseData.data) {
+            if (responseData.data.sessionToken) {
+                sessionStorage.setItem('sessionToken', responseData.data.sessionToken);
+            }
+            if (responseData.data.rememberMeToken) {
+                sessionStorage.setItem('rememberMeToken', responseData.data.rememberMeToken);
+            }
         }
     };
 

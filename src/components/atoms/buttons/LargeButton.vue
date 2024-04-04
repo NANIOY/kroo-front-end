@@ -3,7 +3,7 @@ import { NavArrowDown, NavArrowUp, NavArrowLeft, NavArrowRight, User, HandCard, 
 import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-import setupAxios from '../../../setupAxios';
+import setupAxios from '../../../setupAxios.js'
 
 export default {
     props: {
@@ -35,64 +35,19 @@ export default {
         redirect: {
             type: String,
         },
-        storeTokens: {
-            type: Boolean,
-            default: false
-        },
     },
     setup(props) {
         const router = useRouter();
+
+        // call setupAxios to set up axios instance with router
         const axiosInstance = setupAxios(router);
 
         const handleClick = () => {
-            // check if token are in session storage
-            const sessionToken = sessionStorage.getItem('sessionToken');
-            const rememberMeToken = sessionStorage.getItem('rememberMeToken');
-
-            // redirect to login page if tokens are not available
-            if (!sessionToken || !rememberMeToken) {
-                router.push('/login');
-                return;
-            }
-
-            // set tokens in headers and cookies
-            const headers = {
-                'Authorization': sessionToken,
-                'Cookie': `rememberMeToken=${rememberMeToken}`
-            };
-
-            console.log('Sending POST data:', props.postData);
-            axiosInstance.post(props.endpoint, props.postData, { headers })
-                .then(response => {
-                    console.log('POST request successful:', response);
-                    handleSuccessResponse(response, router);
-                })
+            axiosInstance.post(props.endpoint, props.postData)
                 .catch(error => {
                     console.error('Error making POST request:', error);
                 });
         };
-
-        const handleSuccessResponse = (response, router) => {
-            console.log('Entire Response Object:', response);
-
-            if (response && Object.keys(response).length !== 0) {
-                console.log('Response Data:', response);
-                if (response.sessionToken) {
-                    sessionStorage.setItem('sessionToken', response.sessionToken);
-                }
-                if (response.rememberMeToken) {
-                    sessionStorage.setItem('rememberMeToken', response.rememberMeToken);
-                }
-            } else {
-                console.error('Empty or undefined response:', response);
-            }
-
-            // Redirect if needed
-            if (props.redirect) {
-                router.push(props.redirect);
-            }
-        };
-
 
         return {
             handleClick

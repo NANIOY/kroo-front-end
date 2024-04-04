@@ -17,6 +17,7 @@ const formatDateTime = (dateTimeString) => {
     const formattedTime = dateTime.toLocaleTimeString(undefined, timeOptions);
     return `${formattedDate} | ${formattedTime}`;
 };
+
 </script>
 
 <template>
@@ -63,8 +64,8 @@ const formatDateTime = (dateTimeString) => {
 
         <!-- Bottom Section -->
         <div class="jobpop__bottom">
-            <LargeButton label="Apply" :endpoint="`/crewJobInt/${job.id}/apply`"
-                class="jobpop__bottom__button button--primary" :postData="{}" />
+            <LargeButton label="Apply" class="jobpop__bottom__button button--primary"
+                :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" />
             <LargeButton label="Save" class="jobpop__bottom__button button--tertiary" />
         </div>
     </div>
