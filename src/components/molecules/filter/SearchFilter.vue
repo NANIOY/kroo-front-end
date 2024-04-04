@@ -1,6 +1,7 @@
 <script setup>
 import DropFilter from './DropFilter.vue';
-import  InputField from '../../atoms/inputs/InputField.vue';
+import InputField from '../../atoms/inputs/InputField.vue';
+import Dropdown from '../../atoms/inputs/DropDown.vue'; // Corrected import name
 
 // Define configurations for each component
 const timeConfig = { 
@@ -36,11 +37,17 @@ const productionTypeConfig = {
   checkboxLabels: [' Feature film', 'Television', 'Commercial'] 
 };
 
-const searchInputConfig = {
-  label: 'Search',
-  placeholder: 'Sort by ',
+// Configuration for dropdown
+const searchDropdownConfig = {
+  label: ' ',
+  placeholder: 'Sort by',
 };
 
+// Configuration for input field
+const searchInputConfig = {
+  label: 'Search',
+  placeholder: 'Enter your search query',
+};
 </script>
 
 <template>
@@ -48,6 +55,9 @@ const searchInputConfig = {
 
       <!-- Input field -->
       <InputField :label="searchInputConfig.label" :placeholder="searchInputConfig.placeholder" />
+
+    <!-- Input field for dropdown -->
+    <Dropdown :label="searchDropdownConfig.label" :placeholder="searchDropdownConfig.placeholder" :options="searchDropdownConfig.options" />
 
     <!-- Dropdown menu for "Time" -->
     <DropFilter :useSlider="false" :dropdowns="[timeConfig]" />
