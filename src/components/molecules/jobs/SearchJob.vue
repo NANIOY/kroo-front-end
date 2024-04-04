@@ -22,10 +22,10 @@ const formatMonth = (dateString) => {
 <template>
     <div class="container">
         <div class="container__info">
-            <div class="container__top">
+            <!-- <div class="container__top">
                 <img :src="employer.image" class="container__top__image" alt="Employer's Logo" />
                 <span class="container__top__name text-reg-s">{{ employer.name }}</span>
-            </div>
+            </div> -->
 
             <div class="container__mid">
                 <h4 class="container__mid__title">{{ job.title }}</h4>
