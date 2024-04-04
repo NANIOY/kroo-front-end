@@ -19,6 +19,9 @@ import normalButton from '../../atoms/buttons/NormalButton.vue';
                 </div>
             </div>
         </div>
+        <div id="applied__job__jobTitle">
+            <p class="text-bold-l">job title</p>
+        </div>
         <div id="applied__job__buttons">
             <div id="applied_job__buttons-cancel">
                 <normalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
