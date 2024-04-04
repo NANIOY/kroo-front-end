@@ -7,24 +7,27 @@ const setupAxios = (router) => {
 
     axiosInstance.interceptors.response.use(
         response => {
-            handleSuccessResponse(response, router);
+            handleSuccessResponse(response.data, router);
             return response;
         },
         error => {
             if (error.response.status === 401) {
-                console.error('Unauthorized access.');
+                console.error('Unauthorized access. Redirecting to login page.');
+                router.push('/login')
             }
             return Promise.reject(error);
         }
     );
 
-    const handleSuccessResponse = (response, router) => {
-        const responseData = response.data;
-        if (responseData && responseData.sessionToken) {
-            sessionStorage.setItem('sessionToken', responseData.sessionToken);
+    const handleSuccessResponse = (responseData, router) => {
+        if (responseData.data.sessionToken) {
+            sessionStorage.setItem('sessionToken', responseData.data.sessionToken);
         }
-        if (responseData && responseData.rememberMeToken) {
-            sessionStorage.setItem('rememberMeToken', responseData.rememberMeToken);
+        if (responseData.data.rememberMeToken) {
+            sessionStorage.setItem('rememberMeToken', responseData.data.rememberMeToken);
+        }
+        if (router.currentRoute.value.path !== '/dashboard') {
+            router.push('/dashboard');
         }
     };
 
