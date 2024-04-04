@@ -36,14 +36,13 @@ const setupAxios = (router) => {
     );
 
     const handleSuccessResponse = (responseData, router) => {
-        if (responseData.data.sessionToken) {
-            sessionStorage.setItem('sessionToken', responseData.data.sessionToken);
-        }
-        if (responseData.data.rememberMeToken) {
-            sessionStorage.setItem('rememberMeToken', responseData.data.rememberMeToken);
-        }
-        if (router.currentRoute.value.path !== '/dashboard') {
-            router.push('/dashboard');
+        if (responseData && responseData.data) {
+            if (responseData.data.sessionToken) {
+                sessionStorage.setItem('sessionToken', responseData.data.sessionToken);
+            }
+            if (responseData.data.rememberMeToken) {
+                sessionStorage.setItem('rememberMeToken', responseData.data.rememberMeToken);
+            }
         }
     };
 

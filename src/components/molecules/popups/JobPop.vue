@@ -20,39 +20,6 @@ const formatDateTime = (dateTimeString) => {
     return `${formattedDate} | ${formattedTime}`;
 };
 
-const router = useRouter();
-const axiosInstance = setupAxios(router);
-
-const handleApplyClick = () => {
-    // Check for session tokens
-    const sessionToken = sessionStorage.getItem('sessionToken');
-    const rememberMeToken = sessionStorage.getItem('rememberMeToken');
-
-    if (!sessionToken || !rememberMeToken) {
-        // You may handle this case as needed, e.g., redirect to login page
-        router.push('/login');
-        return;
-    }
-
-    // Create headers object with Authorization header
-    const headers = {
-        Authorization: sessionToken, // Use sessionToken as Authorization header
-        Cookie: `rememberMeToken=${rememberMeToken}`, // Set Cookie header with rememberMeToken
-    };
-
-    // Proceed with the request
-    const endpoint = `/crewJobInt/${props.job.id}/apply`;
-    const postData = {}; // Add any data needed for the application
-
-    // Make POST request with headers
-    axiosInstance.post(endpoint, postData, { headers })
-        .then(response => {
-            console.log('POST request successful:', response);
-            // Handle success response if needed
-        })
-        .catch(error => {
-        });
-};
 </script>
 
 <template>
@@ -100,7 +67,7 @@ const handleApplyClick = () => {
         <!-- Bottom Section -->
         <div class="jobpop__bottom">
             <LargeButton label="Apply" class="jobpop__bottom__button button--primary"
-                :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" @click="handleApplyClick" />
+                :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" />
             <LargeButton label="Save" class="jobpop__bottom__button button--tertiary" />
         </div>
     </div>

@@ -43,7 +43,6 @@ export default {
         const axiosInstance = setupAxios(router);
 
         const handleClick = () => {
-            console.log('Sending POST data:', props.postData);
             axiosInstance.post(props.endpoint, props.postData)
                 .catch(error => {
                     console.error('Error making POST request:', error);
