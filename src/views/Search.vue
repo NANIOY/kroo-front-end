@@ -29,7 +29,7 @@ const fetchJobs = async () => {
         // use OpenStreetMap Nominatim API to fetch location data based on city name
         const locationResponse = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(job.location)}`);
         const locationData = locationResponse.data[0];
-        
+
         // extract country from location data
         if (locationData) {
           job.location = {
@@ -54,9 +54,17 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
+  <div class="flexcontainer">
     <SearchJob v-for="job in fetchedJobs" :key="job._id" :job="job" />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.flexcontainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  max-width: 1392px;
+  margin-left: auto;
+}
+</style>
