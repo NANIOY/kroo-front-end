@@ -38,7 +38,7 @@ const formatDateTime = (dateTimeString) => {
                 <p class="jobpop__top__details__time text-bold-normal">{{ formatDateTime(job.date) }}</p>
                 <div class="jobpop__top__details__tags">
                     <Tag class="jobpop__top__details__tags__tag" v-for="(skill, index) in job.skills" :key="index"
-                        type="colored">{{ skill }}</Tag>
+                        type="default">{{ skill }}</Tag>
                 </div>
             </div>
         </div>
