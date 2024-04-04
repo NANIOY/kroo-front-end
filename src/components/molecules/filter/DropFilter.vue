@@ -179,8 +179,8 @@ function generateCheckboxLabels(count) {
 .slider-option {
   font-weight: bold;
   text-shadow: -0.1px -0.1px 0 var(--black),
-               0.1px -0.1px 0 var(--black),
-              -0.1px  0.1px 0 var(--black),
-               0.1px  0.1px 0 var(--black); 
+    0.1px -0.1px 0 var(--black),
+    -0.1px 0.1px 0 var(--black),
+    0.1px 0.1px 0 var(--black);
 }
 </style>
