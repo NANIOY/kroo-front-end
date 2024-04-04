@@ -62,10 +62,11 @@ const formatMonth = (dateString) => {
     background-color: var(--neutral-20);
     color: var(--black);
     border-radius: 4px;
-    padding: 16px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    box-sizing: border-box;
 }
 
 .container__info {
@@ -92,12 +93,15 @@ const formatMonth = (dateString) => {
 .container__mid {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
 }
 
 .container__mid__title {
     margin: 0;
     font-weight: 100;
+    display: flex;
+    flex-direction: column-reverse;
+    height: 64px;
 }
 
 .container__mid__data {
@@ -110,7 +114,9 @@ const formatMonth = (dateString) => {
     flex-direction: column;
 }
 
-.container__mid__data__date {}
+.container__mid__data__location {
+    text-align: right;
+}
 
 /* BOTTOM */
 .container__bot {
