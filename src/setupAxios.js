@@ -5,6 +5,23 @@ const setupAxios = (router) => {
         baseURL: 'https://kroo-back-end.onrender.com/api/v1',
     });
 
+    axiosInstance.interceptors.request.use(
+        config => {
+            const sessionToken = sessionStorage.getItem('sessionToken');
+            const rememberMeToken = sessionStorage.getItem('rememberMeToken');
+
+            if (sessionToken && rememberMeToken) {
+                config.headers['Authorization'] = sessionToken;
+                config.headers['Cookie'] = `rememberMeToken=${rememberMeToken}`;
+            }
+
+            return config;
+        },
+        error => {
+            return Promise.reject(error);
+        }
+    );
+
     axiosInstance.interceptors.response.use(
         response => {
             handleSuccessResponse(response.data, router);
@@ -12,8 +29,7 @@ const setupAxios = (router) => {
         },
         error => {
             if (error.response.status === 401) {
-                console.error('Unauthorized access. Redirecting to login page.');
-                router.push('/login')
+                console.error('Unauthorized access.');
             }
             return Promise.reject(error);
         }
