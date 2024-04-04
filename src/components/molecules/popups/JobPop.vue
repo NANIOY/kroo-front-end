@@ -10,6 +10,15 @@ const props = defineProps({
 });
 
 const iconNames = ['Learning', 'MapPin', 'CinemaOld', 'DragHandGesture'];
+
+const formatDateTime = (dateTimeString) => {
+    const dateTime = new Date(dateTimeString);
+    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    const timeOptions = { hour: 'numeric', minute: 'numeric', hour12: true };
+    const formattedDate = dateTime.toLocaleDateString(undefined, dateOptions);
+    const formattedTime = dateTime.toLocaleTimeString(undefined, timeOptions);
+    return `${formattedDate} | ${formattedTime}`;
+};
 </script>
 
 <template>
@@ -28,7 +37,7 @@ const iconNames = ['Learning', 'MapPin', 'CinemaOld', 'DragHandGesture'];
             <div class="jobpop__top__details">
                 <p class="jobpop__top__details__desc text-reg-normal">{{ job.description }}</p>
                 <p class="jobpop__top__details__rate text-bold-normal">€ {{ (job.wage / 100).toFixed(2) }}/hr</p>
-                <p class="jobpop__top__details__time text-bold-normal">{{ job.date }} {{ job.time }}</p>
+                <p class="jobpop__top__details__time text-bold-normal">{{ formatDateTime(job.date) }}</p>
                 <div class="jobpop__top__details__tags">
                     <Tag v-for="(skill, index) in job.skills" :key="index" type="colored">{{ skill }}</Tag>
                 </div>
