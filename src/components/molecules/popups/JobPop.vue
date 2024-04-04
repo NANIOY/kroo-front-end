@@ -9,8 +9,6 @@ const props = defineProps({
     job: Object,
 });
 
-const iconNames = ['Learning', 'MapPin', 'CinemaOld', 'DragHandGesture'];
-
 const formatDateTime = (dateTimeString) => {
     const dateTime = new Date(dateTimeString);
     const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -49,10 +47,10 @@ const formatDateTime = (dateTimeString) => {
         <div class="jobpop__mid">
             <div class="jobpop__mid__details">
                 <p class="jobpop__mid__details__heading text-bold-l">Details</p>
-                <IconLabel label="Job Function" :iconName="iconNames[0]" :label="job.jobFunction" />
-                <IconLabel label="Location" :iconName="iconNames[1]" :label="job.location" />
-                <IconLabel label="Production Type" :iconName="iconNames[2]" :label="job.production_type" />
-                <IconLabel label="Union Status" :iconName="iconNames[3]" :label="job.union_status" />
+                <IconLabel iconName="Learning" :label="job.jobFunction" />
+                <IconLabel iconName="MapPin" :label="`${job.location.city}, ${job.location.country}`" />
+                <IconLabel iconName="CinemaOld" :label="job.production_type" />
+                <IconLabel iconName="DragHandGesture" :label="job.union_status" />
             </div>
             <div class="jobpop__attachements">
                 <p class="jobpop__attachments__head text-bold-normal">Attachments</p>
