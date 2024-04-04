@@ -3,6 +3,7 @@ import { NavArrowDown, NavArrowUp, NavArrowLeft, NavArrowRight, User, HandCard, 
 import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import setupAxios from '../../../setupAxios.js'
 
 export default {
     props: {
@@ -38,26 +39,15 @@ export default {
     setup(props) {
         const router = useRouter();
 
+        // call setupAxios to set up axios instance with router
+        const axiosInstance = setupAxios(router);
+
         const handleClick = () => {
             console.log('Sending POST data:', props.postData);
-            axios.post(props.endpoint, props.postData)
-                .then(response => {
-                    console.log('POST request successful:', response.data);
-                    if (props.redirect) {
-                        handleSuccessResponse(response.data, router);
-                    }
-                })
+            axiosInstance.post(props.endpoint, props.postData)
                 .catch(error => {
                     console.error('Error making POST request:', error);
                 });
-        };
-
-        const handleSuccessResponse = (responseData, router) => {
-            if (props.storeTokens) {
-            }
-            if (props.redirect) {
-                router.push(props.redirect);
-            }
         };
 
         return {
