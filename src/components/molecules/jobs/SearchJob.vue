@@ -47,8 +47,8 @@ const formatMonth = (dateString) => {
         <div class="container__bot">
             <span class="container__bot__rate">€ {{ job.hourlyRate }}/hr</span>
             <div class="container__bot__buttons">
-                <NormalButton label="Apply Now" class="container__bot__buttons__apply" />
-                <NormalButton label="Save Job" class="container__bot__buttons__save" />
+                <NormalButton label="Save Job" class="container__bot__buttons__save button--tertiary" />
+                <NormalButton label="Apply Now" class="container__bot__buttons__apply button--primary" />
             </div>
         </div>
     </div>
@@ -117,14 +117,21 @@ const formatMonth = (dateString) => {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 24px;
 }
-
-.container__bot__rate {}
 
 .container__bot__buttons {
     display: flex;
+    flex: 1;
+    gap: 16px;
 }
 
-.container__bot__buttons__apply,
-.container__bot__buttons__save {}
+.container__bot__buttons__save {
+    outline: 2px solid var(--blurple);
+}
+
+.container__bot__buttons__save,
+.container__bot__buttons__apply {
+    width: 50%;
+}
 </style>
