@@ -150,6 +150,7 @@ function generateCheckboxLabels(count) {
 .checkbox-container {
   display: flex;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .more-button {
