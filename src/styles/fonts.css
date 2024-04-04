@@ -33,26 +33,32 @@
 
   h1 {
     font-size: 64px;
+    margin: 0;
   }
 
   h2 {
     font-size: 48px;
+    margin: 0;
   }
 
   h3 {
     font-size: 40px;
+    margin: 0;
   }
 
   h4 {
     font-size: 32px;
+    margin: 0;
   }
 
   h5 {
     font-size: 24px;
+    margin: 0;
   }
 
   h6 {
     font-size: 20px;
+    margin: 0;
   }
 
   p, a, button, label, input, textarea, span {
