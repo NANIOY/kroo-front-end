@@ -15,10 +15,6 @@ import normalButton from '../../atoms/buttons/NormalButton.vue';
                     <p>name</p>
                 </div>
             </div>
-            <div id="saved__job__top__settings">
-                <transparentButton class="button--tertiary" :hasIcon="true" :hasLabel="false" label="Details"
-                    iconName="MoreHoriz" />
-            </div>
         </div>
 
         <div id="saved__job__jobTitle">
