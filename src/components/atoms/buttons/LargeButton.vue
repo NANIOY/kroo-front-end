@@ -38,17 +38,13 @@ export default {
     setup(props) {
         const router = useRouter();
 
-        const baseUrl = 'https://kroo-back-end.onrender.com/api/v1'; // base URL
-
-        console.log('Props received:', props);
-
         const handleClick = () => {
             console.log('Sending POST data:', props.postData);
-            axios.post(baseUrl + props.endpoint, props.postData)
+            axios.post(props.endpoint, props.postData)
                 .then(response => {
                     console.log('POST request successful:', response.data);
                     if (props.redirect) {
-                        handleSuccessResponse(response.data);
+                        handleSuccessResponse(response.data, router);
                     }
                 })
                 .catch(error => {
@@ -56,7 +52,7 @@ export default {
                 });
         };
 
-        const handleSuccessResponse = (responseData) => {
+        const handleSuccessResponse = (responseData, router) => {
             if (props.storeTokens) {
             }
             if (props.redirect) {
