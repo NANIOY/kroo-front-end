@@ -64,19 +64,14 @@ import { IconoirProvider, Calendar } from '@iconoir/vue';
                 </div>
             </div>
         </div>
+
         <div id="offered__job__bottom">
             <div>
-                <p>€ #/hr</p>
+                <p class="button-l">€ #/hr</p>
             </div>
             <div id="offered__job__bottom__buttons">
-                <div id="offered__job__bottom__buttons-details">
-                    <normalButton id="normalButton__details" class="button--tertiary button__stroke" :hasIcon="false"
-                        :hasLabel="true" label="Details" iconName="" />
-                </div>
-                <div id="offered__job__bottom__buttons-accept">
-                    <normalButton id="normalButton__accept" class="button--primary" :hasIcon="false" :hasLabel="true"
-                        label="Accept" iconName="" />
-                </div>
+                <normalButton label="Details" class="offered__job__bottom__buttons_details button--tertiary" />
+                <normalButton label="Accept" class="offered__job__bottom__buttons_accept button--primary" />
             </div>
         </div>
 
@@ -141,20 +136,18 @@ img {
 
 #offered__job__bottom {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-top: 12px;
-    margin-bottom: 12px;
+    gap: 24px;
 }
 
 #offered__job__bottom__buttons {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex: 1;
+    gap: 16px;
 }
 
-#normalButton__details,
-#normalButton__accept {
-    /* width: ; */
+.offered__job__bottom__buttons_details,
+.offered__job__bottom__buttons_accept {
+    width: 50%;
 }
 </style>
