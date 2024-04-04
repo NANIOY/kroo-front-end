@@ -38,26 +38,28 @@ export default {
     setup(props) {
         const router = useRouter();
 
+        const handleSuccessResponse = (responseData, router) => {
+            if (responseData.data.sessionToken) {
+                localStorage.setItem('sessionToken', responseData.data.sessionToken);
+            }
+            if (responseData.data.rememberMeToken) {
+                localStorage.setItem('rememberMeToken', responseData.data.rememberMeToken);
+            }
+            if (props.redirect) {
+                router.push(props.redirect);
+            }
+        };
+
         const handleClick = () => {
             console.log('Sending POST data:', props.postData);
             axios.post(props.endpoint, props.postData)
                 .then(response => {
                     console.log('POST request successful:', response.data);
-                    if (props.redirect) {
-                        handleSuccessResponse(response.data, router);
-                    }
+                    handleSuccessResponse(response.data, router);
                 })
                 .catch(error => {
                     console.error('Error making POST request:', error);
                 });
-        };
-
-        const handleSuccessResponse = (responseData, router) => {
-            if (props.storeTokens) {
-            }
-            if (props.redirect) {
-                router.push(props.redirect);
-            }
         };
 
         return {
