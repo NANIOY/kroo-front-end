@@ -13,7 +13,7 @@ const setupAxios = (router) => {
         error => {
             if (error.response.status === 401) {
                 console.error('Unauthorized access. Redirecting to login page.');
-                router.push('/login');
+                router.push('/login')
             }
             return Promise.reject(error);
         }
@@ -21,10 +21,10 @@ const setupAxios = (router) => {
 
     const handleSuccessResponse = (responseData, router) => {
         if (responseData.data.sessionToken) {
-            localStorage.setItem('sessionToken', responseData.data.sessionToken);
+            sessionStorage.setItem('sessionToken', responseData.data.sessionToken);
         }
         if (responseData.data.rememberMeToken) {
-            localStorage.setItem('rememberMeToken', responseData.data.rememberMeToken);
+            sessionStorage.setItem('rememberMeToken', responseData.data.rememberMeToken);
         }
         if (router.currentRoute.value.path !== '/dashboard') {
             router.push('/dashboard');
