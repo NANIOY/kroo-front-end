@@ -11,7 +11,10 @@ const selectedJob = ref(null);
 const fetchJobs = async () => {
   try {
     const response = await axios.get('https://kroo-back-end.onrender.com/api/v1/crewjob/jobs');
-    fetchedJobs.value = response.data.data.jobs;
+    fetchedJobs.value = response.data.data.jobs.map(job => ({
+      ...job,
+      id: job._id
+    }));
 
     // fetch employer details for each job based on businessId
     await Promise.all(fetchedJobs.value.map(async (job) => {
