@@ -2,6 +2,7 @@
 import SearchJob from '../components/molecules/jobs/SearchJob.vue';
 import JobPop from '../components/molecules/popups/JobPop.vue';
 import Overlay from '../components/molecules/popups/Overlay.vue';
+import SearchFilter from '../components/molecules/filter/SearchFilter.vue';
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
@@ -74,8 +75,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
-    <div class="flexcontainer">
+  <div class="viewcontainer">
+    <SearchFilter />
+    <div class="viewcontainer__jobs">
       <SearchJob v-for="job in fetchedJobs" :key="job._id" :job="job" @jobClick="openJobPop" />
     </div>
     <Overlay v-if="selectedJob" @overlayClick="closeJobPop">
@@ -85,7 +87,12 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.flexcontainer {
+.viewcontainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.viewcontainer__jobs {
   display: flex;
   flex-wrap: wrap;
   gap: 24px;
