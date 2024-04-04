@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import DropFilter from '../components/molecules/filter/DropFilter.vue';
+import DropFilter from './DropFilter.vue';
 
 // Define configurations for each component
 const timeConfig = { 
