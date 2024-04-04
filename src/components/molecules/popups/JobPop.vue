@@ -67,8 +67,8 @@ const iconNames = ['Learning', 'MapPin', 'CinemaOld', 'DragHandGesture'];
 
         <!-- Bottom Section -->
         <div class="jobpop__bottom">
-            <LargeButton label="Button 1" />
-            <LargeButton label="Button 2" />
+            <LargeButton label="Apply" class="jobpop__bottom__button button--primary" />
+            <LargeButton label="Save" class="jobpop__bottom__button button--tertiary" />
         </div>
     </div>
 </template>
@@ -142,6 +142,7 @@ p {
     display: flex;
     flex-direction: column;
     gap: 24px;
+    margin-bottom: 48px;
 }
 
 .jobpop__mid__details {
@@ -156,9 +157,30 @@ p {
     padding-bottom: 2px;
 }
 
+.jobpop__attachements {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.jobpop__attachments__head {
+    margin: 0;
+}
+
+.jobpop__attachments__links {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+}
+
 /* BOTTOM */
 .jobpop__bottom {
     display: flex;
-    justify-content: space-between;
+    gap: 24px;
+}
+
+.jobpop__bottom__button {
+    width: 50%;
 }
 </style>
