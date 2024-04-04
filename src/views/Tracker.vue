@@ -7,12 +7,51 @@
 
 <template>
 
-  <AppliedJob style="margin-left: 144px"/>
-  <OfferedJob style="margin-left: 144px"/>
-  <OngoingJob style="margin-left: 144px"/>
-  <SavedJob style="margin-left: 144px"/>
+  <div id="tracker__container">
+
+    <div class="tracker__container__SavedJob">
+      <SavedJob />
+    </div>
+
+    <div class="tracker__container__AppliedJob">
+      <AppliedJob />
+    </div>
+
+    <div class="tracker__container__OngoingJob">
+      <OngoingJob />
+    </div>
+
+    <div class="tracker__container__OfferedJob">
+      <OfferedJob />
+    </div>
+  </div>
 
 </template>
 
 <style scoped>
+
+#tracker__container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 0;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.tracker__container__SavedJob { 
+  grid-area: 1 / 1 / 2 / 2; 
+}
+
+.tracker__container__AppliedJob { 
+  grid-area: 1 / 2 / 2 / 3; 
+}
+
+.tracker__container__OngoingJob { 
+  grid-area: 1 / 3 / 2 / 4; 
+}
+
+.tracker__container__OfferedJob { 
+  grid-area: 1 / 4 / 2 / 5; 
+}
+
 </style>
