@@ -9,6 +9,7 @@ import SearchJob from '../components/molecules/jobs/SearchJob.vue';
 <template>
   <SearchJob :employer="{ name: 'Employer', image: 'https://fakeimg.pl/400x400/000000/ffffff?text=logo' }"
     :job="{ title: 'Job Title', date: '2024-04-04', location: 'Location', hourlyRate: '$20' }" />
+    date: new Date('2024-04-04'),
 
   <div>
     <!-- <AppliedJob />

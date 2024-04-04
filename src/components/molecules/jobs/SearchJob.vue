@@ -67,6 +67,12 @@ const formatMonth = (dateString) => {
     flex-direction: column;
     justify-content: space-between;
     box-sizing: border-box;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.container:hover {
+    filter: brightness(0.92);
 }
 
 .container__info {
