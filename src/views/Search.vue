@@ -1,6 +1,7 @@
 <script setup>
 import SearchJob from '../components/molecules/jobs/SearchJob.vue';
 import JobPop from '../components/molecules/popups/JobPop.vue';
+import Overlay from '../components/molecules/popups/Overlay.vue';
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
@@ -60,16 +61,25 @@ const openJobPop = (job) => {
   selectedJob.value = job;
 };
 
+const closeJobPop = () => {
+  selectedJob.value = null;
+};
+
 onMounted(() => {
   fetchJobs();
 });
 </script>
 
 <template>
-  <div class="flexcontainer">
-    <SearchJob v-for="job in fetchedJobs" :key="job._id" :job="job" @jobClick="openJobPop" />
+  <div>
+    <div class="flexcontainer">
+      <SearchJob v-for="job in fetchedJobs" :key="job._id" :job="job" @jobClick="openJobPop" />
+    </div>
+    <!-- Use Overlay component to display JobPop -->
+    <Overlay v-if="selectedJob" @overlayClick="closeJobPop">
+      <JobPop v-if="selectedJob" :jobTitle="selectedJob.title" :employerName="selectedJob.employer.name" />
+    </Overlay>
   </div>
-  <JobPop v-if="selectedJob" :jobTitle="selectedJob.title" :employerName="selectedJob.employer.name" />
 </template>
 
 <style scoped>
