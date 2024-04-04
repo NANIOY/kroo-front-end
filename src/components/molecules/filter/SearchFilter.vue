@@ -1,5 +1,6 @@
 <script setup>
 import DropFilter from './DropFilter.vue';
+import  InputField from '../../atoms/inputs/InputField.vue';
 
 // Define configurations for each component
 const timeConfig = { 
@@ -34,10 +35,20 @@ const productionTypeConfig = {
   hasMore: true, 
   checkboxLabels: [' Feature film', 'Television', 'Commercial'] 
 };
+
+const searchInputConfig = {
+  label: 'Search',
+  placeholder: 'Sort by ',
+};
+
 </script>
 
 <template>
   <div>
+
+      <!-- Input field -->
+      <InputField :label="searchInputConfig.label" :placeholder="searchInputConfig.placeholder" />
+
     <!-- Dropdown menu for "Time" -->
     <DropFilter :useSlider="false" :dropdowns="[timeConfig]" />
 
