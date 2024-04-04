@@ -40,7 +40,7 @@ function generateCheckboxLabels(count) {
     <!-- Slider Dropdown -->
     <div v-if="useSlider" class="drop-filter__slider-dropdown dropdown">
       <div class="dropdown-container">
-        <button @click="toggleSliderDropdown" class="dropdown-button">
+        <button @click="toggleSliderDropdown" class="dropdown-button slider-option">
           Slider Option
           <NavArrowDown :class="{ 'rotate': showSliderDropdown }" class="arrow-icon" />
         </button>
@@ -56,7 +56,7 @@ function generateCheckboxLabels(count) {
       <div class="dropdown-container">
         <button @click="toggleCheckboxDropdown(index)"
           :class="{ 'dropdown-button': true, 'expanded': activeDropdown === index }">
-          {{ dropdown.title }}
+          <span class="dropdown-title" :style="{ fontWeight: 'bold' }">{{ dropdown.title }}</span>
           <NavArrowDown :class="{ 'rotate': activeDropdown === index }" class="arrow-icon" />
         </button>
         <div
@@ -81,6 +81,7 @@ function generateCheckboxLabels(count) {
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .drop-filter {
@@ -165,5 +166,21 @@ function generateCheckboxLabels(count) {
   color: var(--blurple);
   font-weight: bold;
   margin-top: 5px;
+}
+
+
+.dropdown-title {
+  text-shadow: -0.1px -0.1px 0 var(--black),
+    0.1px -0.1px 0 var(--black),
+    -0.1px 0.1px 0 var(--black),
+    0.1px 0.1px 0 var(--black);
+}
+
+.slider-option {
+  font-weight: bold;
+  text-shadow: -0.1px -0.1px 0 var(--black),
+    0.1px -0.1px 0 var(--black),
+    -0.1px 0.1px 0 var(--black),
+    0.1px 0.1px 0 var(--black);
 }
 </style>
