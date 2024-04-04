@@ -3,6 +3,7 @@ import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
 import IconLabel from '../../atoms/items/IconLabel.vue';
 import Tag from '../../atoms/items/Tag.vue';
+import { defineProps } from 'vue';
 
 // Props definition
 const props = defineProps({
@@ -13,7 +14,13 @@ const props = defineProps({
     hourlyRate: String,
     dateTime: String,
     tags: Array,
+    iconLabels: {
+        type: Array,
+        required: true
+    }
 });
+
+const iconNames = ['Learning', 'MapPin', 'CinemaOld', 'DragHandGesture'];
 </script>
 
 <template>
@@ -43,10 +50,8 @@ const props = defineProps({
             <p class="jobpop__heading text-bold-l">Details</p>
             <hr class="jobpop__divider" />
             <div class="jobpop__details">
-                <IconLabel label="Label 1" iconName="Learning" />
-                <IconLabel label="Label 2" iconName="MapPin" />
-                <IconLabel label="Label 3" iconName="CinemaOld" />
-                <IconLabel label="Label 4" iconName="DragHandGesture" />
+                <IconLabel v-for="(label, index) in iconLabels" :key="index" :label="label"
+                    :iconName="iconNames[index]" />
             </div>
             <p class="jobpop__attachments text-bold-normal">Attachments</p>
             <div class="jobpop__attachment-details">
