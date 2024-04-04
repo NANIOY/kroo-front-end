@@ -33,6 +33,7 @@ const iconNames = ['Learning', 'MapPin', 'CinemaOld', 'DragHandGesture'];
 
 <template>
     <div class="jobpop">
+
         <!-- Top Section -->
         <div class="jobpop__top">
             <div class="jobpop__top__row">
@@ -48,7 +49,8 @@ const iconNames = ['Learning', 'MapPin', 'CinemaOld', 'DragHandGesture'];
                 <p class="jobpop__top__details__rate text-bold-normal">{{ hourlyRate }}</p>
                 <p class="jobpop__top__details__time text-bold-normal">{{ dateTime }}</p>
                 <div class="jobpop__top__details__tags">
-                    <Tag v-for="(skillTag, index) in skillTags" :key="index" type="colored">{{ skillTag.label }}</Tag>
+                    <Tag v-for="(skillTag, index) in skillTags" :key="index" type="colored">{{ skillTag.label }}
+                    </Tag>
                 </div>
             </div>
         </div>
@@ -88,6 +90,12 @@ const iconNames = ['Learning', 'MapPin', 'CinemaOld', 'DragHandGesture'];
     background-color: var(--white);
     box-shadow: 0px 0px 16px 0 rgba(14, 15, 15, 0.04);
     color: var(--black);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 64px;
 }
 
 /* TOP */
