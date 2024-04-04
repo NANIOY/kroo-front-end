@@ -3,8 +3,8 @@ import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import { defineProps } from 'vue';
 
 const props = defineProps({
-    employer: String,
-    job: String
+    employer: Object,
+    job: Object,
 });
 
 const formatDate = (dateString) => {
@@ -45,7 +45,7 @@ const formatMonth = (dateString) => {
         </div>
 
         <div class="container__bot">
-            <span class="container__bot__rate">Hourly Rate: {{ job.hourlyRate }}</span>
+            <span class="container__bot__rate">€ {{ job.hourlyRate }}/hr</span>
             <div class="container__bot__buttons">
                 <NormalButton label="Apply Now" class="container__bot__buttons__apply" />
                 <NormalButton label="Save Job" class="container__bot__buttons__save" />
