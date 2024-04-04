@@ -1,16 +1,16 @@
 <script setup>
-import appliedJobs from '../components/molecules/jobs/appliedJobs.vue';
-import offeredJobs from '../components/molecules/jobs/offeredJobs.vue';
-import ongoingJobs from '../components/molecules/jobs/ongoingJobs.vue';
-import savedJobs from '../components/molecules/jobs/savedJobs.vue';
+  import AppliedJob from '../components/molecules/jobs/AppliedJob.vue';
+  import OfferedJob from '../components/molecules/jobs/OfferedJob.vue';
+  import OngoingJob from '../components/molecules/jobs/OngoingJob.vue';
+  import SavedJob from '../components/molecules/jobs/SavedJob.vue';
 </script>
 
 <template>
 
-  <appliedJobs style="margin-left: 144px"/>
-  <offeredJobs style="margin-left: 144px"/>
-  <ongoingJobs style="margin-left: 144px"/>
-  <savedJobs style="margin-left: 144px"/>
+  <AppliedJob style="margin-left: 144px"/>
+  <OfferedJob style="margin-left: 144px"/>
+  <OngoingJob style="margin-left: 144px"/>
+  <SavedJob style="margin-left: 144px"/>
 
 </template>
 
