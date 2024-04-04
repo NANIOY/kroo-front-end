@@ -17,6 +17,10 @@ const props = defineProps({
     iconLabels: {
         type: Array,
         required: true
+    },
+    skillTags: {
+        type: Array,
+        default: () => []
     }
 });
 
@@ -40,7 +44,7 @@ const iconNames = ['Learning', 'MapPin', 'CinemaOld', 'DragHandGesture'];
                 <p class="jobpop__top__details__rate text-bold-normal">{{ hourlyRate }}</p>
                 <p class="jobpop__top__details__time text-bold-normal">{{ dateTime }}</p>
                 <div class="jobpop__top__details__tags">
-                    <Tag v-for="(tag, index) in tags" :key="index" :label="tag.label" :color="tag.color" />
+                    <Tag v-for="(skillTag, index) in skillTags" :key="index" type="colored">{{ skillTag.label }}</Tag>
                 </div>
             </div>
         </div>
