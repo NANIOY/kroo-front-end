@@ -5,27 +5,8 @@ import IconLabel from '../../atoms/items/IconLabel.vue';
 import Tag from '../../atoms/items/Tag.vue';
 import { defineProps } from 'vue';
 
-// Props definition
 const props = defineProps({
-    jobTitle: String,
-    employerName: String,
-    employerImage: String,
-    description: String,
-    hourlyRate: String,
-    dateTime: String,
-    tags: Array,
-    iconLabels: {
-        type: Array,
-        required: true
-    },
-    skillTags: {
-        type: Array,
-        default: () => []
-    },
-    attachmentLabels: {
-        type: Array,
-        default: () => []
-    }
+    job: Object,
 });
 
 const iconNames = ['Learning', 'MapPin', 'CinemaOld', 'DragHandGesture'];
@@ -37,20 +18,19 @@ const iconNames = ['Learning', 'MapPin', 'CinemaOld', 'DragHandGesture'];
         <!-- Top Section -->
         <div class="jobpop__top">
             <div class="jobpop__top__row">
-                <h3>{{ jobTitle }}</h3>
-                <TransparentButton class="jobpop__top__row__button no-label" :hasLabel=false iconName="Xmark" />
+                <h3>{{ job.title }}</h3>
+                <TransparentButton class="jobpop__top__row__button no-label" :hasLabel="false" iconName="Xmark" />
             </div>
             <div class="jobpop__top__business">
-                <img :src="employerImage" alt="Employer Image" />
-                <span class="text-reg-normal">{{ employerName }}</span>
+                <img :src="job.employer.image" alt="Employer Image" />
+                <span class="text-reg-normal">{{ job.employer.name }}</span>
             </div>
             <div class="jobpop__top__details">
-                <p class="jobpop__top__details__desc text-reg-normal">{{ description }}</p>
-                <p class="jobpop__top__details__rate text-bold-normal">{{ hourlyRate }}</p>
-                <p class="jobpop__top__details__time text-bold-normal">{{ dateTime }}</p>
+                <p class="jobpop__top__details__desc text-reg-normal">{{ job.description }}</p>
+                <p class="jobpop__top__details__rate text-bold-normal">{{ job.hourlyRate }}</p>
+                <p class="jobpop__top__details__time text-bold-normal">{{ job.dateTime }}</p>
                 <div class="jobpop__top__details__tags">
-                    <Tag v-for="(skillTag, index) in skillTags" :key="index" type="colored">{{ skillTag.label }}
-                    </Tag>
+                    <Tag v-for="(tag, index) in job.tags" :key="index" type="colored">{{ tag }}</Tag>
                 </div>
             </div>
         </div>
@@ -59,13 +39,13 @@ const iconNames = ['Learning', 'MapPin', 'CinemaOld', 'DragHandGesture'];
         <div class="jobpop__mid">
             <div class="jobpop__mid__details">
                 <p class="jobpop__mid__details__heading text-bold-l">Details</p>
-                <IconLabel v-for="(label, index) in iconLabels" :key="index" :label="label"
+                <IconLabel v-for="(label, index) in job.iconLabels" :key="index" :label="label"
                     :iconName="iconNames[index]" />
             </div>
             <div class="jobpop__attachements">
                 <p class="jobpop__attachments__head text-bold-normal">Attachments</p>
                 <div class="jobpop__attachments__links">
-                    <IconLabel v-for="(label, index) in attachmentLabels" :key="index" :label="label"
+                    <IconLabel v-for="(label, index) in job.attachmentLabels" :key="index" :label="label"
                         iconName="Attachment" />
                 </div>
             </div>

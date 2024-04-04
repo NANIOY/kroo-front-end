@@ -75,9 +75,8 @@ onMounted(() => {
     <div class="flexcontainer">
       <SearchJob v-for="job in fetchedJobs" :key="job._id" :job="job" @jobClick="openJobPop" />
     </div>
-    <!-- Use Overlay component to display JobPop -->
     <Overlay v-if="selectedJob" @overlayClick="closeJobPop">
-      <JobPop v-if="selectedJob" :jobTitle="selectedJob.title" :employerName="selectedJob.employer.name" />
+      <JobPop v-if="selectedJob" :job="selectedJob" />
     </Overlay>
   </div>
 </template>
