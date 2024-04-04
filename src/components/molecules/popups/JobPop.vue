@@ -32,7 +32,7 @@ const iconNames = ['Learning', 'MapPin', 'CinemaOld', 'DragHandGesture'];
 </script>
 
 <template>
-    <div class="jobpop">
+    <div class="jobpop" @click.stop>
 
         <!-- Top Section -->
         <div class="jobpop__top">
