@@ -26,12 +26,12 @@ const props = defineProps({
             </div>
             <div class="jobpop__top__business">
                 <img :src="employerImage" alt="Employer Image" />
-                <span>{{ employerName }}</span>
+                <span class="text-reg-normal">{{ employerName }}</span>
             </div>
-            <p>{{ description }}</p>
+            <p class="text-reg-normal">{{ description }}</p>
             <div class="jobpop__top__details">
-                <p class="jobpop__top__details__rate">{{ hourlyRate }}</p>
-                <p class="jobpop__top__details__time">{{ dateTime }}</p>
+                <p class="jobpop__top__details__rate text-bold-normal">{{ hourlyRate }}</p>
+                <p class="jobpop__top__details__time text-bold-normal">{{ dateTime }}</p>
                 <div class="jobpop__top__details__tags">
                     <Tag v-for="(tag, index) in tags" :key="index" :label="tag.label" :color="tag.color" />
                 </div>
@@ -40,7 +40,7 @@ const props = defineProps({
 
         <!-- Middle Section -->
         <div class="jobpop__mid">
-            <p class="jobpop__heading">Details</p>
+            <p class="jobpop__heading text-bold-l">Details</p>
             <hr class="jobpop__divider" />
             <div class="jobpop__details">
                 <IconLabel label="Label 1" icon="icon1" />
@@ -48,7 +48,7 @@ const props = defineProps({
                 <IconLabel label="Label 3" icon="icon3" />
                 <IconLabel label="Label 4" icon="icon4" />
             </div>
-            <p class="jobpop__attachments">Attachments</p>
+            <p class="jobpop__attachments text-bold-normal">Attachments</p>
             <div class="jobpop__attachment-details">
                 <IconLabel label="Attachment 1" icon="attachment-icon1" />
                 <IconLabel label="Attachment 2" icon="attachment-icon2" />
@@ -105,10 +105,6 @@ const props = defineProps({
 }
 
 /* MIDDLE */
-.jobpop__heading {
-    font-weight: bold;
-}
-
 .jobpop__divider {
     width: 100%;
     border: 0;
