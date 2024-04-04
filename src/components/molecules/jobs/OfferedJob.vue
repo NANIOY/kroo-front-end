@@ -28,17 +28,12 @@ import { IconoirProvider, Calendar } from '@iconoir/vue';
             </div>
 
             <div id="offered_job__top__right">
-            <div id="offered__job__top__right__calendar">
-                <div>
+                <div id="offered__job__top__right__calendar">
                     <Calendar />
                 </div>
                 <div id="offered__job__top__right__days">
                     <p>days</p>
                 </div>
-
-            </div>
-
-
             </div>
         </div>
 
@@ -132,6 +127,7 @@ img {
 #offered_job__top__right {
     display: flex;
     align-items: center;
+    gap: 8px;
 }
 
 #offered__job__bottom {
