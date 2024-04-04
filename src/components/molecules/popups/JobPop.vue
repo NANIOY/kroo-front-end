@@ -28,8 +28,8 @@ const props = defineProps({
                 <img :src="employerImage" alt="Employer Image" />
                 <span class="text-reg-normal">{{ employerName }}</span>
             </div>
-            <p class="text-reg-normal">{{ description }}</p>
             <div class="jobpop__top__details">
+                <p class="jobpop__top__details__desc text-reg-normal">{{ description }}</p>
                 <p class="jobpop__top__details__rate text-bold-normal">{{ hourlyRate }}</p>
                 <p class="jobpop__top__details__time text-bold-normal">{{ dateTime }}</p>
                 <div class="jobpop__top__details__tags">
@@ -43,15 +43,15 @@ const props = defineProps({
             <p class="jobpop__heading text-bold-l">Details</p>
             <hr class="jobpop__divider" />
             <div class="jobpop__details">
-                <IconLabel label="Label 1" icon="icon1" />
-                <IconLabel label="Label 2" icon="icon2" />
-                <IconLabel label="Label 3" icon="icon3" />
-                <IconLabel label="Label 4" icon="icon4" />
+                <IconLabel label="Label 1" iconName="Learning" />
+                <IconLabel label="Label 2" iconName="MapPin" />
+                <IconLabel label="Label 3" iconName="CinemaOld" />
+                <IconLabel label="Label 4" iconName="DragHandGesture" />
             </div>
             <p class="jobpop__attachments text-bold-normal">Attachments</p>
             <div class="jobpop__attachment-details">
-                <IconLabel label="Attachment 1" icon="attachment-icon1" />
-                <IconLabel label="Attachment 2" icon="attachment-icon2" />
+                <IconLabel label="Attachment 1" iconName="Attachment" />
+                <IconLabel label="Attachment 2" iconName="Attachment" />
             </div>
         </div>
 
@@ -77,6 +77,12 @@ const props = defineProps({
 }
 
 /* TOP */
+.jobpop__top {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
 .jobpop__top__row {
     display: flex;
     justify-content: space-between;
@@ -92,12 +98,27 @@ const props = defineProps({
     display: flex;
     align-items: center;
     gap: 8px;
+    margin-bottom: 8px;
 }
 
 .jobpop__top__business img {
     width: 28px;
     height: 28px;
     border-radius: 50%;
+}
+
+p {
+    margin: 0;
+}
+
+.jobpop__top__details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.jobpop__top__details__desc {
+    margin-bottom: 4px;
 }
 
 .jobpop__tags {
