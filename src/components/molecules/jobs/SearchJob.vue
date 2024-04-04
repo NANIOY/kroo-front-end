@@ -55,6 +55,32 @@ const formatMonth = (dateString) => {
 
 <style scoped>
 /* GENERAL */
+.container,
+.container__info,
+.container__top,
+.container__mid,
+.container__mid__title,
+.container__mid__data,
+.container__mid__data div,
+.container__bot,
+.container__bot__buttons {
+    display: flex;
+}
+
+.container,
+.container__info,
+.container__mid,
+.container__mid__data div {
+    flex-direction: column;
+}
+
+.container,
+.container__info,
+.container__mid__data,
+.container__bot {
+    justify-content: space-between;
+}
+
 .container {
     width: 448px;
     height: 282px;
@@ -62,9 +88,6 @@ const formatMonth = (dateString) => {
     color: var(--black);
     border-radius: 4px;
     padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     box-sizing: border-box;
     cursor: pointer;
     transition: 0.3s;
@@ -75,15 +98,11 @@ const formatMonth = (dateString) => {
 }
 
 .container__info {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     gap: 20px;
 }
 
 /* TOP */
 .container__top {
-    display: flex;
     align-items: center;
     gap: 8px;
 }
@@ -96,8 +115,6 @@ const formatMonth = (dateString) => {
 
 /* MIDDLE */
 .container__mid {
-    display: flex;
-    flex-direction: column;
     gap: 16px;
 }
 
@@ -110,20 +127,9 @@ const formatMonth = (dateString) => {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
-    display: flex;
     align-items: center;
     height: 64px;
     word-break: break-word;
-}
-
-.container__mid__data {
-    display: flex;
-    justify-content: space-between;
-}
-
-.container__mid__data div {
-    display: flex;
-    flex-direction: column;
 }
 
 .container__mid__data__location {
@@ -132,14 +138,11 @@ const formatMonth = (dateString) => {
 
 /* BOTTOM */
 .container__bot {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
     gap: 24px;
 }
 
 .container__bot__buttons {
-    display: flex;
     flex: 1;
     gap: 16px;
 }
