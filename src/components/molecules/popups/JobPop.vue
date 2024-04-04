@@ -27,10 +27,10 @@ const iconNames = ['Learning', 'MapPin', 'CinemaOld', 'DragHandGesture'];
             </div>
             <div class="jobpop__top__details">
                 <p class="jobpop__top__details__desc text-reg-normal">{{ job.description }}</p>
-                <p class="jobpop__top__details__rate text-bold-normal">{{ job.hourlyRate }}</p>
-                <p class="jobpop__top__details__time text-bold-normal">{{ job.dateTime }}</p>
+                <p class="jobpop__top__details__rate text-bold-normal">{{ job.wage }}</p>
+                <p class="jobpop__top__details__time text-bold-normal">{{ job.date }} {{ job.time }}</p>
                 <div class="jobpop__top__details__tags">
-                    <Tag v-for="(tag, index) in job.tags" :key="index" type="colored">{{ tag }}</Tag>
+                    <Tag v-for="(skill, index) in job.skills" :key="index" type="colored">{{ skill }}</Tag>
                 </div>
             </div>
         </div>
@@ -39,14 +39,15 @@ const iconNames = ['Learning', 'MapPin', 'CinemaOld', 'DragHandGesture'];
         <div class="jobpop__mid">
             <div class="jobpop__mid__details">
                 <p class="jobpop__mid__details__heading text-bold-l">Details</p>
-                <IconLabel v-for="(label, index) in job.iconLabels" :key="index" :label="label"
-                    :iconName="iconNames[index]" />
+                <IconLabel label="Job Function" :iconName="iconNames[0]" :label="job.jobFunction" />
+                <IconLabel label="Location" :iconName="iconNames[1]" :label="job.location" />
+                <IconLabel label="Production Type" :iconName="iconNames[2]" :label="job.production_type" />
+                <IconLabel label="Union Status" :iconName="iconNames[3]" :label="job.union_status" />
             </div>
             <div class="jobpop__attachements">
                 <p class="jobpop__attachments__head text-bold-normal">Attachments</p>
                 <div class="jobpop__attachments__links">
-                    <IconLabel v-for="(label, index) in job.attachmentLabels" :key="index" :label="label"
-                        iconName="Attachment" />
+                    <IconLabel v-for="(attachment, index) in job.attachments" :key="index" :label="attachment" iconName="Attachment" />
                 </div>
             </div>
         </div>
