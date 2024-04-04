@@ -39,7 +39,8 @@ const formatDateTime = (dateTimeString) => {
                 <p class="jobpop__top__details__rate text-bold-normal">€ {{ (job.wage / 100).toFixed(2) }}/hr</p>
                 <p class="jobpop__top__details__time text-bold-normal">{{ formatDateTime(job.date) }}</p>
                 <div class="jobpop__top__details__tags">
-                    <Tag v-for="(skill, index) in job.skills" :key="index" type="colored">{{ skill }}</Tag>
+                    <Tag class="jobpop__top__details__tags__tag" v-for="(skill, index) in job.skills" :key="index"
+                        type="colored">{{ skill }}</Tag>
                 </div>
             </div>
         </div>
@@ -137,7 +138,17 @@ p {
 
 .jobpop__top__details__tags {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
+    max-width: 600px;
+    margin-top: 4px;
+}
+
+.jobpop__top__details__tags__tag {
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* MIDDLE */
