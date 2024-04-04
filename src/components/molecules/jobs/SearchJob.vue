@@ -104,9 +104,16 @@ const formatMonth = (dateString) => {
 .container__mid__title {
     margin: 0;
     font-weight: 100;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
     display: flex;
     align-items: center;
     height: 64px;
+    word-break: break-word;
 }
 
 .container__mid__data {
