@@ -41,12 +41,12 @@ function generateCheckboxLabels(count) {
     <div v-if="useSlider" class="drop-filter__slider-dropdown dropdown">
       <div class="dropdown-container">
         <button @click="toggleSliderDropdown" class="dropdown-button slider-option">
-          Slider Option
+          <span class="dropdown-title" :style="{ fontWeight: 'bold' }">{{ dropdowns[0]?.title }}</span>
           <NavArrowDown :class="{ 'rotate': showSliderDropdown }" class="arrow-icon" />
         </button>
         <div :class="{ 'dropdown-content': true, 'show': showSliderDropdown, 'slide-down-enter': showSliderDropdown }"
           ref="sliderDropdown">
-          <Slider />
+          <Slider v-if="useSlider" />
         </div>
       </div>
     </div>
@@ -81,7 +81,6 @@ function generateCheckboxLabels(count) {
     </div>
   </div>
 </template>
-
 
 <style scoped>
 .drop-filter {
