@@ -29,12 +29,13 @@ const props = defineProps({
     dropdown: Object,
     checkbox: Object,
     buttonLabel: String,
-    rememberMe: Boolean // Add rememberMe prop
+    rememberMe: Boolean,
+    redirect: String
 });
 
 const selectedButtonIndex = ref(null);
 const postData = ref({});
-const rememberMe = ref(false); // Initialize rememberMe to false
+const rememberMe = ref(false);
 
 const selectButton = (index) => {
     selectedButtonIndex.value = index;
@@ -78,7 +79,7 @@ const handleRememberMeChange = (value) => {
         </div>
 
         <div class="form__buttons">
-            <LargeButton :label="buttonLabel" :endpoint="endpoint" :postData="postData"
+            <LargeButton :label="buttonLabel" :endpoint="endpoint" :postData="postData" :redirect="redirect"
                 class="form__buttons__button button--primary" />
 
             <div class="form__buttons__note">

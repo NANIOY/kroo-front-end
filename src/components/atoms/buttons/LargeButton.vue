@@ -2,6 +2,7 @@
 import { NavArrowDown, NavArrowUp, NavArrowLeft, NavArrowRight, User, HandCard, Bell, Accessibility, Behance, Tiktok, Threads, X, Linkedin, Youtube, Instagram, Facebook, Dribbble, MapPin, AtSign, CheckCircle, MoreHoriz, Xmark, Learning, CinemaOld, DragHandGesture, Attachment, Calendar, Search, Plus, Clock, BadgeCheck } from '@iconoir/vue';
 import { ref } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 export default {
     props: {
@@ -29,23 +30,38 @@ export default {
         postData: {
             type: Object,
             required: true
-        }
+        },
+        redirect: {
+            type: String,
+        },
     },
     setup(props) {
+        const router = useRouter();
+
         const baseUrl = 'https://kroo-back-end.onrender.com/api/v1'; // base URL
 
         console.log('Props received:', props);
 
         const handleClick = () => {
             console.log('Sending POST data:', props.postData);
-            // Perform a POST request to the specified endpoint
             axios.post(baseUrl + props.endpoint, props.postData)
                 .then(response => {
                     console.log('POST request successful:', response.data);
+                    if (props.redirect) {
+                        handleSuccessResponse(response.data);
+                    }
                 })
                 .catch(error => {
                     console.error('Error making POST request:', error);
                 });
+        };
+
+        const handleSuccessResponse = (responseData) => {
+            if (props.storeTokens) {
+            }
+            if (props.redirect) {
+                router.push(props.redirect);
+            }
         };
 
         return {
@@ -93,7 +109,6 @@ export default {
         'largeButton',
         { 'no-label': !hasLabel }
     ]" @click="handleClick">
-        <!-- Dynamically render the icon based on the iconName prop -->
         <component :is="iconName" v-if="hasIcon" />
         <span v-if="hasLabel && label" class="largeButton__label">{{ label }}</span>
     </button>
