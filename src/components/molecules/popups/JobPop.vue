@@ -27,7 +27,7 @@ const iconNames = ['Learning', 'MapPin', 'CinemaOld', 'DragHandGesture'];
             </div>
             <div class="jobpop__top__details">
                 <p class="jobpop__top__details__desc text-reg-normal">{{ job.description }}</p>
-                <p class="jobpop__top__details__rate text-bold-normal">{{ job.wage }}</p>
+                <p class="jobpop__top__details__rate text-bold-normal">€ {{ (job.wage / 100).toFixed(2) }}/hr</p>
                 <p class="jobpop__top__details__time text-bold-normal">{{ job.date }} {{ job.time }}</p>
                 <div class="jobpop__top__details__tags">
                     <Tag v-for="(skill, index) in job.skills" :key="index" type="colored">{{ skill }}</Tag>
@@ -47,7 +47,8 @@ const iconNames = ['Learning', 'MapPin', 'CinemaOld', 'DragHandGesture'];
             <div class="jobpop__attachements">
                 <p class="jobpop__attachments__head text-bold-normal">Attachments</p>
                 <div class="jobpop__attachments__links">
-                    <IconLabel v-for="(attachment, index) in job.attachments" :key="index" :label="attachment" iconName="Attachment" />
+                    <IconLabel v-for="(attachment, index) in job.attachments" :key="index" :label="attachment"
+                        iconName="Attachment" />
                 </div>
             </div>
         </div>
