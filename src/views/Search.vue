@@ -40,8 +40,15 @@ const fetchJobs = async () => {
       await Promise.all(batchJobs.map(async (job) => {
         try {
           // use OpenStreetMap Nominatim API to fetch location data based on city name
-          const locationResponse = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(job.location)}`);
-          const locationData = locationResponse.data[0];
+          // const locationResponse = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(job.location)}`);
+          // const locationData = locationResponse.data[0];
+
+          // Extracting the country directly from job data assuming it's already available
+          // Since the original API call is commented out, we use a placeholder here
+          // Replace 'locationData' with the actual location data fetched from the API
+          const locationData = {
+            display_name: job.location + ', Country Name'
+          };
 
           // extract country from location data
           if (locationData) {
