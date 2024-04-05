@@ -9,6 +9,7 @@ import axios from 'axios';
 const fetchedJobs = ref([]);
 const selectedJob = ref(null);
 
+// fetch all jobs
 const fetchJobs = async () => {
   try {
     const response = await axios.get('https://kroo-back-end.onrender.com/api/v1/crewjob/jobs');
@@ -61,10 +62,12 @@ const fetchJobs = async () => {
   }
 };
 
+// open job popup when job is clicked
 const openJobPop = (job) => {
   selectedJob.value = job;
 };
 
+// close job popup
 const closeJobPop = () => {
   selectedJob.value = null;
 };

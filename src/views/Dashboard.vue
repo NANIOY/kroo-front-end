@@ -18,14 +18,13 @@ import axios from 'axios';
 
 const router = useRouter();
 
+// NAVIGATION FUNCTIONS
 const goToTracker = () => {
   router.push('/tracker');
 };
-
 const goToSearch = () => {
   router.push('/search');
 };
-
 const goToUpgrade = () => {
   router.push('/upgrade');
 };
@@ -59,10 +58,12 @@ const fetchJobSuggestions = async () => {
   }
 };
 
+// open job popup when job is clicked
 const openJobPop = (job) => {
   selectedJob.value = job;
 };
 
+// close job popup
 const closeJobPop = () => {
   selectedJob.value = null;
 };

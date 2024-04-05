@@ -6,19 +6,23 @@ const props = defineProps({
     job: Object,
 });
 
+// format date string to day
 const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.getDate();
 };
 
+// format date string to month
 const formatMonth = (dateString) => {
     const date = new Date(dateString);
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     return monthNames[date.getMonth()];
 };
 
+// emit jobClick event when job is clicked
 const emits = defineEmits(['jobClick']);
 
+// open job popup when job is clicked
 const openJobPop = () => {
     emits('jobClick', props.job);
 };
