@@ -3,6 +3,10 @@ import { NavArrowDown } from '@iconoir/vue';
 
 export default {
   props: {
+    hasLabel: {
+      type: Boolean,
+      default: false
+    },
     label: {
       type: String,
       default: 'Select an option'
@@ -55,7 +59,7 @@ export default {
 
 <template>
   <div class="container" ref="dropdownContainer">
-    <label class="text-reg-normal" :for="inputId">{{ label }}</label>
+    <label v-if="hasLabel" class="text-reg-normal" :for="inputId">{{ label }}</label>
     <div class="container__dropdown text-reg-normal">
       <div class="container__dropdown__box" @click="toggleDropdown" :class="{ 'open': isOpen }">
         <span :class="{ 'text-disabled': !selectedOption }">{{ selectedOption || placeholder }}</span>

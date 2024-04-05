@@ -41,7 +41,7 @@ function generateCheckboxLabels(count) {
     <div v-if="useSlider" class="drop-filter__slider-dropdown dropdown">
       <div class="dropdown-container">
         <button @click="toggleSliderDropdown" class="dropdown-button slider-option">
-          <span class="dropdown-title" :style="{ fontWeight: 'bold' }">{{ dropdowns[0]?.title }}</span>
+          <span class="dropdown-title">{{ dropdowns[0]?.title }}</span>
           <NavArrowDown :class="{ 'rotate': showSliderDropdown }" class="arrow-icon" />
         </button>
         <div :class="{ 'dropdown-content': true, 'show': showSliderDropdown, 'slide-down-enter': showSliderDropdown }"
@@ -56,7 +56,7 @@ function generateCheckboxLabels(count) {
       <div class="dropdown-container">
         <button @click="toggleCheckboxDropdown(index)"
           :class="{ 'dropdown-button': true, 'expanded': activeDropdown === index }">
-          <span class="dropdown-title" :style="{ fontWeight: 'bold' }">{{ dropdown.title }}</span>
+          <span class="dropdown-title">{{ dropdown.title }}</span>
           <NavArrowDown :class="{ 'rotate': activeDropdown === index }" class="arrow-icon" />
         </button>
         <div
@@ -87,10 +87,6 @@ function generateCheckboxLabels(count) {
   width: 272px;
 }
 
-.dropdown {
-  margin-bottom: 20px;
-}
-
 .dropdown-container {
   display: flex;
   flex-direction: column;
@@ -98,11 +94,8 @@ function generateCheckboxLabels(count) {
 
 .dropdown-button {
   cursor: pointer;
-  border-bottom: 2px solid var(--neutral-80);
-  padding: 10px;
-  padding-left: 2px;
-  padding-bottom: 2px;
-  margin-bottom: 20px;
+  border-bottom: 1px solid var(--neutral-50);
+  padding: 0px 10px 4px 10px;
   background-color: transparent;
   border-radius: 0px;
 }
@@ -111,6 +104,7 @@ function generateCheckboxLabels(count) {
   display: none;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
+  margin-top: 16px;
 }
 
 .show {
@@ -163,23 +157,11 @@ function generateCheckboxLabels(count) {
 
 .more-text {
   color: var(--blurple);
-  font-weight: bold;
   margin-top: 5px;
 }
 
 
 .dropdown-title {
-  text-shadow: -0.1px -0.1px 0 var(--black),
-    0.1px -0.1px 0 var(--black),
-    -0.1px 0.1px 0 var(--black),
-    0.1px 0.1px 0 var(--black);
-}
-
-.slider-option {
-  font-weight: bold;
-  text-shadow: -0.1px -0.1px 0 var(--black),
-    0.1px -0.1px 0 var(--black),
-    -0.1px 0.1px 0 var(--black),
-    0.1px 0.1px 0 var(--black);
+  color: var(--black);
 }
 </style>

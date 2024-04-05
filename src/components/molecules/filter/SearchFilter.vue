@@ -50,32 +50,46 @@ const searchInputConfig = {
 </script>
 
 <template>
-  <div>
+  <div class="searchfilter">
 
-    <!-- Input field -->
-    <InputField :label="searchInputConfig.label" :placeholder="searchInputConfig.placeholder" :hasSearch="true" />
+    <div class="searchfilter__inputs">
+      <InputField :label="searchInputConfig.label" :placeholder="searchInputConfig.placeholder" :hasIconLeft="true"
+        iconLeftName="Search" class="searchfilter__input__field" />
+      <Dropdown :label="searchDropdownConfig.label" :placeholder="searchDropdownConfig.placeholder"
+        :options="searchDropdownConfig.options" class="searchfilter__input__dropdown" />
+    </div>
 
-    <!-- Input field for dropdown -->
-    <Dropdown :label="searchDropdownConfig.label" :placeholder="searchDropdownConfig.placeholder"
-      :options="searchDropdownConfig.options" />
-
-    <!-- Dropdown menu for "Time" -->
-    <DropFilter :useSlider="false" :dropdowns="[timeConfig]" />
-
-    <!-- Slider Dropdown for "Distance (km)" -->
-    <DropFilter :useSlider="distanceConfig.useSlider" :dropdowns="[distanceConfig]" />
-
-    <!-- Dropdown menu for "Function" -->
-    <DropFilter :useSlider="false" :dropdowns="[functionConfig]" />
-
-    <!-- Dropdown menu for "Urgency" -->
-    <DropFilter :useSlider="false" :dropdowns="[urgencyConfig]" />
-
-    <!-- Dropdown menu for "Production type" -->
-    <DropFilter :useSlider="false" :dropdowns="[productionTypeConfig]" />
+    <div class="searchfilter__filters">
+      <DropFilter :useSlider="false" :dropdowns="[timeConfig]" />
+      <DropFilter :useSlider="distanceConfig.useSlider" :dropdowns="[distanceConfig]" />
+      <DropFilter :useSlider="false" :dropdowns="[functionConfig]" />
+      <DropFilter :useSlider="false" :dropdowns="[urgencyConfig]" />
+      <DropFilter :useSlider="false" :dropdowns="[productionTypeConfig]" />
+    </div>
   </div>
 </template>
 
 <style scoped>
-/* Your scoped styles here */
+.searchfilter {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 272px;
+}
+
+.searchfilter__inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.searchfilter__input__dropdown {
+  width: 100%;
+}
+
+.searchfilter__filters {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
 </style>

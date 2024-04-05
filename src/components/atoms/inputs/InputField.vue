@@ -1,5 +1,5 @@
 <script>
-import { NavArrowDown, User, Mail, Attachment, Eye, EyeClosed, Search } from '@iconoir/vue';
+import { NavArrowDown, User, Search, Mail, Attachment, Eye, EyeClosed } from '@iconoir/vue';
 
 export default {
   props: {
@@ -54,7 +54,7 @@ export default {
     }
   },
   components: {
-    NavArrowDown, User, Mail, Attachment, Eye, EyeClosed, Search
+    NavArrowDown, User, Search, Mail, Attachment, Eye, EyeClosed
   }
 };
 </script>
@@ -124,7 +124,7 @@ input::placeholder {
 }
 
 .icon--left {
-left: 12px;
+  left: 12px;
 }
 
 .icon--right {
