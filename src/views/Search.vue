@@ -3,11 +3,40 @@ import SearchJob from '../components/molecules/jobs/SearchJob.vue';
 import JobPop from '../components/molecules/popups/JobPop.vue';
 import Overlay from '../components/molecules/popups/Overlay.vue';
 import SearchFilter from '../components/molecules/filter/SearchFilter.vue';
-import { ref, onMounted } from 'vue';
+import TransparentButton from '../components/atoms/buttons/TransparentButton.vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 
 const fetchedJobs = ref([]);
 const selectedJob = ref(null);
+const currentPage = ref(1);
+const jobsPerPage = 18;
+
+const paginatedJobs = computed(() => {
+  const startIndex = (currentPage.value - 1) * jobsPerPage;
+  const endIndex = startIndex + jobsPerPage;
+  return fetchedJobs.value.slice(startIndex, endIndex);
+});
+
+const totalPages = computed(() => Math.ceil(fetchedJobs.value.length / jobsPerPage));
+
+const visiblePages = computed(() => {
+  const pages = [];
+  let startPage = currentPage.value - 3;
+  let endPage = currentPage.value + 3;
+  if (startPage < 1) {
+    startPage = 1;
+    endPage = Math.min(totalPages.value, 7);
+  }
+  if (endPage > totalPages.value) {
+    endPage = totalPages.value;
+    startPage = Math.max(1, endPage - 6);
+  }
+  for (let page = startPage; page <= endPage; page++) {
+    pages.push(page);
+  }
+  return pages;
+});
 
 // fetch all jobs
 const fetchJobs = async () => {
@@ -79,6 +108,22 @@ const closeJobPop = () => {
   selectedJob.value = null;
 };
 
+const previousPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+};
+
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+  }
+};
+
+const goToPage = (page) => {
+  currentPage.value = page;
+};
+
 onMounted(() => {
   fetchJobs();
 });
@@ -87,9 +132,24 @@ onMounted(() => {
 <template>
   <div class="viewcontainer">
     <SearchFilter />
-    <div class="viewcontainer__jobs">
-      <SearchJob v-for="job in fetchedJobs" :key="job._id" :job="job" @jobClick="openJobPop" />
+
+    <div class="jobs-container">
+      <div class="viewcontainer__jobs">
+        <SearchJob v-for="job in paginatedJobs" :key="job._id" :job="job" @jobClick="openJobPop" />
+      </div>
+
+      <div class="pagination">
+        <TransparentButton @click="previousPage" :disabled="currentPage === 1" iconName="NavArrowLeft"
+          class="pagination__button no-label" />
+        <template v-for="page in visiblePages" :key="page">
+          <TransparentButton @click="goToPage(page)" :class="{ active: page === currentPage }" :label="page"
+            class="pagination__button pagination__page" />
+        </template>
+        <TransparentButton @click="nextPage" :disabled="currentPage === totalPages" iconName="NavArrowRight"
+          class="pagination__button no-label" />
+      </div>
     </div>
+
     <Overlay v-if="selectedJob" @overlayClick="closeJobPop">
       <JobPop v-if="selectedJob" :job="selectedJob" />
     </Overlay>
@@ -102,12 +162,43 @@ onMounted(() => {
   flex-direction: row;
 }
 
+.jobs-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .viewcontainer__jobs {
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 24px;
-  max-width: 1392px;
-  margin-left: auto;
   margin-bottom: 48px;
+}
+
+/* PAGINATION */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 8px;
+}
+
+.pagination button {
+  width: 40px;
+  height: 40px;
+
+}
+
+.no-label {
+  padding: 0;
+}
+
+.pagination button.active {
+  background-color: var(--green);
+}
+
+.pagination button:disabled {
+  color: var(--neutral-30) !important;
 }
 </style>
