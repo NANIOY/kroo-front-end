@@ -20,7 +20,7 @@ const formatMonth = (dateString) => {
 const emits = defineEmits(['jobClick']);
 
 const openJobPop = () => {
-  emits('jobClick', props.job);
+    emits('jobClick', props.job);
 };
 </script>
 
@@ -52,8 +52,10 @@ const openJobPop = () => {
         <div class="container__bot">
             <span class="container__bot__rate">€ {{ job.hourlyRate }}/hr</span>
             <div class="container__bot__buttons">
-                <NormalButton label="Save Job" class="container__bot__buttons__save button--tertiary" />
-                <NormalButton label="Apply Now" class="container__bot__buttons__apply button--primary" />
+                <NormalButton label="Save Job" class="container__bot__buttons__save button--tertiary"
+                    :endpoint="`/crewJobInt/${job.id}/save`" :postData="{}" />
+                <NormalButton label="Apply Now" class="container__bot__buttons__apply button--primary"
+                    :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" />
             </div>
         </div>
     </div>
