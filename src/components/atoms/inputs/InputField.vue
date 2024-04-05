@@ -31,7 +31,7 @@ export default {
     },
     inputWidth: {
       type: String,
-      default: '272px'
+      default: '100%'
     }
   },
   data() {
@@ -97,7 +97,6 @@ label {
   box-sizing: border-box;
   padding-top: 2px;
   font-size: 20px;
-  width: 272px;
   height: 48px;
   border: 2px solid var(--black);
   background-color: transparent;
