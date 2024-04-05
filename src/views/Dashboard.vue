@@ -103,7 +103,7 @@ onMounted(() => {
             label="Search more" iconName="NavArrowRight" iconPosition="right" />
         </div>
         <div class="dashboard__left__block--sug__jobs">
-          <JobSug v-for="job in fetchedJobs" :key="job.title" :job="job" @jobClick="openJobPop" />
+          <JobSug v-for="(job, index) in fetchedJobs.slice(0, 4)" :key="index" :job="job" @jobClick="openJobPop" />
         </div>
       </div>
     </div>
