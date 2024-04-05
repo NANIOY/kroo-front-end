@@ -11,13 +11,10 @@ const props = defineProps({
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.getDate();
-};
-
-const formatMonth = (dateString) => {
-    const date = new Date(dateString);
+    const day = date.getDate();
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    return monthNames[date.getMonth()];
+    const month = monthNames[date.getMonth()];
+    return `${day} ${month}`;
 };
 
 const emits = defineEmits(['jobClick']);
@@ -58,8 +55,7 @@ fetchEmployerDetails();
         <div class="jobSug__bot">
             <IconLabel :iconName="'MapPin'" :label="job.location" size="small" />
             <span class="jobSug__bot__sep text-secondary text-reg-l">|</span>
-            <IconLabel :iconName="'Calendar'" :label="formatDate(job.date) + ' ' + formatMonth(job.date)"
-                size="small" />
+            <IconLabel :iconName="'Calendar'" :label=formatDate(job.date) size="small" />
             <span class="jobSug__bot__sep text-secondary text-reg-l">|</span>
             <IconLabel :iconName="'Clock'" :label="job.time" size="small" />
         </div>
