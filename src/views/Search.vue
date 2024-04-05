@@ -4,6 +4,7 @@ import JobPop from '../components/molecules/popups/JobPop.vue';
 import Overlay from '../components/molecules/popups/Overlay.vue';
 import SearchFilter from '../components/molecules/filter/SearchFilter.vue';
 import TransparentButton from '../components/atoms/buttons/TransparentButton.vue';
+import NormalButton from '../components/atoms/buttons/NormalButton.vue';
 import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 
@@ -139,14 +140,14 @@ onMounted(() => {
       </div>
 
       <div class="pagination">
-        <TransparentButton @click="previousPage" :disabled="currentPage === 1" iconName="NavArrowLeft"
-          class="pagination__button no-label" />
+        <NormalButton @click="previousPage" :disabled="currentPage === 1" iconName="NavArrowLeft"
+          class="pagination__button pagination__button--arrow button--tertiary" />
         <template v-for="page in visiblePages" :key="page">
           <TransparentButton @click="goToPage(page)" :class="{ active: page === currentPage }" :label="page"
-            class="pagination__button pagination__page" />
+            class="pagination__button" />
         </template>
-        <TransparentButton @click="nextPage" :disabled="currentPage === totalPages" iconName="NavArrowRight"
-          class="pagination__button no-label" />
+        <NormalButton @click="nextPage" :disabled="currentPage === totalPages" iconName="NavArrowRight"
+          class="pagination__button pagination__button--arrow button--tertiary" />
       </div>
     </div>
 
@@ -181,24 +182,29 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   margin-bottom: 24px;
-  gap: 8px;
+  gap: 12px;
 }
 
-.pagination button {
+.pagination__button {
   width: 40px;
   height: 40px;
-
+  font-weight: 100;
 }
 
 .no-label {
   padding: 0;
 }
 
-.pagination button.active {
-  background-color: var(--green);
+.pagination__button--arrow {
+  margin: 0 16px;
 }
 
-.pagination button:disabled {
-  color: var(--neutral-30) !important;
+.pagination__button.active {
+  font-weight: 900;
+  color: var(--blurple) !important;
+}
+
+.pagination__button:disabled {
+  opacity: 0;
 }
 </style>
