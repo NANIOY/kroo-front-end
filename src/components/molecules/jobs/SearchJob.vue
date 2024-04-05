@@ -11,7 +11,7 @@ const loading = ref(true);
 onMounted(() => {
     setTimeout(() => {
         loading.value = false;
-    }, 1000);
+    }, 200);
 });
 
 // format date string to day
@@ -79,15 +79,12 @@ const openJobPop = () => {
 <style scoped>
 /* SKELETON */
 .container.skeleton {
-    background-color: var(--neutral-20);
-    border-radius: 4px;
-    padding: 20px;
-    animation: pulse 0.5s infinite alternate;
+    animation: pulse 0.2s infinite alternate;
 }
 
 @keyframes pulse {
     0% {
-        opacity: 0.6;
+        opacity: 0.8;
     }
 
     100% {
