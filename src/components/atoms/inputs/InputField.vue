@@ -1,5 +1,5 @@
 <script>
-import { NavArrowDown, User, Search, Mail, Attachment, Eye, EyeClosed } from '@iconoir/vue';
+import { NavArrowDown, User, Mail, Attachment, Eye, EyeClosed, Search } from '@iconoir/vue';
 
 export default {
   props: {
@@ -8,8 +8,7 @@ export default {
       type: Boolean,
       default: false
     },
-    iconLeftName: String,
-    hasIconLeft: {
+    hasSearch: {
       type: Boolean,
       default: false
     },
@@ -32,7 +31,7 @@ export default {
     },
     inputWidth: {
       type: String,
-      default: '100%'
+      default: '272px'
     }
   },
   data() {
@@ -42,7 +41,7 @@ export default {
   },
   computed: {
     inputPaddingLeft() {
-      return this.hasIconLeft ? '44px' : '12px';
+      return this.hasSearch ? '44px' : '12px';
     },
     inputPaddingRight() {
       return this.hasIconRight ? '44px' : '12px';
@@ -54,7 +53,7 @@ export default {
     }
   },
   components: {
-    NavArrowDown, User, Search, Mail, Attachment, Eye, EyeClosed
+    NavArrowDown, User, Mail, Attachment, Eye, EyeClosed, Search
   }
 };
 </script>
@@ -63,8 +62,8 @@ export default {
   <div class="inputContainer">
     <label v-if="hasLabel">{{ label }}</label>
     <div class="inputContainer__wrapper">
-      <span v-if="hasIconLeft" class="icon icon--left">
-        <component :is="iconLeftName" />
+      <span v-if="hasSearch" class="icon icon--left">
+        <Search />
       </span>
       <input :type="inputType" :placeholder="placeholder" :class="{ error: isError }"
         :style="{ width: inputWidth, paddingLeft: inputPaddingLeft, paddingRight: inputPaddingRight }" />
@@ -98,6 +97,7 @@ label {
   box-sizing: border-box;
   padding-top: 2px;
   font-size: 20px;
+  width: 272px;
   height: 48px;
   border: 2px solid var(--black);
   background-color: transparent;
@@ -123,8 +123,9 @@ input::placeholder {
   display: flex;
 }
 
-.icon--left {
-  left: 12px;
+.icon--left svg {
+  margin-left: 12px;
+  stroke-width: 2px;
 }
 
 .icon--right {

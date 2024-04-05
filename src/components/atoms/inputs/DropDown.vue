@@ -91,7 +91,7 @@ label {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+  width: 272px;
   height: 48px;
   padding-left: 12px;
   cursor: pointer;
