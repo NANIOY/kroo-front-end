@@ -4,12 +4,29 @@ import IconLabel from '../../atoms/items/IconLabel.vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 
 const props = defineProps({
-    job: Object, // Define props for job data
+    job: Object,
 });
+
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.getDate();
+};
+
+const formatMonth = (dateString) => {
+    const date = new Date(dateString);
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    return monthNames[date.getMonth()];
+};
+
+const emits = defineEmits(['jobClick']);
+
+const openJobPop = () => {
+    emits('jobClick', props.job);
+};
 </script>
 
 <template>
-    <div class="jobSug">
+    <div class="jobSug" @click="openJobPop">
         <div class="jobSug__top">
             <img :src="job.image" class="jobSug__top__img" alt="Business logo" width="56" height="56">
             <h4 class="jobSug__top__title">{{ job.title }}</h4>

@@ -9,6 +9,8 @@ import Upgrade from '../components/molecules/dashboard/Upgrade.vue';
 
 // IMPORT OTHER
 import TransparentButton from '../components/atoms/buttons/TransparentButton.vue';
+import JobPop from '../components/molecules/popups/JobPop.vue';
+import Overlay from '../components/molecules/popups/Overlay.vue';
 
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
@@ -101,7 +103,7 @@ onMounted(() => {
             label="Search more" iconName="NavArrowRight" iconPosition="right" />
         </div>
         <div class="dashboard__left__block--sug__jobs">
-          <JobSug v-for="job in fetchedJobs" :key="job.title" :job="job" />
+          <JobSug v-for="job in fetchedJobs" :key="job.title" :job="job" @jobClick="openJobPop" />
         </div>
       </div>
     </div>
@@ -120,6 +122,9 @@ onMounted(() => {
       </div>
       <Upgrade @click="goToUpgrade" />
     </div>
+    <Overlay v-if="selectedJob" @overlayClick="closeJobPop">
+      <JobPop v-if="selectedJob" :job="selectedJob" />
+    </Overlay>
   </div>
 </template>
 
