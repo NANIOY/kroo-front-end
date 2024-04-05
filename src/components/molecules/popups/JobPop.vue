@@ -64,9 +64,10 @@ const formatDateTime = (dateTimeString) => {
 
         <!-- Bottom Section -->
         <div class="jobpop__bottom">
+            <LargeButton label="Save" class="jobpop__bottom__button button--tertiary"
+                :endpoint="`/crewJobInt/${job.id}/save`" :postData="{}" />
             <LargeButton label="Apply" class="jobpop__bottom__button button--primary"
                 :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" />
-            <LargeButton label="Save" class="jobpop__bottom__button button--tertiary" />
         </div>
     </div>
 </template>
