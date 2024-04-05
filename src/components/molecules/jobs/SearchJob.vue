@@ -1,9 +1,17 @@
 <script setup>
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
-import { defineProps } from 'vue';
+import { defineProps, ref, onMounted } from 'vue';
 
 const props = defineProps({
     job: Object,
+});
+
+const loading = ref(true);
+
+onMounted(() => {
+    setTimeout(() => {
+        loading.value = false;
+    }, 1000);
 });
 
 // format date string to day
@@ -29,7 +37,10 @@ const openJobPop = () => {
 </script>
 
 <template>
-    <div class="container" @click="openJobPop">
+    <!-- Skeleton loading -->
+    <div v-if="loading" class="container skeleton"></div>
+
+    <div v-else class="container" @click="openJobPop">
         <div class="container__info">
             <div class="container__top" v-if="job.employer">
                 <img :src="job.employer.image" class="container__top__image" alt="Employer's Logo" />
@@ -57,15 +68,33 @@ const openJobPop = () => {
             <span class="container__bot__rate">€ {{ job.hourlyRate }}/hr</span>
             <div class="container__bot__buttons">
                 <NormalButton label="Save Job" class="container__bot__buttons__save button--tertiary"
-                    :endpoint="`/crewJobInt/${job.id}/save`" :postData="{}" @click.stop/>
+                    :endpoint="`/crewJobInt/${job.id}/save`" :postData="{}" @click.stop />
                 <NormalButton label="Apply Now" class="container__bot__buttons__apply button--primary"
-                    :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" @click.stop/>
+                    :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" @click.stop />
             </div>
         </div>
     </div>
 </template>
 
 <style scoped>
+/* SKELETON */
+.container.skeleton {
+    background-color: var(--neutral-20);
+    border-radius: 4px;
+    padding: 20px;
+    animation: pulse 0.5s infinite alternate;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
 /* GENERAL */
 .container,
 .container__info,
