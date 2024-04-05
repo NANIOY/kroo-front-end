@@ -53,9 +53,9 @@ const openJobPop = () => {
             <span class="container__bot__rate">€ {{ job.hourlyRate }}/hr</span>
             <div class="container__bot__buttons">
                 <NormalButton label="Save Job" class="container__bot__buttons__save button--tertiary"
-                    :endpoint="`/crewJobInt/${job.id}/save`" :postData="{}" />
+                    :endpoint="`/crewJobInt/${job.id}/save`" :postData="{}" @click.stop/>
                 <NormalButton label="Apply Now" class="container__bot__buttons__apply button--primary"
-                    :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" />
+                    :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" @click.stop/>
             </div>
         </div>
     </div>
