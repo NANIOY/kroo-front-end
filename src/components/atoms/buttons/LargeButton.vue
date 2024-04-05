@@ -40,11 +40,19 @@ export default {
         // call setupAxios to set up axios instance with router
         const axiosInstance = setupAxios(router);
 
-        const handleClick = () => {
-            axiosInstance.post(props.endpoint, props.postData)
-                .catch(error => {
-                    console.error('Error making POST request:', error);
-                });
+        const handleClick = async () => {
+            try {
+                // make POST request to endpoint with postData using axios instance
+                const response = await axiosInstance.post(props.endpoint, props.postData);
+                console.log('Response:', response);
+
+                // if redirect prop is provided, redirect to that route
+                if (props.redirect) {
+                    router.push(props.redirect);
+                }
+            } catch (error) {
+                console.error('Error making POST request:', error);
+            }
         };
 
         return {
