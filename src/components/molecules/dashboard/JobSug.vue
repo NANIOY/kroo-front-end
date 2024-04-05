@@ -2,11 +2,19 @@
 import { IconoirProvider } from '@iconoir/vue';
 import IconLabel from '../../atoms/items/IconLabel.vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, ref, onMounted } from 'vue';
 import axios from 'axios';
 
 const props = defineProps({
     job: Object,
+});
+
+const loading = ref(true);
+
+onMounted(() => {
+    setTimeout(() => {
+        loading.value = false;
+    }, 200);
 });
 
 // format date string to day and month
@@ -43,7 +51,10 @@ fetchEmployerDetails();
 </script>
 
 <template>
-    <div class="jobSug" @click="openJobPop">
+    <!-- Skeleton loading -->
+    <div v-if="loading" class="jobSug skeleton"></div>
+
+    <div v-else class="jobSug" @click="openJobPop">
         <div class="jobSug__top">
             <img v-if="job.employer" :src="job.employer.image" class="jobSug__top__img" alt="Business logo" width="56"
                 height="56">
