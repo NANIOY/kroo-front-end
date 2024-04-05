@@ -20,7 +20,8 @@ export default {
     return {
       isOpen: false,
       selectedOption: '',
-      inputId: 'container__dropdown__box-' + Math.random().toString(36).substring(2, 15)
+      inputId: 'container__dropdown__box-' + Math.random().toString(36).substring(2, 15),
+      dropdownContainer: null
     };
   },
   components: {
@@ -35,13 +36,16 @@ export default {
       this.isOpen = false;
     },
     closeDropdownOnClickOutside(event) {
-      if (!this.$refs.dropdownContainer.contains(event.target)) {
+      if (this.dropdownContainer && !this.dropdownContainer.contains(event.target)) {
         this.isOpen = false;
       }
     }
   },
   mounted() {
-    document.addEventListener('click', this.closeDropdownOnClickOutside);
+    this.$nextTick(() => {
+      this.dropdownContainer = this.$refs.dropdownContainer;
+      document.addEventListener('click', this.closeDropdownOnClickOutside);
+    });
   },
   beforeDestroy() {
     document.removeEventListener('click', this.closeDropdownOnClickOutside);
