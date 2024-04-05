@@ -28,7 +28,7 @@ const openJobPop = () => {
 <template>
     <div class="jobSug" @click="openJobPop">
         <div class="jobSug__top">
-            <img :src="job.image" class="jobSug__top__img" alt="Business logo" width="56" height="56">
+            <img :src="job.employer.image" class="jobSug__top__img" alt="Business logo" width="56" height="56">
             <h4 class="jobSug__top__title">{{ job.title }}</h4>
             <IconoirProvider :icon-props="{
                 'stroke-width': '2'
