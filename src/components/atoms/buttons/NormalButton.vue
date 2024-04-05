@@ -1,5 +1,7 @@
 <script>
 import { NavArrowDown, NavArrowUp, NavArrowLeft, NavArrowRight, User, HandCard, Bell, Accessibility, Behance, Tiktok, Threads, X, Linkedin, Youtube, Instagram, Facebook, Dribbble, MapPin, AtSign, CheckCircle, MoreHoriz, Xmark, Learning, CinemaOld, DragHandGesture, Attachment, Calendar, Search, Plus, Clock, BadgeCheck } from '@iconoir/vue';
+import { useRouter } from 'vue-router';
+import setupAxios from '../../../setupAxios.js'
 
 export default {
     props: {
@@ -14,8 +16,40 @@ export default {
         label: String,
         iconName: {
             type: String,
-            default: '' // Default empty string to prevent errors
+            default: ''
+        },
+        method: {
+            type: String,
+            default: 'POST'
+        },
+        endpoint: {
+            type: String,
+            required: true
+        },
+        postData: {
+            type: Object,
+            required: true
+        },
+        redirect: {
+            type: String,
         }
+    },
+    setup(props) {
+        const router = useRouter();
+
+        // call setupAxios to set up axios instance with router
+        const axiosInstance = setupAxios(router);
+
+        const handleClick = () => {
+            axiosInstance.post(props.endpoint, props.postData)
+                .catch(error => {
+                    console.error('Error making POST request:', error);
+                });
+        };
+
+        return {
+            handleClick
+        };
     },
     components: {
         NavArrowDown,
@@ -57,8 +91,7 @@ export default {
     <button :class="[
         'normalButton',
         { 'no-label': !hasLabel }
-    ]">
-        <!-- Dynamically render the icon based on the iconName prop -->
+    ]" @click="handleClick">
         <component :is="iconName" v-if="hasIcon" />
         <span v-if="hasLabel && label" class="normalButton__label">{{ label }}</span>
     </button>
