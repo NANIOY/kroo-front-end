@@ -2,6 +2,8 @@
 import { IconoirProvider } from '@iconoir/vue';
 import IconLabel from '../../atoms/items/IconLabel.vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
+import { defineProps, defineEmits } from 'vue';
+import axios from 'axios';
 
 const props = defineProps({
     job: Object,
@@ -23,12 +25,28 @@ const emits = defineEmits(['jobClick']);
 const openJobPop = () => {
     emits('jobClick', props.job);
 };
+
+// fetch employer details for each job based on businessId
+const fetchEmployerDetails = async () => {
+    try {
+        const businessResponse = await axios.get(`https://kroo-back-end.onrender.com/api/v1/business/${props.job.businessId}`);
+        props.job.employer = {
+            name: businessResponse.data.data.business.name,
+            image: businessResponse.data.data.business.businessInfo.logo
+        };
+    } catch (error) {
+        console.error('Error fetching employer details:', error);
+    }
+};
+
+fetchEmployerDetails();
 </script>
 
 <template>
     <div class="jobSug" @click="openJobPop">
         <div class="jobSug__top">
-            <img :src="job.employer.image" class="jobSug__top__img" alt="Business logo" width="56" height="56">
+            <img v-if="job.employer" :src="job.employer.image" class="jobSug__top__img" alt="Business logo" width="56"
+                height="56">
             <h4 class="jobSug__top__title">{{ job.title }}</h4>
             <IconoirProvider :icon-props="{
                 'stroke-width': '2'
@@ -40,12 +58,14 @@ const openJobPop = () => {
         <div class="jobSug__bot">
             <IconLabel :iconName="'MapPin'" :label="job.location" size="small" />
             <span class="jobSug__bot__sep text-secondary text-reg-l">|</span>
-            <IconLabel :iconName="'Calendar'" :label="job.date" size="small" />
+            <IconLabel :iconName="'Calendar'" :label="formatDate(job.date) + ' ' + formatMonth(job.date)"
+                size="small" />
             <span class="jobSug__bot__sep text-secondary text-reg-l">|</span>
             <IconLabel :iconName="'Clock'" :label="job.time" size="small" />
         </div>
     </div>
 </template>
+
 
 <style scoped>
 /* GENERAL */
