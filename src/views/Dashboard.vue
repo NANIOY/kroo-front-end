@@ -2,7 +2,7 @@
 // IMPORT DASHBOARD COMPONENTS
 import topNavDash from '../components/organisms/navigation/topNav/topNavDash.vue';
 import JobCard from '../components/molecules/dashboard/JobCard.vue';
-import JobSug from '../components/molecules/dashboard/JobSug.vue'; // Import JobSug component
+import JobSug from '../components/molecules/dashboard/JobSug.vue';
 import Week from '../components/molecules/dashboard/Week.vue';
 import ScheduleCard from '../components/molecules/dashboard/ScheduleCard.vue';
 import Upgrade from '../components/molecules/dashboard/Upgrade.vue';
@@ -10,8 +10,11 @@ import Upgrade from '../components/molecules/dashboard/Upgrade.vue';
 // IMPORT OTHER
 import TransparentButton from '../components/atoms/buttons/TransparentButton.vue';
 
+import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+
+const router = useRouter();
 
 const goToTracker = () => {
   router.push('/tracker');
@@ -28,8 +31,8 @@ const goToUpgrade = () => {
 const fetchedJobs = ref([]);
 const selectedJob = ref(null);
 
-// Fetch job suggestions
-const fetchJobs = async () => {
+// fetch job suggestions
+const fetchJobSuggestions = async () => {
   try {
     const response = await axios.get('https://kroo-back-end.onrender.com/api/v1/crewjob/jobs');
     fetchedJobs.value = response.data.data.jobs.map(job => ({
@@ -62,9 +65,8 @@ const closeJobPop = () => {
   selectedJob.value = null;
 };
 
-// Fetch job suggestions on component mount
 onMounted(() => {
-  fetchJobs();
+  fetchJobSuggestions();
 });
 </script>
 
