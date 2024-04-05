@@ -8,7 +8,8 @@ export default {
       type: Boolean,
       default: false
     },
-    hasSearch: {
+    iconLeftName: String,
+    hasIconLeft: {
       type: Boolean,
       default: false
     },
@@ -41,7 +42,7 @@ export default {
   },
   computed: {
     inputPaddingLeft() {
-      return this.hasSearch ? '44px' : '12px';
+      return this.hasIconLeft ? '44px' : '12px';
     },
     inputPaddingRight() {
       return this.hasIconRight ? '44px' : '12px';
@@ -62,8 +63,8 @@ export default {
   <div class="inputContainer">
     <label v-if="hasLabel">{{ label }}</label>
     <div class="inputContainer__wrapper">
-      <span v-if="hasSearch" class="icon icon--left">
-        <Search />
+      <span v-if="hasIconLeft" class="icon icon--left">
+        <component :is="iconLeftName" />
       </span>
       <input :type="inputType" :placeholder="placeholder" :class="{ error: isError }"
         :style="{ width: inputWidth, paddingLeft: inputPaddingLeft, paddingRight: inputPaddingRight }" />
@@ -122,9 +123,8 @@ input::placeholder {
   display: flex;
 }
 
-.icon--left svg {
-  margin-left: 12px;
-  stroke-width: 2px;
+.icon--left {
+left: 12px;
 }
 
 .icon--right {
