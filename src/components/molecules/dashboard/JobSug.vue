@@ -4,19 +4,15 @@ import IconLabel from '../../atoms/items/IconLabel.vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 
 const props = defineProps({
-    image: String,
-    title: String,
-    location: String,
-    date: String,
-    time: String,
+    job: Object, // Define props for job data
 });
 </script>
 
 <template>
     <div class="jobSug">
         <div class="jobSug__top">
-            <img :src="image" class="jobSug__top__img" alt="Business logo" width="56" height="56">
-            <h4 class="jobSug__top__title">{{ title }}</h4>
+            <img :src="job.image" class="jobSug__top__img" alt="Business logo" width="56" height="56">
+            <h4 class="jobSug__top__title">{{ job.title }}</h4>
             <IconoirProvider :icon-props="{
                 'stroke-width': '2'
             }">
@@ -25,11 +21,11 @@ const props = defineProps({
             </IconoirProvider>
         </div>
         <div class="jobSug__bot">
-            <IconLabel :iconName="'MapPin'" :label="location" size="small" />
+            <IconLabel :iconName="'MapPin'" :label="job.location" size="small" />
             <span class="jobSug__bot__sep text-secondary text-reg-l">|</span>
-            <IconLabel :iconName="'Calendar'" :label="date" size="small" />
+            <IconLabel :iconName="'Calendar'" :label="job.date" size="small" />
             <span class="jobSug__bot__sep text-secondary text-reg-l">|</span>
-            <IconLabel :iconName="'Clock'" :label="time" size="small" />
+            <IconLabel :iconName="'Clock'" :label="job.time" size="small" />
         </div>
     </div>
 </template>

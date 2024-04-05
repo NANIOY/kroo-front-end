@@ -2,7 +2,7 @@
 // IMPORT DASHBOARD COMPONENTS
 import topNavDash from '../components/organisms/navigation/topNav/topNavDash.vue';
 import JobCard from '../components/molecules/dashboard/JobCard.vue';
-import JobSug from '../components/molecules/dashboard/JobSug.vue';
+import JobSug from '../components/molecules/dashboard/JobSug.vue'; // Import JobSug component
 import Week from '../components/molecules/dashboard/Week.vue';
 import ScheduleCard from '../components/molecules/dashboard/ScheduleCard.vue';
 import Upgrade from '../components/molecules/dashboard/Upgrade.vue';
@@ -10,9 +10,8 @@ import Upgrade from '../components/molecules/dashboard/Upgrade.vue';
 // IMPORT OTHER
 import TransparentButton from '../components/atoms/buttons/TransparentButton.vue';
 
-import { useRouter } from 'vue-router';
-
-const router = useRouter();
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
 const goToTracker = () => {
   router.push('/tracker');
@@ -25,6 +24,48 @@ const goToSearch = () => {
 const goToUpgrade = () => {
   router.push('/upgrade');
 };
+
+const fetchedJobs = ref([]);
+const selectedJob = ref(null);
+
+// Fetch job suggestions
+const fetchJobs = async () => {
+  try {
+    const response = await axios.get('https://kroo-back-end.onrender.com/api/v1/crewjob/jobs');
+    fetchedJobs.value = response.data.data.jobs.map(job => ({
+      ...job,
+      id: job._id
+    }));
+
+    // fetch employer details for each job based on businessId
+    await Promise.all(fetchedJobs.value.map(async (job) => {
+      try {
+        const businessResponse = await axios.get(`https://kroo-back-end.onrender.com/api/v1/business/${job.businessId}`);
+        job.employer = {
+          name: businessResponse.data.data.business.name,
+          image: businessResponse.data.data.business.businessInfo.logo
+        };
+      } catch (error) {
+        console.error('Error fetching employer details:', error);
+      }
+    }));
+  } catch (error) {
+    console.error('Error fetching jobs:', error);
+  }
+};
+
+const openJobPop = (job) => {
+  selectedJob.value = job;
+};
+
+const closeJobPop = () => {
+  selectedJob.value = null;
+};
+
+// Fetch job suggestions on component mount
+onMounted(() => {
+  fetchJobs();
+});
 </script>
 
 <template>
@@ -58,18 +99,7 @@ const goToUpgrade = () => {
             label="Search more" iconName="NavArrowRight" iconPosition="right" />
         </div>
         <div class="dashboard__left__block--sug__jobs">
-          <JobSug class="dashboard__left__block--sug__jobs__job"
-            image="https://fakeimg.pl/400x400/000000/ffffff?text=logo" title="Job title" location="Location" date="Date"
-            time="00:00 - 00:00" />
-          <JobSug class="dashboard__left__block--sug__jobs__job"
-            image="https://fakeimg.pl/400x400/000000/ffffff?text=logo" title="Job title" location="Location" date="Date"
-            time="00:00 - 00:00" />
-          <JobSug class="dashboard__left__block--sug__jobs__job"
-            image="https://fakeimg.pl/400x400/000000/ffffff?text=logo" title="Job title" location="Location" date="Date"
-            time="00:00 - 00:00" />
-          <JobSug class="dashboard__left__block--sug__jobs__job"
-            image="https://fakeimg.pl/400x400/000000/ffffff?text=logo" title="Job title" location="Location" date="Date"
-            time="00:00 - 00:00" />
+          <JobSug v-for="job in fetchedJobs" :key="job.title" :job="job" />
         </div>
       </div>
     </div>
