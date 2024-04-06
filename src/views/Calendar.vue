@@ -1,14 +1,10 @@
 <script setup>
-// Import and use your calendar library or component if required
+import Month from '../components/molecules/calendar/Month.vue';
+
 </script>
 
 <template>
-  <div>
-    <h1>Calendar</h1>
-    <p>This is where your calendar implementation would go.</p>
-  </div>
+  <Month />
 </template>
 
-<style scoped>
-/* Add styles for your calendar component here */
-</style>
+<style scoped></style>
