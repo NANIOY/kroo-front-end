@@ -33,7 +33,8 @@ function getMonthWeeks(date) {
         currentWeek.push({
             abbr: day.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2),
             number: day.getDate(),
-            isActive: day.getDate() === currentDate.value.getDate()
+            isActive: day.getDate() === currentDate.value.getDate(),
+            isWeekend: day.getDay() === 0 || day.getDay() === 6
         });
 
         if (day.getDay() === 0 || i === numDaysInMonth) {
@@ -94,7 +95,7 @@ function markActiveDay() {
             <div class="calendar__bot__numbers">
                 <template v-for="(week) in weeks">
                     <div v-for="(day, dayIndex) in week" :key="dayIndex" class="calendar__bot__numbers__number"
-                        :class="['day', { 'active-day': day.isActive, 'prev-month-day': day.isPrevMonth }]">
+                        :class="['day', { 'active-day': day.isActive, 'prev-month-day': day.isPrevMonth, 'weekend-day': day.isWeekend }]">
                         {{ day.number }}
                     </div>
                 </template>
@@ -174,9 +175,14 @@ h5 {
 
 .active-day {
     background-color: var(--green);
+    opacity: 1 !important;
 }
 
 .prev-month-day {
-    opacity: 0.5;
+    opacity: 0.4;
+}
+
+.weekend-day {
+    opacity: 0.7;
 }
 </style>
