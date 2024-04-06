@@ -1,7 +1,8 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import TransparentButton from '../../../atoms/buttons/TransparentButton.vue';
+import setupAxios from '../../../../setupAxios.js';
 
 const props = defineProps({
   pageName: String,
@@ -20,6 +21,22 @@ const dynamicPageName = computed(() => {
     return capitalizeFirstLetter(segments[segments.length - 1]);
   }
 });
+
+const axiosInstance = setupAxios();
+const userId = sessionStorage.getItem('userId');
+const name = ref(props.name);
+
+const fetchUserData = async () => {
+  try {
+    const response = await axiosInstance.get(`/user/${userId}`);
+    const userData = response.data.data.user;
+    name.value = userData.username;
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+  }
+};
+
+onMounted(fetchUserData);
 
 const capitalizeFirstLetter = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
