@@ -49,9 +49,31 @@ switch (props.iconType.toLowerCase()) {
 </script>
 
 <template>
-    <a :href="link" target="_blank" class="social-button">
-        <icon :icon="icon" class="social-icon" />
-    </a>
+  <a :href="link" target="_blank" class="social-button">
+    <div class="icon-wrapper">
+      <icon :icon="icon" class="social-icon" />
+    </div>
+  </a>
 </template>
 
-<style scoped></style>
+<style scoped>
+.social-button {
+  text-decoration: none;
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px; 
+  height: 50px; 
+  border-radius: 50%; /
+  background-color: #ccc; 
+  overflow: hidden; 
+}
+
+.social-icon {
+  color: #fff; 
+  font-size: 24px; 
+}
+</style>
