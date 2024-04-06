@@ -127,7 +127,6 @@ function markActiveDay() {
 }
 
 .calendar {
-    width: 272px;
     flex-direction: column;
     gap: 16px;
     color: var(--black);

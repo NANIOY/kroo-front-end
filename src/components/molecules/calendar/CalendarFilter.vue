@@ -28,6 +28,5 @@ const priorityConfig = {
     display: flex;
     flex-direction: column;
     gap: 24px;
-    width: 272px;
 }
 </style>
