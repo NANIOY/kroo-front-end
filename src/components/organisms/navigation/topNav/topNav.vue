@@ -48,7 +48,7 @@ const capitalizeFirstLetter = (str) => {
 </script>
 
 <template>
-  <div id="navbarTop">
+  <div class="navbarTop sticky">
     <div id="navbarTop_left">
       <h3>{{ dynamicPageName }}</h3>
     </div>
@@ -70,14 +70,21 @@ const capitalizeFirstLetter = (str) => {
 </template>
 
 <style scoped>
-#navbarTop,
+.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 998;
+  background-color: var(--white);
+}
+
+.navbarTop,
 #navbarTop_right,
 #navbarTop_right_account {
   display: flex;
   align-items: center;
 }
 
-#navbarTop {
+.navbarTop {
   justify-content: space-between;
   padding: 0px 8px 16px 8px;
   margin: 32px 0px 36px 0px;
