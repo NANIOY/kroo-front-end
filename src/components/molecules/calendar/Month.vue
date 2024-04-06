@@ -98,12 +98,12 @@ function markActiveDay() {
             </div>
         </div>
         <div class="calendar__bot">
-            <div class="calendar__bot__days">
+            <div class="calendar__bot__days text-bold-normal">
                 <div v-for="day in weeks[0]" :key="day.abbr" :class="{ 'calendar__bot__days__abbr': true }">
                     {{ day.abbr }}
                 </div>
             </div>
-            <div class="calendar__bot__numbers">
+            <div class="calendar__bot__numbers text-reg-normal">
                 <template v-for="(week) in weeks">
                     <div v-for="(day, dayIndex) in week" :key="dayIndex" class="calendar__bot__numbers__number"
                         :class="['day', { 'active-day': day.isActive, 'prev-month-day': day.isPrevMonth, 'weekend-day': day.isWeekend }]">
@@ -121,7 +121,8 @@ function markActiveDay() {
 .calendar__top__buttons,
 .calendar__bot,
 .calendar__bot__week,
-.calendar__bot__days {
+.calendar__bot__days,
+.calendar__bot__days__abbr {
     display: flex;
 }
 
