@@ -1,5 +1,6 @@
 <script setup>
 import { Tiktok } from '@iconoir/vue';
+import { defineProps } from 'vue';
 
 const props = defineProps({
     iconType: {
@@ -17,6 +18,8 @@ switch (props.iconType.toLowerCase()) {
     default:
         icon = null;
 }
+
+const link = 'https://www.example.com'; 
 </script>
 
 <template>
