@@ -7,7 +7,6 @@ const currentDate = ref(new Date());
 const options = { month: 'long', year: 'numeric' };
 const formattedDate = ref(getFormattedDate(currentDate.value));
 const weeks = ref(getMonthWeeks(currentDate.value));
-const weekDays = ref(getWeekDays(currentDate.value));
 
 function getFormattedDate(date) {
     const monthYear = date.toLocaleDateString('en-GB', options);
@@ -21,11 +20,12 @@ function getMonthWeeks(date) {
     const numDaysInMonth = lastDayOfMonth.getDate();
     let currentWeek = [];
 
-    let startDayOfWeek = firstDayOfMonth.getDay();
-    startDayOfWeek = startDayOfWeek === 0 ? 7 : startDayOfWeek;
+    const firstDayOfWeek = firstDayOfMonth.getDay();
+    const numDaysFromPrevMonth = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
 
-    for (let i = 1; i < startDayOfWeek; i++) {
-        currentWeek.push({ abbr: '', number: '' });
+    for (let i = 0; i < numDaysFromPrevMonth; i++) {
+        const prevDay = new Date(firstDayOfMonth.getTime() - (numDaysFromPrevMonth - i) * 24 * 60 * 60 * 1000);
+        currentWeek.push({ abbr: prevDay.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2), number: prevDay.getDate() });
     }
 
     for (let i = 1; i <= numDaysInMonth; i++) {
@@ -33,9 +33,10 @@ function getMonthWeeks(date) {
         currentWeek.push({
             abbr: day.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2),
             number: day.getDate(),
-            isActive: day.toDateString() === currentDate.value.toDateString()
+            isActive: day.getDate() === currentDate.value.getDate()
         });
-        if (day.getDay() === 6 || i === numDaysInMonth) {
+
+        if (day.getDay() === 0 || i === numDaysInMonth) {
             weeks.push(currentWeek);
             currentWeek = [];
         }
@@ -58,44 +59,41 @@ function previousMonth() {
 function updateMonth() {
     formattedDate.value = getFormattedDate(currentDate.value);
     weeks.value = getMonthWeeks(currentDate.value);
+    markActiveDay();
 }
 
-function getWeekDays(date) {
-    const days = [];
-    const firstDayOfWeek = date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1); // get first day of week
-    const monday = new Date(date.getTime()); // create a new Date object
-    monday.setDate(firstDayOfWeek); // set start of week to monday
-    for (let i = 0; i < 7; i++) {
-        const day = new Date(monday.getTime() + i * 86400000); // 86400000 ms = 1 day
-        const abbr = day.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2); // get first 2 letters of weekday
-        days.push({ abbr: abbr, number: day.getDate() });
-    }
-    return days;
+function markActiveDay() {
+    const today = new Date();
+    weeks.value.forEach(week => {
+        week.forEach(day => {
+            const dayDate = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth(), day.number);
+            day.isActive = dayDate.toDateString() === today.toDateString();
+        });
+    });
 }
+
 </script>
 
 <template>
-    <div class="container">
-        <div class="container__top">
+    <div class="calendar">
+        <div class="calendar__top">
             <h5>{{ formattedDate }}</h5>
-            <div class="container__top__buttons">
-                <TransparentButton class="container__top__button no-label" hasLabel="false" iconName="NavArrowLeft"
+            <div class="calendar__top__buttons">
+                <TransparentButton class="calendar__top__button no-label" hasLabel="false" iconName="NavArrowLeft"
                     @click="previousMonth" />
-                <TransparentButton class="container__top__button no-label" hasLabel="false" iconName="NavArrowRight"
+                <TransparentButton class="calendar__top__button no-label" hasLabel="false" iconName="NavArrowRight"
                     @click="nextMonth" />
             </div>
         </div>
-        <div class="container__bot">
-            <!-- Day names row -->
-            <div class="container__bot__days">
-                <div v-for="day in weekDays" :key="day.abbr" class="container__bot__days__abbr">
+        <div class="calendar__bot">
+            <div class="calendar__bot__days">
+                <div v-for="day in weeks[0]" :key="day.abbr" class="calendar__bot__days__abbr">
                     {{ day.abbr }}
                 </div>
             </div>
-            <!-- Numbers grid -->
-            <div class="container__bot__numbers">
-                <template v-for="(week) in weeks">
-                    <div v-for="(day, dayIndex) in week" :key="dayIndex" class="container__bot__numbers__number"
+            <div class="calendar__bot__numbers">
+                <template v-for="(week, weekIndex) in weeks" :key="weekIndex">
+                    <div v-for="(day, dayIndex) in week" :key="dayIndex" class="calendar__bot__numbers__number"
                         :class="['day', { 'active-day': day.isActive }]">
                         {{ day.number }}
                     </div>
@@ -106,24 +104,23 @@ function getWeekDays(date) {
 </template>
 
 <style scoped>
-/* GENERAL */
-.container,
-.container__top,
-.container__top__buttons,
-.container__bot,
-.container__bot__days__abbr {
+.calendar,
+.calendar__top,
+.calendar__top__buttons,
+.calendar__bot,
+.calendar__bot__week,
+.calendar__bot__days {
     display: flex;
 }
 
-.container {
+.calendar {
     width: 272px;
     flex-direction: column;
     gap: 16px;
     color: var(--black);
 }
 
-/* TOP */
-.container__top {
+.calendar__top {
     justify-content: space-between;
     align-items: center;
 }
@@ -134,19 +131,17 @@ h5 {
     text-transform: uppercase;
 }
 
-.container__top__button {
+.calendar__top__button {
     width: 32px !important;
     height: 32px !important;
 }
 
-/* BOTTOM */
-.container__bot {
+.calendar__bot {
     justify-content: space-between;
     flex-direction: column;
 }
 
-/* DAYS */
-.container__bot__days {
+.calendar__bot__days {
     display: grid;
     grid-template-columns: repeat(7, auto);
     border-bottom: 1.5px solid var(--neutral-80);
@@ -154,22 +149,21 @@ h5 {
     padding: 0px 4px 8px 4px;
 }
 
-.container__bot__days__abbr {
+.calendar__bot__days__abbr {
     align-items: center;
     justify-content: center;
     width: 24px;
     height: 24px;
 }
 
-/* NUMBERS */
-.container__bot__numbers {
+.calendar__bot__numbers {
     display: grid;
     grid-template-columns: repeat(7, auto);
     gap: 12px;
     padding: 12px 4px 0px 4px;
 }
 
-.container__bot__numbers__number {
+.calendar__bot__numbers__number {
     border-radius: 100%;
     width: 24px;
     height: 24px;
