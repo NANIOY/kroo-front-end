@@ -87,8 +87,9 @@ function getWeekDays(date) {
             <!-- Numbers grid -->
             <div class="container__bot__numbers">
                 <template v-for="(week) in weeks">
-                    <div v-for="(day, dayIndex) in week" :key="dayIndex" class="container__bot__numbers__number">
-                        <div :class="['day', { 'active-day': day.isActive }]">{{ day.number }}</div>
+                    <div v-for="(day, dayIndex) in week" :key="dayIndex" class="container__bot__numbers__number"
+                        :class="['day', { 'active-day': day.isActive }]">
+                        {{ day.number }}
                     </div>
                 </template>
             </div>
