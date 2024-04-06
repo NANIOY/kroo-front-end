@@ -6,6 +6,10 @@ const props = defineProps({
     iconType: {
         type: String,
         required: true
+    },
+    link: {
+        type: String,
+        default: 'https://www.example.com'
     }
 });
 
@@ -15,16 +19,12 @@ switch (props.iconType.toLowerCase()) {
     case 'tiktok':
         icon = Tiktok;
         break;
-    default:
-        icon = null;
 }
-
-const link = 'https://www.example.com'; 
 </script>
 
 <template>
-    <a :href="link" target="_blank" rel="noopener noreferrer" class="social-button">
-        <img :src="icon" alt="Social Media Icon" class="social-icon">
+    <a :href="link" target="_blank" class="social-button">
+        <icon :icon="icon" class="social-icon" />
     </a>
 </template>
 
