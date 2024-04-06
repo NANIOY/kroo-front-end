@@ -20,6 +20,14 @@ function getMonthWeeks(date) {
     const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     const numDaysInMonth = lastDayOfMonth.getDate();
     let currentWeek = [];
+
+    let startDayOfWeek = firstDayOfMonth.getDay();
+    startDayOfWeek = startDayOfWeek === 0 ? 7 : startDayOfWeek;
+
+    for (let i = 1; i < startDayOfWeek; i++) {
+        currentWeek.push({ abbr: '', number: '' });
+    }
+
     for (let i = 1; i <= numDaysInMonth; i++) {
         const day = new Date(date.getFullYear(), date.getMonth(), i);
         currentWeek.push({
@@ -27,7 +35,7 @@ function getMonthWeeks(date) {
             number: day.getDate(),
             isActive: day.toDateString() === currentDate.value.toDateString()
         });
-        if (currentWeek.length === 7 || i === numDaysInMonth) {
+        if (day.getDay() === 6 || i === numDaysInMonth) {
             weeks.push(currentWeek);
             currentWeek = [];
         }
