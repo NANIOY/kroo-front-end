@@ -3,31 +3,38 @@ import { ref } from 'vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 
 const currentDate = ref(new Date());
-
 const options = { month: 'long', year: 'numeric' };
 const formattedDate = ref(getFormattedDate(currentDate.value));
 const weeks = ref(getMonthWeeks(currentDate.value));
 
+// format date as month and year
 function getFormattedDate(date) {
     const monthYear = date.toLocaleDateString('en-GB', options);
     return `${monthYear.substr(0, monthYear.lastIndexOf(' '))}, ${monthYear.substr(monthYear.lastIndexOf(' ') + 1)}`;
 }
 
+// get the weeks of the month
 function getMonthWeeks(date) {
     const weeks = [];
+    // get first and last day of month
     const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
     const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     const numDaysInMonth = lastDayOfMonth.getDate();
     let currentWeek = [];
 
+    // get the first day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
     const firstDayOfWeek = firstDayOfMonth.getDay();
+
+    // calculate the number of days from the previous month that need to be displayed
     const numDaysFromPrevMonth = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
 
+    // push empty days for days before the first day of the month
     for (let i = 0; i < numDaysFromPrevMonth; i++) {
-        const prevDay = new Date(firstDayOfMonth.getTime() - (numDaysFromPrevMonth - i) * 24 * 60 * 60 * 1000);
+        const prevDay = new Date(firstDayOfMonth.getTime() - (numDaysFromPrevMonth - i) * 24 * 60 * 60 * 1000); // calculate the previous day
         currentWeek.push({ abbr: prevDay.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2), number: prevDay.getDate(), isPrevMonth: true });
     }
 
+    // iterate through the days of the month
     for (let i = 1; i <= numDaysInMonth; i++) {
         const day = new Date(date.getFullYear(), date.getMonth(), i);
         currentWeek.push({
@@ -37,6 +44,7 @@ function getMonthWeeks(date) {
             isWeekend: day.getDay() === 0 || day.getDay() === 6
         });
 
+        // check if it's the last day of the week or the last day of the month
         if (day.getDay() === 0 || i === numDaysInMonth) {
             weeks.push(currentWeek);
             currentWeek = [];
@@ -45,24 +53,28 @@ function getMonthWeeks(date) {
     return weeks;
 }
 
+// go to next month
 function nextMonth() {
     const nextDate = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() + 1, 1);
     currentDate.value = nextDate;
     updateMonth();
 }
 
+// go to previous month
 function previousMonth() {
     const prevDate = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() - 1, 1);
     currentDate.value = prevDate;
     updateMonth();
 }
 
+// update month
 function updateMonth() {
     formattedDate.value = getFormattedDate(currentDate.value);
     weeks.value = getMonthWeeks(currentDate.value);
     markActiveDay();
 }
 
+// mark active day based on current date
 function markActiveDay() {
     const today = new Date();
     weeks.value.forEach(week => {
@@ -72,7 +84,6 @@ function markActiveDay() {
         });
     });
 }
-
 </script>
 
 <template>
