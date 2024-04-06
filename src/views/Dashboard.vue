@@ -74,8 +74,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <topNavDash name="John Smith" func="Gaffer" :profileImage="'https://placehold.co/56x56'" />
-
+  <topNavDash :userId="userId" :func="func" :profileImage="profileImage" />
   <div class="dashboard">
 
     <div class="dashboard__left">

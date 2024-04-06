@@ -1,13 +1,33 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, ref, onMounted } from 'vue';
 import TransparentButton from '../../../atoms/buttons/TransparentButton.vue';
+import setupAxios from '../../../../setupAxios.js';
 
 const props = defineProps(['name', 'func', 'profileImage']);
 
 const currentDate = new Date();
-const options = { day: 'numeric', month: 'long' };
-const formattedDate = currentDate.toLocaleDateString('en-GB', options);
+const formattedDate = currentDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' });
 const dayName = currentDate.toLocaleDateString('en-GB', { weekday: 'long' });
+
+const axiosInstance = setupAxios();
+const userId = sessionStorage.getItem('userId');
+const name = ref(props.name);
+const func = ref(props.func);
+const profileImage = ref(props.profileImage);
+
+const fetchUserData = async () => {
+  try {
+    const response = await axiosInstance.get(`/user/${userId}`);
+    const userData = response.data.data.user;
+    name.value = userData.username;
+    func.value = userData.role; // has to fetch role from crewId instead of userId
+    profileImage.value = userData.profileImage; // has to fetch image from crewId instead of userId
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+  }
+};
+
+onMounted(fetchUserData);
 </script>
 
 <template>

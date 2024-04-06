@@ -14,10 +14,10 @@ watchEffect(() => {
 
 <template>
   <div>
-    <NavBar class="navbar"/>
+    <NavBar class="navbar" />
     <div class="router">
-      <TopNav v-if="!isDashboardRoute || $route.path !== '/dashboard'" name="John Smith" func="Gaffer"
-        :profileImage="'https://placehold.co/56x56'" />
+      <TopNav v-if="!isDashboardRoute || $route.path !== '/dashboard'" :userId="userId" :func="func"
+        :profileImage="profileImage" />
       <router-view></router-view>
     </div>
   </div>
