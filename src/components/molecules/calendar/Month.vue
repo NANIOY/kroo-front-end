@@ -25,7 +25,7 @@ function getMonthWeeks(date) {
 
     for (let i = 0; i < numDaysFromPrevMonth; i++) {
         const prevDay = new Date(firstDayOfMonth.getTime() - (numDaysFromPrevMonth - i) * 24 * 60 * 60 * 1000);
-        currentWeek.push({ abbr: prevDay.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2), number: prevDay.getDate() });
+        currentWeek.push({ abbr: prevDay.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2), number: prevDay.getDate(), isPrevMonth: true });
     }
 
     for (let i = 1; i <= numDaysInMonth; i++) {
@@ -87,14 +87,14 @@ function markActiveDay() {
         </div>
         <div class="calendar__bot">
             <div class="calendar__bot__days">
-                <div v-for="day in weeks[0]" :key="day.abbr" class="calendar__bot__days__abbr">
+                <div v-for="day in weeks[0]" :key="day.abbr" :class="{ 'calendar__bot__days__abbr': true }">
                     {{ day.abbr }}
                 </div>
             </div>
             <div class="calendar__bot__numbers">
-                <template v-for="(week, weekIndex) in weeks" :key="weekIndex">
+                <template v-for="(week) in weeks">
                     <div v-for="(day, dayIndex) in week" :key="dayIndex" class="calendar__bot__numbers__number"
-                        :class="['day', { 'active-day': day.isActive }]">
+                        :class="['day', { 'active-day': day.isActive, 'prev-month-day': day.isPrevMonth }]">
                         {{ day.number }}
                     </div>
                 </template>
@@ -174,5 +174,9 @@ h5 {
 
 .active-day {
     background-color: var(--green);
+}
+
+.prev-month-day {
+    opacity: 0.5;
 }
 </style>
