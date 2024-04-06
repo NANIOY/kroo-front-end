@@ -11,7 +11,7 @@ import axios from 'axios';
 const fetchedJobs = ref([]);
 const selectedJob = ref(null);
 const currentPage = ref(1);
-const jobsPerPage = 15;
+const jobsPerPage = 6;
 
 const paginatedJobs = computed(() => {
   const startIndex = (currentPage.value - 1) * jobsPerPage;
@@ -142,9 +142,25 @@ onMounted(() => {
       <div class="pagination">
         <NormalButton @click="previousPage" :disabled="currentPage === 1" iconName="NavArrowLeft"
           class="pagination__button pagination__button--arrow button--tertiary" />
-        <template v-for="page in visiblePages" :key="page">
-          <TransparentButton @click="goToPage(page)" :class="{ active: page === currentPage }" :label="page"
-            class="pagination__button" />
+        <template v-for="(page, index) in visiblePages" :key="index">
+          <template v-if="index === 0">
+            <TransparentButton @click="goToPage(1)" :class="{ active: 1 === currentPage }" :label="1"
+              class="pagination__button" />
+          </template>
+          <template v-if="index === 1 && page !== 2">
+            <span class="pagination__ellipsis">...</span>
+          </template>
+          <template v-if="index !== 0 && index !== visiblePages.length - 1">
+            <TransparentButton @click="goToPage(page)" :class="{ active: page === currentPage }" :label="page"
+              class="pagination__button" />
+          </template>
+          <template v-if="index === visiblePages.length - 1">
+            <span class="pagination__ellipsis">...</span>
+          </template>
+          <template v-if="index === visiblePages.length - 1">
+            <TransparentButton @click="goToPage(totalPages)" :class="{ active: totalPages === currentPage }"
+              :label="totalPages" class="pagination__button" />
+          </template>
         </template>
         <NormalButton @click="nextPage" :disabled="currentPage === totalPages" iconName="NavArrowRight"
           class="pagination__button pagination__button--arrow button--tertiary" />
