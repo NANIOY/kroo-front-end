@@ -1,5 +1,5 @@
 <script setup>
-import { Facebook, Instagram, Youtube, Linkedin, X, Threads, Dribbble, Behance } from '@iconoir/vue';
+import { Facebook, Instagram, Youtube, Linkedin, X, Threads, Dribbble, Behance, Tiktok } from '@iconoir/vue';
 import { defineProps } from 'vue';
 
 const props = defineProps({
@@ -39,6 +39,9 @@ switch (props.iconType.toLowerCase()) {
         break;
     case 'behance':
         icon = Behance;
+        break;
+    case 'tiktok':
+        icon = Tiktok;
         break;
     default:
         icon = null; 
