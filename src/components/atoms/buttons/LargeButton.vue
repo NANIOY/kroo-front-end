@@ -46,6 +46,13 @@ export default {
                 const response = await axiosInstance.post(props.endpoint, props.postData);
                 console.log('Response:', response);
 
+                // store userId in sessionStorage
+                const { userId } = response.data.data;
+                sessionStorage.setItem('userId', userId);
+
+                // log response data
+                console.log('Response data:', response.data);
+
                 // if redirect prop is provided, redirect to that route
                 if (props.redirect) {
                     router.push(props.redirect);
