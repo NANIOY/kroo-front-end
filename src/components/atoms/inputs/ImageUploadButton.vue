@@ -37,4 +37,34 @@ export default {
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.circle-button, .square-button {
+  border: 2px solid var(--black);
+  background-color: transparent;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle-button {
+  border-radius: 50%;
+}
+
+.square-button {
+  border-radius: 10px;
+}
+
+.plus-icon {
+  font-family: 'Iconoir';
+  font-size: 24px;
+  color: var(--black);
+}
+
+</style>
