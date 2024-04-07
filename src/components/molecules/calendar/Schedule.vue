@@ -23,6 +23,7 @@ function getFormattedDate(date) {
       </div>
       <h5 class="schedule__top__date">{{ formattedDate }}</h5>
     </div>
+
     <div class="schedule__calendar">
       <div class="schedule__days">
         <div class="schedule__days__abbr">Monday</div>
@@ -34,12 +35,14 @@ function getFormattedDate(date) {
         <div class="schedule__days__abbr">Sunday</div>
       </div>
 
-      <div class="schedule__column">
-        <div class="hour" v-for="hour in 24" :key="hour">
-          <div v-for="day in 7" :key="day" class="day">
-            <div class="schedule__column__block"></div>
+      <div class="schedule__columns">
+        <template v-for="day in 7" :key="day">
+          <div class="schedule__column">
+            <div class="schedule__column__blocks">
+              <div class="block" v-for="hour in 24" :key="hour"></div>
+            </div>
           </div>
-        </div>
+        </template>
       </div>
     </div>
   </div>
@@ -78,9 +81,10 @@ h5 {
   border: 1px solid #ccc;
   border-radius: 5px;
   overflow: hidden;
-  width: 1392px;
+  width: 1344px;
 }
 
+/* DAYS */
 .schedule__days {
   display: flex;
   border-bottom: 1px solid #ccc;
@@ -92,27 +96,30 @@ h5 {
   text-align: center;
 }
 
-.schedule__column {
+/* COLUMNS */
+.schedule__columns {
   display: flex;
   flex: 1;
 }
 
-.hour {
-  flex: 1;
+.schedule__column {
+  width: 192px;
   border-right: 1px solid #ccc;
   overflow: hidden;
 }
 
-.day {
-  height: 60px;
-  /* Adjust height as needed */
+.schedule__column__blocks {
+  height: 2112px;
+  overflow-y: hidden;
+}
+
+.block {
+  height: 88px;
   border-bottom: 1px solid #ccc;
-  overflow: hidden;
 }
 
 .schedule__column__block {
   height: 100%;
   background-color: #f0f0f0;
-  /* Default color for an hour block */
 }
 </style>
