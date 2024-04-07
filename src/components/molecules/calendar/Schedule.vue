@@ -11,8 +11,6 @@ function getFormattedDate(date) {
   const monthYear = date.toLocaleDateString('en-GB', options);
   return `${monthYear.substr(0, monthYear.lastIndexOf(' '))}, ${monthYear.substr(monthYear.lastIndexOf(' ') + 1)}`;
 }
-
-const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 </script>
 
 <template>
@@ -27,29 +25,36 @@ const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
     </div>
 
     <div class="schedule__calendar">
-      <div class="schedule__calendar__grid">
-        <div class="schedule__calendar__grid__column">
-          <div class="schedule__calendar__grid__column__time text-reg-s" v-for="hour in 23" :key="hour">{{ hour < 10
-            ? '0' + hour : hour }}:00</div>
+      <div class="schedule__days text-reg-s">
+        <div class="schedule__days__abbr">Monday</div>
+        <div class="schedule__days__abbr">Tuesday</div>
+        <div class="schedule__days__abbr">Wednesday</div>
+        <div class="schedule__days__abbr">Thursday</div>
+        <div class="schedule__days__abbr">Friday</div>
+        <div class="schedule__days__abbr">Saturday</div>
+        <div class="schedule__days__abbr">Sunday</div>
+      </div>
+
+      <div class="schedule__columns">
+        <div class="schedule__columns__hours text-reg-s">
+          <div class="schedule__columns__hours__hour ">00:00</div>
+          <div class="schedule__columns__hours__hour " v-for="hour in 23" :key="hour + 1">{{ hour < 10 ? '0' + hour :
+            hour }}:00</div>
           </div>
 
-          <div class="schedule__calendar__grid__column__day">
-            <div class="schedule__calendar__grid__column__day__column" v-for="day in days" :key="day">
-              <div class="schedule__calendar__grid__column__day__column__header text-reg-s">{{ day }}</div>
-              <div class="schedule__calendar__grid__column__day__column__block " v-for="hour in 24" :key="hour"></div>
+          <template v-for="day in 7" :key="day">
+            <div class="schedule__column">
+              <div class="schedule__column__blocks">
+                <div class="schedule__column__blocks__block" v-for="hour in 24" :key="hour"></div>
+              </div>
             </div>
-          </div>
+          </template>
         </div>
       </div>
     </div>
 </template>
 
 <style scoped>
-/* GENERAL */
-.schedule {
-  width: 1392px;
-}
-
 /* TOP */
 .schedule__top {
   display: flex;
@@ -72,6 +77,7 @@ const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
 
 h5 {
   font-weight: 100;
+  color: var(--black);
 }
 
 /* CALENDAR */
@@ -82,46 +88,51 @@ h5 {
   height: 80vh;
 }
 
-/* GRID */
-.schedule__calendar__grid {
+/* DAYS */
+.schedule__days {
+  display: flex;
+  margin-left: 56px;
+  border-bottom: 0.1px solid var(--neutral-30);
+  box-shadow: 12px 0px 12px rgba(0, 0, 0, 0.1);
+}
+
+.schedule__days__abbr {
+  width: 190.5px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* HOURS */
+.schedule__columns__hours__hour {
+  height: 88px;
+  width: 48px;
+  text-align: right;
+  padding-right: 8px;
+}
+
+/* COLUMNS */
+.schedule__columns {
   display: flex;
   overflow-x: auto;
 }
 
-/* TIME */
-.schedule__calendar__grid__column {
-  margin-top: 128px;
+.schedule__column {
+  width: 192px;
 }
 
-.schedule__calendar__grid__column__time {
-  display: flex;
-  align-items: start;
-  justify-content: flex-end;
-  margin-right: 8px;
-  width: 48px;
+.schedule__column__blocks {
+  overflow-y: auto;
+}
+
+.schedule__column__blocks__block {
   height: 88px;
+  border: 0.1px solid var(--neutral-30);
+  box-sizing: border-box;
 }
 
-/* DAYS & BLOCKS */
-.schedule__calendar__grid__column__day {
-  flex: 1;
-  display: flex;
-}
-
-.schedule__calendar__grid__column__day__column {
-  flex: 1;
-}
-
-.schedule__calendar__grid__column__day__column__header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 48px;
-}
-
-.schedule__calendar__grid__column__day__column__block {
-  height: 88px;
-  outline: 0.5px solid var(--neutral-30);
-  outline-offset: -0.5px;
+.schedule__column__block {
+  height: 100%;
 }
 </style>
