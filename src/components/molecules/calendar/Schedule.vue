@@ -55,6 +55,13 @@ function getFormattedDate(date) {
 </template>
 
 <style scoped>
+/* GENERAL */
+.schedule {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 /* TOP */
 .schedule__top {
   display: flex;
@@ -85,7 +92,7 @@ h5 {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  height: 80vh;
+  height: 79.3vh;
 }
 
 /* DAYS */
