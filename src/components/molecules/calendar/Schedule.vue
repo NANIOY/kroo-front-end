@@ -11,6 +11,8 @@ function getFormattedDate(date) {
   const monthYear = date.toLocaleDateString('en-GB', options);
   return `${monthYear.substr(0, monthYear.lastIndexOf(' '))}, ${monthYear.substr(monthYear.lastIndexOf(' ') + 1)}`;
 }
+
+const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 </script>
 
 <template>
@@ -25,30 +27,18 @@ function getFormattedDate(date) {
     </div>
 
     <div class="schedule__calendar">
-      <div class="schedule__days text-reg-s">
-        <div class="schedule__days__abbr">Monday</div>
-        <div class="schedule__days__abbr">Tuesday</div>
-        <div class="schedule__days__abbr">Wednesday</div>
-        <div class="schedule__days__abbr">Thursday</div>
-        <div class="schedule__days__abbr">Friday</div>
-        <div class="schedule__days__abbr">Saturday</div>
-        <div class="schedule__days__abbr">Sunday</div>
-      </div>
-
-      <div class="schedule__columns">
-        <div class="schedule__columns__hours text-reg-s">
-          <div class="schedule__columns__hours__hour ">00:00</div>
-          <div class="schedule__columns__hours__hour " v-for="hour in 23" :key="hour + 1">{{ hour < 10 ? '0' + hour :
-              hour }}:00</div>
+      <div class="schedule__calendar__grid">
+        <div class="schedule__calendar__grid__column">
+          <div class="schedule__calendar__grid__column__time" v-for="hour in 23" :key="hour">{{ hour < 10 ? '0' + hour :
+            hour }}:00</div>
           </div>
 
-          <template v-for="day in 7" :key="day">
-            <div class="schedule__column">
-              <div class="schedule__column__blocks">
-                <div class="schedule__column__blocks__block" v-for="hour in 24" :key="hour"></div>
-              </div>
+          <div class="schedule__calendar__grid__column__day">
+            <div class="schedule__calendar__grid__column__day__column" v-for="day in days" :key="day">
+              <div class="schedule__calendar__grid__column__day__column__header">{{ day }}</div>
+              <div class="schedule__calendar__grid__column__day__column__block" v-for="hour in 24" :key="hour"></div>
             </div>
-          </template>
+          </div>
         </div>
       </div>
     </div>
@@ -77,7 +67,6 @@ function getFormattedDate(date) {
 
 h5 {
   font-weight: 100;
-  color: var(--black);
 }
 
 /* CALENDAR */
@@ -89,48 +78,40 @@ h5 {
   height: 80vh;
 }
 
-/* DAYS */
-.schedule__days {
+/* Grid */
+.schedule__calendar__grid {
   display: flex;
   overflow-x: auto;
 }
 
-.schedule__days__abbr {
-  flex: 1;
+.schedule__calendar__grid__column {
+  min-width: 80px;
+  border-right: 1px solid #ccc;
+}
+
+.schedule__calendar__grid__column__time {
   padding: 10px;
-  text-align: center;
+  border-bottom: 1px solid #ccc;
 }
 
-/* HOURS */
-.schedule__columns__hours__hour {
-  height: 88px;
-  width: 48px;
-  text-align: right;
-  padding-right: 8px;
-}
-
-/* COLUMNS */
-.schedule__columns {
-  display: flex;
+.schedule__calendar__grid__column__day {
   flex: 1;
-  overflow-x: auto;
+  display: flex;
 }
 
-.schedule__column {
-  width: 192px;
+.schedule__calendar__grid__column__day__column {
+  flex: 1;
+  border-right: 1px solid #ccc;
 }
 
-.schedule__column__blocks {
-  overflow-y: auto;
+.schedule__calendar__grid__column__day__column__header {
+  padding: 10px;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
 }
 
-.schedule__column__blocks__block {
-  height: 88px;
-  border: 0.1px solid var(--neutral-30);
-  box-sizing: border-box;
-}
-
-.schedule__column__block {
-  height: 100%;
+.schedule__calendar__grid__column__day__column__block {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
 }
 </style>
