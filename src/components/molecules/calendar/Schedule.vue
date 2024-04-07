@@ -36,16 +36,21 @@ function getFormattedDate(date) {
       </div>
 
       <div class="schedule__columns">
-        <template v-for="day in 7" :key="day">
-          <div class="schedule__column">
-            <div class="schedule__column__blocks">
-              <div class="block" v-for="hour in 24" :key="hour"></div>
-            </div>
+        <div class="schedule__columns__hours">
+          <div class="schedule__columns__hours__hour" v-for="hour in 23" :key="hour + 1">{{ hour < 10 ? '0' + hour :
+              hour }}:00</div>
           </div>
-        </template>
+
+          <template v-for="day in 7" :key="day">
+            <div class="schedule__column">
+              <div class="schedule__column__blocks">
+                <div class="schedule__column__blocks__block" v-for="hour in 24" :key="hour"></div>
+              </div>
+            </div>
+          </template>
+        </div>
       </div>
     </div>
-  </div>
 </template>
 
 <style scoped>
@@ -81,7 +86,7 @@ h5 {
   border: 1px solid #ccc;
   border-radius: 5px;
   overflow: hidden;
-  width: 1344px;
+  width: 1392px;
 }
 
 /* DAYS */
@@ -94,6 +99,19 @@ h5 {
   flex: 1;
   padding: 10px;
   text-align: center;
+}
+
+/* HOURS */
+.schedule__columns__hours {
+  width: 80px;
+  border-right: 1px solid #ccc;
+}
+
+.schedule__columns__hours__hour {
+  height: 88px;
+  padding: 5px 10px;
+  border-bottom: 1px solid #ccc;
+  text-align: right;
 }
 
 /* COLUMNS */
@@ -113,7 +131,7 @@ h5 {
   overflow-y: hidden;
 }
 
-.block {
+.schedule__column__blocks__block {
   height: 88px;
   border-bottom: 1px solid #ccc;
 }
