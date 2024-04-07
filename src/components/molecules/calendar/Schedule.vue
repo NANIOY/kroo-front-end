@@ -39,7 +39,7 @@ function getFormattedDate(date) {
         <div class="schedule__columns__hours text-reg-s">
           <div class="schedule__columns__hours__hour ">00:00</div>
           <div class="schedule__columns__hours__hour " v-for="hour in 23" :key="hour + 1">{{ hour < 10 ? '0' + hour :
-            hour }}:00</div>
+              hour }}:00</div>
           </div>
 
           <template v-for="day in 7" :key="day">
@@ -84,14 +84,15 @@ h5 {
 .schedule__calendar {
   display: flex;
   flex-direction: column;
-  border-radius: 5px;
   overflow: hidden;
   width: 1392px;
+  height: 80vh;
 }
 
 /* DAYS */
 .schedule__days {
   display: flex;
+  overflow-x: auto;
 }
 
 .schedule__days__abbr {
@@ -112,22 +113,21 @@ h5 {
 .schedule__columns {
   display: flex;
   flex: 1;
+  overflow-x: auto;
 }
 
 .schedule__column {
   width: 192px;
-
-  overflow: hidden;
 }
 
 .schedule__column__blocks {
-  height: 2112px;
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 
 .schedule__column__blocks__block {
   height: 88px;
   border: 0.1px solid var(--neutral-30);
+  box-sizing: border-box;
 }
 
 .schedule__column__block {
