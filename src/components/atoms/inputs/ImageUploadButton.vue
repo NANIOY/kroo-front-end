@@ -39,32 +39,36 @@ export default {
 
 <style scoped>
 .container {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
-.circle-button, .square-button {
-  border: 2px solid var(--black);
-  background-color: transparent;
-  padding: 10px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.circle-button,
+.square-button {
+    border: 2px solid var(--black);
+    background-color: transparent;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .circle-button {
-  border-radius: 50%;
+    border-radius: 50%;
+    height: 160px;
+    width: 160px;
 }
 
 .square-button {
-  border-radius: 10px;
+    border-radius: 5px;
+    height: 160px;
+    width: 336px;
 }
 
 .plus-icon {
-  font-family: 'Iconoir';
-  font-size: 24px;
-  color: var(--black);
+    font-family: 'Iconoir';
+    font-size: 24px;
+    color: var(--black);
 }
-
 </style>
