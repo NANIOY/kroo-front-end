@@ -45,6 +45,7 @@ const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
 </template>
 
 <style scoped>
+/* GENERAL */
 .schedule {
   width: 1392px;
 }
@@ -87,11 +88,21 @@ h5 {
   overflow-x: auto;
 }
 
+/* TIME */
+.schedule__calendar__grid__column {
+  margin-top: 128px;
+}
+
 .schedule__calendar__grid__column__time {
+  display: flex;
+  align-items: start;
+  justify-content: flex-end;
+  margin-right: 8px;
   width: 48px;
   height: 88px;
 }
 
+/* DAYS & BLOCKS */
 .schedule__calendar__grid__column__day {
   flex: 1;
   display: flex;
