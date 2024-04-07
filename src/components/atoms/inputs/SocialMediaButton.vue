@@ -44,36 +44,42 @@ switch (props.iconType.toLowerCase()) {
         icon = Tiktok;
         break;
     default:
-        icon = null; 
+        icon = null;
 }
 </script>
 
 <template>
-  <a :href="link" target="_blank" class="social-button">
-    <div class="icon-wrapper">
-      <icon :icon="icon" class="social-icon" />
-    </div>
-  </a>
+    <a :href="link" target="_blank" class="social-button">
+        <div class="icon-wrapper">
+            <icon :icon="icon" class="social-icon" />
+        </div>
+    </a>
 </template>
 
 <style scoped>
 .social-button {
-  text-decoration: none;
+    text-decoration: none;
+    width: 40px;
+    height: 40px;
+    display: block;
 }
 
 .icon-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px; 
-  height: 50px; 
-  border-radius: 50%; /
-  background-color: #ccc; 
-  overflow: hidden; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid var(--black);
+    box-sizing: border-box;
 }
 
 .social-icon {
-  color: #fff; 
-  font-size: 24px; 
+    color: var(--black);
+    font-size: 24px;
+    width: 32px;
+    height: 32px;
+    stroke-width: 2px;
 }
 </style>
