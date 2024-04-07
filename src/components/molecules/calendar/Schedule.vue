@@ -25,7 +25,7 @@ function getFormattedDate(date) {
     </div>
 
     <div class="schedule__calendar">
-      <div class="schedule__days">
+      <div class="schedule__days text-reg-s">
         <div class="schedule__days__abbr">Monday</div>
         <div class="schedule__days__abbr">Tuesday</div>
         <div class="schedule__days__abbr">Wednesday</div>
@@ -36,9 +36,10 @@ function getFormattedDate(date) {
       </div>
 
       <div class="schedule__columns">
-        <div class="schedule__columns__hours">
-          <div class="schedule__columns__hours__hour" v-for="hour in 23" :key="hour + 1">{{ hour < 10 ? '0' + hour :
-              hour }}:00</div>
+        <div class="schedule__columns__hours text-reg-s">
+          <div class="schedule__columns__hours__hour ">00:00</div>
+          <div class="schedule__columns__hours__hour " v-for="hour in 23" :key="hour + 1">{{ hour < 10 ? '0' + hour :
+            hour }}:00</div>
           </div>
 
           <template v-for="day in 7" :key="day">
@@ -83,7 +84,6 @@ h5 {
 .schedule__calendar {
   display: flex;
   flex-direction: column;
-  border: 1px solid #ccc;
   border-radius: 5px;
   overflow: hidden;
   width: 1392px;
@@ -92,7 +92,6 @@ h5 {
 /* DAYS */
 .schedule__days {
   display: flex;
-  border-bottom: 1px solid #ccc;
 }
 
 .schedule__days__abbr {
@@ -102,16 +101,11 @@ h5 {
 }
 
 /* HOURS */
-.schedule__columns__hours {
-  width: 80px;
-  border-right: 1px solid #ccc;
-}
-
 .schedule__columns__hours__hour {
   height: 88px;
-  padding: 5px 10px;
-  border-bottom: 1px solid #ccc;
+  width: 48px;
   text-align: right;
+  padding-right: 8px;
 }
 
 /* COLUMNS */
@@ -122,7 +116,7 @@ h5 {
 
 .schedule__column {
   width: 192px;
-  border-right: 1px solid #ccc;
+
   overflow: hidden;
 }
 
@@ -133,11 +127,10 @@ h5 {
 
 .schedule__column__blocks__block {
   height: 88px;
-  border-bottom: 1px solid #ccc;
+  border: 0.1px solid var(--neutral-30);
 }
 
 .schedule__column__block {
   height: 100%;
-  background-color: #f0f0f0;
 }
 </style>
