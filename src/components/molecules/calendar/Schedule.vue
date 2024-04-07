@@ -29,14 +29,14 @@ const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
     <div class="schedule__calendar">
       <div class="schedule__calendar__grid">
         <div class="schedule__calendar__grid__column">
-          <div class="schedule__calendar__grid__column__time" v-for="hour in 23" :key="hour">{{ hour < 10 ? '0' + hour :
-            hour }}:00</div>
+          <div class="schedule__calendar__grid__column__time text-reg-s" v-for="hour in 23" :key="hour">{{ hour < 10
+            ? '0' + hour : hour }}:00</div>
           </div>
 
           <div class="schedule__calendar__grid__column__day">
             <div class="schedule__calendar__grid__column__day__column" v-for="day in days" :key="day">
-              <div class="schedule__calendar__grid__column__day__column__header">{{ day }}</div>
-              <div class="schedule__calendar__grid__column__day__column__block" v-for="hour in 24" :key="hour"></div>
+              <div class="schedule__calendar__grid__column__day__column__header text-reg-s">{{ day }}</div>
+              <div class="schedule__calendar__grid__column__day__column__block " v-for="hour in 24" :key="hour"></div>
             </div>
           </div>
         </div>
@@ -45,6 +45,10 @@ const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
 </template>
 
 <style scoped>
+.schedule {
+  width: 1392px;
+}
+
 /* TOP */
 .schedule__top {
   display: flex;
@@ -74,24 +78,18 @@ h5 {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  width: 1392px;
   height: 80vh;
 }
 
-/* Grid */
+/* GRID */
 .schedule__calendar__grid {
   display: flex;
   overflow-x: auto;
 }
 
-.schedule__calendar__grid__column {
-  min-width: 80px;
-  border-right: 1px solid #ccc;
-}
-
 .schedule__calendar__grid__column__time {
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+  width: 48px;
+  height: 88px;
 }
 
 .schedule__calendar__grid__column__day {
@@ -101,17 +99,18 @@ h5 {
 
 .schedule__calendar__grid__column__day__column {
   flex: 1;
-  border-right: 1px solid #ccc;
 }
 
 .schedule__calendar__grid__column__day__column__header {
-  padding: 10px;
-  font-weight: bold;
-  border-bottom: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
 }
 
 .schedule__calendar__grid__column__day__column__block {
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+  height: 88px;
+  outline: 0.5px solid var(--neutral-30);
+  outline-offset: -0.5px;
 }
 </style>
