@@ -27,20 +27,19 @@ export default {
 </script>
 
 <template>
-    <div>
+    <div class="container">
         <button v-if="shape === 'circle'" class="circle-button">
-            <component :is="iconComponent" />
+            <component :is="iconComponent" class="plus-icon" />
         </button>
         <button v-else class="square-button">
-            <component :is="iconComponent" />
+            <component :is="iconComponent" class="plus-icon" />
         </button>
     </div>
 </template>
 
 <style scoped>
 .container {
-    display: flex;
-    justify-content: center;
+width: 50% /* Change if needed */
 }
 
 .circle-button,
@@ -67,8 +66,8 @@ export default {
 }
 
 .plus-icon {
-    font-family: 'Iconoir';
-    font-size: 24px;
-    color: var(--black);
+    stroke-width: 2px;
+    width: 48px;
+    height: 48px;   
 }
 </style>
