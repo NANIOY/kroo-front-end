@@ -39,7 +39,9 @@ export default {
 
 <style scoped>
 .container {
-width: 50% /* Change if needed */
+    width: 50%;
+    /* Change if needed */
+    transition: none;
 }
 
 .circle-button,
@@ -68,6 +70,13 @@ width: 50% /* Change if needed */
 .plus-icon {
     stroke-width: 2px;
     width: 48px;
-    height: 48px;   
+    height: 48px;
+}
+
+.circle-button:hover,
+.square-button:hover {
+    border-color: var(--blurple);
+    color: var(--blurple);
+    transition: none;
 }
 </style>
