@@ -1,75 +1,118 @@
 <script setup>
-    import NormalButton from '../../atoms/buttons/NormalButton.vue';
-    import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
+import { ref } from 'vue';
+import NormalButton from '../../atoms/buttons/NormalButton.vue';
+import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
+
+const currentDate = ref(new Date());
+const options = { month: 'long', year: 'numeric' };
+const formattedDate = ref(getFormattedDate(currentDate.value));
+
+function getFormattedDate(date) {
+  const monthYear = date.toLocaleDateString('en-GB', options);
+  return `${monthYear.substr(0, monthYear.lastIndexOf(' '))}, ${monthYear.substr(monthYear.lastIndexOf(' ') + 1)}`;
+}
 </script>
 
 <template>
-    <div class="schedule">
-      <!-- Header -->
-      <div class="header">
-        <div class="day-header">Monday</div>
-        <div class="day-header">Tuesday</div>
-        <div class="day-header">Wednesday</div>
-        <div class="day-header">Thursday</div>
-        <div class="day-header">Friday</div>
-        <div class="day-header">Saturday</div>
-        <div class="day-header">Sunday</div>
+  <div class="schedule">
+    <div class="schedule__top">
+      <NormalButton label="Today" class="schedule__top__today button--primary" />
+      <div class="schedule__top__arrows">
+        <TransparentButton iconName="NavArrowLeft" class="schedule__top__arrows__arrow no-label" />
+        <TransparentButton iconName="NavArrowRight" class="schedule__top__arrows__arrow no-label" />
       </div>
-      
-      <!-- schedule body -->
-      <div class="schedule-body">
-        <!-- Loop through each hour of the day -->
+      <h5 class="schedule__top__date">{{ formattedDate }}</h5>
+    </div>
+    <div class="schedule__calendar">
+      <div class="schedule__days">
+        <div class="schedule__days__abbr">Monday</div>
+        <div class="schedule__days__abbr">Tuesday</div>
+        <div class="schedule__days__abbr">Wednesday</div>
+        <div class="schedule__days__abbr">Thursday</div>
+        <div class="schedule__days__abbr">Friday</div>
+        <div class="schedule__days__abbr">Saturday</div>
+        <div class="schedule__days__abbr">Sunday</div>
+      </div>
+
+      <div class="schedule__column">
         <div class="hour" v-for="hour in 24" :key="hour">
-          <!-- Loop through each day of the week -->
           <div v-for="day in 7" :key="day" class="day">
-            <!-- Hour block -->
-            <div class="hour-block"></div>
+            <div class="schedule__column__block"></div>
           </div>
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
 
 <style scoped>
-  .schedule {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    overflow: hidden;
-    width: 1392px;
-  }
+/* TOP */
+.schedule__top {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 
-  .header {
-    display: flex;
-    border-bottom: 1px solid #ccc;
-  }
+.schedule__top__today {
+  width: 112px;
+}
 
-  .day-header {
-    flex: 1;
-    padding: 10px;
-    text-align: center;
-  }
+.schedule__top__arrows {
+  display: flex;
+  gap: 4px;
+}
 
-  .schedule-body {
-    display: flex;
-    flex: 1;
-  }
+.schedule__top__arrows__arrow {
+  padding: 0;
+}
 
-  .hour {
-    flex: 1;
-    border-right: 1px solid #ccc;
-    overflow: hidden;
-  }
+h5 {
+  font-weight: 100;
+  color: var(--black);
+}
 
-  .day {
-    height: 60px; /* Adjust height as needed */
-    border-bottom: 1px solid #ccc;
-    overflow: hidden;
-  }
+/* CALENDAR */
+.schedule__calendar {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  width: 1392px;
+}
 
-  .hour-block {
-    height: 100%;
-    background-color: #f0f0f0; /* Default color for an hour block */
-  }
+.schedule__days {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+}
+
+.schedule__days__abbr {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+}
+
+.schedule__column {
+  display: flex;
+  flex: 1;
+}
+
+.hour {
+  flex: 1;
+  border-right: 1px solid #ccc;
+  overflow: hidden;
+}
+
+.day {
+  height: 60px;
+  /* Adjust height as needed */
+  border-bottom: 1px solid #ccc;
+  overflow: hidden;
+}
+
+.schedule__column__block {
+  height: 100%;
+  background-color: #f0f0f0;
+  /* Default color for an hour block */
+}
 </style>
