@@ -1,59 +1,66 @@
+<!-- InputCombo.vue -->
 <script setup>
+import { ref } from 'vue';
 import InputField from '../inputs/InputField.vue';
 import Dropdown from '../inputs/DropDown.vue';
 import LargeButton from '../buttons/LargeButton.vue';
 
-// Data for the first input field
-const input1Label = 'First Field';
-const input1Placeholder = 'Enter text...';
-let input1Value = '';
+// Define props
+const props = defineProps({
+    input1Label: {
+        type: String,
+        default: 'First Field'
+    },
+    input1Placeholder: {
+        type: String,
+        default: 'Enter text...'
+    },
+    input2Label: {
+        type: String,
+        default: 'Second Field'
+    },
+    input2Placeholder: {
+        type: String,
+        default: 'Enter text...'
+    },
+    dropdownOptions: {
+        type: Array,
+        default: () => []
+    },
+    showCounter: {
+        type: Boolean,
+        default: false
+    },
+    showDropdown: {
+        type: Boolean,
+        default: true
+    }
+});
 
-// Data for the second input field or dropdown
-const input2Label = 'Second Field';
-const input2Placeholder = 'Enter text...';
-let input2Value = '';
-
-// Options for the dropdown
-const dropdownOptions = ['Option 1', 'Option 2', 'Option 3'];
-
-// Whether to show the counter on the second input field
-const showCounter = false;
-
-// Whether to show the dropdown instead of the second input field
-const showDropdown = true;
-
+// Data for the input fields and dropdown
+const input1Value = ref('');
+const input2Value = ref('');
 </script>
 
 <template>
- <div class="input-combo">
-    <!-- First InputField -->
-    <InputField
-      v-model="input1Value"
-      :label="input1Label"
-      :placeholder="input1Placeholder"
-    />
-        <!-- Second InputField or Dropdown -->
-        <component :is="showDropdown ? 'Dropdown' : 'InputField'"
-               v-model="input2Value"
-               :options="dropdownOptions"
-               :label="input2Label"
-               :placeholder="input2Placeholder"
-               :counter="showCounter" />
-<!-- LargeButton -->
-<LargeButton
-  label="Submit"
-  :hasLabel="false"
-  iconName="plus" 
-  :class="{ 'button--tertiary': true }"
-/>
+    <div class="input-combo">
+        <!-- First InputField -->
+        <InputField v-model="input1Value" :label="props.input1Label" :placeholder="props.input1Placeholder" />
 
-  </div>
+        <!-- Second InputField or Dropdown -->
+        <component :is="props.showDropdown ? 'Dropdown' : 'InputField'" v-model="input2Value"
+            :options="props.dropdownOptions" :label="props.input2Label" :placeholder="props.input2Placeholder"
+            :counter="props.showCounter" />
+
+        <!-- LargeButton -->
+        <LargeButton label="Submit" :hasLabel="true" iconName="plus" :class="{ 'button--tertiary': true }" />
+    </div>
 </template>
 
 <style scoped>
 .input-combo {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 </style>
