@@ -26,7 +26,12 @@ const showDropdown = true;
 
 <template>
  <div class="input-combo">
-
+    <!-- First InputField -->
+    <InputField
+      v-model="input1Value"
+      :label="input1Label"
+      :placeholder="input1Placeholder"
+    />
   </div>
 </template>
 
