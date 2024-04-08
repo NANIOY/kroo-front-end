@@ -55,8 +55,9 @@ const handleSubmit = () => {
         <!-- Label -->
         <label>{{ label }}</label>
 
-        <!-- First InputField -->
-        <div class="input-wrapper">
+        <!-- Container for input fields and button -->
+        <div class="input-button-container">
+            <!-- First InputField -->
             <InputField v-model="input1Value" :label="input1Label" :placeholder="input1Placeholder" />
 
             <!-- Second InputField or Dropdown -->
@@ -67,10 +68,10 @@ const handleSubmit = () => {
             <template v-else>
                 <InputField v-model="input2Value" :label="input2Label" :placeholder="input2Placeholder" />
             </template>
-        </div>
 
-        <!-- LargeButton -->
-        <LargeButton label="Submit" :hasLabel="true" iconName="plus" :counter="showCounter" @click="handleSubmit" />
+            <!-- LargeButton -->
+            <LargeButton label="Submit" :hasLabel="true" iconName="plus" :counter="showCounter" @click="handleSubmit" />
+        </div>
     </div>
 </template>
 
@@ -81,6 +82,11 @@ const handleSubmit = () => {
     gap: 10px;
 }
 
+.input-button-container {
+    display: flex;
+    gap: 10px; 
+    align-items: center; 
+}
 .input-wrapper {
     display: flex;
     gap: 10px;
