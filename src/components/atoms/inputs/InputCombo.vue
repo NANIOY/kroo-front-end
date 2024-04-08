@@ -37,6 +37,14 @@ const props = defineProps({
     showDropdown: {
         type: Boolean,
         default: true
+    },
+    buttonLabel: {
+        type: String,
+        default: 'Submit'
+    },
+    buttonIcon: {
+        type: String,
+        default: 'plus'
     }
 });
 
@@ -70,7 +78,8 @@ const handleSubmit = () => {
             </template>
 
             <!-- LargeButton -->
-            <LargeButton label="Submit" :hasLabel="true" iconName="plus" :counter="showCounter" @click="handleSubmit" />
+            <LargeButton :label="buttonLabel" :hasLabel="true" :iconName="buttonIcon" :counter="showCounter"
+                @click="handleSubmit" />
         </div>
     </div>
 </template>
@@ -84,9 +93,10 @@ const handleSubmit = () => {
 
 .input-button-container {
     display: flex;
-    gap: 10px; 
-    align-items: center; 
+    gap: 10px;
+    align-items: center;
 }
+
 .input-wrapper {
     display: flex;
     gap: 10px;
