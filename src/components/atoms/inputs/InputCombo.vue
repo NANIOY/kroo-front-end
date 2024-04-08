@@ -32,6 +32,21 @@ const showDropdown = true;
       :label="input1Label"
       :placeholder="input1Placeholder"
     />
+        <!-- Second InputField or Dropdown -->
+        <component :is="showDropdown ? 'Dropdown' : 'InputField'"
+               v-model="input2Value"
+               :options="dropdownOptions"
+               :label="input2Label"
+               :placeholder="input2Placeholder"
+               :counter="showCounter" />
+<!-- LargeButton -->
+<LargeButton
+  label="Submit"
+  :hasLabel="false"
+  iconName="plus" 
+  :class="{ 'button--tertiary': true }"
+/>
+
   </div>
 </template>
 
