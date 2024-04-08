@@ -61,7 +61,7 @@ const handleSubmit = () => {
 <template>
     <div class="input-combo">
         <!-- Label -->
-        <label>{{ label }}</label>
+        <label class="label">{{ label }}</label>
 
         <!-- Container for input fields and button -->
         <div class="input-button-container">
@@ -85,6 +85,7 @@ const handleSubmit = () => {
     </div>
 </template>
 
+
 <style scoped>
 .input-combo {
     display: flex;
@@ -101,5 +102,9 @@ const handleSubmit = () => {
 .input-wrapper {
     display: flex;
     gap: 10px;
+}
+
+.label {
+    margin-bottom: -8px; 
 }
 </style>
