@@ -51,5 +51,9 @@ const showDropdown = true;
 </template>
 
 <style scoped>
-
+.input-combo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 </style>
