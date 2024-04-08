@@ -51,10 +51,11 @@ const props = defineProps({
 // Data for the input fields and dropdown
 const input1Value = ref('');
 const input2Value = ref('');
+const clickCount = ref(0);
 
-const handleSubmit = () => {
-    // Handle submit logic here
-    console.log('Submit clicked!');
+const handleButtonClick = () => {
+    // Increment the click count
+    clickCount.value++;
 };
 </script>
 
@@ -62,6 +63,9 @@ const handleSubmit = () => {
     <div class="input-combo">
         <!-- Label -->
         <label class="label">{{ label }}</label>
+
+        <!-- Optional text showing the button click count -->
+        <span v-if="showCounter" class="click-count">{{ clickCount }}</span>
 
         <!-- Container for input fields and button -->
         <div class="input-button-container">
@@ -105,6 +109,12 @@ const handleSubmit = () => {
 }
 
 .label {
-    margin-bottom: -8px; 
+    margin-bottom: -8px;
+}
+
+.click-count {
+    margin-left: auto;
+    font-size: 14px;
+    color: var(--black);
 }
 </style>
