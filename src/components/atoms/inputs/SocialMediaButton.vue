@@ -71,15 +71,15 @@ switch (props.iconType.toLowerCase()) {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    border: 3px solid var(--black);
+    border: 2px solid var(--black);
     box-sizing: border-box;
 }
 
 .social-icon {
     color: var(--black);
     font-size: 24px;
-    width: 32px;
-    height: 32px;
+    width: 25px;
+    height: 25px;
     stroke-width: 2px;
 }
 </style>
