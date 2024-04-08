@@ -61,11 +61,14 @@ const handleButtonClick = () => {
 
 <template>
     <div class="input-combo">
-        <!-- Label -->
-        <label class="label">{{ label }}</label>
+        <!-- Container for label and click counter -->
+        <div class="label-container">
+            <!-- Label -->
+            <label class="label">{{ label }}</label>
 
-        <!-- Optional text showing the button click count -->
-        <span v-if="showCounter" class="click-count">{{ clickCount }}</span>
+            <!-- Optional text showing the button click count -->
+            <span v-if="showCounter" class="click-count">{{ clickCount }} / #</span>
+        </div>
 
         <!-- Container for input fields and button -->
         <div class="input-button-container">
@@ -84,8 +87,6 @@ const handleButtonClick = () => {
             <!-- LargeButton -->
             <LargeButton :label="buttonLabel" :hasLabel="true" :iconName="buttonIcon" :counter="showCounter"
                 @click="handleButtonClick" class="button--tertiary" />
-
-
         </div>
     </div>
 </template>
@@ -95,7 +96,7 @@ const handleButtonClick = () => {
 .input-combo {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
 }
 
 .input-button-container {
@@ -109,13 +110,20 @@ const handleButtonClick = () => {
     gap: 10px;
 }
 
+.label-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .label {
-    margin-bottom: -8px;
+    margin-right: 10px;
 }
 
 .click-count {
-    margin-left: auto;
     font-size: 14px;
+    font-weight: bolder;
     color: var(--black);
+    font-family: 'text-bold-normal';
 }
 </style>
