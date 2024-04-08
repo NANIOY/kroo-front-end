@@ -79,7 +79,8 @@ const handleSubmit = () => {
 
             <!-- LargeButton -->
             <LargeButton :label="buttonLabel" :hasLabel="true" :iconName="buttonIcon" :counter="showCounter"
-                @click="handleSubmit" />
+                @click="handleSubmit" class="button--tertiary" />
+
         </div>
     </div>
 </template>
