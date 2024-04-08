@@ -83,7 +83,8 @@ const handleButtonClick = () => {
 
             <!-- LargeButton -->
             <LargeButton :label="buttonLabel" :hasLabel="true" :iconName="buttonIcon" :counter="showCounter"
-                @click="handleSubmit" class="button--tertiary" />
+                @click="handleButtonClick" class="button--tertiary" />
+
 
         </div>
     </div>
