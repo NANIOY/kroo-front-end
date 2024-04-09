@@ -15,7 +15,7 @@ const props = defineProps({
 const cardHeight = computed(() => {
     const startHour = parseInt(props.startTime.split(':')[0]);
     const endHour = parseInt(props.endTime.split(':')[0]);
-    return (endHour - startHour) * 88;
+    return (endHour - startHour) * 80;
 });
 
 const cardColor = computed(() => {
@@ -64,18 +64,17 @@ const textClasses = computed(() => {
     flex-direction: column;
     border-radius: 2px;
     padding: 8px;
+    gap: 8px;
     box-sizing: border-box;
     position: relative;
+    user-select: none;
+    cursor: pointer;
 }
 
 .calendarCard__header {
     display: flex;
     align-items: center;
-    margin-bottom: 8px;
-}
-
-.calendarCard__header__emoji {
-    margin-right: 8px;
+    gap: 8px;
 }
 
 .calendarCard__time {
