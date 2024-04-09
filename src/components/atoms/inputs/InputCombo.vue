@@ -57,6 +57,10 @@ const handleButtonClick = () => {
     // Increment the click count
     clickCount.value++;
 };
+
+// Define font size and weight for the counter
+const counterFontWeight = 'bolder';
+const counterFontSize = '16px'; 
 </script>
 
 <template>
@@ -67,13 +71,15 @@ const handleButtonClick = () => {
             <label class="label">{{ label }}</label>
 
             <!-- Optional text showing the button click count -->
-            <span v-if="showCounter" class="click-count">{{ clickCount }} / #</span>
+            <span v-if="showCounter" class="click-count"
+                :style="{ fontWeight: counterFontWeight, fontSize: counterFontSize }">{{ clickCount }} / #</span>
         </div>
 
         <!-- Container for input fields and button -->
         <div class="input-button-container">
             <!-- First InputField -->
-            <InputField v-model="input1Value" :label="input1Label" :placeholder="input1Placeholder" class="custom-input" />
+            <InputField v-model="input1Value" :label="input1Label" :placeholder="input1Placeholder"
+                class="custom-input" />
 
             <!-- Second InputField or Dropdown -->
             <template v-if="showDropdown">
@@ -81,7 +87,8 @@ const handleButtonClick = () => {
                     :options="dropdownOptions" class="custom-input" />
             </template>
             <template v-else>
-                <InputField v-model="input2Value" :label="input2Label" :placeholder="input2Placeholder" class="custom-input" />
+                <InputField v-model="input2Value" :label="input2Label" :placeholder="input2Placeholder"
+                    class="custom-input" />
             </template>
 
             <!-- LargeButton -->
@@ -123,9 +130,7 @@ const handleButtonClick = () => {
 }
 
 .click-count {
-    font-size: 14px;
-    font-weight: bolder;
-    color: var(--black);
-    font-family: 'text-bold-normal';
+    font-size: var(--font-size);
+    font-weight: var(--font-weight);
 }
 </style>
