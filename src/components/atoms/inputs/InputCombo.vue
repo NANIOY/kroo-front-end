@@ -73,24 +73,23 @@ const handleButtonClick = () => {
         <!-- Container for input fields and button -->
         <div class="input-button-container">
             <!-- First InputField -->
-            <InputField v-model="input1Value" :label="input1Label" :placeholder="input1Placeholder" />
+            <InputField v-model="input1Value" :label="input1Label" :placeholder="input1Placeholder" class="custom-input" />
 
             <!-- Second InputField or Dropdown -->
             <template v-if="showDropdown">
                 <DropDown v-model="input2Value" :label="input2Label" :placeholder="input2Placeholder"
-                    :options="dropdownOptions" />
+                    :options="dropdownOptions" class="custom-input" />
             </template>
             <template v-else>
-                <InputField v-model="input2Value" :label="input2Label" :placeholder="input2Placeholder" />
+                <InputField v-model="input2Value" :label="input2Label" :placeholder="input2Placeholder" class="custom-input" />
             </template>
 
             <!-- LargeButton -->
             <LargeButton :label="buttonLabel" :hasLabel="true" :iconName="buttonIcon" :counter="showCounter"
-                @click="handleButtonClick" class="button--tertiary" />
+                @click="handleButtonClick" class="button--tertiary custom-button" />
         </div>
     </div>
 </template>
-
 
 <style scoped>
 .input-combo {
@@ -105,9 +104,12 @@ const handleButtonClick = () => {
     align-items: center;
 }
 
-.input-wrapper {
-    display: flex;
-    gap: 10px;
+.custom-input {
+    width: 204px;
+}
+
+.custom-button {
+    width: 96px;
 }
 
 .label-container {
