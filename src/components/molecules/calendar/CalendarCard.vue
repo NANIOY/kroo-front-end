@@ -32,15 +32,24 @@ const cardColor = computed(() => {
             return 'var(--blurple-60)';
     }
 });
+
+const textClasses = computed(() => {
+    if (props.type === 'interview') {
+        return { primary: 'text-white', secondary: 'text-white-secondary' };
+    } else {
+        return { primary: 'text-primary', secondary: 'text-secondary' };
+    }
+});
 </script>
 
 <template>
     <div class="calendarCard" :style="{ height: cardHeight + 'px', backgroundColor: cardColor }">
         <div class="calendarCard__header">
             <span class="calendarCard__header__emoji text-reg-l">{{ props.emoji }}</span>
-            <span class="calendarCard__header__label text-bold-normal text-primary">{{ props.label }}</span>
+            <span class="calendarCard__header__label text-bold-normal" :class="textClasses.primary">{{ props.label
+                }}</span>
         </div>
-        <div class="calendarCard__time text-reg-s text-secondary">
+        <div class="calendarCard__time text-reg-s" :class="textClasses.secondary">
             <span>{{ props.startTime }}</span>
             <span>-</span>
             <span>{{ props.endTime }}</span>
