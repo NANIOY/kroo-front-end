@@ -40,6 +40,11 @@ function previousWeek() {
   updateWeek();
 }
 
+function goToToday() {
+  currentDate.value = new Date(); // set currentDate to today's date
+  updateWeek();
+}
+
 function updateWeek() {
   const currentWeekStartDate = getWeekStartDate(currentDate.value); // get start date of current week
   formattedDate.value = getFormattedDate(currentWeekStartDate); // use start date to get formatted date
@@ -58,7 +63,7 @@ updateWeek();
   <div class="schedule">
     <div class="schedule__top">
       <div class="schedule__top__left">
-        <NormalButton label="Today" class="schedule__top__left__today button--primary" />
+        <NormalButton label="Today" class="schedule__top__left__today button--primary" @click="goToToday" />
         <div class="schedule__top__left__arrows">
           <TransparentButton iconName="NavArrowLeft" class="schedule__top__left__arrows__arrow no-label"
             @click="previousWeek" />
@@ -81,7 +86,7 @@ updateWeek();
         <div class="schedule__columns__hours text-reg-s">
           <div class="schedule__columns__hours__hour ">00:00</div>
           <div class="schedule__columns__hours__hour " v-for="hour in 23" :key="hour + 1">{{ hour < 10 ? '0' + hour :
-            hour }}:00</div>
+              hour }}:00</div>
           </div>
 
           <template v-for="day in 7" :key="day">
