@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted } from 'vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 import CalendarCard from './CalendarCard.vue';
@@ -10,17 +10,12 @@ const currentDate = ref(new Date());
 const formattedDate = ref('');
 const weekDays = ref([]);
 
-// Array of calendar events
-const calendarEvents = ref([
-  {
-    emoji: "📅",
-    label: "Meeting",
-    startTime: "09:00",
-    endTime: "10:00",
-    type: "interview",
-    date: new Date(2024, 3, 9)
-  },
-]);
+const props = defineProps({
+  calendarEvents: {
+    type: Array,
+    required: true
+  }
+});
 
 // LIFECYCLE HOOKS
 onMounted(() => {
