@@ -8,7 +8,7 @@ const calendarEvents = ref([
   {
     emoji: "📅",
     label: "Meeting",
-    startTime: "09:00",
+    startTime: "00:00",
     endTime: "10:00",
     type: "interview",
     date: new Date(2024, 3, 9)

@@ -84,9 +84,26 @@ function getCardPosition(event) {
   const [startHour, startMinute] = event.startTime.split(':').map(Number);
   const totalMinutes = startHour * 60 + startMinute;
   const top = `${totalMinutes * 1 / 60 * 88}px`;
-  const dayIndex = event.date.getDay();
+  let dayIndex = event.date.getDay();
+  dayIndex = (dayIndex + 6) % 7;
   const left = `${56 + dayIndex * 192}px`;
   return { top, left };
+}
+
+function isEventInCurrentWeek(event) {
+  const startOfWeek = getStartOfWeek(currentDate.value);
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(endOfWeek.getDate() + 6);
+
+  return event.date >= startOfWeek && event.date <= endOfWeek;
+}
+
+function getStartOfWeek(date) {
+  const startOfWeek = new Date(date);
+  const dayOfWeek = date.getDay();
+  const diff = date.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+  startOfWeek.setDate(diff);
+  return startOfWeek;
 }
 </script>
 
@@ -125,9 +142,9 @@ function getCardPosition(event) {
               <div class="schedule__column__blocks">
                 <div class="schedule__column__blocks__block" v-for="hour in 24" :key="hour"
                   :class="{ weekend: day > 5 }"></div>
-                <template v-for="(event, index) in calendarEvents" :key="index">
-                  <div v-if="event.date.getDay() === day - 1" :style="getCardPosition(event)"
-                    class="schedule__calendar__card">
+                  <template v-for="(event, index) in calendarEvents" :key="index">
+                  <div v-if="isEventInCurrentWeek(event) && event.date.getDay() === day - 1"
+                    :style="getCardPosition(event)" class="schedule__calendar__card">
                     <CalendarCard :emoji="event.emoji" :label="event.label" :startTime="event.startTime"
                       :endTime="event.endTime" :date="event.date" :type="event.type" />
                   </div>
