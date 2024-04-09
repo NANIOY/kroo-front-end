@@ -3,93 +3,76 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 
+// VARIABLES
 const currentTimePosition = ref('0px');
+const currentDate = ref(new Date());
+const formattedDate = ref('');
+const weekDays = ref([]);
 
-// calculate position of current time indicator
-function calculateTimeIndicatorPosition() {
-  const now = new Date();
-  console.log("Current Time:", now.toLocaleString());
+// LIFECYCLE HOOKS
+onMounted(() => {
+  updateCurrentTimePosition();
+  updateWeek();
+});
 
-  // get start of day
-  const startOfDay = new Date(now);
-  startOfDay.setHours(0, 0, 0, 0); // set hours, minutes, seconds, and milliseconds to 0
-  console.log("Start of Day:", startOfDay.toLocaleString());
-
-  // calculate time difference in milliseconds between now and start of day
-  const timeDiff = now.getTime() - startOfDay.getTime();
-  console.log("Time Difference (milliseconds):", timeDiff);
-
-  // calculate current position of time indicator
-  const currentPosition = (timeDiff / (1000 * 60 * 60)) * 88;
-  console.log("Current Position:", currentPosition);
-
-  return `${currentPosition}px`;
-}
-
-// update current time position every minute
+// FUNCTIONS
 function updateCurrentTimePosition() {
   currentTimePosition.value = calculateTimeIndicatorPosition();
   setTimeout(updateCurrentTimePosition, 60000);
 }
 
-// go to today's date
-function goToToday() {
-  currentDate.value = new Date();
-  updateWeek();
+function calculateTimeIndicatorPosition() {
+  const now = new Date();
+  const startOfDay = new Date(now);
+  startOfDay.setHours(0, 0, 0, 0);
+  const timeDiff = now.getTime() - startOfDay.getTime();
+  return `${(timeDiff / (1000 * 60 * 60)) * 88}px`;
 }
 
-updateCurrentTimePosition();
-
-const currentDate = ref(new Date());
-const options = { month: 'long', year: 'numeric' };
-const formattedDate = ref(getFormattedDate(currentDate.value));
-const weekDays = ref(getWeekDays(currentDate.value));
+function updateWeek() {
+  formattedDate.value = getFormattedDate(currentDate.value);
+  weekDays.value = getWeekDays(currentDate.value);
+}
 
 function getFormattedDate(date) {
+  const options = { month: 'long', year: 'numeric' };
   const monthYear = date.toLocaleDateString('en-GB', options);
   return `${monthYear.substr(0, monthYear.lastIndexOf(' '))}, ${monthYear.substr(monthYear.lastIndexOf(' ') + 1)}`;
 }
 
 function getWeekDays(date) {
   const days = [];
-  const firstDayOfWeek = date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1); // get first day of week
-  const monday = new Date(date.getTime()); // create a new Date object
-  monday.setDate(firstDayOfWeek); // set start of week to monday
+  const firstDayOfWeek = date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1);
+  const monday = new Date(date.getTime());
+  monday.setDate(firstDayOfWeek);
   for (let i = 0; i < 7; i++) {
-    const day = new Date(monday.getTime() + i * 86400000); // 86400000 ms = 1 day
-    const abbr = day.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2); // get first 2 letters of weekday
+    const day = new Date(monday.getTime() + i * 86400000);
+    const abbr = day.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2);
     days.push({ abbr: abbr, number: day.getDate() });
   }
   return days;
 }
 
 function nextWeek() {
-  const nextDate = new Date(currentDate.value.getTime()); // create a new Date object
+  const nextDate = new Date(currentDate.value.getTime());
   nextDate.setDate(nextDate.getDate() + 7);
   currentDate.value = nextDate;
   updateWeek();
 }
 
 function previousWeek() {
-  const prevDate = new Date(currentDate.value.getTime()); // create a new Date object
+  const prevDate = new Date(currentDate.value.getTime());
   prevDate.setDate(prevDate.getDate() - 7);
   currentDate.value = prevDate;
   updateWeek();
 }
 
-function updateWeek() {
-  const currentWeekStartDate = getWeekStartDate(currentDate.value); // get start date of current week
-  formattedDate.value = getFormattedDate(currentWeekStartDate); // use start date to get formatted date
-  weekDays.value = getWeekDays(currentDate.value);
+function goToToday() {
+  currentDate.value = new Date();
+  updateWeek();
 }
-
-function getWeekStartDate(date) {
-  const firstDayOfWeek = date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1);
-  return new Date(date.getFullYear(), date.getMonth(), firstDayOfWeek);
-}
-
-updateWeek();
 </script>
+
 
 <template>
   <div class="schedule">
@@ -132,7 +115,6 @@ updateWeek();
 
           <div class="time-indicator" :style="{ top: currentTimePosition }"></div>
         </div>
-
 
       </div>
     </div>
