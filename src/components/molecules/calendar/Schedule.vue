@@ -1,13 +1,26 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
+import CalendarCard from './CalendarCard.vue';
 
 // VARIABLES
 const currentTimePosition = ref('0px');
 const currentDate = ref(new Date());
 const formattedDate = ref('');
 const weekDays = ref([]);
+
+// Array of calendar events
+const calendarEvents = ref([
+  {
+    emoji: "📅",
+    label: "Meeting",
+    startTime: "09:00",
+    endTime: "10:00",
+    type: "interview",
+    date: new Date(2024, 3, 9)
+  },
+]);
 
 // LIFECYCLE HOOKS
 onMounted(() => {
@@ -71,8 +84,16 @@ function goToToday() {
   currentDate.value = new Date();
   updateWeek();
 }
-</script>
 
+function getCardPosition(event) {
+  const [startHour, startMinute] = event.startTime.split(':').map(Number);
+  const totalMinutes = startHour * 60 + startMinute;
+  const top = `${totalMinutes * 1 / 60 * 88}px`;
+  const dayIndex = event.date.getDay();
+  const left = `${56 + dayIndex * 192}px`;
+  return { top, left };
+}
+</script>
 
 <template>
   <div class="schedule">
@@ -109,13 +130,19 @@ function goToToday() {
               <div class="schedule__column__blocks">
                 <div class="schedule__column__blocks__block" v-for="hour in 24" :key="hour"
                   :class="{ weekend: day > 5 }"></div>
+                <template v-for="(event, index) in calendarEvents" :key="index">
+                  <div v-if="event.date.getDay() === day - 1" :style="getCardPosition(event)"
+                    class="schedule__calendar__card">
+                    <CalendarCard :emoji="event.emoji" :label="event.label" :startTime="event.startTime"
+                      :endTime="event.endTime" :date="event.date" :type="event.type" />
+                  </div>
+                </template>
               </div>
             </div>
           </template>
 
           <div class="time-indicator" :style="{ top: currentTimePosition }"></div>
         </div>
-
       </div>
     </div>
 </template>
@@ -217,6 +244,10 @@ h5 {
 
 .schedule__column__block {
   height: 100%;
+}
+
+.schedule__calendar__card {
+  position: absolute;
 }
 
 .weekend {
