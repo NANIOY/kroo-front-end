@@ -38,20 +38,19 @@ function getFormattedDate(date) {
       <div class="schedule__columns">
         <div class="schedule__columns__hours text-reg-s">
           <div class="schedule__columns__hours__hour ">00:00</div>
-          <div class="schedule__columns__hours__hour " v-for="hour in 23" :key="hour + 1">{{ hour < 10 ? '0' + hour :
-            hour }}:00</div>
-          </div>
-
-          <template v-for="day in 7" :key="day">
-            <div class="schedule__column">
-              <div class="schedule__column__blocks">
-                <div class="schedule__column__blocks__block" v-for="hour in 24" :key="hour"></div>
-              </div>
-            </div>
-          </template>
+          <div class="schedule__columns__hours__hour " v-for="hour in 23" :key="hour + 1">{{ hour < 10 ? '0' + hour : hour }}:00</div>
         </div>
+
+        <template v-for="day in 7" :key="day">
+          <div class="schedule__column">
+            <div class="schedule__column__blocks">
+              <div class="schedule__column__blocks__block" v-for="hour in 24" :key="hour" :class="{ weekend: day > 5 }"></div>
+            </div>
+          </div>
+        </template>
       </div>
     </div>
+  </div>
 </template>
 
 <style scoped>
@@ -135,11 +134,15 @@ h5 {
 
 .schedule__column__blocks__block {
   height: 88px;
-  border: 0.1px solid var(--neutral-30);
+  border: 0.5px solid var(--neutral-30);
   box-sizing: border-box;
 }
 
 .schedule__column__block {
   height: 100%;
+}
+
+.weekend {
+  background-color: rgba(188, 188, 188, 0.2);
 }
 </style>
