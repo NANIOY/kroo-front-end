@@ -123,6 +123,7 @@ const counterFontSize = '16px';
     display: flex;
     justify-content: space-between;
     align-items: center;
+    max-width: 522px;
 }
 
 .label {
