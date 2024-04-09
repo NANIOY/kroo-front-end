@@ -13,9 +13,17 @@ const props = defineProps({
 });
 
 const cardHeight = computed(() => {
-    const startHour = parseInt(props.startTime.split(':')[0]);
-    const endHour = parseInt(props.endTime.split(':')[0]);
-    return (endHour - startHour) * 80;
+    const [startHour, startMinute] = props.startTime.split(':').map(Number);
+    const [endHour, endMinute] = props.endTime.split(':').map(Number);
+    const startTotalMinutes = startHour * 60 + startMinute;
+    const endTotalMinutes = endHour * 60 + endMinute;
+    const durationInMinutes = endTotalMinutes - startTotalMinutes;
+
+    if (durationInMinutes <= 60) {
+        return 88;
+    } else {
+        return durationInMinutes * 1 / 60 * 88;
+    }
 });
 
 const cardColor = computed(() => {
