@@ -121,14 +121,6 @@ function goToToday() {
 </template>
 
 <style scoped>
-.time-indicator {
-  position: absolute;
-  left: 56px;
-  width: calc(100% - 56px);
-  height: 2px;
-  background-color: var(--blurple);
-}
-
 /* GENERAL */
 .schedule {
   display: flex;
@@ -229,5 +221,25 @@ h5 {
 
 .weekend {
   background-color: rgba(188, 188, 188, 0.2);
+}
+
+/* TIME INDICATOR */
+.time-indicator {
+  position: absolute;
+  left: 56px;
+  width: calc(100% - 56px);
+  height: 2px;
+  background-color: var(--blurple);
+}
+
+.time-indicator::before {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: var(--blurple);
+  border-radius: 50%;
+  left: -4px;
+  top: -3px;
 }
 </style>
