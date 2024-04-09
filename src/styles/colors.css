@@ -63,6 +63,15 @@
   color: var(--neutral-30);
 }
 
+.text-white {
+  color: var(--white);
+}
+
+.text-white-secondary {
+  color: var(--neutral-20);
+}
+
+
 /* surface */
 .surface-primary {
   background-color: var(--white);
