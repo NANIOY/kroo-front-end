@@ -6,6 +6,7 @@ const props = defineProps({
     label: String,
     startTime: String,
     endTime: String,
+    date: Date,
     type: {
         type: String,
         default: 'personal'
