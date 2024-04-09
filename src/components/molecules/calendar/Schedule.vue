@@ -1,7 +1,44 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
+
+const currentTimePosition = ref('0px');
+
+// calculate position of current time indicator
+function calculateTimeIndicatorPosition() {
+  const now = new Date();
+  console.log("Current Time:", now.toLocaleString());
+
+  // get start of day
+  const startOfDay = new Date(now);
+  startOfDay.setHours(0, 0, 0, 0); // set hours, minutes, seconds, and milliseconds to 0
+  console.log("Start of Day:", startOfDay.toLocaleString());
+
+  // calculate time difference in milliseconds between now and start of day
+  const timeDiff = now.getTime() - startOfDay.getTime();
+  console.log("Time Difference (milliseconds):", timeDiff);
+
+  // calculate current position of time indicator
+  const currentPosition = (timeDiff / (1000 * 60 * 60)) * 88;
+  console.log("Current Position:", currentPosition);
+
+  return `${currentPosition}px`;
+}
+
+// update current time position every minute
+function updateCurrentTimePosition() {
+  currentTimePosition.value = calculateTimeIndicatorPosition();
+  setTimeout(updateCurrentTimePosition, 60000);
+}
+
+// go to today's date
+function goToToday() {
+  currentDate.value = new Date();
+  updateWeek();
+}
+
+updateCurrentTimePosition();
 
 const currentDate = ref(new Date());
 const options = { month: 'long', year: 'numeric' };
@@ -37,11 +74,6 @@ function previousWeek() {
   const prevDate = new Date(currentDate.value.getTime()); // create a new Date object
   prevDate.setDate(prevDate.getDate() - 7);
   currentDate.value = prevDate;
-  updateWeek();
-}
-
-function goToToday() {
-  currentDate.value = new Date(); // set currentDate to today's date
   updateWeek();
 }
 
@@ -82,11 +114,11 @@ updateWeek();
         </div>
       </div>
 
-      <div class="schedule__columns">
+      <div class="schedule__columns" style="position: relative;">
         <div class="schedule__columns__hours text-reg-s">
-          <div class="schedule__columns__hours__hour ">00:00</div>
-          <div class="schedule__columns__hours__hour " v-for="hour in 23" :key="hour + 1">{{ hour < 10 ? '0' + hour :
-              hour }}:00</div>
+          <div class="schedule__columns__hours__hour">00:00</div>
+          <div class="schedule__columns__hours__hour" v-for="hour in 23" :key="hour + 1">
+            {{ hour < 10 ? '0' + hour : hour }}:00 </div>
           </div>
 
           <template v-for="day in 7" :key="day">
@@ -97,12 +129,24 @@ updateWeek();
               </div>
             </div>
           </template>
+
+          <div class="time-indicator" :style="{ top: currentTimePosition }"></div>
         </div>
+
+
       </div>
     </div>
 </template>
 
 <style scoped>
+.time-indicator {
+  position: absolute;
+  left: 56px;
+  width: calc(100% - 56px);
+  height: 2px;
+  background-color: var(--blurple);
+}
+
 /* GENERAL */
 .schedule {
   display: flex;
