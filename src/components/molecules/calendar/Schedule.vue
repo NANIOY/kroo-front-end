@@ -6,11 +6,52 @@ import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 const currentDate = ref(new Date());
 const options = { month: 'long', year: 'numeric' };
 const formattedDate = ref(getFormattedDate(currentDate.value));
+const weekDays = ref(getWeekDays(currentDate.value));
 
 function getFormattedDate(date) {
   const monthYear = date.toLocaleDateString('en-GB', options);
   return `${monthYear.substr(0, monthYear.lastIndexOf(' '))}, ${monthYear.substr(monthYear.lastIndexOf(' ') + 1)}`;
 }
+
+function getWeekDays(date) {
+  const days = [];
+  const firstDayOfWeek = date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1); // get first day of week
+  const monday = new Date(date.getTime()); // create a new Date object
+  monday.setDate(firstDayOfWeek); // set start of week to monday
+  for (let i = 0; i < 7; i++) {
+    const day = new Date(monday.getTime() + i * 86400000); // 86400000 ms = 1 day
+    const abbr = day.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2); // get first 2 letters of weekday
+    days.push({ abbr: abbr, number: day.getDate() });
+  }
+  return days;
+}
+
+function nextWeek() {
+  const nextDate = new Date(currentDate.value.getTime()); // create a new Date object
+  nextDate.setDate(nextDate.getDate() + 7);
+  currentDate.value = nextDate;
+  updateWeek();
+}
+
+function previousWeek() {
+  const prevDate = new Date(currentDate.value.getTime()); // create a new Date object
+  prevDate.setDate(prevDate.getDate() - 7);
+  currentDate.value = prevDate;
+  updateWeek();
+}
+
+function updateWeek() {
+  const currentWeekStartDate = getWeekStartDate(currentDate.value); // get start date of current week
+  formattedDate.value = getFormattedDate(currentWeekStartDate); // use start date to get formatted date
+  weekDays.value = getWeekDays(currentDate.value);
+}
+
+function getWeekStartDate(date) {
+  const firstDayOfWeek = date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1);
+  return new Date(date.getFullYear(), date.getMonth(), firstDayOfWeek);
+}
+
+updateWeek();
 </script>
 
 <template>
@@ -19,8 +60,10 @@ function getFormattedDate(date) {
       <div class="schedule__top__left">
         <NormalButton label="Today" class="schedule__top__left__today button--primary" />
         <div class="schedule__top__left__arrows">
-          <TransparentButton iconName="NavArrowLeft" class="schedule__top__left__arrows__arrow no-label" />
-          <TransparentButton iconName="NavArrowRight" class="schedule__top__left__arrows__arrow no-label" />
+          <TransparentButton iconName="NavArrowLeft" class="schedule__top__left__arrows__arrow no-label"
+            @click="previousWeek" />
+          <TransparentButton iconName="NavArrowRight" class="schedule__top__left__arrows__arrow no-label"
+            @click="nextWeek" />
         </div>
         <h5 class="schedule__top__left__date">{{ formattedDate }}</h5>
       </div>
@@ -29,13 +72,9 @@ function getFormattedDate(date) {
 
     <div class="schedule__calendar">
       <div class="schedule__days text-reg-s">
-        <div class="schedule__days__abbr">Monday</div>
-        <div class="schedule__days__abbr">Tuesday</div>
-        <div class="schedule__days__abbr">Wednesday</div>
-        <div class="schedule__days__abbr">Thursday</div>
-        <div class="schedule__days__abbr">Friday</div>
-        <div class="schedule__days__abbr">Saturday</div>
-        <div class="schedule__days__abbr">Sunday</div>
+        <div class="schedule__days__abbr" v-for="(day, index) in weekDays" :key="index">
+          {{ day.abbr }} {{ day.number }}
+        </div>
       </div>
 
       <div class="schedule__columns">
