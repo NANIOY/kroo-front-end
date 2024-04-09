@@ -16,12 +16,15 @@ function getFormattedDate(date) {
 <template>
   <div class="schedule">
     <div class="schedule__top">
-      <NormalButton label="Today" class="schedule__top__today button--primary" />
-      <div class="schedule__top__arrows">
-        <TransparentButton iconName="NavArrowLeft" class="schedule__top__arrows__arrow no-label" />
-        <TransparentButton iconName="NavArrowRight" class="schedule__top__arrows__arrow no-label" />
+      <div class="schedule__top__left">
+        <NormalButton label="Today" class="schedule__top__left__today button--primary" />
+        <div class="schedule__top__left__arrows">
+          <TransparentButton iconName="NavArrowLeft" class="schedule__top__left__arrows__arrow no-label" />
+          <TransparentButton iconName="NavArrowRight" class="schedule__top__left__arrows__arrow no-label" />
+        </div>
+        <h5 class="schedule__top__left__date">{{ formattedDate }}</h5>
       </div>
-      <h5 class="schedule__top__date">{{ formattedDate }}</h5>
+      <NormalButton iconName="Plus" label="Add card" class="schedule__top__add button--secondary" />
     </div>
 
     <div class="schedule__calendar">
@@ -38,19 +41,21 @@ function getFormattedDate(date) {
       <div class="schedule__columns">
         <div class="schedule__columns__hours text-reg-s">
           <div class="schedule__columns__hours__hour ">00:00</div>
-          <div class="schedule__columns__hours__hour " v-for="hour in 23" :key="hour + 1">{{ hour < 10 ? '0' + hour : hour }}:00</div>
-        </div>
-
-        <template v-for="day in 7" :key="day">
-          <div class="schedule__column">
-            <div class="schedule__column__blocks">
-              <div class="schedule__column__blocks__block" v-for="hour in 24" :key="hour" :class="{ weekend: day > 5 }"></div>
-            </div>
+          <div class="schedule__columns__hours__hour " v-for="hour in 23" :key="hour + 1">{{ hour < 10 ? '0' + hour :
+            hour }}:00</div>
           </div>
-        </template>
+
+          <template v-for="day in 7" :key="day">
+            <div class="schedule__column">
+              <div class="schedule__column__blocks">
+                <div class="schedule__column__blocks__block" v-for="hour in 24" :key="hour"
+                  :class="{ weekend: day > 5 }"></div>
+              </div>
+            </div>
+          </template>
+        </div>
       </div>
     </div>
-  </div>
 </template>
 
 <style scoped>
@@ -64,26 +69,36 @@ function getFormattedDate(date) {
 /* TOP */
 .schedule__top {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.schedule__top__left {
+  display: flex;
   align-items: center;
   gap: 20px;
 }
 
-.schedule__top__today {
+.schedule__top__left__today {
   width: 112px;
 }
 
-.schedule__top__arrows {
+.schedule__top__left__arrows {
   display: flex;
   gap: 4px;
 }
 
-.schedule__top__arrows__arrow {
+.schedule__top__left__arrows__arrow {
   padding: 0;
 }
 
 h5 {
   font-weight: 100;
   color: var(--black);
+}
+
+.schedule__top__add {
+  width: 128px;
 }
 
 /* CALENDAR */
