@@ -57,6 +57,6 @@ const getPostData = () => {
 }
 
 .loginContainer__form {
-  margin-top: 36px;
+  margin-top: 24px;
 }
 </style>
