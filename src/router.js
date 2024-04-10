@@ -43,7 +43,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const sessionToken = sessionStorage.getItem('sessionToken');
     const secret = '&1te7W]%0N@0(3C=LNh[Z&;{1nhFr4Znk9N=egN}4U@0o$zCCg';
-    if (to.path === '/login') {
+    if (to.path === '/login' || to.path === '/register') {
         next();
     } else if (!sessionToken) {
         next('/login');
