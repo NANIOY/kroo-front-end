@@ -41,7 +41,13 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if (to.path === '/') {
+    const sessionToken = sessionStorage.getItem('sessionToken');
+
+    if (!sessionToken && to.path !== '/login') {
+        next('/login');
+    } else if (!sessionToken && to.path === '/login') {
+        next();
+    } else if (sessionToken && to.path === '/login') {
         next('/dashboard');
     } else {
         next();
