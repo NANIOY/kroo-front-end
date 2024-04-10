@@ -1,7 +1,8 @@
 <script setup>
+import { ref } from 'vue';
 import Form from '../components/organisms/forms/Form.vue';
 import LoginImage from '../components/molecules/login/LoginImage.vue';
-import { ref } from 'vue';
+import { getSelectedRole } from '../components/organisms/forms/Form.vue';
 
 const inputFields = ref([
     {
@@ -40,15 +41,25 @@ const inputFields = ref([
     },
 ]);
 
-const checkbox = { label: 'I agree to the Terms & Conditions and Privacy Policy' };
+const agreeCheckbox = { label: 'I agree to the Terms & Conditions and Privacy Policy' };
+
+const getPostData = () => {
+    const data = {};
+    for (const field of inputFields.value) {
+        data[field.label] = field.value;
+    }
+    data['role'] = getSelectedRole();
+    return data;
+};
 </script>
 
 <template>
     <div class="registerContainer">
         <Form class="registerContainer__form" :hasSelectors="true" :hasText="true" header="Create account"
             text="Choose between Crew or Business account to tailor your experience, and remember, you can always switch or create the other later."
-            :inputFields="inputFields" :checkbox="checkbox" buttonLabel="Create account" noteText="Already have an account? Log in"
-            noteLink="/" />
+            :inputFields="inputFields" :checkbox="agreeCheckbox" buttonLabel="Create account"
+            noteText="Already have an account? Log in" noteLink="/login" endpoint="/user" :postData="getPostData()" />
+
         <LoginImage class="registerContainer__image" />
     </div>
 </template>

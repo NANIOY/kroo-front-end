@@ -5,7 +5,7 @@ import DropDown from '../../atoms/inputs/DropDown.vue';
 import Checkbox from '../../atoms/selectors/Checkbox.vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
-import { defineProps, ref } from 'vue';
+import { defineProps, ref, computed } from 'vue';
 
 const props = defineProps({
     hasSelectors: Boolean,
@@ -30,7 +30,8 @@ const props = defineProps({
     checkbox: Object,
     buttonLabel: String,
     rememberMe: Boolean,
-    redirect: String
+    redirect: String,
+    selectedRole: String
 });
 
 const selectedButtonIndex = ref(null);
