@@ -17,6 +17,7 @@
     backdrop-filter: blur(20px);
     height: 88px;
     padding-left: 300px;
+    margin-bottom: 48px;
 }
 
 .navbarlogo__container {
