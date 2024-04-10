@@ -44,7 +44,7 @@ const checkbox = { label: 'I agree to the Terms & Conditions and Privacy Policy'
 <template>
     <Form :hasSelectors="true" :hasText="true" header="Create account"
         text="Choose between Crew or Business account to tailor your experience, and remember, you can always switch or create the other later."
-        :inputFields="inputFields" :checkbox="checkbox" buttonLabel="Create account" noteText="Already have an account? Sign in"
+        :inputFields="inputFields" :checkbox="checkbox" buttonLabel="Create account" noteText="Already have an account? Log in"
         noteLink="/" />
 </template>
 
