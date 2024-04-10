@@ -1,6 +1,5 @@
 <script setup>
 // IMPORT DASHBOARD COMPONENTS
-import topNavDash from '../components/organisms/navigation/topNav/topNavDash.vue';
 import JobCard from '../components/molecules/dashboard/JobCard.vue';
 import JobSug from '../components/molecules/dashboard/JobSug.vue';
 import Week from '../components/molecules/dashboard/Week.vue';
@@ -74,7 +73,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <topNavDash :userId="userId" :func="func" :profileImage="profileImage" />
   <div class="dashboard">
 
     <div class="dashboard__left">
