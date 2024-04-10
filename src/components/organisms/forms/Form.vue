@@ -34,16 +34,15 @@ const props = defineProps({
     selectedRole: String
 });
 
-const selectedButtonIndex = ref(null);
 const postData = ref({});
 const rememberMe = ref(false);
 
-const selectButton = (index) => {
-    selectedButtonIndex.value = index;
-};
-
 const updatePostData = (field, value) => {
     postData.value[field] = value;
+};
+
+const handleButtonSelect = (role) => {
+    updatePostData('selectedRole', role);
 };
 
 const handleRememberMeChange = (value) => {
@@ -58,9 +57,9 @@ const handleRememberMeChange = (value) => {
 
         <div class="form__selectors" v-if="hasSelectors">
             <NormalButton label="Crew" class="form__selectors__button button--tertiary"
-                :class="{ 'button--active': selectedButtonIndex === 0 }" @click="selectButton(0)" />
+                :class="{ 'button--active': selectedRole === 'Crew' }" @click="handleButtonSelect('Crew')" />
             <NormalButton label="Business" class="form__selectors__button button--tertiary"
-                :class="{ 'button--active': selectedButtonIndex === 1 }" @click="selectButton(1)" />
+                :class="{ 'button--active': selectedRole === 'Business' }" @click="handleButtonSelect('Business')" />
         </div>
 
         <div class="form__inputs">
