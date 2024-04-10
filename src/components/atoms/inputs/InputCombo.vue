@@ -87,8 +87,8 @@ const counterFontSize = '16px';
             </template>
 
             <!-- LargeButton -->
-            <LargeButton :label="buttonLabel" :hasLabel="true" :iconName="buttonIcon" :counter="showCounter"
-                @click="handleButtonClick" class="button--tertiary custom-button" />
+            <LargeButton :label="buttonLabel" :iconName="buttonIcon" @click="handleButtonClick"
+                class="button--tertiary custom-button" />
         </div>
     </div>
 </template>
