@@ -37,6 +37,11 @@ const props = defineProps({
     buttonIcon: {
         type: String,
         default: 'plus'
+    },
+    // Add default placeholder for the dropdown
+    placeholder: {
+        type: String,
+        default: 'Select an option'
     }
 });
 

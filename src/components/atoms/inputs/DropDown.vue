@@ -13,7 +13,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: ''
+      default: 'Select an option'
     },
     options: {
       type: Array,
@@ -23,7 +23,7 @@ export default {
   data() {
     return {
       isOpen: false,
-      selectedOption: '',
+      selectedOption: this.placeholder, // Initialize selectedOption to the placeholder
       inputId: 'container__dropdown__box-' + Math.random().toString(36).substring(2, 15),
       dropdownContainer: null
     };
@@ -62,11 +62,12 @@ export default {
     <label v-if="hasLabel" class="text-reg-normal" :for="inputId">{{ label }}</label>
     <div class="container__dropdown text-reg-normal">
       <div class="container__dropdown__box" @click="toggleDropdown" :class="{ 'open': isOpen }">
-        <span :class="{ 'text-disabled': !selectedOption }">{{ selectedOption || placeholder }}</span>
+        <span>{{ selectedOption }}</span>
         <NavArrowDown :class="{ 'container__dropdown__box__icon': isOpen }" />
       </div>
       <ul v-if="isOpen" class="container__dropdown__items" @click.stop>
-        <li v-for="option in options" :key="option" @click="selectOption(option)">
+        <li v-if="options.length === 0">{{ placeholder }}</li>
+        <li v-else v-for="option in options" :key="option" @click="selectOption(option)">
           {{ option }}
         </li>
       </ul>
