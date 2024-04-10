@@ -20,7 +20,7 @@ import Upgrade from './views/Upgrade.vue'
 import Test from './views/Test.vue'
 
 const routes = [
-    { path: '/', component: Login },
+    { path: '/login', component: Login },
     { path: '/register', component: Register },
     { path: '/forgot-password', component: ForgotPassword },
     { path: '/calendar', component: Calendar },
@@ -38,6 +38,14 @@ const routes = [
 const router = createRouter({
     history: createWebHashHistory(),
     routes,
+});
+
+router.beforeEach((to, from, next) => {
+    if (to.path === '/') {
+        next('/dashboard');
+    } else {
+        next();
+    }
 });
 
 export default router;
