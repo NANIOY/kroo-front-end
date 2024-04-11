@@ -25,7 +25,8 @@ export default {
       isOpen: false,
       selectedOption: this.placeholder, // Initialize selectedOption to the placeholder
       inputId: 'container__dropdown__box-' + Math.random().toString(36).substring(2, 15),
-      dropdownContainer: null
+      dropdownContainer: null,
+      optionSelected: false // Flag to track if an option is selected
     };
   },
   components: {
@@ -38,6 +39,7 @@ export default {
     selectOption(option) {
       this.selectedOption = option;
       this.isOpen = false;
+      this.optionSelected = true; // Set the flag to true when an option is selected
     },
     closeDropdownOnClickOutside(event) {
       if (this.dropdownContainer && !this.dropdownContainer.contains(event.target)) {
@@ -62,7 +64,7 @@ export default {
     <label v-if="hasLabel" class="text-reg-normal" :for="inputId">{{ label }}</label>
     <div class="container__dropdown text-reg-normal">
       <div class="container__dropdown__box" @click="toggleDropdown" :class="{ 'open': isOpen }">
-        <span :class="{ 'placeholder': selectedOption === placeholder }">{{ selectedOption }}</span>
+        <span :class="['placeholder', { 'placeholder-black': optionSelected }]">{{ selectedOption }}</span>
         <NavArrowDown :class="{ 'container__dropdown__box__icon': isOpen }" />
       </div>
       <ul v-if="isOpen" class="container__dropdown__items" @click.stop>
@@ -158,10 +160,17 @@ label {
   font-family: var(--font-body);
 }
 
+.placeholder, .placeholder-black {
+  font-family: var(--font-body);
+  font-size: 20px;
+}
+
 .placeholder {
   color: var(--neutral-30);
-  font-family: var(--font-body); 
-  font-size: 20px;
+}
+
+.placeholder-black {
+  color: var(--black);
 }
 
 @keyframes dropdownAnimation {
