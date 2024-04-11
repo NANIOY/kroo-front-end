@@ -5,14 +5,14 @@ import LoginImage from '../components/molecules/login/LoginImage.vue';
 
 const inputFields = ref([
   {
-    label: 'Name',
+    label: 'username',
     hasLabel: true,
     placeholder: 'Enter your name',
     hasIconLeft: false,
     isPassword: false,
   },
   {
-    label: 'Email',
+    label: 'email',
     hasLabel: true,
     placeholder: 'Enter your email address',
     hasIconLeft: false,
@@ -20,7 +20,7 @@ const inputFields = ref([
     isPassword: false,
   },
   {
-    label: 'Password',
+    label: 'password',
     hasLabel: true,
     placeholder: 'Enter your password',
     hasIconLeft: false,

@@ -38,11 +38,13 @@ const postData = ref({});
 const rememberMe = ref(false);
 
 const updatePostData = (field, value) => {
+    console.log('Updating postData:', field, value);
     postData.value[field] = value;
+    console.log('Updated postData:', postData.value);
 };
 
 const handleButtonSelect = (role) => {
-    updatePostData('selectedRole', role);
+    updatePostData('role', role);
 };
 
 const handleRememberMeChange = (value) => {
@@ -56,10 +58,10 @@ const handleRememberMeChange = (value) => {
             :steps="steps" :text="text" />
 
         <div class="form__selectors" v-if="hasSelectors">
-            <NormalButton label="Crew" class="form__selectors__button button--tertiary"
-                :class="{ 'button--active': selectedRole === 'Crew' }" @click="handleButtonSelect('Crew')" />
-            <NormalButton label="Business" class="form__selectors__button button--tertiary"
-                :class="{ 'button--active': selectedRole === 'Business' }" @click="handleButtonSelect('Business')" />
+            <NormalButton label="crew" class="form__selectors__button button--tertiary"
+                :class="{ 'button--active': selectedRole === 'crew' }" @click="handleButtonSelect('crew')" />
+            <NormalButton label="business" class="form__selectors__button button--tertiary"
+                :class="{ 'button--active': selectedRole === 'business' }" @click="handleButtonSelect('business')" />
         </div>
 
         <div class="form__inputs">
@@ -90,7 +92,6 @@ const handleRememberMeChange = (value) => {
         </div>
     </div>
 </template>
-
 
 <style scoped>
 /* GENERAL */
