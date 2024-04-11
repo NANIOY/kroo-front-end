@@ -128,6 +128,7 @@ label {
 
 .container__dropdown__box.open+.container__dropdown__items {
   display: block;
+  margin-top: 4px;
   animation: dropdownAnimation 0.2s forwards;
 }
 
