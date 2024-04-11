@@ -1,11 +1,11 @@
 <script setup>
+import { ref } from 'vue';
 import FormHeader from '../../molecules/login/FormHeader.vue';
 import InputField from '../../atoms/inputs/InputField.vue';
 import DropDown from '../../atoms/inputs/DropDown.vue';
 import Checkbox from '../../atoms/selectors/Checkbox.vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
-import { defineProps, ref, computed } from 'vue';
 
 const props = defineProps({
     hasSelectors: Boolean,
@@ -30,25 +30,27 @@ const props = defineProps({
     checkbox: Object,
     buttonLabel: String,
     rememberMe: Boolean,
-    redirect: String,
-    selectedRole: String
+    redirect: String
 });
 
+const selectedRole = ref(null);
 const postData = ref({});
 const rememberMe = ref(false);
 
-const updatePostData = (field, value) => {
-    postData.value[field] = value;
+const handleButtonSelect = (role) => {
+    selectedRole.value = role;
+    updatePostData('role', selectedRole.value);
 };
 
-const handleButtonSelect = (role) => {
-    updatePostData('role', role);
+const updatePostData = (field, value) => {
+    postData.value[field] = value;
 };
 
 const handleRememberMeChange = (value) => {
     updatePostData('rememberMe', value);
 };
 </script>
+
 
 <template>
     <div class="form">

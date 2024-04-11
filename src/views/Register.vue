@@ -41,7 +41,7 @@ const inputFields = ref([
 
 const agreeCheckbox = { label: 'I agree to the Terms & Conditions and Privacy Policy' };
 
-const selectedRole = ref('crew');
+const selectedRole = ref(null);
 
 const getPostData = () => {
   const data = {};
@@ -57,26 +57,26 @@ const getPostData = () => {
 </script>
 
 <template>
-    <div class="registerContainer">
-        <Form class="registerContainer__form" :hasSelectors="true" :hasText="true" header="Create account"
-            text="Choose between Crew or Business account to tailor your experience, and remember, you can always switch or create the other later."
-            :inputFields="inputFields" :checkbox="agreeCheckbox" buttonLabel="Create account"
-            noteText="Already have an account? Log in" noteLink="/login" endpoint="/user" :selectedRole="selectedRole"
-            :postData="getPostData()" />
+  <div class="registerContainer">
+    <Form class="registerContainer__form" :hasSelectors="true" :hasText="true" header="Create account"
+      text="Choose between Crew or Business account to tailor your experience, and remember, you can always switch or create the other later."
+      :inputFields="inputFields" :checkbox="agreeCheckbox" buttonLabel="Create account"
+      noteText="Already have an account? Log in" noteLink="/login" endpoint="/user" :selectedRole="selectedRole"
+      :postData="getPostData()" />
 
-        <LoginImage class="registerContainer__image" />
-    </div>
+    <LoginImage class="registerContainer__image" />
+  </div>
 </template>
 
 <style scoped>
 .registerContainer {
-    display: flex;
-    justify-content: space-between;
-    margin-left: 156px;
-    margin-right: 244px;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 156px;
+  margin-right: 244px;
 }
 
 .registerContainer__form {
-    margin-top: 24px;
+  margin-top: 24px;
 }
 </style>
