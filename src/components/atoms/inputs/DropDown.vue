@@ -131,11 +131,18 @@ label {
   animation: dropdownAnimation 0.2s forwards;
 }
 
-.container__dropdown__items li {
-  display: flex;
-  align-items: center;
-  height: 40px;
-  padding-left: 16px;
+.container__dropdown__items {
+  position: absolute;
+  display: none;
+  width: 100%;
+  background-color: var(--white);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  list-style-type: none;
+  padding: 4px 0 0 0;
+  margin-top: 0;
+  max-height: 0;
+  overflow: hidden;
   cursor: pointer;
   transition: 0.3s;
 }
@@ -152,6 +159,15 @@ label {
 
 .container__dropdown__box__icon {
   transform: rotate(180deg);
+}
+
+.container__dropdown__items li {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  height: 40px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 @keyframes dropdownAnimation {
