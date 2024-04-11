@@ -171,7 +171,9 @@ label {
 }
 
 .placeholder {
-  color: var(--neutral-30); /* Custom style for the placeholder */
+  color: var(--neutral-30);
+  font-family: 'body';
+  font-size: 20px
 }
 
 @keyframes dropdownAnimation {
