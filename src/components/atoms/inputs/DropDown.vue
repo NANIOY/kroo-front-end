@@ -62,11 +62,11 @@ export default {
     <label v-if="hasLabel" class="text-reg-normal" :for="inputId">{{ label }}</label>
     <div class="container__dropdown text-reg-normal">
       <div class="container__dropdown__box" @click="toggleDropdown" :class="{ 'open': isOpen }">
-        <span>{{ selectedOption }}</span>
+        <span :class="{ 'placeholder': selectedOption === placeholder }">{{ selectedOption }}</span>
         <NavArrowDown :class="{ 'container__dropdown__box__icon': isOpen }" />
       </div>
       <ul v-if="isOpen" class="container__dropdown__items" @click.stop>
-        <li v-if="options.length === 0">{{ placeholder }}</li>
+        <li v-if="options.length === 0" class="placeholder">{{ placeholder }}</li>
         <li v-else v-for="option in options" :key="option" @click="selectOption(option)">
           {{ option }}
         </li>
@@ -168,6 +168,10 @@ label {
   height: 40px;
   cursor: pointer;
   transition: 0.3s;
+}
+
+.placeholder {
+  color: var(--neutral-30); /* Custom style for the placeholder */
 }
 
 @keyframes dropdownAnimation {
