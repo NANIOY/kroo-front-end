@@ -128,7 +128,7 @@ label {
   transition: 0.3s;
 }
 
-.container__dropdown__box.open+.container__dropdown__items {
+.container__dropdown__box.open + .container__dropdown__items {
   display: block;
   margin-top: 4px;
   animation: dropdownAnimation 0.2s forwards;
@@ -155,12 +155,12 @@ label {
   align-items: center;
   cursor: pointer;
   transition: 0.3s;
-  font-family: var(--text-reg-normal);
+  font-family: var(--font-body);
 }
 
 .placeholder {
   color: var(--neutral-30);
-  font-family: 'body';
+  font-family: var(--font-body); 
   font-size: 20px;
 }
 
