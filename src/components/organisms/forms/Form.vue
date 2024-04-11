@@ -38,9 +38,7 @@ const postData = ref({});
 const rememberMe = ref(false);
 
 const updatePostData = (field, value) => {
-    console.log('Updating postData:', field, value);
     postData.value[field] = value;
-    console.log('Updated postData:', postData.value);
 };
 
 const handleButtonSelect = (role) => {
@@ -58,9 +56,9 @@ const handleRememberMeChange = (value) => {
             :steps="steps" :text="text" />
 
         <div class="form__selectors" v-if="hasSelectors">
-            <NormalButton label="crew" class="form__selectors__button button--tertiary"
+            <NormalButton label="Crew" class="form__selectors__button button--tertiary"
                 :class="{ 'button--active': selectedRole === 'crew' }" @click="handleButtonSelect('crew')" />
-            <NormalButton label="business" class="form__selectors__button button--tertiary"
+            <NormalButton label="Business" class="form__selectors__button button--tertiary"
                 :class="{ 'button--active': selectedRole === 'business' }" @click="handleButtonSelect('business')" />
         </div>
 
