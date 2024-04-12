@@ -59,11 +59,11 @@ const getPostData = () => {
 
 const setRedirectPath = () => {
   if (selectedRole.value === 'crew') {
-    return '/register/crew';
+    return '/register/crew/step-1';
   } else if (selectedRole.value === 'business') {
-    return '/register/business';
+    return '/register/business/step-1';
   } else {
-    return '/register/crew';
+    return '/register/crew/step-1';
   }
 };
 </script>
