@@ -48,7 +48,7 @@ onMounted(fetchUserData);
     </div>
 </template>
 
-<style scoped>
+<style>
 .registerContainer {
     display: flex;
     justify-content: space-between;
