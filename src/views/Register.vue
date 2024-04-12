@@ -63,8 +63,8 @@ const getPostData = () => {
     <Form class="registerContainer__form" :hasSelectors="true" :hasText="true" header="Create account"
       text="Choose between Crew or Business account to tailor your experience, and remember, you can always switch or create the other later."
       :inputFields="inputFields" :checkbox="agreeCheckbox" buttonLabel="Create account"
-      noteText="Already have an account? Log in" noteLink="/login" endpoint="/user" :selectedRole="selectedRole"
-      :postData="getPostData()" :isRegistration="true" />
+      noteText="Already have an account? Log in" noteLink="/login" :hasAuthButton="true" endpoint="/user"
+      :selectedRole="selectedRole" :postData="getPostData()" :isRegistration="true" />
 
     <LoginImage class="registerContainer__image" />
   </div>

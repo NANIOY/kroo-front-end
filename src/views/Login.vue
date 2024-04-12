@@ -43,7 +43,7 @@ const getPostData = () => {
     <Form class="loginContainer__form" :hasText="false" header="Log in" :inputFields="inputFields"
       :checkbox="rememberMeCheckbox" :forgotPassword="true" buttonLabel="Log in" endpoint="/auth/login"
       :postData="getPostData()" :rememberMe="true" noteText="Don’t have an account yet? Create an account"
-      noteLink="register" redirect="/dashboard" />
+      noteLink="register" :hasAuthButton="true" redirect="/dashboard" />
     <LoginImage class="loginContainer__image" />
   </div>
 </template>
