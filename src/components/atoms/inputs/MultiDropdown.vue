@@ -126,6 +126,7 @@ label {
     max-height: 0;
     overflow: hidden;
     cursor: pointer;
+    z-index: 990;
     transition: 0.3s;
 }
 
