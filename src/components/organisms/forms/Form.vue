@@ -30,7 +30,8 @@ const props = defineProps({
     checkbox: Object,
     buttonLabel: String,
     rememberMe: Boolean,
-    redirect: String
+    redirect: String,
+    isRegistration: Boolean,
 });
 
 const selectedRole = ref(null);
@@ -82,7 +83,7 @@ const handleRememberMeChange = (value) => {
 
         <div class="form__buttons">
             <LargeButton :label="buttonLabel" :endpoint="endpoint" :postData="postData" :redirect="redirect"
-                class="form__buttons__button button--primary" />
+                :isRegistration="isRegistration" class="form__buttons__button button--primary" />
 
             <div class="form__buttons__note">
                 <p class="button-normal" v-if="!noteLink">{{ noteText }}</p>

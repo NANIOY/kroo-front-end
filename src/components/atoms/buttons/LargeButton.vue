@@ -33,11 +33,13 @@ export default {
         redirect: {
             type: String,
         },
+        isRegistration: {
+            type: Boolean,
+            default: false
+        }
     },
     setup(props) {
         const router = useRouter();
-
-        // call setupAxios to set up axios instance with router
         const axiosInstance = setupAxios(router);
 
         const handleClick = async () => {
@@ -46,19 +48,43 @@ export default {
                 const response = await axiosInstance.post(props.endpoint, props.postData);
                 console.log('Response:', response);
 
-                // store userId in sessionStorage
-                const { userId } = response.data.data;
-                sessionStorage.setItem('userId', userId);
+                // extract userId from response data based on endpoint
+                let userId;
+                if (props.isRegistration) {
+                    userId = response.data.data.user._id;
+                } else {
+                    userId = response.data.data.userId;
+                }
 
                 // log response data
                 console.log('Response data:', response.data);
+
+                // store userId in sessionStorage
+                sessionStorage.setItem('userId', userId);
 
                 // if redirect prop is provided, redirect to that route
                 if (props.redirect) {
                     router.push(props.redirect);
                 }
+
+                // check if button is for registration
+                if (props.isRegistration) {
+                    await loginAfterRegistration(props.postData);
+                }
             } catch (error) {
                 console.error('Error making POST request:', error);
+            }
+        };
+
+        const loginAfterRegistration = async (registrationData) => {
+            try {
+                const loginResponse = await axiosInstance.post('/auth/login', registrationData);
+                console.log('Login response:', loginResponse);
+                if (props.redirect) {
+                    router.push(props.redirect);
+                }
+            } catch (error) {
+                console.error('Error logging in after registration:', error);
             }
         };
 
