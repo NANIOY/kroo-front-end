@@ -17,6 +17,7 @@ const props = defineProps({
     header: String,
     steps: String,
     text: String,
+    inputNoteText: String,
     noteText: String,
     noteLink: String,
     forgotPassword: Boolean,
@@ -84,6 +85,10 @@ const handleRememberMeChange = (value) => {
                 <router-link v-if="forgotPassword" :to="'/forgot-password'"
                     class="form__inputs__bot__forgot button-normal">Forgot password?</router-link>
             </div>
+            <div class="form__inputs__note" v-if="inputNoteText">
+                <span class="form__inputs__note__static text-bold-s">Note</span>
+                <span class="form__inputs__note__dynamic text-reg-s">{{ inputNoteText }}</span>
+            </div>
         </div>
 
         <div class="form__buttons">
@@ -92,7 +97,7 @@ const handleRememberMeChange = (value) => {
             <AuthButton v-if="(hasAuthButton)" :label="buttonLabel" :endpoint="endpoint" :postData="postData"
                 :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" />
 
-            <div class="form__buttons__note">
+            <div class="form__buttons__note" v-if="noteLink">
                 <p class="button-normal" v-if="!noteLink">{{ noteText }}</p>
                 <router-link class="button-normal form__buttons__note__link" v-else :to="noteLink">{{ noteText
                     }}</router-link>
@@ -150,6 +155,11 @@ const handleRememberMeChange = (value) => {
 .form__inputs__bot__forgot {
     color: inherit;
     margin-top: 2px;
+}
+
+.form__inputs__note {
+    display: flex;
+    gap: 8px;
 }
 
 /* BUTTONS */
