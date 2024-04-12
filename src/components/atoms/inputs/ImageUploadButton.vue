@@ -1,6 +1,6 @@
 <script setup>
 import { Plus } from '@iconoir/vue';
-import { computed, defineProps } from 'vue';
+import { computed, defineProps, ref } from 'vue';
 
 const props = defineProps({
     shape: {
@@ -14,15 +14,28 @@ const props = defineProps({
 });
 
 const iconComponent = computed(() => Plus);
+
+const fileInput = ref(null);
+
+const openFileExplorer = () => {
+    fileInput.value.click();
+};
+
+const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    console.log('Uploaded file:', file);
+};
 </script>
+
 
 <template>
     <div class="imageUpload">
         <span class="imageUpload___label text-reg-normal">{{ label }}</span>
-        <button v-if="shape === 'circle'" class="imageUpload__circle">
+        <input type="file" accept="image/png, image/jpeg" @change="handleFileChange" style="display: none" ref="fileInput">
+        <button v-if="shape === 'circle'" class="imageUpload__circle" @click="openFileExplorer">
             <component :is="iconComponent" class="imageUpload__plus" />
         </button>
-        <button v-else class="imageUpload__square">
+        <button v-else class="imageUpload__square" @click="openFileExplorer">
             <component :is="iconComponent" class="imageUpload__plus" />
         </button>
     </div>
