@@ -5,6 +5,7 @@ import FormHeader from '../../molecules/login/FormHeader.vue';
 // INPUTS
 import InputField from '../../atoms/inputs/InputField.vue';
 import DropDown from '../../atoms/inputs/DropDown.vue';
+import MultiDropdown from '../../atoms/inputs/MultiDropdown.vue';
 import ImageUploadButton from '../../atoms/inputs/ImageUploadButton.vue';
 import Checkbox from '../../atoms/selectors/Checkbox.vue';
 
@@ -39,6 +40,7 @@ const props = defineProps({
     },
 
     dropdown: Object,
+    multidropdown: Object,
     checkbox: Object,
     imageUpload: Object,
     buttonLabel: String,
@@ -72,9 +74,11 @@ const handleRememberMeChange = (value) => {
 
 <template>
     <div class="form">
+        <!-- HEADER -->
         <FormHeader :hasBack="hasBack" :hasText="hasText" :hasSteps="hasSteps" :hasSkip="hasSkip" :header="header"
             :steps="steps" :text="text" />
 
+        <!-- SELECTORS -->
         <div class="form__selectors" v-if="hasSelectors">
             <NormalButton label="Crew" :hasRequest="false" class="form__selectors__button button--tertiary"
                 :class="{ 'button--active': selectedRole === 'crew' }" @click="handleButtonSelect('crew')" />
@@ -82,6 +86,7 @@ const handleRememberMeChange = (value) => {
                 :class="{ 'button--active': selectedRole === 'business' }" @click="handleButtonSelect('business')" />
         </div>
 
+        <!-- INPUTS -->
         <div class="form__inputs">
             <InputField v-for="(field, index) in inputFields" :key="index" :label="field.label"
                 :hasLabel="field.hasLabel" :iconLeftName="field.iconLeftName" :hasIconLeft="field.hasIconLeft"
@@ -94,7 +99,9 @@ const handleRememberMeChange = (value) => {
             </div>
             <DropDown v-if="dropdown" :hasLabel="dropdown.hasLabel" :label="dropdown.label"
                 :placeholder="dropdown.placeholder" :options="dropdown.options" class="form__inputs__dropdown" />
-            
+            <MultiDropdown v-if="multidropdown" :hasLabel="multidropdown.hasLabel" :label="multidropdown.label"
+                :placeholder="multidropdown.placeholder" :options="multidropdown.options"
+                class="form__inputs__dropdown" />
             <div v-if="checkbox" class="form__inputs__bot">
                 <Checkbox v-if="checkbox" :label="checkbox.label" size="small" class="form__checkbox"
                     :checked="rememberMe" @change="handleRememberMeChange" />
@@ -107,6 +114,7 @@ const handleRememberMeChange = (value) => {
             </div>
         </div>
 
+        <!-- BUTTONS -->
         <div class="form__buttons">
             <LargeButton v-if="(hasLargeButton)" :label="buttonLabel" :endpoint="endpoint" :postData="postData"
                 :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" />
