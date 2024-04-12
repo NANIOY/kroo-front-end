@@ -32,6 +32,7 @@ const props = defineProps({
         type: Array,
         default: () => []
     },
+    hasImageUpload: Boolean,
     imageUploads: {
         type: Array,
         default: () => []
@@ -87,12 +88,13 @@ const handleRememberMeChange = (value) => {
                 :iconRightName="field.iconRightName" :hasIconRight="field.hasIconRight" :placeholder="field.placeholder"
                 :isError="field.isError" :isPassword="field.isPassword" class="form__inputs__field"
                 @input="updatePostData(field.label, $event.target.value)" />
-            <DropDown v-if="dropdown" :hasLabel="dropdown.hasLabel" :label="dropdown.label"
-                :placeholder="dropdown.placeholder" :options="dropdown.options" class="form__inputs__dropdown" />
-            <div class="form__inputs__image">
+            <div v-if="hasImageUpload" class="form__inputs__image">
                 <ImageUploadButton v-for="(imageUpload, index) in imageUploads" :key="index" :shape="imageUpload.shape"
                     :label="imageUpload.label" />
             </div>
+            <DropDown v-if="dropdown" :hasLabel="dropdown.hasLabel" :label="dropdown.label"
+                :placeholder="dropdown.placeholder" :options="dropdown.options" class="form__inputs__dropdown" />
+            
             <div v-if="checkbox" class="form__inputs__bot">
                 <Checkbox v-if="checkbox" :label="checkbox.label" size="small" class="form__checkbox"
                     :checked="rememberMe" @change="handleRememberMeChange" />
