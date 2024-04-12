@@ -56,6 +56,16 @@ const getPostData = () => {
 
   return data;
 };
+
+const setRedirectPath = () => {
+  if (selectedRole.value === 'crew') {
+    return '/register/crew';
+  } else if (selectedRole.value === 'business') {
+    return '/register/business';
+  } else {
+    return '/register/crew';
+  }
+};
 </script>
 
 <template>
@@ -63,9 +73,9 @@ const getPostData = () => {
     <Form class="registerContainer__form" :hasSelectors="true" :hasText="true" header="Create account"
       text="Choose between Crew or Business account to tailor your experience, and remember, you can always switch or create the other later."
       :inputFields="inputFields" :checkbox="agreeCheckbox" buttonLabel="Create account"
-      noteText="Already have an account? Log in" noteLink="/login" :hasAuthButton="true" endpoint="/user"
-      :selectedRole="selectedRole" :postData="getPostData()" :isRegistration="true" />
-
+      noteText="Already have an account? Log in" noteLink="/login" :hasAuthButton="true" :redirect="setRedirectPath()"
+      endpoint="/user" :selectedRole="selectedRole" :postData="getPostData()" :isRegistration="true"
+      @update:selectedRole="value => selectedRole = value" />
     <LoginImage class="registerContainer__image" />
   </div>
 </template>

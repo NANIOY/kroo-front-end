@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, defineProps, defineEmits } from 'vue';
 import FormHeader from '../../molecules/login/FormHeader.vue';
 import InputField from '../../atoms/inputs/InputField.vue';
 import DropDown from '../../atoms/inputs/DropDown.vue';
@@ -34,16 +34,19 @@ const props = defineProps({
     redirect: String,
     isRegistration: Boolean,
     hasLargeButton: Boolean,
-    hasAuthButton: Boolean
+    hasAuthButton: Boolean,
+
+    selectedRole: String,
+    postData: Object
 });
 
-const selectedRole = ref(null);
 const postData = ref({});
-const rememberMe = ref(false);
+
+const emit = defineEmits(['update:selectedRole']);
 
 const handleButtonSelect = (role) => {
-    selectedRole.value = role;
-    updatePostData('role', selectedRole.value);
+    emit('update:selectedRole', role);
+    updatePostData('role', role);
 };
 
 const updatePostData = (field, value) => {
@@ -54,7 +57,6 @@ const handleRememberMeChange = (value) => {
     updatePostData('rememberMe', value);
 };
 </script>
-
 
 <template>
     <div class="form">
