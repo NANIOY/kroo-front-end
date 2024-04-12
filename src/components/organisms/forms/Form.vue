@@ -33,14 +33,20 @@ const props = defineProps({
         type: Array,
         default: () => []
     },
+
     hasImageUpload: Boolean,
     imageUploads: {
         type: Array,
         default: () => []
     },
+    
+    hasMultiDropdown: Boolean,
+    multidropdowns: {
+        type: Array,
+        default: () => []
+    },
 
     dropdown: Object,
-    multidropdown: Object,
     checkbox: Object,
     imageUpload: Object,
     buttonLabel: String,
@@ -99,9 +105,9 @@ const handleRememberMeChange = (value) => {
             </div>
             <DropDown v-if="dropdown" :hasLabel="dropdown.hasLabel" :label="dropdown.label"
                 :placeholder="dropdown.placeholder" :options="dropdown.options" class="form__inputs__dropdown" />
-            <MultiDropdown v-if="multidropdown" :hasLabel="multidropdown.hasLabel" :label="multidropdown.label"
-                :placeholder="multidropdown.placeholder" :options="multidropdown.options"
-                class="form__inputs__dropdown" />
+            <MultiDropdown v-if="hasMultiDropdown" v-for="(multidropdown, index) in multidropdowns" :key="index"
+                :hasLabel="multidropdown.hasLabel" :label="multidropdown.label" :placeholder="multidropdown.placeholder"
+                :options="multidropdown.options" class="form__inputs__dropdown" />
             <div v-if="checkbox" class="form__inputs__bot">
                 <Checkbox v-if="checkbox" :label="checkbox.label" size="small" class="form__checkbox"
                     :checked="rememberMe" @change="handleRememberMeChange" />
