@@ -1,7 +1,7 @@
 <script setup>
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
+import { useRouter } from 'vue-router';
 
-// Props
 const props = defineProps({
     hasBack: Boolean,
     hasText: Boolean,
@@ -12,6 +12,11 @@ const props = defineProps({
     steps: String,
 });
 
+const router = useRouter();
+
+const goBack = () => {
+    router.go(-1);
+};
 </script>
 
 <template>
@@ -22,7 +27,7 @@ const props = defineProps({
                 iconName="NavArrowRight" iconPosition="right" />
         </div>
         <div class="header__backheader">
-            <TransparentButton v-if="hasBack" class="no-label header__backheader__back" iconName="NavArrowLeft" />
+            <TransparentButton v-if="hasBack" class="no-label header__backheader__back" iconName="NavArrowLeft" @click="goBack"/>
             <h1>{{ header }}</h1>
         </div>
         <p v-if="hasText" class="text-secondary">{{ text }}</p>
