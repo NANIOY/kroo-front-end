@@ -6,6 +6,7 @@ import DropDown from '../../atoms/inputs/DropDown.vue';
 import Checkbox from '../../atoms/selectors/Checkbox.vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
+import AuthButton from '../../atoms/buttons/AuthButton.vue';
 
 const props = defineProps({
     hasSelectors: Boolean,
@@ -32,6 +33,8 @@ const props = defineProps({
     rememberMe: Boolean,
     redirect: String,
     isRegistration: Boolean,
+    hasLargeButton: Boolean,
+    hasAuthButton: Boolean
 });
 
 const selectedRole = ref(null);
@@ -82,8 +85,10 @@ const handleRememberMeChange = (value) => {
         </div>
 
         <div class="form__buttons">
-            <LargeButton :label="buttonLabel" :endpoint="endpoint" :postData="postData" :redirect="redirect"
-                :isRegistration="isRegistration" class="form__buttons__button button--primary" />
+            <LargeButton v-if="(hasLargeButton)" :label="buttonLabel" :endpoint="endpoint" :postData="postData"
+                :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" />
+            <AuthButton v-if="(hasAuthButton)" :label="buttonLabel" :endpoint="endpoint" :postData="postData"
+                :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" />
 
             <div class="form__buttons__note">
                 <p class="button-normal" v-if="!noteLink">{{ noteText }}</p>
