@@ -4,7 +4,7 @@
 
 <template>
     <div class="navbarlogo">
-        <a href="http://kroo.site/" class="navbarlogo__container">
+        <a href="http://kroo.site/" target="_blank" class="navbarlogo__container">
             <img src="../../../assets/horizontal-color-dark.webp" alt="Logo" class="navbarlogo__container__logo" />
         </a>
     </div>
