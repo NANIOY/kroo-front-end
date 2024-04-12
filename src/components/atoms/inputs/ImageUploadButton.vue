@@ -41,11 +41,11 @@ const handleFileChange = (event) => {
             ref="fileInput">
         <button v-if="shape === 'circle'" class="imageUpload__circle" @click="openFileExplorer"
             :style="{ backgroundImage: `url(${imageUrl})` }">
-            <component :is="iconComponent" class="imageUpload__plus" />
+            <component v-if="!imageUrl" :is="iconComponent" class="imageUpload__plus" />
         </button>
         <button v-else class="imageUpload__square" @click="openFileExplorer"
             :style="{ backgroundImage: `url(${imageUrl})` }">
-            <component :is="iconComponent" class="imageUpload__plus" />
+            <component v-if="!imageUrl" :is="iconComponent" class="imageUpload__plus" />
         </button>
     </div>
 </template>
