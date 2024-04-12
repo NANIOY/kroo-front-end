@@ -6,6 +6,10 @@ const props = defineProps({
     shape: {
         type: String,
         default: 'circle'
+    },
+    label: {
+        type: String,
+        default: 'Label'
     }
 });
 
@@ -14,6 +18,7 @@ const iconComponent = computed(() => Plus);
 
 <template>
     <div class="imageUpload">
+        <span class="imageUpload___label text-reg-normal">{{ label }}</span>
         <button v-if="shape === 'circle'" class="imageUpload__circle">
             <component :is="iconComponent" class="imageUpload__plus" />
         </button>
@@ -25,7 +30,13 @@ const iconComponent = computed(() => Plus);
 
 <style scoped>
 .imageUpload {
-    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.imageUpload___label {
+    color: var(--black);
 }
 
 .imageUpload__circle,
