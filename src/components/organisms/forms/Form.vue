@@ -161,6 +161,7 @@ const handleRememberMeChange = (value) => {
 
 .form__inputs__image {
     display: flex;
+    justify-content: space-between;
 }
 
 /* INPUTS BOTTOM */
