@@ -32,6 +32,10 @@ const props = defineProps({
         type: Array,
         default: () => []
     },
+    imageUploads: {
+        type: Array,
+        default: () => []
+    },
 
     dropdown: Object,
     checkbox: Object,
@@ -85,7 +89,10 @@ const handleRememberMeChange = (value) => {
                 @input="updatePostData(field.label, $event.target.value)" />
             <DropDown v-if="dropdown" :hasLabel="dropdown.hasLabel" :label="dropdown.label"
                 :placeholder="dropdown.placeholder" :options="dropdown.options" class="form__inputs__dropdown" />
-            <ImageUploadButton v-if="imageUpload" class="form__inputs__field" :shape="imageUpload.shape" :label="imageUpload.label"/>
+            <div class="form__inputs__image">
+                <ImageUploadButton v-for="(imageUpload, index) in imageUploads" :key="index" :shape="imageUpload.shape"
+                    :label="imageUpload.label" />
+            </div>
             <div v-if="checkbox" class="form__inputs__bot">
                 <Checkbox v-if="checkbox" :label="checkbox.label" size="small" class="form__checkbox"
                     :checked="rememberMe" @change="handleRememberMeChange" />
@@ -150,6 +157,10 @@ const handleRememberMeChange = (value) => {
     display: flex;
     flex-direction: column;
     gap: 16px;
+}
+
+.form__inputs__image {
+    display: flex;
 }
 
 /* INPUTS BOTTOM */
