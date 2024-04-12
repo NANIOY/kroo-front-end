@@ -76,8 +76,8 @@ const handleRememberMeChange = (value) => {
                 :iconRightName="field.iconRightName" :hasIconRight="field.hasIconRight" :placeholder="field.placeholder"
                 :isError="field.isError" :isPassword="field.isPassword" class="form__inputs__field"
                 @input="updatePostData(field.label, $event.target.value)" />
-            <DropDown v-if="dropdown" :label="dropdown.label" :placeholder="dropdown.placeholder"
-                :items="dropdown.items" class="form__inputs__dropdown" />
+            <DropDown v-if="dropdown" :hasLabel="dropdown.hasLabel" :label="dropdown.label"
+                :placeholder="dropdown.placeholder" :options="dropdown.options" class="form__inputs__dropdown" />
             <div v-if="checkbox" class="form__inputs__bot">
                 <Checkbox v-if="checkbox" :label="checkbox.label" size="small" class="form__checkbox"
                     :checked="rememberMe" @change="handleRememberMeChange" />
