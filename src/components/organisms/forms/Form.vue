@@ -1,9 +1,14 @@
 <script setup>
 import { ref, defineProps, defineEmits } from 'vue';
 import FormHeader from '../../molecules/login/FormHeader.vue';
+
+// INPUTS
 import InputField from '../../atoms/inputs/InputField.vue';
 import DropDown from '../../atoms/inputs/DropDown.vue';
+import ImageUploadButton from '../../atoms/inputs/ImageUploadButton.vue';
 import Checkbox from '../../atoms/selectors/Checkbox.vue';
+
+// BUTTONS
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import AuthButton from '../../atoms/buttons/AuthButton.vue';
@@ -30,6 +35,7 @@ const props = defineProps({
 
     dropdown: Object,
     checkbox: Object,
+    imageUpload: Object,
     buttonLabel: String,
     rememberMe: Boolean,
     redirect: String,
@@ -79,6 +85,7 @@ const handleRememberMeChange = (value) => {
                 @input="updatePostData(field.label, $event.target.value)" />
             <DropDown v-if="dropdown" :hasLabel="dropdown.hasLabel" :label="dropdown.label"
                 :placeholder="dropdown.placeholder" :options="dropdown.options" class="form__inputs__dropdown" />
+            <ImageUploadButton v-if="imageUpload" class="form__inputs__field" :shape="imageUpload.shape" :label="imageUpload.label"/>
             <div v-if="checkbox" class="form__inputs__bot">
                 <Checkbox v-if="checkbox" :label="checkbox.label" size="small" class="form__checkbox"
                     :checked="rememberMe" @change="handleRememberMeChange" />
