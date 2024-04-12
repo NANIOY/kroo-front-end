@@ -13,24 +13,23 @@ const iconComponent = computed(() => Plus);
 </script>
 
 <template>
-    <div class="container">
-        <button v-if="shape === 'circle'" class="circle-button">
-            <component :is="iconComponent" class="plus-icon" />
+    <div class="imageUpload">
+        <button v-if="shape === 'circle'" class="imageUpload__circle">
+            <component :is="iconComponent" class="imageUpload__plus" />
         </button>
-        <button v-else class="square-button">
-            <component :is="iconComponent" class="plus-icon" />
+        <button v-else class="imageUpload__square">
+            <component :is="iconComponent" class="imageUpload__plus" />
         </button>
     </div>
 </template>
 
 <style scoped>
-.container {
+.imageUpload {
     width: 50%;
-    transition: none;
 }
 
-.circle-button,
-.square-button {
+.imageUpload__circle,
+.imageUpload__square {
     border: 2px solid var(--black);
     background-color: transparent;
     padding: 10px;
@@ -38,28 +37,29 @@ const iconComponent = computed(() => Plus);
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: 0.3s;
 }
 
-.circle-button {
+.imageUpload__circle {
     border-radius: 50%;
     height: 160px;
     width: 160px;
 }
 
-.square-button {
+.imageUpload__square {
     border-radius: 5px;
     height: 160px;
     width: 336px;
 }
 
-.plus-icon {
+.imageUpload__plus {
     stroke-width: 2px;
     width: 48px;
     height: 48px;
 }
 
-.circle-button:hover,
-.square-button:hover {
+.imageUpload__circle:hover,
+.imageUpload__square:hover {
     border-color: var(--blurple);
     color: var(--blurple);
     transition: none;
