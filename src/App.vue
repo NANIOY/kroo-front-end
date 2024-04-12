@@ -16,11 +16,15 @@ watchEffect(() => {
 
 <template>
   <div>
-    <NavBar v-if="!['/login', '/register', '/forgot-password'].includes(route.path)" class="navbar" />
-    <NavbarLogo v-if="['/login', '/register', '/forgot-password'].includes(route.path)" />
+    <NavBar
+      v-if="!['/login', '/register', '/register/crew', '/register/business', '/forgot-password'].includes(route.path)"
+      class="navbar" />
+    <NavbarLogo
+      v-if="['/login', '/register', '/register/crew', '/register/business', '/forgot-password'].includes(route.path)" />
     <div class="router">
-      <TopNav v-if="!['/login', '/register', '/forgot-password', '/dashboard'].includes(route.path)" :userId="userId" :func="func"
-        :profileImage="profileImage" />
+      <TopNav
+        v-if="!['/login', '/register', '/register/crew', '/register/business', '/forgot-password', '/dashboard'].includes(route.path)"
+        :userId="userId" :func="func" :profileImage="profileImage" />
       <TopNavDash v-if="['/dashboard'].includes(route.path)" :userId="userId" :func="func"
         :profileImage="profileImage" />
       <router-view></router-view>
