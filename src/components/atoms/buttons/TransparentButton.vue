@@ -1,5 +1,7 @@
 <script>
 import { NavArrowDown, NavArrowUp, NavArrowLeft, NavArrowRight, User, HandCard, Bell, Accessibility, Behance, Tiktok, Threads, X, Linkedin, Youtube, Instagram, Facebook, Dribbble, MapPin, AtSign, CheckCircle, MoreHoriz, Xmark, Learning, CinemaOld, DragHandGesture, Attachment, Calendar, Search, Plus, Clock, BadgeCheck, Bookmark } from '@iconoir/vue';
+import { useRouter } from 'vue-router';
+import setupAxios from '../../../setupAxios.js'
 
 export default {
   props: {
@@ -23,7 +25,46 @@ export default {
     color: {
       type: String,
       default: 'var(--black)'
+    },
+    method: {
+      type: String,
+      default: 'POST'
+    },
+    endpoint: {
+      type: String,
+      required: true
+    },
+    postData: {
+      type: Object,
+      required: true
+    },
+    redirect: {
+      type: String
     }
+  },
+  setup(props) {
+    const router = useRouter();
+    const axiosInstance = setupAxios(router);
+
+    const handleClick = async () => {
+      if (props.hasRequest) {
+        try {
+          const response = await axiosInstance[props.method.toLowerCase()](props.endpoint, props.postData);
+          console.log('Response:', response);
+
+
+        } catch (error) {
+          console.error('Error making POST request:', error);
+        }
+      }
+      if (props.redirect) {
+        router.push(props.redirect);
+      }
+    };
+
+    return {
+      handleClick
+    };
   },
   components: {
     NavArrowDown,
