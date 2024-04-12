@@ -30,22 +30,26 @@ export default {
             type: Object,
             required: true
         },
-        redirect: String
+        redirect: {
+            type: String
+        }
     },
     setup(props) {
         const router = useRouter();
         const axiosInstance = setupAxios(router);
 
         const handleClick = async () => {
-            try {
-                const response = await axiosInstance[props.method.toLowerCase()](props.endpoint, props.postData);
-                console.log('Response:', response);
+            if (props.hasRequest) {
+                try {
+                    const response = await axiosInstance[props.method.toLowerCase()](props.endpoint, props.postData);
+                    console.log('Response:', response);
 
-                if (props.redirect) {
-                    router.push(props.redirect);
+                    if (props.redirect) {
+                        router.push(props.redirect);
+                    }
+                } catch (error) {
+                    console.error('Error making POST request:', error);
                 }
-            } catch (error) {
-                console.error('Error making POST request:', error);
             }
         };
 

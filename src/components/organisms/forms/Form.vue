@@ -64,9 +64,9 @@ const handleRememberMeChange = (value) => {
             :steps="steps" :text="text" />
 
         <div class="form__selectors" v-if="hasSelectors">
-            <NormalButton label="Crew" class="form__selectors__button button--tertiary"
+            <NormalButton label="Crew" :hasRequest="false" class="form__selectors__button button--tertiary"
                 :class="{ 'button--active': selectedRole === 'crew' }" @click="handleButtonSelect('crew')" />
-            <NormalButton label="Business" class="form__selectors__button button--tertiary"
+            <NormalButton label="Business" :hasRequest="false" class="form__selectors__button button--tertiary"
                 :class="{ 'button--active': selectedRole === 'business' }" @click="handleButtonSelect('business')" />
         </div>
 
