@@ -30,7 +30,13 @@ export default {
             type: Object,
             required: true
         },
-        redirect: String
+        redirect: {
+            type: String,
+        },
+        isRegistration: {
+            type: Boolean,
+            default: false
+        }
     },
     setup(props) {
         const router = useRouter();
@@ -38,14 +44,47 @@ export default {
 
         const handleClick = async () => {
             try {
-                const response = await axiosInstance[props.method.toLowerCase()](props.endpoint, props.postData);
+                // make POST request to endpoint with postData using axios instance
+                const response = await axiosInstance.post(props.endpoint, props.postData);
                 console.log('Response:', response);
 
+                // extract userId from response data based on endpoint
+                let userId;
+                if (props.isRegistration) {
+                    userId = response.data.data.user._id;
+                } else {
+                    userId = response.data.data.userId;
+                }
+
+                // log response data
+                console.log('Response data:', response.data);
+
+                // store userId in sessionStorage
+                sessionStorage.setItem('userId', userId);
+
+                // if redirect prop is provided, redirect to that route
+                if (props.redirect) {
+                    router.push(props.redirect);
+                }
+
+                // check if button is for registration
+                if (props.isRegistration) {
+                    await loginAfterRegistration(props.postData);
+                }
+            } catch (error) {
+                console.error('Error making POST request:', error);
+            }
+        };
+
+        const loginAfterRegistration = async (registrationData) => {
+            try {
+                const loginResponse = await axiosInstance.post('/auth/login', registrationData);
+                console.log('Login response:', loginResponse);
                 if (props.redirect) {
                     router.push(props.redirect);
                 }
             } catch (error) {
-                console.error('Error making POST request:', error);
+                console.error('Error logging in after registration:', error);
             }
         };
 
@@ -91,27 +130,26 @@ export default {
 
 <template>
     <button :class="[
-        'largeButton',
+        'authButton',
         { 'no-label': !hasLabel }
     ]" @click="handleClick">
         <component :is="iconName" v-if="hasIcon" />
-        <span v-if="hasLabel && label" class="largeButton__label">{{ label }}</span>
+        <span v-if="hasLabel && label" class="authButton__label">{{ label }}</span>
     </button>
 </template>
 
 <style scoped>
-.largeButton {
+.authButton {
     font-size: 20px;
-    width: 160px;
     height: 48px;
 }
 
-.largeButton.no-label {
+.authButton.no-label {
     width: 28px;
     height: 28px;
 }
 
-.largeButton__label {
+.authButton__label {
     padding-top: 2px;
 }
 </style>
