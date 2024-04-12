@@ -16,6 +16,7 @@ const props = defineProps({
 const iconComponent = computed(() => Plus);
 
 const fileInput = ref(null);
+const imageUrl = ref(null);
 
 const openFileExplorer = () => {
     fileInput.value.click();
@@ -24,6 +25,11 @@ const openFileExplorer = () => {
 const handleFileChange = (event) => {
     const file = event.target.files[0];
     console.log('Uploaded file:', file);
+    const reader = new FileReader();
+    reader.onload = () => {
+        imageUrl.value = reader.result;
+    };
+    reader.readAsDataURL(file);
 };
 </script>
 
@@ -31,11 +37,14 @@ const handleFileChange = (event) => {
 <template>
     <div class="imageUpload">
         <span class="imageUpload___label text-reg-normal">{{ label }}</span>
-        <input type="file" accept="image/png, image/jpeg" @change="handleFileChange" style="display: none" ref="fileInput">
-        <button v-if="shape === 'circle'" class="imageUpload__circle" @click="openFileExplorer">
+        <input type="file" accept="image/png, image/jpeg" @change="handleFileChange" style="display: none"
+            ref="fileInput">
+        <button v-if="shape === 'circle'" class="imageUpload__circle" @click="openFileExplorer"
+            :style="{ backgroundImage: `url(${imageUrl})` }">
             <component :is="iconComponent" class="imageUpload__plus" />
         </button>
-        <button v-else class="imageUpload__square" @click="openFileExplorer">
+        <button v-else class="imageUpload__square" @click="openFileExplorer"
+            :style="{ backgroundImage: `url(${imageUrl})` }">
             <component :is="iconComponent" class="imageUpload__plus" />
         </button>
     </div>
@@ -62,6 +71,9 @@ const handleFileChange = (event) => {
     justify-content: center;
     align-items: center;
     transition: 0.3s;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .imageUpload__circle {
