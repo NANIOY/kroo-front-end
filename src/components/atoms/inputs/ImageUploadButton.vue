@@ -1,29 +1,15 @@
-<script>
+<script setup>
 import { Plus } from '@iconoir/vue';
+import { computed, defineProps } from 'vue';
 
-export default {
-    name: 'ImageUploadButton',
-    props: {
-        shape: {
-            type: String,
-            default: 'circle' // Default shape is circle
-        },
-        iconType: {
-            type: String,
-            default: 'plus' // Default icon is plus
-        }
-    },
-    computed: {
-        iconComponent() {
-            switch (this.iconType.toLowerCase()) {
-                case 'plus':
-                    return Plus;
-                default:
-                    return Plus; // Default to Plus icon if iconType is unknown
-            }
-        }
+const props = defineProps({
+    shape: {
+        type: String,
+        default: 'circle'
     }
-}
+});
+
+const iconComponent = computed(() => Plus);
 </script>
 
 <template>
@@ -40,7 +26,6 @@ export default {
 <style scoped>
 .container {
     width: 50%;
-    /* Change if needed */
     transition: none;
 }
 
