@@ -3,6 +3,8 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 // LOGIN / REGISTER ROUTES
 import Login from './views/Login.vue';
 import Register from './views/Register.vue';
+import RegisterCrew from './views/RegisterCrew.vue';
+import RegisterBusiness from './views/RegisterBusiness.vue';
 import ForgotPassword from './views/ForgotPassword.vue';
 
 // MAIN APP ROUTES
@@ -22,6 +24,8 @@ import Test from './views/Test.vue';
 const routes = [
     { path: '/login', component: Login },
     { path: '/register', component: Register },
+    { path: '/register/crew', component: RegisterCrew },
+    { path: '/register/business', component: RegisterBusiness },
     { path: '/forgot-password', component: ForgotPassword },
     { path: '/calendar', component: Calendar },
     { path: '/dashboard', component: Dashboard },
@@ -43,7 +47,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const sessionToken = sessionStorage.getItem('sessionToken');
     const secret = '&1te7W]%0N@0(3C=LNh[Z&;{1nhFr4Znk9N=egN}4U@0o$zCCg';
-    if (to.path === '/login' || to.path === '/register' || to.path === '/forgot-password') {
+    if (to.path === '/login' || to.path === '/register' || to.path === '/register/crew' || to.path === '/register/business' || to.path === '/forgot-password') {
         next();
     } else if (!sessionToken) {
         next('/login');
