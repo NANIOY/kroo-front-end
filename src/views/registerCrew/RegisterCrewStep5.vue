@@ -50,7 +50,7 @@ onMounted(fetchUserData);
 <template>
     <div class="registerContainer">
         <Form class="registerContainer__form" header="Connectivity" :hasSteps="true" steps="Setup profile: Step 5/5"
-            :hasBack="true" :hasSkip="true" :hasText="true" text="Connect your digitals and let your work shine online."
+            :hasBack="true" :hasText="true" text="Connect your digitals and let your work shine online."
             :hasSocialInput="true" :inputCombo="inputCombo" :inputUrl="inputUrl" :hasAuthButton="true"
             buttonLabel="Finish" endpoint="/crew" redirect="/dashboard" />
         <LoginImage class="registerContainer__image" />
