@@ -49,22 +49,22 @@ switch (props.iconType.toLowerCase()) {
 </script>
 
 <template>
-    <a :href="link" target="_blank" class="social-button">
-        <div class="icon-wrapper">
-            <icon :icon="icon" class="social-icon" />
+    <a :href="link" target="_blank" class="socialButton">
+        <div class="socialButton__wrapper">
+            <icon :icon="icon" class="socialButton__wrapper__icon" />
         </div>
     </a>
 </template>
 
 <style scoped>
-.social-button {
+.socialButton {
     text-decoration: none;
     width: 40px;
     height: 40px;
     display: block;
 }
 
-.icon-wrapper {
+.socialButton__wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -73,13 +73,23 @@ switch (props.iconType.toLowerCase()) {
     border-radius: 50%;
     border: 2px solid var(--black);
     box-sizing: border-box;
+    transition: 0.3s ease-out
 }
 
-.social-icon {
+.socialButton:hover .socialButton__wrapper {
+    background-color: var(--blurple);
+}
+
+.socialButton__wrapper__icon {
     color: var(--black);
     font-size: 24px;
-    width: 25px;
-    height: 25px;
+    width: 28px;
+    height: 28px;
     stroke-width: 2px;
+    transition: color 0.3s ease-out;
+}
+
+.socialButton__wrapper__icon:hover {
+    color: var(--white);
 }
 </style>
