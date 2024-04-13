@@ -12,37 +12,45 @@ const updateSliderValue = (event) => {
 </script>
 
 <template>
-    <div class="slider-container">
-        <input type="range" min="0" max="100" v-model="sliderValue" class="slider" />
-        <div class="slider-value-container">
-            <input type="number" min="0" max="100" v-model.number="sliderValue" class="slider-value"
-                @input="updateSliderValue($event)" />
+    <div class="sliderContainer">
+        <input type="range" min="0" max="100" v-model="sliderValue" class="sliderContainer__slider" />
+        <div class="sliderContainer__value">
+            <input type="number" min="0" max="100" v-model.number="sliderValue"
+                class="sliderContainer__value__input text-reg-normal" @input="updateSliderValue($event)" />
         </div>
     </div>
 </template>
 
 <style scoped>
-.slider {
-    width: 200px;
-    margin-right: 10px;
+/* GENERAL */
+.sliderContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* SLIDER */
+.sliderContainer__slider {
+    width: 100%;
+    margin-right: 8px;
     background-color: var(--neutral-30);
     outline: none;
     appearance: none;
-    height: 5px;
-    border-radius: 10px;
+    height: 4px;
+    border-radius: 999px;
 }
 
-.slider::-webkit-slider-thumb {
+.sliderContainer__slider::-webkit-slider-thumb {
     appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background: var(--black);
     cursor: pointer;
 }
 
-.slider-value {
-    font-size: 16px;
+/* VALUE */
+.sliderContainer__value__input {
     border: none;
     width: 40px;
     height: 40px;
@@ -50,24 +58,18 @@ const updateSliderValue = (event) => {
     justify-content: center;
     align-items: center;
     text-align: center;
+    background-color: var(--white);
 }
 
-.slider-value:focus {
+.sliderContainer__value__input:focus {
     outline: none;
 }
 
-.slider-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.slider-value-container {
-    display: inline-block;
-    border: 3px solid var(--black);
-    padding: 5px;
+.sliderContainer__value {
+    outline: 2px solid var(--black);
+    outline-offset: -2px;
     border-radius: 4px;
-    width: 40px;
+    width: 56px;
     height: 40px;
     display: flex;
     justify-content: center;
@@ -75,8 +77,8 @@ const updateSliderValue = (event) => {
 }
 
 /* Remove arrow controls for number input */
-.slider-value::-webkit-outer-spin-button,
-.slider-value::-webkit-inner-spin-button {
+.sliderContainer__value__input::-webkit-outer-spin-button,
+.sliderContainer__value__input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
