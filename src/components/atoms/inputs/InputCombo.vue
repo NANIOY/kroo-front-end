@@ -97,12 +97,12 @@ const counterFontSize = '16px';
 .input-combo {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 4px;
 }
 
 .input-button-container {
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -121,10 +121,6 @@ const counterFontSize = '16px';
     justify-content: space-between;
     align-items: center;
     max-width: 522px;
-}
-
-.label {
-    margin-right: 10px;
 }
 
 .click-count {
