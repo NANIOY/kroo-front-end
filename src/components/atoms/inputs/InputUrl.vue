@@ -94,6 +94,7 @@ export default {
 }
 
 .inputContainer__wrapper input {
+    flex: 1;
     box-sizing: border-box;
     padding: 2px 0 0 2px;
     border-left: none;
