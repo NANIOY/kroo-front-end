@@ -4,9 +4,11 @@ import FormHeader from '../../molecules/login/FormHeader.vue';
 
 // INPUTS
 import InputField from '../../atoms/inputs/InputField.vue';
+import InputCombo from '../../atoms/inputs/InputCombo.vue';
 import DropDown from '../../atoms/inputs/DropDown.vue';
 import MultiDropdown from '../../atoms/inputs/MultiDropdown.vue';
 import ImageUploadButton from '../../atoms/inputs/ImageUploadButton.vue';
+import UploadFile from '../../atoms/inputs/UploadFile.vue';
 import Slider from '../../atoms/inputs/Slider.vue';
 import Checkbox from '../../atoms/selectors/Checkbox.vue';
 
@@ -47,6 +49,8 @@ const props = defineProps({
         default: () => []
     },
 
+    inputCombo: Object,
+    uploadFile: Object,
     slider: Object,
     dropdown: Object,
     checkbox: Object,
@@ -96,6 +100,14 @@ const handleRememberMeChange = (value) => {
 
         <!-- INPUTS -->
         <div class="form__inputs">
+            <InputCombo v-if="inputCombo" :label="inputCombo.label" :input1Placeholder="inputCombo.input1Placeholder"
+                :input2Placeholder="inputCombo.input2Placeholder" :dropdownOptions="inputCombo.dropdownOptions"
+                :showCounter="inputCombo.showCounter" :showDropdown="inputCombo.showDropdown"
+                :buttonLabel="inputCombo.buttonLabel" :buttonIcon="inputCombo.buttonIcon" class="form__inputs__field"
+                @click="handleButtonClick" />
+            <UploadFile v-if="uploadFile" :label="uploadFile.label" :hasLabel="uploadFile.hasLabel"
+                :placeholder="uploadFile.placeholder" :isError="uploadFile.isError"
+                :inputWidth="uploadFile.inputWidth" />
             <InputField v-for="(field, index) in inputFields" :key="index" :label="field.label"
                 :hasLabel="field.hasLabel" :iconLeftName="field.iconLeftName" :hasIconLeft="field.hasIconLeft"
                 :iconRightName="field.iconRightName" :hasIconRight="field.hasIconRight" :placeholder="field.placeholder"
