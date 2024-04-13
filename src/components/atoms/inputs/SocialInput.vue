@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue';
 import SocialButton from './SocialButton.vue';
 </script>
 
