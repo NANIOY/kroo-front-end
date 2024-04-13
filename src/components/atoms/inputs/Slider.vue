@@ -1,8 +1,12 @@
 <script setup>
-import { ref } from 'vue';
+import { defineProps, ref } from 'vue';
 
 const props = defineProps({
-    label: String
+    label: String,
+    maxValue: {
+        type: Number,
+        default: 100
+    }
 });
 
 const sliderValue = ref(0);
@@ -10,7 +14,7 @@ const sliderValue = ref(0);
 const updateSliderValue = (event) => {
     const newValue = parseInt(event.target.value);
     if (!isNaN(newValue)) {
-        sliderValue.value = Math.min(100, Math.max(0, newValue));
+        sliderValue.value = Math.min(props.maxValue, Math.max(0, newValue));
     }
 };
 </script>
@@ -19,9 +23,9 @@ const updateSliderValue = (event) => {
     <div class="sliderContainer">
         <span class="sliderContainer__label text-reg-normal">{{ label }}</span>
         <div class="sliderContainer__input">
-            <input type="range" min="0" max="100" v-model="sliderValue" class="sliderContainer__input__slider" />
+            <input type="range" :min="0" :max="maxValue" v-model="sliderValue" class="sliderContainer__input__slider" />
             <div class="sliderContainer__input__value">
-                <input type="number" min="0" max="100" v-model.number="sliderValue"
+                <input type="number" :min="0" :max="maxValue" v-model.number="sliderValue"
                     class="sliderContainer__input__value__input text-reg-normal" @input="updateSliderValue($event)" />
             </div>
         </div>
