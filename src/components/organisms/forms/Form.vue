@@ -11,6 +11,7 @@ import InputPortfolio from '../../atoms/inputs/InputPortfolio.vue';
 import ImageUploadButton from '../../atoms/inputs/ImageUploadButton.vue';
 import UploadFile from '../../atoms/inputs/UploadFile.vue';
 import Slider from '../../atoms/inputs/Slider.vue';
+import SocialInput from '../../atoms/inputs/SocialInput.vue';
 import Checkbox from '../../atoms/selectors/Checkbox.vue';
 
 // BUTTONS
@@ -56,6 +57,7 @@ const props = defineProps({
         default: () => []
     },
 
+    hasSocialInput: Boolean,
     inputCombo: Object,
     uploadFile: Object,
     slider: Object,
@@ -111,6 +113,7 @@ const handleRememberMeChange = (value) => {
                 <InputPortfolio v-for="(inputPortfolio, index) in inputPortfolios" :key="index"
                     :haslabel="inputPortfolio.hasLabel" :label="inputPortfolio.label" />
             </div>
+            <SocialInput v-if="hasSocialInput" />
             <InputCombo v-if="inputCombo" :label="inputCombo.label" :input1Placeholder="inputCombo.input1Placeholder"
                 :input2Placeholder="inputCombo.input2Placeholder" :dropdownOptions="inputCombo.dropdownOptions"
                 :showCounter="inputCombo.showCounter" :showDropdown="inputCombo.showDropdown"
