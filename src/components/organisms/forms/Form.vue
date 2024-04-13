@@ -7,6 +7,7 @@ import InputField from '../../atoms/inputs/InputField.vue';
 import InputCombo from '../../atoms/inputs/InputCombo.vue';
 import DropDown from '../../atoms/inputs/DropDown.vue';
 import MultiDropdown from '../../atoms/inputs/MultiDropdown.vue';
+import InputPortfolio from '../../atoms/inputs/InputPortfolio.vue';
 import ImageUploadButton from '../../atoms/inputs/ImageUploadButton.vue';
 import UploadFile from '../../atoms/inputs/UploadFile.vue';
 import Slider from '../../atoms/inputs/Slider.vue';
@@ -31,6 +32,12 @@ const props = defineProps({
     noteLink: String,
     forgotPassword: Boolean,
     endpoint: String,
+
+    hasInputPortfolio: Boolean,
+    inputPortfolios: {
+        type: Array,
+        default: () => []
+    },
 
     inputFields: {
         type: Array,
@@ -100,6 +107,10 @@ const handleRememberMeChange = (value) => {
 
         <!-- INPUTS -->
         <div class="form__inputs">
+            <div v-if="hasInputPortfolio" class="form__inputs__portfolio">
+                <InputPortfolio v-for="(inputPortfolio, index) in inputPortfolios" :key="index"
+                    :haslabel="inputPortfolio.hasLabel" :label="inputPortfolio.label" />
+            </div>
             <InputCombo v-if="inputCombo" :label="inputCombo.label" :input1Placeholder="inputCombo.input1Placeholder"
                 :input2Placeholder="inputCombo.input2Placeholder" :dropdownOptions="inputCombo.dropdownOptions"
                 :showCounter="inputCombo.showCounter" :showDropdown="inputCombo.showDropdown"
@@ -187,6 +198,11 @@ const handleRememberMeChange = (value) => {
 .form__inputs {
     display: flex;
     flex-direction: column;
+    gap: 16px;
+}
+
+.form__inputs__portfolio {
+    display: flex;
     gap: 16px;
 }
 
