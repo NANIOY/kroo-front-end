@@ -7,6 +7,7 @@ import InputField from '../../atoms/inputs/InputField.vue';
 import DropDown from '../../atoms/inputs/DropDown.vue';
 import MultiDropdown from '../../atoms/inputs/MultiDropdown.vue';
 import ImageUploadButton from '../../atoms/inputs/ImageUploadButton.vue';
+import Slider from '../../atoms/inputs/Slider.vue';
 import Checkbox from '../../atoms/selectors/Checkbox.vue';
 
 // BUTTONS
@@ -39,13 +40,14 @@ const props = defineProps({
         type: Array,
         default: () => []
     },
-    
+
     hasMultiDropdown: Boolean,
     multidropdowns: {
         type: Array,
         default: () => []
     },
 
+    slider: Object,
     dropdown: Object,
     checkbox: Object,
     imageUpload: Object,
@@ -103,6 +105,7 @@ const handleRememberMeChange = (value) => {
                 <ImageUploadButton v-for="(imageUpload, index) in imageUploads" :key="index" :shape="imageUpload.shape"
                     :label="imageUpload.label" />
             </div>
+            <Slider v-if="slider" class="form__inputs__slider" :label="slider.label" :maxValue="slider.maxValue" />
             <DropDown v-if="dropdown" :hasLabel="dropdown.hasLabel" :label="dropdown.label"
                 :placeholder="dropdown.placeholder" :options="dropdown.options" class="form__inputs__dropdown" />
             <MultiDropdown v-if="hasMultiDropdown" v-for="(multidropdown, index) in multidropdowns" :key="index"
