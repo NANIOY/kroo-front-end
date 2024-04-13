@@ -107,7 +107,7 @@ export default {
   <button :class="[
     'transparentButton',
     { 'no-label': !hasLabel }
-  ]" :style="{ color: color }">
+  ]" @click="handleClick" :style="{ color: color }">
     <component :is="iconName" v-if="hasIcon && iconPosition === 'left'" />
     <span v-if="hasLabel && label" class="transparentButton__label">{{ label }}</span>
     <component :is="iconName" v-if="hasIcon && iconPosition === 'right'" />
