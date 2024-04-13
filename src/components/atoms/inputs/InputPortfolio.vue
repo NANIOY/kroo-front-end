@@ -55,7 +55,7 @@ const handleFileChange = (event) => {
 .inputPortfolio {
     display: flex;
     flex-direction: column;
-    width: 200px;
+    flex: 1;
     gap: 8px;
     color: var(--black);
 }
@@ -74,5 +74,9 @@ const handleFileChange = (event) => {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+}
+
+span {
+    height: 22.4px;
 }
 </style>
