@@ -42,7 +42,7 @@ const props = defineProps({
     placeholder: {
         type: String,
         default: 'Select an option'
-    }
+    },
 });
 
 // Data for the input fields and dropdown
@@ -112,6 +112,8 @@ const counterFontSize = '16px';
 
 .custom-button {
     width: 96px;
+    outline: 2px solid var(--black);
+    outline-offset: -2px;
 }
 
 .label-container {
