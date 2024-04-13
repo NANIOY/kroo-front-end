@@ -1,6 +1,7 @@
 <script setup>
+import { defineProps } from 'vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 const props = defineProps({
     hasBack: Boolean,
@@ -13,9 +14,25 @@ const props = defineProps({
 });
 
 const router = useRouter();
+const route = useRoute();
 
 const goBack = () => {
     router.go(-1);
+};
+
+const goToNextStep = () => {
+    const currentRoute = router.currentRoute.value;
+    const currentStep = currentRoute.fullPath.split('/').pop();
+
+    if (currentStep !== undefined) {
+        const stepNumber = parseInt(currentStep.split('-')[1]);
+        const nextStep = `step-${stepNumber + 1}`;
+        const nextStepUrl = `/register/crew/${nextStep}`;
+        router.push(nextStepUrl);
+    } else {
+        const nextStepUrl = '/register/crew/step-1';
+        router.push(nextStepUrl);
+    }
 };
 </script>
 
@@ -24,10 +41,11 @@ const goBack = () => {
         <div v-if="hasSteps || hasSkip" class="header__steps">
             <h5 v-if="hasSteps" class="header__steps__step">{{ steps }}</h5>
             <TransparentButton v-if="hasSkip" class="header__steps__skip" hasLabel="true" label="Skip"
-                iconName="NavArrowRight" iconPosition="right" />
+                iconName="NavArrowRight" iconPosition="right" @click="goToNextStep" />
         </div>
         <div class="header__backheader">
-            <TransparentButton v-if="hasBack" class="no-label header__backheader__back" iconName="NavArrowLeft" @click="goBack"/>
+            <TransparentButton v-if="hasBack" class="no-label header__backheader__back" iconName="NavArrowLeft"
+                @click="goBack" />
             <h1>{{ header }}</h1>
         </div>
         <p v-if="hasText" class="text-secondary">{{ text }}</p>
