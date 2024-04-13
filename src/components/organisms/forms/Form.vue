@@ -11,6 +11,7 @@ import InputPortfolio from '../../atoms/inputs/InputPortfolio.vue';
 import ImageUploadButton from '../../atoms/inputs/ImageUploadButton.vue';
 import UploadFile from '../../atoms/inputs/UploadFile.vue';
 import Slider from '../../atoms/inputs/Slider.vue';
+import InputUrl from '../../atoms/inputs/InputUrl.vue';
 import SocialInput from '../../atoms/inputs/SocialInput.vue';
 import Checkbox from '../../atoms/selectors/Checkbox.vue';
 
@@ -62,6 +63,7 @@ const props = defineProps({
     uploadFile: Object,
     slider: Object,
     dropdown: Object,
+    inputUrl: Object,
     checkbox: Object,
     imageUpload: Object,
     buttonLabel: String,
@@ -137,6 +139,8 @@ const handleRememberMeChange = (value) => {
             <MultiDropdown v-if="hasMultiDropdown" v-for="(multidropdown, index) in multidropdowns" :key="index"
                 :hasLabel="multidropdown.hasLabel" :label="multidropdown.label" :placeholder="multidropdown.placeholder"
                 :options="multidropdown.options" class="form__inputs__dropdown" />
+            <InputUrl v-if="inputUrl" :label="inputUrl.label" :hasLabel="inputUrl.hasLabel" :placeholder="inputUrl.placeholder"
+                :isError="inputUrl.isError" :inputWidth="inputUrl.inputWidth" :type="inputUrl.type" />
             <div v-if="checkbox" class="form__inputs__bot">
                 <Checkbox v-if="checkbox" :label="checkbox.label" size="small" class="form__checkbox"
                     :checked="rememberMe" @change="handleRememberMeChange" />
