@@ -72,7 +72,7 @@ const updateSliderValue = (event) => {
 /* VALUE */
 .sliderContainer__input__value__input {
     border: none;
-    width: 40px;
+    width: 56px;
     height: 40px;
     display: flex;
     justify-content: center;
@@ -89,7 +89,6 @@ const updateSliderValue = (event) => {
     outline: 2px solid var(--black);
     outline-offset: -2px;
     border-radius: 4px;
-    width: 56px;
     height: 40px;
     display: flex;
     justify-content: center;
