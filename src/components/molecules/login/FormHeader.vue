@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps } from 'vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
     hasBack: Boolean,
@@ -14,7 +14,6 @@ const props = defineProps({
 });
 
 const router = useRouter();
-const route = useRoute();
 
 const goBack = () => {
     router.go(-1);
