@@ -73,7 +73,9 @@ const multidropdownProps = ref([
             'Still Photography',
             'Transportation Coordinator',
             'Unit Production Manager'
-        ]
+        ],
+        localStorageKey: 'functions',
+        group: 'basicInfo'
     },
     {
         hasLabel: true,
@@ -126,11 +128,21 @@ const multidropdownProps = ref([
             'Wardrobe Management',
             'Wireless Video Transmission',
             'Workflow Optimization'
-        ]
+        ],
+        localStorageKey: 'skills',
+        group: 'profileDetails'
     }
 ]);
 
 const multidropdowns = ref(multidropdownProps);
+let profileDetailsGroup = 'functionsGroup';
+
+for (const dropdown of multidropdownProps.value) {
+    if (dropdown.group === 'profileDetails') {
+        profileDetailsGroup = 'profileDetails';
+        break;
+    }
+}
 
 </script>
 
@@ -139,13 +151,9 @@ const multidropdowns = ref(multidropdownProps);
         <Form class="registerContainer__form" header="Basic info" :hasSteps="true" steps="Setup profile: Step 2/5"
             :hasBack="true" :hasSkip="true" :hasText="true" text="Great! Let's tailor your profile and make you shine."
             :hasImageUpload="true" :imageUploads="imageUploads" :hasMultiDropdown="true"
-            :multidropdowns="multidropdowns" :hasLargeButton="true" buttonLabel="Next"
+            :multidropdowns="multidropdowns" :group="profileDetailsGroup" :hasLargeButton="true" buttonLabel="Next"
             redirect="/register/crew/step-3" />
         <LoginImage class="registerContainer__image" />
-
-        <!-- Define localStorageKey for each ImageUploadButton -->
-        <ImageUploadButton v-for="(imageUpload, index) in imageUploads" :key="index" :shape="imageUpload.shape"
-            :label="imageUpload.label" :localStorageKey="imageUpload.localStorageKey" />
     </div>
 </template>
 

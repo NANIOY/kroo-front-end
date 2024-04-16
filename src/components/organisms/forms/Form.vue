@@ -74,14 +74,37 @@ const props = defineProps({
     hasAuthButton: Boolean,
 
     selectedRole: String,
-    postData: Object
+    postData: Object,
+
+    group: String,
 });
 
 const postData = ref({
-    dropdown: {
-        selectedOption: ''
+    basicInfo: {
+        agendaService: '',
+        profileImage: '',
+        bannerImage: '',
+        function: ''
     },
-    imageUploads: []
+    profileDetails: {
+        skills: [],
+        age: 0,
+        language: '',
+        location: '',
+        workRadius: 0,
+        bio: ''
+    },
+    careerDetails: {
+        portfolioWork: [],
+        educationTraining: [],
+        certificationsLicenses: [],
+        unionStatus: ''
+    },
+    connectivity: {
+        connectSocials: [],
+        extraWebsites: []
+    },
+    userUrl: ''
 });
 
 const emit = defineEmits(['update:selectedRole']);
@@ -99,10 +122,9 @@ const handleRememberMeChange = (value) => {
     updatePostData('rememberMe', value);
 };
 
-const handleOptionSelected = (option) => {
-    console.log('Option selected:', option);
-    postData.value.dropdown.selectedOption = option;
-    emit('updateAgendaService', option);
+const handleOptionSelected = (option, localStorageKey, group, field) => {
+    const data = JSON.parse(localStorage.getItem(localStorageKey));
+    updatePostData(group, field, data);
 };
 
 const handleImageChanged = (index, imageUrl) => {
@@ -155,7 +177,10 @@ const handleImageChanged = (index, imageUrl) => {
                 @optionSelected="handleOptionSelected" />
             <MultiDropdown v-if="hasMultiDropdown" v-for="(multidropdown, index) in multidropdowns" :key="index"
                 :hasLabel="multidropdown.hasLabel" :label="multidropdown.label" :placeholder="multidropdown.placeholder"
-                :options="multidropdown.options" class="form__inputs__dropdown" />
+                :options="multidropdown.options" :localStorageKey="multidropdown.localStorageKey"
+                :group="multidropdown.group" :field="multidropdown.field"
+                @optionSelected="handleOptionSelected($event, multidropdown.localStorageKey, multidropdown.group, multidropdown.field)" />
+
             <InputUrl v-if="inputUrl" :label="inputUrl.label" :hasLabel="inputUrl.hasLabel"
                 :placeholder="inputUrl.placeholder" :isError="inputUrl.isError" :inputWidth="inputUrl.inputWidth"
                 :type="inputUrl.type" />

@@ -18,6 +18,11 @@ const props = defineProps({
     options: {
         type: Array,
         default: () => []
+    },
+    group: String,
+    localStorageKey: {
+        type: String,
+        default: ''
     }
 });
 
@@ -36,6 +41,11 @@ const selectOption = (option) => {
     } else {
         selectedOptions.value = selectedOptions.value.filter(item => item !== option);
     }
+
+    const sectionData = JSON.parse(localStorage.getItem('postData')) || {};
+    sectionData[props.group] = sectionData[props.group] || {};
+    sectionData[props.group][props.localStorageKey] = selectedOptions.value;
+    localStorage.setItem('postData', JSON.stringify(sectionData));
 };
 
 const closeDropdownOnClickOutside = (event) => {
@@ -51,8 +61,12 @@ onMounted(() => {
 onBeforeUnmount(() => {
     document.removeEventListener('click', closeDropdownOnClickOutside);
 });
-</script>
 
+if (localStorage.getItem(props.localStorageKey)) {
+    const data = JSON.parse(localStorage.getItem(props.localStorageKey));
+    selectedOptions.value = Array.isArray(data) ? data : [];
+}
+</script>
 
 <template>
     <div class="multidrop" ref="dropdownContainer">
@@ -60,8 +74,7 @@ onBeforeUnmount(() => {
         <div class="multidrop__container text-reg-normal">
             <div class="multidrop__container__box" @click="toggleDropdown" :class="{ 'open': isOpen }">
                 <span v-if="selectedOptions.length === 0" class="multidrop__container__box__placeholder text-reg-l">{{
-                    placeholder
-                    }}</span>
+                    placeholder }}</span>
                 <span v-else class="multidrop__container__box__selected">
                     {{ selectedOptions.join(', ') }}
                 </span>
