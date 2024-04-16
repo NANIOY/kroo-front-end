@@ -1,6 +1,6 @@
 <script setup>
 import { Plus } from '@iconoir/vue';
-import { computed, defineProps, ref } from 'vue';
+import { computed, defineProps, ref, defineEmits } from 'vue';
 
 const props = defineProps({
     shape: {
@@ -10,13 +10,14 @@ const props = defineProps({
     label: {
         type: String,
         default: 'Label'
-    }
+    },
+    localStorageKey: String
 });
 
 const iconComponent = computed(() => Plus);
 
 const fileInput = ref(null);
-const imageUrl = ref(null);
+const imageUrl = ref(localStorage.getItem(props.localStorageKey) || null);
 
 const openFileExplorer = () => {
     fileInput.value.click();
@@ -24,13 +25,15 @@ const openFileExplorer = () => {
 
 const handleFileChange = (event) => {
     const file = event.target.files[0];
-    console.log('Uploaded file:', file);
     const reader = new FileReader();
     reader.onload = () => {
         imageUrl.value = reader.result;
+        localStorage.setItem(props.localStorageKey, reader.result);
     };
     reader.readAsDataURL(file);
 };
+
+const emit = defineEmits(['imageChanged']);
 </script>
 
 

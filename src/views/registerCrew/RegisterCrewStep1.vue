@@ -34,7 +34,7 @@ onMounted(async () => {
 
 const handleUpdateAgendaService = (agendaService) => {
     console.log('Agenda service selected:', agendaService);
-    localStorage.setItem('agendaService', agendaService); // Update local storage here
+    localStorage.setItem('agendaService', agendaService);
 };
 </script>
 

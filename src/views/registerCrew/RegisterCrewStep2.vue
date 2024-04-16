@@ -6,11 +6,13 @@ import LoginImage from '../../components/molecules/login/LoginImage.vue';
 const imageUploads = ref([
     {
         shape: 'circle',
-        label: 'Profile image'
+        label: 'Profile image',
+        localStorageKey: 'profileImage'
     },
     {
         shape: 'square',
-        label: 'Banner image'
+        label: 'Banner image',
+        localStorageKey: 'bannerImage'
     }
 ]);
 
@@ -133,7 +135,6 @@ const multidropdowns = ref(multidropdownProps);
 </script>
 
 <template>
-
     <div class="registerContainer">
         <Form class="registerContainer__form" header="Basic info" :hasSteps="true" steps="Setup profile: Step 2/5"
             :hasBack="true" :hasSkip="true" :hasText="true" text="Great! Let's tailor your profile and make you shine."
@@ -141,6 +142,10 @@ const multidropdowns = ref(multidropdownProps);
             :multidropdowns="multidropdowns" :hasLargeButton="true" buttonLabel="Next"
             redirect="/register/crew/step-3" />
         <LoginImage class="registerContainer__image" />
+
+        <!-- Define localStorageKey for each ImageUploadButton -->
+        <ImageUploadButton v-for="(imageUpload, index) in imageUploads" :key="index" :shape="imageUpload.shape"
+            :label="imageUpload.label" :localStorageKey="imageUpload.localStorageKey" />
     </div>
 </template>
 

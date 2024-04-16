@@ -80,7 +80,8 @@ const props = defineProps({
 const postData = ref({
     dropdown: {
         selectedOption: ''
-    }
+    },
+    imageUploads: []
 });
 
 const emit = defineEmits(['update:selectedRole']);
@@ -102,6 +103,10 @@ const handleOptionSelected = (option) => {
     console.log('Option selected:', option);
     postData.value.dropdown.selectedOption = option;
     emit('updateAgendaService', option);
+};
+
+const handleImageChanged = (index, imageUrl) => {
+    postData.value.imageUploads[index] = { imageUrl };
 };
 </script>
 
@@ -141,7 +146,8 @@ const handleOptionSelected = (option) => {
                 @input="updatePostData(field.label, $event.target.value)" />
             <div v-if="hasImageUpload" class="form__inputs__image">
                 <ImageUploadButton v-for="(imageUpload, index) in imageUploads" :key="index" :shape="imageUpload.shape"
-                    :label="imageUpload.label" />
+                    :label="imageUpload.label" :localStorageKey="imageUpload.localStorageKey"
+                    @imageChanged="handleImageChanged(index, $event)" />
             </div>
             <Slider v-if="slider" class="form__inputs__slider" :label="slider.label" :maxValue="slider.maxValue" />
             <DropDown v-if="dropdown" :hasLabel="dropdown.hasLabel" :label="dropdown.label"
