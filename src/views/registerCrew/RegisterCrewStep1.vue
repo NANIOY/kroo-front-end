@@ -1,22 +1,21 @@
 <script setup>
 import setupAxios from '../../setupAxios';
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import Form from '../../components/organisms/forms/Form.vue';
 import LoginImage from '../../components/molecules/login/LoginImage.vue';
 
-
-const dropdownProps = {
+const dropdown = ref({
     hasLabel: true,
     label: 'Agenda service',
     placeholder: 'Choose service',
-    options: ['Google Calendar', 'Outlook Calendar', 'Apple Calendar']
-};
-
-const dropdown = ref(dropdownProps);
+    options: ['Google Calendar', 'Outlook Calendar', 'Apple Calendar'],
+    localStorageKey: 'agendaService'
+});
 
 const axiosInstance = setupAxios();
 const username = ref('');
-const fetchUserData = async () => {
+
+onMounted(async () => {
     try {
         const userId = sessionStorage.getItem('userId');
 
@@ -31,13 +30,11 @@ const fetchUserData = async () => {
     } catch (error) {
         console.error('Error fetching user data:', error);
     }
-};
-
-onMounted(fetchUserData);
+});
 
 const handleUpdateAgendaService = (agendaService) => {
     console.log('Agenda service selected:', agendaService);
-    localStorage.setItem('agendaService', agendaService);
+    localStorage.setItem('agendaService', agendaService); // Update local storage here
 };
 </script>
 
@@ -48,7 +45,7 @@ const handleUpdateAgendaService = (agendaService) => {
             text="Let's get you started! For a swift and seamless job experience, we kindly request you to connect your calendar service."
             :dropdown="dropdown"
             inputNoteText="Your agenda service is secure. We respect your data and keep it confidential."
-            :hasLargeButton="true" buttonLabel="Next" redirect="/register/crew/step-2" @nextStep="handleNextStep"
+            :hasLargeButton="true" buttonLabel="Next" redirect="/register/crew/step-2"
             @updateAgendaService="handleUpdateAgendaService" />
         <LoginImage class="registerContainer__image" />
     </div>

@@ -18,7 +18,11 @@ const props = defineProps({
   options: {
     type: Array,
     default: () => []
-  }
+  },
+  localStorageKey: {
+    type: String,
+    default: ''
+  },
 });
 
 const isOpen = ref(false);

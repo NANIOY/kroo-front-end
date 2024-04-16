@@ -83,7 +83,7 @@ const postData = ref({
     }
 });
 
-const emit = defineEmits(['update:selectedRole', 'nextStep', 'updateAgendaService', 'clickLargeButton', 'optionSelected']);
+const emit = defineEmits(['update:selectedRole']);
 
 const handleButtonSelect = (role) => {
     emit('update:selectedRole', role);
@@ -98,20 +98,9 @@ const handleRememberMeChange = (value) => {
     updatePostData('rememberMe', value);
 };
 
-const updateAgendaServiceData = (value) => {
-    localStorage.setItem('agendaService', value);
-    emit('updateAgendaService', value);
-};
-
-const handleNextButtonClick = () => {
-    console.log('Next button clicked. Selected option:', postData.value.dropdown.selectedOption);
-    emit('clickLargeButton');
-};
-
 const handleOptionSelected = (option) => {
     console.log('Option selected:', option);
     postData.value.dropdown.selectedOption = option;
-    emit('optionSelected', option);
     emit('updateAgendaService', option);
 };
 </script>
@@ -179,8 +168,7 @@ const handleOptionSelected = (option) => {
         <!-- BUTTONS -->
         <div class="form__buttons">
             <LargeButton v-if="(hasLargeButton)" :label="buttonLabel" :endpoint="endpoint" :postData="postData"
-                :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary"
-                @click="handleNextButtonClick" />
+                :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" />
             <AuthButton v-if="(hasAuthButton)" :label="buttonLabel" :endpoint="endpoint" :postData="postData"
                 :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" />
 
