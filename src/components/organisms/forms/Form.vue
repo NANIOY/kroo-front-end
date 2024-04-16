@@ -122,9 +122,9 @@ const handleRememberMeChange = (value) => {
     updatePostData('rememberMe', value);
 };
 
-const handleOptionSelected = (option, localStorageKey, group, field) => {
+const handleOptionSelected = (option, localStorageKey, group) => {
     const data = JSON.parse(localStorage.getItem(localStorageKey));
-    updatePostData(group, field, data);
+    updatePostData(group, localStorageKey, data);
 };
 
 const handleImageChanged = (index, imageUrl) => {
@@ -174,6 +174,7 @@ const handleImageChanged = (index, imageUrl) => {
             <Slider v-if="slider" class="form__inputs__slider" :label="slider.label" :maxValue="slider.maxValue" />
             <DropDown v-if="dropdown" :hasLabel="dropdown.hasLabel" :label="dropdown.label"
                 :placeholder="dropdown.placeholder" :options="dropdown.options" class="form__inputs__dropdown"
+                :group="dropdown.group" :localStorageKey="dropdown.localStorageKey"
                 @optionSelected="handleOptionSelected" />
             <MultiDropdown v-if="hasMultiDropdown" v-for="(multidropdown, index) in multidropdowns" :key="index"
                 :hasLabel="multidropdown.hasLabel" :label="multidropdown.label" :placeholder="multidropdown.placeholder"

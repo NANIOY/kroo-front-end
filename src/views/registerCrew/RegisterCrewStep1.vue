@@ -9,7 +9,8 @@ const dropdown = ref({
     label: 'Agenda service',
     placeholder: 'Choose service',
     options: ['Google Calendar', 'Outlook Calendar', 'Apple Calendar'],
-    localStorageKey: 'agendaService'
+    localStorageKey: 'agendaService',
+    group: 'basicInfo'
 });
 
 const axiosInstance = setupAxios();

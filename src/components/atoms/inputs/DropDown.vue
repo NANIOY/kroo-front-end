@@ -23,12 +23,13 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  group: String
 });
 
 const isOpen = ref(false);
 const selectedOption = ref(props.placeholder);
 const inputId = 'container__dropdown__box-' + Math.random().toString(36).substring(2, 15);
-let dropdownContainer = null;
+let dropdownContainer = ref(null);
 const optionSelected = ref(false);
 
 const emit = defineEmits(['optionSelected']);
@@ -43,17 +44,22 @@ const selectOption = (option) => {
   isOpen.value = false;
   optionSelected.value = true;
 
+  const sectionData = JSON.parse(localStorage.getItem('postData')) || {};
+  sectionData[props.group] = sectionData[props.group] || {};
+  sectionData[props.group][props.localStorageKey] = option;
+  localStorage.setItem('postData', JSON.stringify(sectionData));
+
   emit('optionSelected', option);
 };
 
 const closeDropdownOnClickOutside = (event) => {
-  if (dropdownContainer && !dropdownContainer.contains(event.target)) {
+  if (dropdownContainer.value && !dropdownContainer.value.contains(event.target)) {
     isOpen.value = false;
   }
 };
 
 onMounted(() => {
-  dropdownContainer = document.querySelector('.container');
+  dropdownContainer.value = document.querySelector('.container');
   document.addEventListener('click', closeDropdownOnClickOutside);
 });
 
