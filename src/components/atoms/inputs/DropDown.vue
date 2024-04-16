@@ -34,6 +34,7 @@ const toggleDropdown = () => {
 };
 
 const selectOption = (option) => {
+  console.log('Selected option:', option);
   selectedOption.value = option;
   isOpen.value = false;
   optionSelected.value = true;
