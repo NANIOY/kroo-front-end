@@ -1,6 +1,6 @@
 <script setup>
 import setupAxios from '../../setupAxios';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import Form from '../../components/organisms/forms/Form.vue';
 import LoginImage from '../../components/molecules/login/LoginImage.vue';
 
@@ -34,6 +34,11 @@ const fetchUserData = async () => {
 };
 
 onMounted(fetchUserData);
+
+const handleUpdateAgendaService = (agendaService) => {
+    console.log('Agenda service selected:', agendaService);
+    localStorage.setItem('agendaService', agendaService);
+};
 </script>
 
 <template>
@@ -43,7 +48,8 @@ onMounted(fetchUserData);
             text="Let's get you started! For a swift and seamless job experience, we kindly request you to connect your calendar service."
             :dropdown="dropdown"
             inputNoteText="Your agenda service is secure. We respect your data and keep it confidential."
-            :hasLargeButton="true" buttonLabel="Next" redirect="/register/crew/step-2" />
+            :hasLargeButton="true" buttonLabel="Next" redirect="/register/crew/step-2" @nextStep="handleNextStep"
+            @updateAgendaService="handleUpdateAgendaService" />
         <LoginImage class="registerContainer__image" />
     </div>
 </template>

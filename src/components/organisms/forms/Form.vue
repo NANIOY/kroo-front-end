@@ -77,9 +77,13 @@ const props = defineProps({
     postData: Object
 });
 
-const postData = ref({});
+const postData = ref({
+    dropdown: {
+        selectedOption: ''
+    }
+});
 
-const emit = defineEmits(['update:selectedRole']);
+const emit = defineEmits(['update:selectedRole', 'nextStep', 'updateAgendaService', 'clickLargeButton', 'optionSelected']);
 
 const handleButtonSelect = (role) => {
     emit('update:selectedRole', role);
@@ -92,6 +96,23 @@ const updatePostData = (field, value) => {
 
 const handleRememberMeChange = (value) => {
     updatePostData('rememberMe', value);
+};
+
+const updateAgendaServiceData = (value) => {
+    localStorage.setItem('agendaService', value);
+    emit('updateAgendaService', value);
+};
+
+const handleNextButtonClick = () => {
+    console.log('Next button clicked. Selected option:', postData.value.dropdown.selectedOption);
+    emit('clickLargeButton');
+};
+
+const handleOptionSelected = (option) => {
+    console.log('Option selected:', option);
+    postData.value.dropdown.selectedOption = option;
+    emit('optionSelected', option);
+    emit('updateAgendaService', option);
 };
 </script>
 
@@ -135,12 +156,14 @@ const handleRememberMeChange = (value) => {
             </div>
             <Slider v-if="slider" class="form__inputs__slider" :label="slider.label" :maxValue="slider.maxValue" />
             <DropDown v-if="dropdown" :hasLabel="dropdown.hasLabel" :label="dropdown.label"
-                :placeholder="dropdown.placeholder" :options="dropdown.options" class="form__inputs__dropdown" />
+                :placeholder="dropdown.placeholder" :options="dropdown.options" class="form__inputs__dropdown"
+                @optionSelected="handleOptionSelected" />
             <MultiDropdown v-if="hasMultiDropdown" v-for="(multidropdown, index) in multidropdowns" :key="index"
                 :hasLabel="multidropdown.hasLabel" :label="multidropdown.label" :placeholder="multidropdown.placeholder"
                 :options="multidropdown.options" class="form__inputs__dropdown" />
-            <InputUrl v-if="inputUrl" :label="inputUrl.label" :hasLabel="inputUrl.hasLabel" :placeholder="inputUrl.placeholder"
-                :isError="inputUrl.isError" :inputWidth="inputUrl.inputWidth" :type="inputUrl.type" />
+            <InputUrl v-if="inputUrl" :label="inputUrl.label" :hasLabel="inputUrl.hasLabel"
+                :placeholder="inputUrl.placeholder" :isError="inputUrl.isError" :inputWidth="inputUrl.inputWidth"
+                :type="inputUrl.type" />
             <div v-if="checkbox" class="form__inputs__bot">
                 <Checkbox v-if="checkbox" :label="checkbox.label" size="small" class="form__checkbox"
                     :checked="rememberMe" @change="handleRememberMeChange" />
@@ -156,7 +179,8 @@ const handleRememberMeChange = (value) => {
         <!-- BUTTONS -->
         <div class="form__buttons">
             <LargeButton v-if="(hasLargeButton)" :label="buttonLabel" :endpoint="endpoint" :postData="postData"
-                :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" />
+                :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary"
+                @click="handleNextButtonClick" />
             <AuthButton v-if="(hasAuthButton)" :label="buttonLabel" :endpoint="endpoint" :postData="postData"
                 :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" />
 
