@@ -114,9 +114,13 @@ const handleButtonSelect = (role) => {
     updatePostData('role', role);
 };
 
-const updatePostData = (field, value) => {
-    postData.value[field] = value;
+const updatePostData = (group, field, value) => {
+    if (!postData.value[group]) {
+        postData.value[group] = {};
+    }
+    postData.value[group][field] = value;
 };
+
 
 const handleRememberMeChange = (value) => {
     updatePostData('rememberMe', value);
@@ -127,8 +131,9 @@ const handleOptionSelected = (option, localStorageKey, group) => {
     updatePostData(group, localStorageKey, data);
 };
 
-const handleImageChanged = (index, imageUrl) => {
-    postData.value.imageUploads[index] = { imageUrl };
+
+const handleImageChanged = (group, localStorageKey, imageUrl) => {
+    updatePostData(group, localStorageKey, imageUrl);
 };
 </script>
 
@@ -168,8 +173,9 @@ const handleImageChanged = (index, imageUrl) => {
                 @input="updatePostData(field.label, $event.target.value)" />
             <div v-if="hasImageUpload" class="form__inputs__image">
                 <ImageUploadButton v-for="(imageUpload, index) in imageUploads" :key="index" :shape="imageUpload.shape"
-                    :label="imageUpload.label" :localStorageKey="imageUpload.localStorageKey"
-                    @imageChanged="handleImageChanged(index, $event)" />
+                    :label="imageUpload.label" :localStorageKey="imageUpload.localStorageKey" :group="imageUpload.group"
+                    @imageChanged="handleImageChanged(imageUpload.localStorageKey, $event)" />
+
             </div>
             <Slider v-if="slider" class="form__inputs__slider" :label="slider.label" :maxValue="slider.maxValue" />
             <DropDown v-if="dropdown" :hasLabel="dropdown.hasLabel" :label="dropdown.label"

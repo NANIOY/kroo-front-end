@@ -11,13 +11,21 @@ const props = defineProps({
         type: String,
         default: 'Label'
     },
-    localStorageKey: String
+    localStorageKey: String,
+    group: String
 });
 
 const iconComponent = computed(() => Plus);
 
 const fileInput = ref(null);
-const imageUrl = ref(localStorage.getItem(props.localStorageKey) || null);
+
+const fetchStoredImage = () => {
+    const postData = localStorage.getItem('postData') ? JSON.parse(localStorage.getItem('postData')) : {};
+    const groupData = postData[props.group] || {};
+    return groupData[props.localStorageKey] || null;
+};
+
+const imageUrl = ref(fetchStoredImage());
 
 const openFileExplorer = () => {
     fileInput.value.click();
@@ -28,7 +36,12 @@ const handleFileChange = (event) => {
     const reader = new FileReader();
     reader.onload = () => {
         imageUrl.value = reader.result;
-        localStorage.setItem(props.localStorageKey, reader.result);
+        const postData = localStorage.getItem('postData') ? JSON.parse(localStorage.getItem('postData')) : {};
+        const groupData = postData[props.group] || {};
+        groupData[props.localStorageKey] = reader.result;
+        postData[props.group] = groupData;
+        localStorage.setItem('postData', JSON.stringify(postData));
+        emit('imageChanged', props.group, props.localStorageKey, reader.result);
     };
     reader.readAsDataURL(file);
 };

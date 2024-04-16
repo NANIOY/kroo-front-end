@@ -7,12 +7,14 @@ const imageUploads = ref([
     {
         shape: 'circle',
         label: 'Profile image',
-        localStorageKey: 'profileImage'
+        localStorageKey: 'profileImage',
+        group: 'basicInfo'
     },
     {
         shape: 'square',
         label: 'Banner image',
-        localStorageKey: 'bannerImage'
+        localStorageKey: 'bannerImage',
+        group: 'basicInfo'
     }
 ]);
 
@@ -136,14 +138,6 @@ const multidropdownProps = ref([
 
 const multidropdowns = ref(multidropdownProps);
 let profileDetailsGroup = 'functionsGroup';
-
-for (const dropdown of multidropdownProps.value) {
-    if (dropdown.group === 'profileDetails') {
-        profileDetailsGroup = 'profileDetails';
-        break;
-    }
-}
-
 </script>
 
 <template>
