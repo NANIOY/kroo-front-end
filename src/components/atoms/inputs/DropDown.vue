@@ -1,75 +1,73 @@
-<script>
+<script setup>
+import { ref, onMounted, onUnmounted, defineEmits } from 'vue';
 import { NavArrowDown } from '@iconoir/vue';
 
-export default {
-  props: {
-    hasLabel: {
-      type: Boolean,
-      default: false
-    },
-    label: {
-      type: String,
-      default: 'Select an option'
-    },
-    placeholder: {
-      type: String,
-      default: 'Select an option'
-    },
-    options: {
-      type: Array,
-      default: () => []
-    }
+const props = defineProps({
+  hasLabel: {
+    type: Boolean,
+    default: false
   },
-  data() {
-    return {
-      isOpen: false,
-      selectedOption: this.placeholder, // Initialize selectedOption to the placeholder
-      inputId: 'container__dropdown__box-' + Math.random().toString(36).substring(2, 15),
-      dropdownContainer: null,
-      optionSelected: false // Flag to track if an option is selected
-    };
+  label: {
+    type: String,
+    default: 'Select an option'
   },
-  components: {
-    NavArrowDown
+  placeholder: {
+    type: String,
+    default: 'Select an option'
   },
-  methods: {
-    toggleDropdown() {
-      this.isOpen = !this.isOpen;
-    },
-    selectOption(option) {
-      this.selectedOption = option;
-      this.isOpen = false;
-      this.optionSelected = true; // Set the flag to true when an option is selected
-    },
-    closeDropdownOnClickOutside(event) {
-      if (this.dropdownContainer && !this.dropdownContainer.contains(event.target)) {
-        this.isOpen = false;
-      }
-    }
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.dropdownContainer = this.$refs.dropdownContainer;
-      document.addEventListener('click', this.closeDropdownOnClickOutside);
-    });
-  },
-  beforeDestroy() {
-    document.removeEventListener('click', this.closeDropdownOnClickOutside);
+  options: {
+    type: Array,
+    default: () => []
+  }
+});
+
+const isOpen = ref(false);
+const selectedOption = ref(props.placeholder);
+const inputId = 'container__dropdown__box-' + Math.random().toString(36).substring(2, 15);
+let dropdownContainer = null;
+const optionSelected = ref(false);
+
+const emit = defineEmits(['optionSelected']);
+
+const toggleDropdown = () => {
+  isOpen.value = !isOpen.value;
+};
+
+const selectOption = (option) => {
+  selectedOption.value = option;
+  isOpen.value = false;
+  optionSelected.value = true;
+
+  emit('optionSelected', option);
+};
+
+const closeDropdownOnClickOutside = (event) => {
+  if (dropdownContainer && !dropdownContainer.contains(event.target)) {
+    isOpen.value = false;
   }
 };
+
+onMounted(() => {
+  dropdownContainer = document.querySelector('.container');
+  document.addEventListener('click', closeDropdownOnClickOutside);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', closeDropdownOnClickOutside);
+});
 </script>
 
 <template>
   <div class="container" ref="dropdownContainer">
-    <label v-if="hasLabel" class="text-reg-normal" :for="inputId">{{ label }}</label>
+    <label v-if="props.hasLabel" class="text-reg-normal" :for="inputId">{{ props.label }}</label>
     <div class="container__dropdown text-reg-normal">
       <div class="container__dropdown__box" @click="toggleDropdown" :class="{ 'open': isOpen }">
         <span :class="['placeholder', { 'placeholder-black': optionSelected }]">{{ selectedOption }}</span>
         <NavArrowDown :class="{ 'container__dropdown__box__icon': isOpen }" />
       </div>
       <ul v-if="isOpen" class="container__dropdown__items" @click.stop>
-        <li v-if="options.length === 0" class="placeholder">{{ placeholder }}</li>
-        <li v-else v-for="option in options" :key="option" @click="selectOption(option)">
+        <li v-if="props.options.length === 0" class="placeholder">{{ props.placeholder }}</li>
+        <li v-else v-for="option in props.options" :key="option" @click="selectOption(option)">
           {{ option }}
         </li>
       </ul>
@@ -131,7 +129,7 @@ label {
   transition: 0.3s;
 }
 
-.container__dropdown__box.open + .container__dropdown__items {
+.container__dropdown__box.open+.container__dropdown__items {
   display: block;
   overflow-y: auto;
   animation: dropdownAnimation 0.2s forwards;
@@ -161,7 +159,8 @@ label {
   font-family: var(--font-body);
 }
 
-.placeholder, .placeholder-black {
+.placeholder,
+.placeholder-black {
   font-family: var(--font-body);
   font-size: 20px;
 }
