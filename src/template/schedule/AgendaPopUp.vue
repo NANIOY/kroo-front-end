@@ -5,6 +5,7 @@ import { Xmark } from '@iconoir/vue';
 import InputField from '../../components/atoms/inputs/InputField.vue';
 import Dropdown from '../../components/atoms/inputs/DropDown.vue';
 
+// Define props to receive dynamic values from App.vue
 const button1Label = ref('Button 1');
 const button2Label = ref('Button 2');
 const input1Label = ref('Input 1');
@@ -23,7 +24,7 @@ const dropdown2Options = ref(['Option 1', 'Option 2', 'Option 3']);
                 <NormalButton :label="button1Label" />
                 <NormalButton :label="button2Label" />
             </div>
-            <div class="icon-coontainer">
+            <div class="icon-container">
                 <Xmark class="icon" />
             </div>
         </div>
@@ -73,7 +74,7 @@ const dropdown2Options = ref(['Option 1', 'Option 2', 'Option 3']);
     gap: 12px;
 }
 
-.icon-coontainer {
+.icon-container {
     margin-left: auto;
 }
 
