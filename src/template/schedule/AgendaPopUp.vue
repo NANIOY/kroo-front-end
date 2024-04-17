@@ -5,16 +5,18 @@ import { Xmark } from '@iconoir/vue';
 import InputField from '../../components/atoms/inputs/InputField.vue';
 import Dropdown from '../../components/atoms/inputs/DropDown.vue';
 
-// Define props to receive dynamic values from App.vue
-const button1Label = ref('Button 1');
-const button2Label = ref('Button 2');
-const input1Label = ref('Input 1');
-const input2Label = ref('Input 2');
-const input3Label = ref('Input 3');
-const dropdown1Label = ref('Dropdown 1');
-const dropdown1Options = ref(['Option 1', 'Option 2', 'Option 3']);
-const dropdown2Label = ref('Dropdown 2');
-const dropdown2Options = ref(['Option 1', 'Option 2', 'Option 3']); 
+const props = defineProps({
+  button1Label: String,
+  button2Label: String,
+  input1Label: String,
+  input2Label: String,
+  input3Label: String,
+  dropdown1Label: String,
+  dropdown1Options: Array,
+  dropdown2Label: String,
+  dropdown2Options: Array
+});
+
 </script>
 
 <template>
