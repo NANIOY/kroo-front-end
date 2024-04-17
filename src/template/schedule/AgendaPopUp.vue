@@ -23,30 +23,30 @@ const dropdown2Options = ref(['Option 1', 'Option 2', 'Option 3']);
                 <NormalButton :label="button1Label" />
                 <NormalButton :label="button2Label" />
             </div>
-            <div class="input-dropdown-container">
-                <div class="input-wrapper">
-                    <label>{{ input1Label }}</label>
-                    <InputField :label="input1Label" />
-                </div>
-                <div class="input-wrapper">
-                    <label>{{ dropdown1Label }}</label>
-                    <Dropdown :label="dropdown1Label" :options="dropdown1Options" />
-                </div>
-                <div class="input-wrapper">
-                    <label>{{ input2Label }}</label>
-                    <InputField :label="input2Label" />
-                </div>
-                <div class="input-wrapper">
-                    <label>{{ dropdown2Label }}</label>
-                    <Dropdown :label="dropdown2Label" :options="dropdown2Options" />
-                </div>
-                <div class="input-wrapper">
-                    <label>{{ input3Label }}</label>
-                    <InputField :label="input3Label" />
-                </div>
-            </div>
             <div class="icon-coontainer">
                 <Xmark class="icon" />
+            </div>
+        </div>
+        <div class="input-dropdown-container">
+            <div>
+                <label>{{ input1Label }}</label>
+                <InputField :label="input1Label" />
+            </div>
+            <div class="dropdown-container">
+                <label>{{ dropdown1Label }}</label>
+                <Dropdown :label="dropdown1Label" :options="dropdown1Options" />
+            </div>
+            <div>
+                <label>{{ input2Label }}</label>
+                <InputField :label="input2Label" />
+            </div>
+            <div class="dropdown-container">
+                <label>{{ dropdown2Label }}</label>
+                <Dropdown :label="dropdown2Label" :options="dropdown2Options" />
+            </div>
+            <div>
+                <label>{{ input3Label }}</label>
+                <InputField :label="input3Label" />
             </div>
         </div>
     </div>
@@ -64,32 +64,34 @@ const dropdown2Options = ref(['Option 1', 'Option 2', 'Option 3']);
 .buttonicon-container {
     display: flex;
     justify-content: space-between;
-    padding-top: 48px;
+    align-items: center;
+    padding: 48px 48px 0;
 }
 
 .button-left {
     display: flex;
-    margin-left: 48px;
     gap: 12px;
+}
+
+.icon-coontainer {
+    margin-left: auto;
 }
 
 .input-dropdown-container {
     display: flex;
     flex-direction: column;
     gap: 12px;
-}
-
-.input-wrapper {
-    display: flex;
-    flex-direction: column;
-}
-
-.icon-coontainer {
-    display: flex;
+    margin-top: 32px;
+    margin-left: 48px;
     margin-right: 48px;
 }
 
 .icon {
     font-size: 24px;
+}
+
+.dropdown-container {
+    display: flex;
+    flex-direction: column;
 }
 </style>
