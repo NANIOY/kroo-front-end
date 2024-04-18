@@ -11,7 +11,23 @@ const calendarEvents = ref([
     startTime: "00:00",
     endTime: "10:00",
     type: "interview",
-    date: new Date(2024, 3, 9)
+    date: new Date(2024, 3, 18)
+  },
+  {
+    emoji: "📅",
+    label: "Meeting",
+    startTime: "00:00",
+    endTime: "10:00",
+    type: "interview",
+    date: new Date(2024, 3, 16)
+  },
+  {
+    emoji: "📅",
+    label: "Meeting",
+    startTime: "00:00",
+    endTime: "10:00",
+    type: "interview",
+    date: new Date(2024, 3, 15)
   },
 ]);
 </script>

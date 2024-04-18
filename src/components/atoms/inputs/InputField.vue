@@ -1,75 +1,78 @@
-<script>
+<script setup>
+import { ref, computed, defineProps } from 'vue';
 import { NavArrowDown, User, Search, Mail, Attachment, Eye, EyeClosed } from '@iconoir/vue';
 
-export default {
-  props: {
-    label: String,
-    hasLabel: {
-      type: Boolean,
-      default: false
-    },
-    iconLeftName: String,
-    hasIconLeft: {
-      type: Boolean,
-      default: false
-    },
-    iconRightName: String,
-    hasIconRight: {
-      type: Boolean,
-      default: false
-    },
-    placeholder: {
-      type: String,
-      default: ''
-    },
-    isError: {
-      type: Boolean,
-      default: false
-    },
-    isPassword: {
-      type: Boolean,
-      default: false
-    },
-    inputWidth: {
-      type: String,
-      default: '100%'
-    }
+const props = defineProps({
+  label: String,
+  hasLabel: {
+    type: Boolean,
+    default: false
   },
-  data() {
-    return {
-      inputType: this.isPassword ? 'password' : 'text'
-    };
+  iconLeftName: String,
+  hasIconLeft: {
+    type: Boolean,
+    default: false
   },
-  computed: {
-    inputPaddingLeft() {
-      return this.hasIconLeft ? '44px' : '12px';
-    },
-    inputPaddingRight() {
-      return this.hasIconRight ? '44px' : '12px';
-    }
+  iconRightName: String,
+  hasIconRight: {
+    type: Boolean,
+    default: false
   },
-  methods: {
-    togglePasswordVisibility() {
-      this.inputType = this.inputType === 'password' ? 'text' : 'password';
-    }
+  placeholder: {
+    type: String,
+    default: ''
   },
-  components: {
-    NavArrowDown, User, Search, Mail, Attachment, Eye, EyeClosed
-  }
+  isError: {
+    type: Boolean,
+    default: false
+  },
+  isPassword: {
+    type: Boolean,
+    default: false
+  },
+  inputWidth: {
+    type: String,
+    default: '100%'
+  },
+  localStorageKey: String,
+  group: String
+});
+
+const inputType = ref(props.isPassword ? 'password' : 'text');
+
+const inputPaddingLeft = computed(() => props.hasIconLeft ? '44px' : '12px');
+const inputPaddingRight = computed(() => props.hasIconRight ? '44px' : '12px');
+
+const togglePasswordVisibility = () => {
+  inputType.value = inputType.value === 'password' ? 'text' : 'password';
+};
+
+const iconComponents = {
+  NavArrowDown,
+  User,
+  Search,
+  Mail,
+  Attachment,
+  Eye,
+  EyeClosed
+};
+
+const getIconComponent = (name) => {
+  return iconComponents[name];
 };
 </script>
 
 <template>
   <div class="inputContainer">
-    <label v-if="hasLabel">{{ label }}</label>
+    <label v-if="props.hasLabel">{{ props.label }}</label>
     <div class="inputContainer__wrapper">
-      <span v-if="hasIconLeft" class="icon icon--left">
-        <component :is="iconLeftName" />
+      <span v-if="props.hasIconLeft" class="icon icon--left">
+        <component :is="getIconComponent(props.iconLeftName)" />
       </span>
-      <input :type="inputType" :placeholder="placeholder" :class="{ error: isError }"
-        :style="{ width: inputWidth, paddingLeft: inputPaddingLeft, paddingRight: inputPaddingRight }" />
-      <span v-if="hasIconRight" class="icon icon--right" @click="togglePasswordVisibility">
-        <component :is="iconRightName" />
+      <input :type="inputType" :placeholder="props.placeholder" :class="{ error: props.isError }"
+        :style="{ width: props.inputWidth, paddingLeft: inputPaddingLeft, paddingRight: inputPaddingRight }" />
+      <span v-if="props.hasIconRight" class="icon icon--right" @click="togglePasswordVisibility">
+        <component :is="getIconComponent(props.iconRightName)" />
       </span>
     </div>
   </div>
