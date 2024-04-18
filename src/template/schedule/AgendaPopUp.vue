@@ -2,7 +2,7 @@
 import { defineProps, ref } from 'vue';
 import NormalButton from '../../components/atoms/buttons/NormalButton.vue';
 import LargeButton from '../../components/atoms/buttons/LargeButton.vue';
-import { Xmark } from '@iconoir/vue';
+import TransparentButton from '../../components/atoms/buttons/TransparentButton.vue';
 import InputField from '../../components/atoms/inputs/InputField.vue';
 import Dropdown from '../../components/atoms/inputs/DropDown.vue';
 
@@ -20,20 +20,17 @@ const props = defineProps({
     input1Placeholder: String,
     input2Placeholder: String,
     input3Placeholder: String,
+    iconName: String,
 });
 
 const isButton2Secondary = ref(false);
 
 const toggleButton2Color = () => {
-    if (!isButton2Secondary.value) {
-        isButton2Secondary.value = true;
-    }
+    isButton2Secondary.value = !isButton2Secondary.value;
 };
 
 const revertButton2Color = () => {
-    if (isButton2Secondary.value) {
-        isButton2Secondary.value = false;
-    }
+    isButton2Secondary.value = !isButton2Secondary.value;
 };
 </script>
 
@@ -41,11 +38,16 @@ const revertButton2Color = () => {
     <div class="backPlate">
         <div class="buttonicon-container">
             <div class="button-left">
-                <NormalButton :label="props.button1LabelNormal" :class="{ 'button--secondary': !isButton2Secondary, 'button--tertiary': isButton2Secondary }" @click="revertButton2Color"/>
-                <NormalButton :label="props.button2LabelNormal" :class="{ 'button--secondary': isButton2Secondary, 'button--tertiary': !isButton2Secondary }" @click="toggleButton2Color"/>
+                <NormalButton :label="props.button1LabelNormal"
+                    :class="{ 'button--secondary': !isButton2Secondary, 'button--tertiary': isButton2Secondary }"
+                    @click="revertButton2Color" />
+                <NormalButton :label="props.button2LabelNormal"
+                    :class="{ 'button--secondary': isButton2Secondary, 'button--tertiary': !isButton2Secondary }"
+                    @click="toggleButton2Color" />
             </div>
             <div class="icon-container">
-                <Xmark class="icon" />
+                <!-- Pass the iconName prop to TransparentButton -->
+                <TransparentButton :iconName="props.iconName" :hasLabel="false" :hasIcon="true" />
             </div>
         </div>
         <div class="input-dropdown-container">
@@ -122,7 +124,7 @@ const revertButton2Color = () => {
     margin-top: 48px;
 }
 
-.button--tertiary{
-   outline: 2px solid var(--black);
+.button--tertiary {
+    outline: 2px solid var(--black);
 }
 </style>
