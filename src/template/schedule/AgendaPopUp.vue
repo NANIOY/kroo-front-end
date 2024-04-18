@@ -52,27 +52,26 @@ const props = defineProps({
                 <label>{{ props.input3Label }}</label>
                 <InputField :label="props.input3Label" />
             </div>
-            <div class="large-button-container">
+        </div>
+        <div class="large-button-container">
                 <LargeButton :label="props.button1LabelLarge" />
             </div>
-        </div>
     </div>
 </template>
 
 <style>
 .backPlate {
     width: 600px;
-    height: 674px;
     background-color: var(--white);
     border-radius: 8px;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 48px;
 }
 
 .buttonicon-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 48px 48px 0;
 }
 
 .button-left {
@@ -89,8 +88,6 @@ const props = defineProps({
     flex-direction: column;
     gap: 12px;
     margin-top: 32px;
-    margin-left: 48px;
-    margin-right: 48px;
 }
 
 .icon {
@@ -100,5 +97,11 @@ const props = defineProps({
 .dropdown-container {
     display: flex;
     flex-direction: column;
+}
+
+.large-button-container {
+    display: flex;
+    justify-content: center; 
+    margin-top: 48px; 
 }
 </style>
