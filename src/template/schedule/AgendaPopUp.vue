@@ -84,6 +84,7 @@ const revertButton2Color = () => {
     border-radius: 8px;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     padding: 48px;
+    box-sizing: border-box;
 }
 
 .button-icon-container {
