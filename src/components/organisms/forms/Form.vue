@@ -118,14 +118,6 @@ const updatePostData = (field, value) => {
     postData.value[field] = value;
 }
 
-// const updatePostData = (group, field, value) => {
-//     if (!postData.value[group]) {
-//         postData.value[group] = {};
-//     }
-//     postData.value[group][field] = value;
-// };
-
-
 const handleRememberMeChange = (value) => {
     updatePostData('rememberMe', value);
 };
