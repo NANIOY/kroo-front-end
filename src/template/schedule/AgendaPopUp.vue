@@ -54,8 +54,8 @@ const props = defineProps({
             </div>
         </div>
         <div class="large-button-container">
-                <LargeButton :label="props.button1LabelLarge" />
-            </div>
+            <LargeButton :label="props.button1LabelLarge" />
+        </div>
     </div>
 </template>
 
@@ -101,7 +101,7 @@ const props = defineProps({
 
 .large-button-container {
     display: flex;
-    justify-content: center; 
-    margin-top: 48px; 
+    justify-content: center;
+    margin-top: 48px;
 }
 </style>
