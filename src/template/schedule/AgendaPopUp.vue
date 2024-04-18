@@ -16,7 +16,10 @@ const props = defineProps({
     dropdown1Label: String,
     dropdown1Options: Array,
     dropdown2Label: String,
-    dropdown2Options: Array
+    dropdown2Options: Array,
+    input1Placeholder: String,
+    input2Placeholder: String,
+    input3Placeholder: String,
 });
 
 const isButton2Secondary = ref(false);
@@ -48,7 +51,7 @@ const revertButton2Color = () => {
         <div class="input-dropdown-container">
             <div>
                 <label>{{ props.input1Label }}</label>
-                <InputField :label="props.input1Label" />
+                <InputField :label="props.input1Label" :placeholder="props.input1Placeholder" />
             </div>
             <div class="dropdown-container">
                 <label>{{ props.dropdown1Label }}</label>
@@ -56,7 +59,7 @@ const revertButton2Color = () => {
             </div>
             <div>
                 <label>{{ props.input2Label }}</label>
-                <InputField :label="props.input2Label" />
+                <InputField :label="props.input2Label" :placeholder="props.input2Placeholder" />
             </div>
             <div class="dropdown-container">
                 <label>{{ props.dropdown2Label }}</label>
@@ -64,7 +67,7 @@ const revertButton2Color = () => {
             </div>
             <div>
                 <label>{{ props.input3Label }}</label>
-                <InputField :label="props.input3Label" />
+                <InputField :label="props.input3Label" :placeholder="props.input3Placeholder" />
             </div>
         </div>
         <div class="large-button-container">
