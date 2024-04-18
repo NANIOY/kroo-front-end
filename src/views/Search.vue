@@ -11,7 +11,7 @@ import axios from 'axios';
 const fetchedJobs = ref([]);
 const selectedJob = ref(null);
 const currentPage = ref(1);
-const jobsPerPage = 6;
+const jobsPerPage = 12;
 
 const paginatedJobs = computed(() => {
   const startIndex = (currentPage.value - 1) * jobsPerPage;
