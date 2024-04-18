@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import NormalButton from '../../components/atoms/buttons/NormalButton.vue';
+import LargeButton from '../../components/atoms/buttons/LargeButton.vue';
 import { Xmark } from '@iconoir/vue';
 import InputField from '../../components/atoms/inputs/InputField.vue';
 import Dropdown from '../../components/atoms/inputs/DropDown.vue';
@@ -50,6 +51,9 @@ const props = defineProps({
             <div>
                 <label>{{ input3Label }}</label>
                 <InputField :label="input3Label" />
+            </div>
+            <div class="large-button-container">
+                <LargeButton :label="button2Label" />
             </div>
         </div>
     </div>
