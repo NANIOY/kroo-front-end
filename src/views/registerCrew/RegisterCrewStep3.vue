@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import Form from '../../components/organisms/forms/Form.vue';
 import LoginImage from '../../components/molecules/login/LoginImage.vue';
 
-const inputFields = ref([
+const localfields = ref([
     {
         label: 'age',
         hasLabel: true,
@@ -11,6 +11,8 @@ const inputFields = ref([
         hasIconLeft: false,
         hasIconRight: false,
         isPassword: false,
+        localStorageKey: 'age',
+        group: 'profileDetails'
     },
     {
         label: 'location',
@@ -19,6 +21,8 @@ const inputFields = ref([
         hasIconLeft: false,
         hasIconRight: false,
         isPassword: false,
+        localStorageKey: 'location',
+        group: 'profileDetails'
     },
     {
         label: 'bio',
@@ -27,6 +31,8 @@ const inputFields = ref([
         hasIconLeft: false,
         hasIconRight: false,
         isPassword: false,
+        localStorageKey: 'bio',
+        group: 'profileDetails'
     }
 ]);
 
@@ -80,7 +86,9 @@ const multidropdownProps = ref([
             'മലയാളം',
             'ਪੰਜਾਬੀ',
             'ગુજરાતી'
-        ]
+        ],
+        localStorageKey: 'languages',
+        group: 'profileDetails'
     }
 ]);
 
@@ -98,7 +106,7 @@ const slider = ref({
     <div class="registerContainer">
         <Form class="registerContainer__form" header="Profile details" :hasSteps="true" steps="Setup profile: Step 3/5"
             :hasBack="true" :hasSkip="true" :hasText="true"
-            text="Share a glimpse of who you are with these personal touches." :inputFields="inputFields"
+            text="Share a glimpse of who you are with these personal touches." :localfields="localfields"
             :hasMultiDropdown="true" :multidropdowns="multidropdowns" :slider="slider" :hasLargeButton="true"
             buttonLabel="Next" redirect="/register/crew/step-4" />
         <LoginImage class="registerContainer__image" />
