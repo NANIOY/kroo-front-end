@@ -35,8 +35,8 @@ const revertButton2Color = () => {
 </script>
 
 <template>
-    <div class="backPlate">
-        <div class="buttonicon-container">
+    <div class="back-plate">
+        <div class="button-icon-container">
             <div class="button-left">
                 <NormalButton :label="props.button1LabelNormal"
                     :class="{ 'button--secondary': !isButton2Secondary, 'button--tertiary': isButton2Secondary }"
@@ -46,7 +46,6 @@ const revertButton2Color = () => {
                     @click="toggleButton2Color" />
             </div>
             <div class="icon-container">
-                <!-- Pass the iconName prop to TransparentButton -->
                 <TransparentButton :iconName="props.iconName" :hasLabel="false" :hasIcon="true" />
             </div>
         </div>
@@ -79,7 +78,7 @@ const revertButton2Color = () => {
 </template>
 
 <style>
-.backPlate {
+.back-plate {
     width: 600px;
     background-color: var(--white);
     border-radius: 8px;
@@ -87,7 +86,7 @@ const revertButton2Color = () => {
     padding: 48px;
 }
 
-.buttonicon-container {
+.button-icon-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
