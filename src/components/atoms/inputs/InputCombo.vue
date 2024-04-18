@@ -10,9 +10,17 @@ const props = defineProps({
         type: String,
         default: 'Label'
     },
+    input1Key: {
+        type: String,
+        default: 'input1' // Default key for the first input
+    },
     input1Placeholder: {
         type: String,
         default: 'Enter text...'
+    },
+    input2Key: {
+        type: String,
+        default: 'input2' // Default key for the second input
     },
     input2Placeholder: {
         type: String,
@@ -75,15 +83,17 @@ const counterFontSize = '16px';
         <!-- Container for input fields and button -->
         <div class="input-button-container">
             <!-- First InputField -->
-            <InputField v-model="input1Value" :placeholder="input1Placeholder" class="custom-input" />
+            <InputField v-model="input1Value" :placeholder="input1Placeholder" :localStorageKey="input1Key"
+                :group="input1Key" class="custom-input" />
 
             <!-- Second InputField or Dropdown -->
             <template v-if="showDropdown">
                 <DropDown v-model="input2Value" :placeholder="input2Placeholder" :options="dropdownOptions"
-                    class="custom-input" />
+                    :localStorageKey="input2Key" :group="input2Key" class="custom-input" />
             </template>
             <template v-else>
-                <InputField v-model="input2Value" :placeholder="input2Placeholder" class="custom-input" />
+                <InputField v-model="input2Value" :placeholder="input2Placeholder" :localStorageKey="input2Key"
+                    :group="input2Key" class="custom-input" />
             </template>
 
             <!-- LargeButton -->
