@@ -44,19 +44,19 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: var(--blurple);
+    background-color: var(--black);
 }
 
 /* FIREFOX */
 * {
-    scrollbar-color: var(--blurple) var(--neutral-20);
+    scrollbar-color: var(--black) var(--neutral-80);
     scrollbar-width: thin;
 }
 
 *:hover {
-    scrollbar-color: var(--blurple-30) var(--neutral-20);
+    scrollbar-color: var(--neutral-70) var(--neutral-20);
 }
 
 * {
-    scrollbar-track-color: var(--neutral-20);
+    scrollbar-track-color: var(--neutral-80);
 }
