@@ -45,6 +45,10 @@ const props = defineProps({
         type: Array,
         default: () => []
     },
+    localfields: {
+        type: Array,
+        default: () => []
+    },
 
     hasImageUpload: Boolean,
     imageUploads: {
@@ -84,12 +88,12 @@ const postData = ref({
         agendaService: '',
         profileImage: '',
         bannerImage: '',
-        function: ''
+        functions: [],
     },
     profileDetails: {
         skills: [],
         age: 0,
-        language: '',
+        languages: [],
         location: '',
         workRadius: 0,
         bio: ''
@@ -114,9 +118,12 @@ const handleButtonSelect = (role) => {
     updatePostData('role', role);
 };
 
-const updatePostData = (field, value) => {
-    postData.value[field] = value;
-}
+const updatePostData = (group, localStorageKey, value) => {
+    if (!postData.value[group]) {
+        postData.value[group] = {};
+    }
+    postData.value[group][localStorageKey] = value;
+};
 
 const handleRememberMeChange = (value) => {
     updatePostData('rememberMe', value);
@@ -127,10 +134,19 @@ const handleOptionSelected = (option, localStorageKey, group) => {
     updatePostData(group, localStorageKey, data);
 };
 
-
 const handleImageChanged = (group, localStorageKey, imageUrl) => {
     updatePostData(group, localStorageKey, imageUrl);
 };
+
+const handleInputChange = (group, localStorageKey, value) => {
+    const postData = JSON.parse(localStorage.getItem('postData')) || {};
+    const groupData = postData[group] || {};
+    groupData[localStorageKey] = value;
+    postData[group] = groupData;
+    localStorage.setItem('postData', JSON.stringify(postData));
+};
+
+
 </script>
 
 <template>
@@ -167,12 +183,20 @@ const handleImageChanged = (group, localStorageKey, imageUrl) => {
                 :iconRightName="field.iconRightName" :hasIconRight="field.hasIconRight" :placeholder="field.placeholder"
                 :isError="field.isError" :isPassword="field.isPassword" class="form__inputs__field"
                 @input="updatePostData(field.label, $event.target.value)" />
+
+            <InputField v-for="(localfield, index) in localfields" :key="index" :label="localfield.label"
+                :hasLabel="localfield.hasLabel" :iconLeftName="localfield.iconLeftName"
+                :hasIconLeft="localfield.hasIconLeft" :iconRightName="localfield.iconRightName"
+                :hasIconRight="localfield.hasIconRight" :placeholder="localfield.placeholder"
+                :isError="localfield.isError" :isPassword="localfield.isPassword" class="form__inputs__field"
+                @input="handleInputChange(localfield.group, localfield.localStorageKey, $event.target.value)" />
+
             <div v-if="hasImageUpload" class="form__inputs__image">
                 <ImageUploadButton v-for="(imageUpload, index) in imageUploads" :key="index" :shape="imageUpload.shape"
                     :label="imageUpload.label" :localStorageKey="imageUpload.localStorageKey" :group="imageUpload.group"
-                    @imageChanged="handleImageChanged(imageUpload.localStorageKey, $event)" />
-
+                    @imageChanged="handleImageChanged(imageUpload.localStorageKey, $event.target.valye)" />
             </div>
+
             <Slider v-if="slider" class="form__inputs__slider" :label="slider.label" :maxValue="slider.maxValue" />
             <DropDown v-if="dropdown" :hasLabel="dropdown.hasLabel" :label="dropdown.label"
                 :placeholder="dropdown.placeholder" :options="dropdown.options" class="form__inputs__dropdown"
@@ -181,8 +205,8 @@ const handleImageChanged = (group, localStorageKey, imageUrl) => {
             <MultiDropdown v-if="hasMultiDropdown" v-for="(multidropdown, index) in multidropdowns" :key="index"
                 :hasLabel="multidropdown.hasLabel" :label="multidropdown.label" :placeholder="multidropdown.placeholder"
                 :options="multidropdown.options" :localStorageKey="multidropdown.localStorageKey"
-                :group="multidropdown.group" :field="multidropdown.field"
-                @optionSelected="handleOptionSelected($event, multidropdown.localStorageKey, multidropdown.group, multidropdown.field)" />
+                :group="multidropdown.group"
+                @optionSelected="handleOptionSelected($event, multidropdown.localStorageKey, multidropdown.group)" />
 
             <InputUrl v-if="inputUrl" :label="inputUrl.label" :hasLabel="inputUrl.hasLabel"
                 :placeholder="inputUrl.placeholder" :isError="inputUrl.isError" :inputWidth="inputUrl.inputWidth"

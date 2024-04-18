@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, defineProps } from 'vue';
+import { ref, computed, defineProps, watch, onMounted } from 'vue';
 import { NavArrowDown, User, Search, Mail, Attachment, Eye, EyeClosed } from '@iconoir/vue';
 
 const props = defineProps({
@@ -39,6 +39,14 @@ const props = defineProps({
 });
 
 const inputType = ref(props.isPassword ? 'password' : 'text');
+const inputValue = ref('');
+
+onMounted(() => {
+  if (props.localStorageKey && props.group) {
+    const storedValue = localStorage.getItem(`${props.group}-${props.localStorageKey}`);
+    inputValue.value = storedValue || '';
+  }
+});
 
 const inputPaddingLeft = computed(() => props.hasIconLeft ? '44px' : '12px');
 const inputPaddingRight = computed(() => props.hasIconRight ? '44px' : '12px');
@@ -48,18 +56,17 @@ const togglePasswordVisibility = () => {
 };
 
 const iconComponents = {
-  NavArrowDown,
-  User,
-  Search,
-  Mail,
-  Attachment,
-  Eye,
-  EyeClosed
+  NavArrowDown, User, Search, Mail, Attachment, Eye, EyeClosed
 };
 
-const getIconComponent = (name) => {
-  return iconComponents[name];
-};
+const getIconComponent = (name) => iconComponents[name];
+
+watch(inputValue, (newVal) => {
+  if (props.localStorageKey && props.group) {
+    localStorage.setItem(`${props.group}-${props.localStorageKey}`, newVal);
+  }
+});
+
 </script>
 
 <template>
@@ -69,7 +76,7 @@ const getIconComponent = (name) => {
       <span v-if="props.hasIconLeft" class="icon icon--left">
         <component :is="getIconComponent(props.iconLeftName)" />
       </span>
-      <input :type="inputType" :placeholder="props.placeholder" :class="{ error: props.isError }"
+      <input :type="inputType" v-model="inputValue" :placeholder="props.placeholder" :class="{ error: props.isError }"
         :style="{ width: props.inputWidth, paddingLeft: inputPaddingLeft, paddingRight: inputPaddingRight }" />
       <span v-if="props.hasIconRight" class="icon icon--right" @click="togglePasswordVisibility">
         <component :is="getIconComponent(props.iconRightName)" />

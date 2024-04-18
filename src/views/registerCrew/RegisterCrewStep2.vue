@@ -137,7 +137,6 @@ const multidropdownProps = ref([
 ]);
 
 const multidropdowns = ref(multidropdownProps);
-let profileDetailsGroup = 'functionsGroup';
 </script>
 
 <template>
@@ -145,7 +144,7 @@ let profileDetailsGroup = 'functionsGroup';
         <Form class="registerContainer__form" header="Basic info" :hasSteps="true" steps="Setup profile: Step 2/5"
             :hasBack="true" :hasSkip="true" :hasText="true" text="Great! Let's tailor your profile and make you shine."
             :hasImageUpload="true" :imageUploads="imageUploads" :hasMultiDropdown="true"
-            :multidropdowns="multidropdowns" :group="profileDetailsGroup" :hasLargeButton="true" buttonLabel="Next"
+            :multidropdowns="multidropdowns" :hasLargeButton="true" buttonLabel="Next"
             redirect="/register/crew/step-3" />
         <LoginImage class="registerContainer__image" />
     </div>
