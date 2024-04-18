@@ -96,7 +96,9 @@ const multidropdowns = ref(multidropdownProps);
 
 const slider = ref({
     label: 'Work radius (km from location)',
-    maxValue: 1000
+    maxValue: 1000,
+    localStorageKey: 'workRadius',
+    group: 'profileDetails'
 });
 
 </script>

@@ -118,12 +118,10 @@ const handleButtonSelect = (role) => {
     updatePostData('role', role);
 };
 
-const updatePostData = (group, localStorageKey, value) => {
-    if (!postData.value[group]) {
-        postData.value[group] = {};
-    }
-    postData.value[group][localStorageKey] = value;
-};
+const updatePostData = (field, value) => {
+    postData.value[field] = value;
+}
+
 
 const handleRememberMeChange = (value) => {
     updatePostData('rememberMe', value);
@@ -145,8 +143,6 @@ const handleInputChange = (group, localStorageKey, value) => {
     postData[group] = groupData;
     localStorage.setItem('postData', JSON.stringify(postData));
 };
-
-
 </script>
 
 <template>
@@ -194,10 +190,14 @@ const handleInputChange = (group, localStorageKey, value) => {
             <div v-if="hasImageUpload" class="form__inputs__image">
                 <ImageUploadButton v-for="(imageUpload, index) in imageUploads" :key="index" :shape="imageUpload.shape"
                     :label="imageUpload.label" :localStorageKey="imageUpload.localStorageKey" :group="imageUpload.group"
-                    @imageChanged="handleImageChanged(imageUpload.localStorageKey, $event.target.valye)" />
+                    @imageChanged="handleImageChanged(imageUpload.localStorageKey, $event.target.value)" />
             </div>
 
-            <Slider v-if="slider" class="form__inputs__slider" :label="slider.label" :maxValue="slider.maxValue" />
+            <Slider v-if="slider" class="form__inputs__slider" :label="slider.label" :maxValue="slider.maxValue"
+                :localStorageKey="slider.localStorageKey" :group="slider.group"
+                @input="handleInputChange(slider.group, slider.localStorageKey, $event.target.value)" />
+
+
             <DropDown v-if="dropdown" :hasLabel="dropdown.hasLabel" :label="dropdown.label"
                 :placeholder="dropdown.placeholder" :options="dropdown.options" class="form__inputs__dropdown"
                 :group="dropdown.group" :localStorageKey="dropdown.localStorageKey"

@@ -1,12 +1,14 @@
 <script setup>
-import { defineProps, ref } from 'vue';
+import { defineProps, ref, onMounted } from 'vue';
 
 const props = defineProps({
     label: String,
     maxValue: {
         type: Number,
         default: 100
-    }
+    },
+    localStorageKey: String,
+    group: String
 });
 
 const sliderValue = ref(0);
@@ -15,15 +17,30 @@ const updateSliderValue = (event) => {
     const newValue = parseInt(event.target.value);
     if (!isNaN(newValue)) {
         sliderValue.value = Math.min(props.maxValue, Math.max(0, newValue));
+        updateLocalStorage();
     }
 };
+
+const updateLocalStorage = () => {
+    const data = JSON.parse(localStorage.getItem(props.localStorageKey)) || {};
+    data[props.group] = sliderValue.value;
+    localStorage.setItem(props.localStorageKey, JSON.stringify(data));
+};
+
+onMounted(() => {
+    const savedData = JSON.parse(localStorage.getItem(props.localStorageKey));
+    if (savedData && savedData[props.group]) {
+        sliderValue.value = savedData[props.group];
+    }
+});
 </script>
 
 <template>
     <div class="sliderContainer">
         <span class="sliderContainer__label text-reg-normal">{{ label }}</span>
         <div class="sliderContainer__input">
-            <input type="range" :min="0" :max="maxValue" v-model="sliderValue" class="sliderContainer__input__slider" />
+            <input type="range" :min="0" :max="maxValue" v-model="sliderValue" class="sliderContainer__input__slider"
+                @input="updateSliderValue($event)" />
             <div class="sliderContainer__input__value">
                 <input type="number" :min="0" :max="maxValue" v-model.number="sliderValue"
                     class="sliderContainer__input__value__input text-reg-normal" @input="updateSliderValue($event)" />
