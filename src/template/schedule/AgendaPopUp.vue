@@ -38,8 +38,8 @@ const revertButton2Color = () => {
     <div class="backPlate">
         <div class="buttonicon-container">
             <div class="button-left">
-                <NormalButton :label="props.button1LabelNormal" :class="{ 'button--secondary': !isButton2Secondary }" @click="revertButton2Color"/>
-                <NormalButton :label="props.button2LabelNormal" :class="{ 'button--tertiary': isButton2Secondary }" @click="toggleButton2Color"/>
+                <NormalButton :label="props.button1LabelNormal" :class="{ 'button--secondary': !isButton2Secondary, 'button--tertiary': isButton2Secondary }" @click="revertButton2Color"/>
+                <NormalButton :label="props.button2LabelNormal" :class="{ 'button--secondary': isButton2Secondary, 'button--tertiary': !isButton2Secondary }" @click="toggleButton2Color"/>
             </div>
             <div class="icon-container">
                 <Xmark class="icon" />
@@ -117,5 +117,9 @@ const revertButton2Color = () => {
     display: flex;
     justify-content: center;
     margin-top: 48px;
+}
+
+.button--tertiary{
+   outline: 2px solid var(--black);
 }
 </style>
