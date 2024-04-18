@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, ref } from 'vue';
 import NormalButton from '../../components/atoms/buttons/NormalButton.vue';
 import LargeButton from '../../components/atoms/buttons/LargeButton.vue';
 import { Xmark } from '@iconoir/vue';
@@ -18,14 +18,28 @@ const props = defineProps({
     dropdown2Label: String,
     dropdown2Options: Array
 });
+
+const isButton2Secondary = ref(false);
+
+const toggleButton2Color = () => {
+    if (!isButton2Secondary.value) {
+        isButton2Secondary.value = true;
+    }
+};
+
+const revertButton2Color = () => {
+    if (isButton2Secondary.value) {
+        isButton2Secondary.value = false;
+    }
+};
 </script>
 
 <template>
     <div class="backPlate">
         <div class="buttonicon-container">
             <div class="button-left">
-                <NormalButton :label="props.button1LabelNormal" />
-                <NormalButton :label="props.button2LabelNormal" />
+                <NormalButton :label="props.button1LabelNormal" :class="{ 'button--secondary': !isButton2Secondary }" @click="revertButton2Color"/>
+                <NormalButton :label="props.button2LabelNormal" :class="{ 'button--tertiary': isButton2Secondary }" @click="toggleButton2Color"/>
             </div>
             <div class="icon-container">
                 <Xmark class="icon" />
