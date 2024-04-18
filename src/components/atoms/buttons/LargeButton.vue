@@ -107,7 +107,7 @@ export default {
 <style scoped>
 .largeButton {
     font-size: 20px;
-    width: 160px;
+    width: 100%;
     height: 48px;
 }
 

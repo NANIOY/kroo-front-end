@@ -54,7 +54,7 @@ const props = defineProps({
             </div>
         </div>
         <div class="large-button-container">
-            <LargeButton :label="props.button1LabelLarge" />
+            <LargeButton :label="props.button1LabelLarge" class="button--primary" />
         </div>
     </div>
 </template>
