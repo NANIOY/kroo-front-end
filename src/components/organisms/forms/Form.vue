@@ -115,7 +115,6 @@ const updatePostData = (field, value) => {
     postData.value[field] = value;
 }
 
-
 const handleRememberMeChange = (value) => {
     updatePostData('rememberMe', value);
 };
@@ -135,6 +134,10 @@ const handleInputChange = (group, localStorageKey, value) => {
     groupData[localStorageKey] = value;
     postData[group] = groupData;
     localStorage.setItem('postData', JSON.stringify(postData));
+};
+
+const handleFileUploaded = (file, localStorageKey, group) => {
+    updatePostData(group, localStorageKey, file);
 };
 </script>
 
@@ -161,8 +164,9 @@ const handleInputChange = (group, localStorageKey, value) => {
                 :buttonLabel="inputCombo.buttonLabel" :buttonIcon="inputCombo.buttonIcon" class="form__inputs__field" $event.target.value)"
                 @click="handleButtonClick" /> -->
             <UploadFile v-if="uploadFile" :label="uploadFile.label" :hasLabel="uploadFile.hasLabel"
-                :placeholder="uploadFile.placeholder" :isError="uploadFile.isError"
-                :inputWidth="uploadFile.inputWidth" />
+                :placeholder="uploadFile.placeholder" :isError="uploadFile.isError" :inputWidth="uploadFile.inputWidth"
+                :localStorageKey="uploadFile.localStorageKey" :group="uploadFile.group"
+                @fileUploaded="handleFileUploaded(uploadFile.localStorageKey, $event.target.value)"  />
             <InputField v-for="(field, index) in inputFields" :key="index" :label="field.label"
                 :hasLabel="field.hasLabel" :iconLeftName="field.iconLeftName" :hasIconLeft="field.hasIconLeft"
                 :iconRightName="field.iconRightName" :hasIconRight="field.hasIconRight" :placeholder="field.placeholder"
@@ -185,7 +189,6 @@ const handleInputChange = (group, localStorageKey, value) => {
             <Slider v-if="slider" class="form__inputs__slider" :label="slider.label" :maxValue="slider.maxValue"
                 :localStorageKey="slider.localStorageKey" :group="slider.group"
                 @input="handleInputChange(slider.group, slider.localStorageKey, $event.target.value)" />
-
 
             <DropDown v-if="dropdown" :hasLabel="dropdown.hasLabel" :label="dropdown.label"
                 :placeholder="dropdown.placeholder" :options="dropdown.options" class="form__inputs__dropdown"

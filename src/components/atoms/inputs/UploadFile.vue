@@ -1,54 +1,70 @@
-<script>
+<script setup>
 import { Upload } from '@iconoir/vue';
+import { computed, defineProps, ref, defineEmits } from 'vue';
 
-export default {
-    props: {
-        label: String,
-        hasLabel: {
-            type: Boolean,
-            default: false
-        },
-        placeholder: {
-            type: String,
-            default: 'Upload file'
-        },
-        isError: {
-            type: Boolean,
-            default: false
-        },
-        inputWidth: {
-            type: String,
-            default: '100%'
-        }
+const props = defineProps({
+    label: String,
+    hasLabel: {
+        type: Boolean,
+        default: false
     },
-    components: {
-        Upload
+    placeholder: {
+        type: String,
+        default: 'Upload file'
     },
-    data() {
-        return {
-            file: null
-        };
+    isError: {
+        type: Boolean,
+        default: false
     },
-    methods: {
-        triggerFileInput() {
-            this.$refs.fileInput.click();
-        },
-        handleFileUpload(event) {
-            this.file = event.target.files[0];
-            console.log('Uploaded file:', this.file);
-        }
-    }
+    inputWidth: {
+        type: String,
+        default: '100%'
+    },
+    localStorageKey: String,
+    group: String,
+});
+
+
+const fileInput = ref(null);
+
+const fetchFile = () => {
+    const postData = localStorage.getItem('postData') ? JSON.parse(localStorage.getItem('postData')) : {};
+    const groupData = postData[props.group] || {};
+    return groupData[props.localStorageKey] || null;
 };
+
+const imageUrl = ref(fetchFile());
+
+const openFileExplorer = () => {
+    fileInput.value.click();
+};
+
+const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+        imageUrl.value = reader.result;
+        const postData = localStorage.getItem('postData') ? JSON.parse(localStorage.getItem('postData')) : {};
+        const groupData = postData[props.group] || {};
+        groupData[props.localStorageKey] = reader.result;
+        postData[props.group] = groupData;
+        localStorage.setItem('postData', JSON.stringify(postData));
+        emit('fileUploaded', props.group, props.localStorageKey, reader.result);
+    };
+    reader.readAsDataURL(file);
+};
+
+const emit = defineEmits(['fileUploaded']);
 </script>
 
 <template>
     <div class="inputContainer">
         <label v-if="hasLabel">{{ label }}</label>
         <div class="inputContainer__wrapper">
-            <input type="file" style="display: none;" ref="fileInput" @change="handleFileUpload"
+            <input type="file" style="display: none;" ref="fileInput" @change="handleFileChange"
                 accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
             <input type="text" :value="file ? file.name : ''" :placeholder="file ? '' : placeholder"
-                :class="{ error: isError }" :style="{ width: inputWidth }" readonly @click="triggerFileInput">
+                :class="{ error: isError }" :style="{ width: inputWidth }" readonly @click="openFileExplorer">
             <span class="icon">
                 <Upload />
             </span>

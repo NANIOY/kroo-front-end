@@ -21,6 +21,8 @@ const uploadFileProps = {
     placeholder: 'Upload file',
     isError: false,
     inputWidth: '100%',
+    localStorageKey: 'certificationsLicenses',
+    group: 'careerDetails',
 };
 
 const dropdownProps = {
