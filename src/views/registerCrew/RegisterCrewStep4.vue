@@ -9,10 +9,10 @@ const inputComboProps = {
     input1Placeholder: 'Title',
     input2Placeholder: 'Where',
     buttonLabel: 'Add',
-    input1Key: 'title',
-    input2Key: 'where',
-    localStorageKey: 'educationTraining',
-    group: 'careerDetails',
+    // input1Key: 'title',
+    // input2Key: 'where',
+    // localStorageKey: 'educationTraining',
+    // group: 'careerDetails',
 };
 
 const uploadFileProps = {

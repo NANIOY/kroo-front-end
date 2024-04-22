@@ -136,27 +136,6 @@ const handleInputChange = (group, localStorageKey, value) => {
     postData[group] = groupData;
     localStorage.setItem('postData', JSON.stringify(postData));
 };
-
-const handleInputComboChange = (group, localStorageKey, key, value) => {
-    const postData = JSON.parse(localStorage.getItem('postData')) || {};
-    const groupData = postData[group] || {};
-    groupData[localStorageKey] = groupData[localStorageKey] || [];
-
-    // Find the index of the item with the matching 'title'
-    const existingIndex = groupData[localStorageKey].findIndex(item => item.title === key);
-
-    // If the item exists, update its 'where' property
-    if (existingIndex !== -1) {
-        groupData[localStorageKey][existingIndex].where = value;
-    } else {
-        // If the item doesn't exist, create a new one
-        groupData[localStorageKey].push({ title: key, where: value });
-    }
-
-    postData[group] = groupData;
-    localStorage.setItem('postData', JSON.stringify(postData));
-};
-
 </script>
 
 <template>
@@ -176,13 +155,11 @@ const handleInputComboChange = (group, localStorageKey, key, value) => {
         <!-- INPUTS -->
         <div class="form__inputs">
             <SocialInput v-if="hasSocialInput" />
-            <InputCombo v-if="inputCombo" :label="inputCombo.label" :input1Placeholder="inputCombo.input1Placeholder"
+            <!-- <InputCombo v-if="inputCombo" :label="inputCombo.label" :input1Placeholder="inputCombo.input1Placeholder"
                 :input2Placeholder="inputCombo.input2Placeholder" :dropdownOptions="inputCombo.dropdownOptions"
                 :showCounter="inputCombo.showCounter" :showDropdown="inputCombo.showDropdown"
-                :buttonLabel="inputCombo.buttonLabel" :buttonIcon="inputCombo.buttonIcon" class="form__inputs__field"
-                :input1Key="inputCombo.input1Key" :input2Key="inputCombo.input2Key"
-                @input="handleInputComboChange(inputCombo.group, inputCombo.localStorageKey, inputCombo.input1Key, $event.target.value)"
-                @click="handleButtonClick" />
+                :buttonLabel="inputCombo.buttonLabel" :buttonIcon="inputCombo.buttonIcon" class="form__inputs__field" $event.target.value)"
+                @click="handleButtonClick" /> -->
             <UploadFile v-if="uploadFile" :label="uploadFile.label" :hasLabel="uploadFile.hasLabel"
                 :placeholder="uploadFile.placeholder" :isError="uploadFile.isError"
                 :inputWidth="uploadFile.inputWidth" />

@@ -4,23 +4,14 @@ import InputField from '../inputs/InputField.vue';
 import DropDown from '../inputs/DropDown.vue';
 import LargeButton from '../buttons/LargeButton.vue';
 
-// Define props
 const props = defineProps({
     label: {
         type: String,
         default: 'Label'
     },
-    input1Key: {
-        type: String,
-        default: 'input1' // Default key for the first input
-    },
     input1Placeholder: {
         type: String,
         default: 'Enter text...'
-    },
-    input2Key: {
-        type: String,
-        default: 'input2' // Default key for the second input
     },
     input2Placeholder: {
         type: String,
@@ -46,57 +37,42 @@ const props = defineProps({
         type: String,
         default: 'plus'
     },
-    // Add default placeholder for the dropdown
     placeholder: {
         type: String,
         default: 'Select an option'
     },
 });
 
-// Data for the input fields and dropdown
-const input1Value = ref('');
-const input2Value = ref('');
 const clickCount = ref(0);
 
 const handleButtonClick = () => {
-    // Increment the click count
     clickCount.value++;
 };
 
-// Define font size and weight for the counter
 const counterFontWeight = 'bolder';
 const counterFontSize = '16px'; 
 </script>
 
 <template>
     <div class="input-combo">
-        <!-- Container for label and click counter -->
         <div class="label-container">
-            <!-- Label -->
             <label class="label">{{ label }}</label>
 
-            <!-- Optional text showing the button click count -->
             <span v-if="showCounter" class="click-count"
                 :style="{ fontWeight: counterFontWeight, fontSize: counterFontSize }">{{ clickCount }} / #</span>
         </div>
 
-        <!-- Container for input fields and button -->
         <div class="input-button-container">
-            <!-- First InputField -->
-            <InputField v-model="input1Value" :placeholder="input1Placeholder" :localStorageKey="input1Key"
-                :group="input1Key" class="custom-input" />
+            <InputField v-model="input1Value" :placeholder="input1Placeholder" class="custom-input" />
 
-            <!-- Second InputField or Dropdown -->
             <template v-if="showDropdown">
                 <DropDown v-model="input2Value" :placeholder="input2Placeholder" :options="dropdownOptions"
-                    :localStorageKey="input2Key" :group="input2Key" class="custom-input" />
+                    class="custom-input" />
             </template>
             <template v-else>
-                <InputField v-model="input2Value" :placeholder="input2Placeholder" :localStorageKey="input2Key"
-                    :group="input2Key" class="custom-input" />
+                <InputField v-model="input2Value" :placeholder="input2Placeholder" class="custom-input" />
             </template>
 
-            <!-- LargeButton -->
             <LargeButton :label="buttonLabel" :iconName="buttonIcon" @click="handleButtonClick"
                 class="button--tertiary custom-button" />
         </div>
