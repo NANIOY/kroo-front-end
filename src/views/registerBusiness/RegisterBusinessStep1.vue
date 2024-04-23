@@ -43,8 +43,8 @@ const handleUpdateAgendaService = (service) => {
         <Form class="registerContainer__form" :header="'Hello ' + username" :hasSteps="false" steps="" :hasBack="true"
             :hasSkip="false" :hasText="true"
             text="Create your business account below and enter the company name. If it exists, join your employer or create your business on kroo."
-            :inputFields="[inputField]" :hasLargeButton="true" buttonLabel="Next" redirect="/register/crew/step-2"
-            @updateAgendaService="handleUpdateAgendaService" />
+            :inputFields="[inputField]" :hasLargeButton="true" buttonLabel="Next"
+            redirect="/register/business/step-2" />
         <LoginImage class="registerContainer__image" />
     </div>
 </template>
