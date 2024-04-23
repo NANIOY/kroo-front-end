@@ -30,6 +30,8 @@ const dropdownProps = {
     label: 'Union status',
     placeholder: 'Select status',
     options: ['Non-union', 'Union'],
+    localStorageKey: 'unionStatus',
+    group: 'careerDetails',
 };
 
 const inputCombo = ref(inputComboProps);
