@@ -24,6 +24,20 @@ const inputFields = ref([
         placeholder: 'Tell us about your company',
         localStorageKey: 'skills',
         group: 'profileDetails'
+    },
+    {
+        hasLabel: true,
+        label: 'Media Types',
+        placeholder: 'Select media types',
+        localStorageKey: 'mediaTypes',
+        group: 'basicInfo'
+    },
+    {
+        hasLabel: true,
+        label: 'Languages',
+        placeholder: 'Select languages',
+        localStorageKey: 'languages',
+        group: 'basicInfo'
     }
 ]);
 
@@ -41,6 +55,26 @@ const imageUploads = ref([
         group: 'basicInfo'
     }
 ]);
+
+const addMediaType = () => {
+    inputFields.value.push({
+        hasLabel: true,
+        label: 'Media Type',
+        placeholder: 'Select media type',
+        localStorageKey: 'mediaType' + inputFields.value.filter(f => f.localStorageKey.startsWith('mediaType')).length,
+        group: 'basicInfo'
+    });
+};
+
+const addLanguage = () => {
+    inputFields.value.push({
+        hasLabel: true,
+        label: 'Language',
+        placeholder: 'Select language',
+        localStorageKey: 'language' + inputFields.value.filter(f => f.localStorageKey.startsWith('language')).length,
+        group: 'basicInfo'
+    });
+};
 </script>
 
 <template>
@@ -50,6 +84,27 @@ const imageUploads = ref([
             text="Glad to see you here *business name*. Let’s get you up and running." :inputFields="inputFields"
             :hasImageUpload="true" :imageUploads="imageUploads" :hasLargeButton="true" buttonLabel="Next"
             redirect="/register/business/step-3" />
+
+            <div class="multidrop">
+            <label class="text-reg-normal">Media Types</label>
+            <multidropdown
+                :options="['Video', 'Audio', 'Text']"
+                group="basicInfo"
+                localStorageKey="mediaTypes"
+            />
+            <button @click="addMediaType">+ Add</button>
+        </div>
+
+        <div class="multidrop">
+            <label class="text-reg-normal">Languages</label>
+            <multidropdown
+                :options="['English', 'Spanish', 'French']"
+                group="basicInfo"
+                localStorageKey="languages"
+            />
+            <button @click="addLanguage">+ Add</button>
+        </div>
+        
         <LoginImage class="registerContainer__image" />
     </div>
 </template>
