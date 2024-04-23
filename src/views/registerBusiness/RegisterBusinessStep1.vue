@@ -8,7 +8,6 @@ const inputField = ref({
     hasLabel: true,
     label: 'Company',
     placeholder: 'Enter company name',
-    localStorageKey: 'agendaService',
     group: 'basicInfo'
 });
 
