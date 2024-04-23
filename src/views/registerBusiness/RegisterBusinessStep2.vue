@@ -25,20 +25,6 @@ const inputFields = ref([
         localStorageKey: 'skills',
         group: 'profileDetails'
     },
-    {
-        hasLabel: true,
-        label: 'Media Types',
-        placeholder: 'Select media types',
-        localStorageKey: 'mediaTypes',
-        group: 'basicInfo'
-    },
-    {
-        hasLabel: true,
-        label: 'Languages',
-        placeholder: 'Select languages',
-        localStorageKey: 'languages',
-        group: 'basicInfo'
-    }
 ]);
 
 const imageUploads = ref([
@@ -85,26 +71,18 @@ const addLanguage = () => {
             :hasImageUpload="true" :imageUploads="imageUploads" :hasLargeButton="true" buttonLabel="Next"
             redirect="/register/business/step-3" />
 
-            <div class="multidrop">
+        <div class="multidrop">
             <label class="text-reg-normal">Media Types</label>
-            <multidropdown
-                :options="['Video', 'Audio', 'Text']"
-                group="basicInfo"
-                localStorageKey="mediaTypes"
-            />
+            <multidropdown :options="['Video', 'Audio', 'Text']" group="basicInfo" localStorageKey="mediaTypes" />
             <button @click="addMediaType">+ Add</button>
         </div>
 
         <div class="multidrop">
             <label class="text-reg-normal">Languages</label>
-            <multidropdown
-                :options="['English', 'Spanish', 'French']"
-                group="basicInfo"
-                localStorageKey="languages"
-            />
+            <multidropdown :options="['English', 'Spanish', 'French']" group="basicInfo" localStorageKey="languages" />
             <button @click="addLanguage">+ Add</button>
         </div>
-        
+
         <LoginImage class="registerContainer__image" />
     </div>
 </template>
