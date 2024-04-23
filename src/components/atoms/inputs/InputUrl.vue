@@ -1,46 +1,41 @@
-<script>
-export default {
-    props: {
-        label: {
-            type: String,
-            default: 'Custom URL'
-        },
-        hasLabel: {
-            type: Boolean,
-            default: true
-        },
-        placeholder: {
-            type: String,
-            default: 'Enter your custom URL'
-        },
-        isError: {
-            type: Boolean,
-            default: false
-        },
-        inputWidth: {
-            type: String,
-            default: '100%'
-        },
-        type: {
-            type: String,
-            default: 'user',
-            validator: value => ['user', 'business'].includes(value)
-        }
+<script setup>
+import { defineProps, ref, computed } from 'vue';
+
+const props = defineProps({
+    label: {
+        type: String,
+        default: 'Custom URL'
     },
-    data() {
-        return {
-            inputValue: ''
-        };
+    hasLabel: {
+        type: Boolean,
+        default: true
     },
-    computed: {
-        urlPrefix() {
-            return this.type === 'user' ? 'kroo.site/user/' : 'kroo.site/business/';
-        },
-        inputType() {
-            return 'text';
-        }
+    placeholder: {
+        type: String,
+        default: 'Enter your custom URL'
+    },
+    isError: {
+        type: Boolean,
+        default: false
+    },
+    inputWidth: {
+        type: String,
+        default: '100%'
+    },
+    type: {
+        type: String,
+        default: 'user',
+        validator: value => ['user', 'business'].includes(value)
     }
-};
+});
+
+const inputValue = ref('');
+
+const urlPrefix = computed(() => {
+    return props.type === 'user' ? 'kroo.site/user/' : 'kroo.site/business/';
+});
+
+const inputType = 'text';
 </script>
 
 <template>
