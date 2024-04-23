@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref, computed } from 'vue';
+import { ref, defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
     label: {
@@ -26,16 +26,31 @@ const props = defineProps({
         type: String,
         default: 'user',
         validator: value => ['user', 'business'].includes(value)
-    }
+    },
+    localStorageKey: String
 });
 
 const inputValue = ref('');
 
-const urlPrefix = computed(() => {
-    return props.type === 'user' ? 'kroo.site/user/' : 'kroo.site/business/';
-});
+const urlPrefix = ref('');
+
+if (props.type === 'user') {
+    urlPrefix.value = 'kroo.site/user/';
+} else if (props.type === 'business') {
+    urlPrefix.value = 'kroo.site/business/';
+}
 
 const inputType = 'text';
+
+const emit = defineEmits(['urlChanged']);
+
+const handleUrlChange = (value) => {
+    inputValue.value = value;
+    const postData = localStorage.getItem('postData') ? JSON.parse(localStorage.getItem('postData')) : {};
+    postData.userUrl = value;
+    localStorage.setItem('postData', JSON.stringify(postData));
+    emit('urlChanged', value);
+};
 </script>
 
 <template>
@@ -43,10 +58,12 @@ const inputType = 'text';
         <label v-if="hasLabel">{{ label }}</label>
         <div class="inputContainer__wrapper text-reg-l">
             <div class="inputContainer__wrapper__prefix">{{ urlPrefix }}</div>
-            <input :type="inputType" :placeholder="placeholder" :class="{ error: isError }" v-model="inputValue" />
+            <input :type="inputType" :placeholder="placeholder" :class="{ error: isError }" v-model="inputValue"
+                @input="handleUrlChange($event.target.value)" />
         </div>
     </div>
 </template>
+
 
 <style scoped>
 /* GENERAL */

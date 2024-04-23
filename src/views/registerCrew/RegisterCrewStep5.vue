@@ -4,13 +4,13 @@ import { ref, onMounted, computed } from 'vue';
 import Form from '../../components/organisms/forms/Form.vue';
 import LoginImage from '../../components/molecules/login/LoginImage.vue';
 
-const inputComboProps = {
-    label: 'Extra websites',
-    showDropdown: false,
-    input1Placeholder: 'Title',
-    input2Placeholder: 'URL',
-    buttonLabel: 'Add',
-};
+// const inputComboProps = {
+//     label: 'Extra websites',
+//     showDropdown: false,
+//     input1Placeholder: 'Title',
+//     input2Placeholder: 'URL',
+//     buttonLabel: 'Add',
+// };
 
 const inputUrlProps = {
     label: 'Custom URL',
@@ -19,9 +19,10 @@ const inputUrlProps = {
     isError: false,
     inputWidth: '100%',
     type: 'user',
+    localStorageKey: 'userUrl',
 };
 
-const inputCombo = ref(inputComboProps);
+// const inputCombo = ref(inputComboProps);
 const inputUrl = ref(inputUrlProps);
 
 const axiosInstance = setupAxios();
@@ -51,8 +52,8 @@ onMounted(fetchUserData);
     <div class="registerContainer">
         <Form class="registerContainer__form" header="Connectivity" :hasSteps="true" steps="Setup profile: Step 5/5"
             :hasBack="true" :hasText="true" text="Connect your digitals and let your work shine online."
-            :hasSocialInput="true" :inputCombo="inputCombo" :inputUrl="inputUrl" :hasAuthButton="true"
-            buttonLabel="Finish" endpoint="/crew" redirect="/dashboard" />
+            :hasSocialInput="true" :inputUrl="inputUrl" :hasAuthButton="true" buttonLabel="Finish" endpoint="/crew"
+            redirect="/dashboard" />
         <LoginImage class="registerContainer__image" />
     </div>
 </template>

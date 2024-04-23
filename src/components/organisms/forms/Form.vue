@@ -139,6 +139,10 @@ const handleInputChange = (group, localStorageKey, value) => {
 const handleFileUploaded = (file, localStorageKey, group) => {
     updatePostData(group, localStorageKey, file);
 };
+
+const handleUrlChange = (localStorageKey, userUrl) => {
+    updatePostData(localStorageKey, userUrl);
+};
 </script>
 
 <template>
@@ -166,7 +170,7 @@ const handleFileUploaded = (file, localStorageKey, group) => {
             <UploadFile v-if="uploadFile" :label="uploadFile.label" :hasLabel="uploadFile.hasLabel"
                 :placeholder="uploadFile.placeholder" :isError="uploadFile.isError" :inputWidth="uploadFile.inputWidth"
                 :localStorageKey="uploadFile.localStorageKey" :group="uploadFile.group"
-                @fileUploaded="handleFileUploaded(uploadFile.localStorageKey, $event.target.value)"  />
+                @fileUploaded="handleFileUploaded(uploadFile.localStorageKey, $event.target.value)" />
             <InputField v-for="(field, index) in inputFields" :key="index" :label="field.label"
                 :hasLabel="field.hasLabel" :iconLeftName="field.iconLeftName" :hasIconLeft="field.hasIconLeft"
                 :iconRightName="field.iconRightName" :hasIconRight="field.hasIconRight" :placeholder="field.placeholder"
@@ -202,7 +206,8 @@ const handleFileUploaded = (file, localStorageKey, group) => {
 
             <InputUrl v-if="inputUrl" :label="inputUrl.label" :hasLabel="inputUrl.hasLabel"
                 :placeholder="inputUrl.placeholder" :isError="inputUrl.isError" :inputWidth="inputUrl.inputWidth"
-                :type="inputUrl.type" />
+                :type="inputUrl.type" :localStorageKey="inputUrl.localStorageKey"
+                @input="handleUrlChange(inputUrl.localStorageKey, $event.target.value)" />
             <div v-if="checkbox" class="form__inputs__bot">
                 <Checkbox v-if="checkbox" :label="checkbox.label" size="small" class="form__checkbox"
                     :checked="rememberMe" @change="handleRememberMeChange" />
