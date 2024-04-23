@@ -14,7 +14,7 @@ const inputField = ref({
 
 const axiosInstance = setupAxios();
 const username = ref('');
-const companyNameKnown = ref(false);
+const companyNameNotFound = ref(false);
 
 onMounted(async () => {
     try {
@@ -29,8 +29,8 @@ onMounted(async () => {
 
         username.value = userData.username;
 
-        // Check if company name is known
-        companyNameKnown.value = userData.companyName !== undefined && userData.companyName !== null;
+        // Check if company name is not found
+        companyNameNotFound.value = userData.companyName === undefined || userData.companyName === null;
     } catch (error) {
         console.error('Error fetching user data:', error);
     }
@@ -48,7 +48,7 @@ const handleUpdateAgendaService = (service) => {
             :hasSkip="false" :hasText="true"
             text="Create your business account below and enter the company name. If it exists, join your employer or create your business on kroo."
             :inputFields="[inputField]" :hasLargeButton="true" buttonLabel="Next"
-            redirect="/register/business/step-2" :inputNoteText="companyNameKnown ? '' : 'Your agenda service is secure. We respect your data and keep it confidential.'"/>
+            redirect="/register/business/step-2" :inputNoteText="companyNameNotFound ? 'Company not found. Check the spelling or continue to create your company.' : ''"/>
         <LoginImage class="registerContainer__image" />
     </div>
 </template>
