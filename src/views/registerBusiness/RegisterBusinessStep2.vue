@@ -6,22 +6,22 @@ import LoginImage from '../../components/molecules/login/LoginImage.vue';
 const inputFields = ref([
     {
         hasLabel: true,
-        label: 'Company',
-        placeholder: 'Enter company name',
+        label: 'Company email',
+        placeholder: 'Enter company email',
         localStorageKey: 'companyName',
         group: 'basicInfo'
     },
     {
         hasLabel: true,
-        label: 'Primary Roles',
-        placeholder: 'Enter your primary roles...',
+        label: 'Location',
+        placeholder: 'Enter your location',
         localStorageKey: 'functions',
         group: 'basicInfo'
     },
     {
         hasLabel: true,
-        label: 'Skills',
-        placeholder: 'Enter your skills...',
+        label: 'Bio',
+        placeholder: 'Tell us about your company',
         localStorageKey: 'skills',
         group: 'profileDetails'
     }
