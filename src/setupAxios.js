@@ -4,7 +4,8 @@ import axios from 'axios';
 const setupAxios = (router) => {
     // create axios instance with base URL
     const axiosInstance = axios.create({
-        baseURL: 'https://kroo-back-end.onrender.com/api/v1',
+        // baseURL: 'https://kroo-back-end.onrender.com/api/v1',
+        baseURL: 'http://localhost:3000/api/v1',
     });
 
     // add a request interceptor

@@ -1,10 +1,12 @@
 <script setup>
 import { ref, defineProps, defineEmits } from 'vue';
 import FormHeader from '../../molecules/login/FormHeader.vue';
+import setupAxios from '../../../setupAxios';
+import { useRouter } from 'vue-router';
 
 // INPUTS
 import InputField from '../../atoms/inputs/InputField.vue';
-import InputCombo from '../../atoms/inputs/InputCombo.vue';
+// import InputCombo from '../../atoms/inputs/InputCombo.vue';
 import DropDown from '../../atoms/inputs/DropDown.vue';
 import MultiDropdown from '../../atoms/inputs/MultiDropdown.vue';
 import ImageUploadButton from '../../atoms/inputs/ImageUploadButton.vue';
@@ -124,9 +126,24 @@ const handleOptionSelected = (option, localStorageKey, group) => {
     updatePostData(group, localStorageKey, data);
 };
 
-const handleImageChanged = (group, localStorageKey, imageUrl) => {
-    updatePostData(group, localStorageKey, imageUrl);
+const handleImageChanged = (imageData) => {
+    const router = useRouter();
+    const axiosInstance = setupAxios(router);
+    const formData = new FormData();
+    formData.append('image', imageData);
+
+    axiosInstance.post('/crew', formData)
+        .then(response => {
+            console.log('Image uploaded successfully:', response.data);
+        })
+        .catch(error => {
+            console.error('Error uploading image:', error);
+        });
 };
+
+// const handleImageChanged = (group, localStorageKey, imageUrl) => {
+//     updatePostData(group, localStorageKey, imageUrl);
+// };
 
 const handleInputChange = (group, localStorageKey, value) => {
     const postData = JSON.parse(localStorage.getItem('postData')) || {};
@@ -187,7 +204,10 @@ const handleUrlChange = (localStorageKey, userUrl) => {
             <div v-if="hasImageUpload" class="form__inputs__image">
                 <ImageUploadButton v-for="(imageUpload, index) in imageUploads" :key="index" :shape="imageUpload.shape"
                     :label="imageUpload.label" :localStorageKey="imageUpload.localStorageKey" :group="imageUpload.group"
-                    @imageChanged="handleImageChanged(imageUpload.localStorageKey, $event.target.value)" />
+                    @imageChanged="(imageData) => handleImageChanged(imageData, imageUpload.localStorageKey, imageUpload.group)" />
+                    <!-- <ImageUploadButton v-for="(imageUpload, index) in imageUploads" :key="index" :shape="imageUpload.shape"
+                    :label="imageUpload.label" :localStorageKey="imageUpload.localStorageKey" :group="imageUpload.group"
+                    @imageChanged="handleImageChanged(imageUpload.localStorageKey, $event)" /> -->
             </div>
 
             <Slider v-if="slider" class="form__inputs__slider" :label="slider.label" :maxValue="slider.maxValue"

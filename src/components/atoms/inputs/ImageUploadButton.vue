@@ -1,6 +1,6 @@
 <script setup>
 import { Plus } from '@iconoir/vue';
-import { computed, defineProps, ref, defineEmits } from 'vue';
+import { computed, defineProps, defineEmits, ref } from 'vue';
 
 const props = defineProps({
     shape: {
@@ -10,22 +10,12 @@ const props = defineProps({
     label: {
         type: String,
         default: 'Label'
-    },
-    localStorageKey: String,
-    group: String
+    }
 });
 
 const iconComponent = computed(() => Plus);
 
 const fileInput = ref(null);
-
-const fetchStoredImage = () => {
-    const postData = localStorage.getItem('postData') ? JSON.parse(localStorage.getItem('postData')) : {};
-    const groupData = postData[props.group] || {};
-    return groupData[props.localStorageKey] || null;
-};
-
-const imageUrl = ref(fetchStoredImage());
 
 const openFileExplorer = () => {
     fileInput.value.click();
@@ -35,13 +25,7 @@ const handleFileChange = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onload = () => {
-        imageUrl.value = reader.result;
-        const postData = localStorage.getItem('postData') ? JSON.parse(localStorage.getItem('postData')) : {};
-        const groupData = postData[props.group] || {};
-        groupData[props.localStorageKey] = reader.result;
-        postData[props.group] = groupData;
-        localStorage.setItem('postData', JSON.stringify(postData));
-        emit('imageChanged', props.group, props.localStorageKey, reader.result);
+        emit('imageChanged', reader.result);
     };
     reader.readAsDataURL(file);
 };
@@ -49,18 +33,14 @@ const handleFileChange = (event) => {
 const emit = defineEmits(['imageChanged']);
 </script>
 
-
 <template>
     <div class="imageUpload">
         <span class="imageUpload___label text-reg-normal">{{ label }}</span>
-        <input type="file" accept="image/png, image/jpeg" @change="handleFileChange" style="display: none"
-            ref="fileInput">
-        <button v-if="shape === 'circle'" class="imageUpload__circle" @click="openFileExplorer"
-            :style="{ backgroundImage: `url(${imageUrl})` }">
+        <input type="file" accept="image/png, image/jpeg" @change="handleFileChange" style="display: none" ref="fileInput">
+        <button v-if="shape === 'circle'" class="imageUpload__circle" @click="openFileExplorer">
             <component v-if="!imageUrl" :is="iconComponent" class="imageUpload__plus" />
         </button>
-        <button v-else class="imageUpload__square" @click="openFileExplorer"
-            :style="{ backgroundImage: `url(${imageUrl})` }">
+        <button v-else class="imageUpload__square" @click="openFileExplorer">
             <component v-if="!imageUrl" :is="iconComponent" class="imageUpload__plus" />
         </button>
     </div>
