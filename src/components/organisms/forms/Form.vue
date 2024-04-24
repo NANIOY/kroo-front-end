@@ -76,6 +76,7 @@ const props = defineProps({
     postData: Object,
 
     group: String,
+    userId: String
 });
 
 const postData = ref({
@@ -204,8 +205,9 @@ const handleUrlChange = (localStorageKey, userUrl) => {
             <div v-if="hasImageUpload" class="form__inputs__image">
                 <ImageUploadButton v-for="(imageUpload, index) in imageUploads" :key="index" :shape="imageUpload.shape"
                     :label="imageUpload.label" :localStorageKey="imageUpload.localStorageKey" :group="imageUpload.group"
+                    :userId="userId"
                     @imageChanged="(imageData) => handleImageChanged(imageData, imageUpload.localStorageKey, imageUpload.group)" />
-                    <!-- <ImageUploadButton v-for="(imageUpload, index) in imageUploads" :key="index" :shape="imageUpload.shape"
+                <!-- <ImageUploadButton v-for="(imageUpload, index) in imageUploads" :key="index" :shape="imageUpload.shape"
                     :label="imageUpload.label" :localStorageKey="imageUpload.localStorageKey" :group="imageUpload.group"
                     @imageChanged="handleImageChanged(imageUpload.localStorageKey, $event)" /> -->
             </div>
