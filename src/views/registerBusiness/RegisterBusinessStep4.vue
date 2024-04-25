@@ -4,6 +4,15 @@ import { ref, onMounted, computed } from 'vue';
 import Form from '../../components/organisms/forms/Form.vue';
 import LoginImage from '../../components/molecules/login/LoginImage.vue';
 
+const dropdown = ref({
+    hasLabel: true,
+    label: 'Agenda service',
+    placeholder: 'Choose service',
+    options: ['Google Calendar', 'Outlook Calendar', 'Apple Calendar'],
+    localStorageKey: 'agendaService',
+    group: 'basicInfo'
+});
+
 const inputUrlProps = {
     label: 'Custom URL',
     hasLabel: true,
@@ -41,9 +50,10 @@ onMounted(fetchUserData);
 
 <template>
     <div class="registerContainer">
-        <Form class="registerContainer__form" header="Show projects" :hasSteps="true"
-            steps="Set up business account: step 3/5" :hasBack="true" :hasText="true"
-            text="Highlight your company's projects." :hasSocialInput="false" :inputUrl="inputUrl"
+        <Form class="registerContainer__form" header="Payment info" :hasSteps="true"
+            steps="Set up business account: step 4/5" :hasBack="true" :hasText="true"
+            text="Select the amount of users for your company for a tailored price." :hasSocialInput="false" 
+            :dropdown="dropdown"
             :hasLargeButton="true" buttonLabel="Next" redirect="/register/business/step-5" />
         <LoginImage class="registerContainer__image" />
     </div>
