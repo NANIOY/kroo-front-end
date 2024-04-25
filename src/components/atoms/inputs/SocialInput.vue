@@ -4,7 +4,7 @@ import SocialButton from './SocialButton.vue';
 
 <template>
     <div class="socialInput">
-        <label for="socialInput" class="text-reg-normal">Socials</label>
+        <label for="socialInput" class="text-reg-normal">Connect socials</label>
         <div class="socialInput__socials">
             <SocialButton iconType="facebook" link="https://facebook.com" />
             <SocialButton iconType="instagram" link="https://instagram.com" />

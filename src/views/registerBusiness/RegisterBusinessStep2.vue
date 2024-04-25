@@ -4,13 +4,14 @@ import { ref, onMounted, computed } from 'vue';
 import Form from '../../components/organisms/forms/Form.vue';
 import LoginImage from '../../components/molecules/login/LoginImage.vue';
 
-// const inputComboProps = {
-//     label: 'Extra websites',
-//     showDropdown: false,
-//     input1Placeholder: 'Title',
-//     input2Placeholder: 'URL',
-//     buttonLabel: 'Add',
-// };
+const dropdown = ref({
+    hasLabel: true,
+    label: 'Agenda service',
+    placeholder: 'Choose service',
+    options: ['Google Calendar', 'Outlook Calendar', 'Apple Calendar'],
+    localStorageKey: 'agendaService',
+    group: 'basicInfo'
+});
 
 const inputUrlProps = {
     label: 'Custom URL',
@@ -22,7 +23,6 @@ const inputUrlProps = {
     localStorageKey: 'userUrl',
 };
 
-// const inputCombo = ref(inputComboProps);
 const inputUrl = ref(inputUrlProps);
 
 const axiosInstance = setupAxios();
@@ -50,9 +50,10 @@ onMounted(fetchUserData);
 
 <template>
     <div class="registerContainer">
-        <Form class="registerContainer__form" header="Connectivity" :hasSteps="true" steps="Setup profile: Step 5/5"
-            :hasBack="true" :hasText="true" text="Connect your digitals and let your work shine online."
-            :hasSocialInput="true" :inputUrl="inputUrl" :hasAuthButton="true" buttonLabel="Finish" endpoint="/crew"
+        <Form class="registerContainer__form" header="Connectivity" :hasSteps="true" steps="Set up business account: step 2/5"
+        :dropdown="dropdown"
+            :hasBack="true" :hasText="true" text="Establish seamless connections to enhance your business network."
+            :hasSocialInput="true" :hasAuthButton="true" buttonLabel="Next" endpoint="/crew"
             redirect="/register/business/step-3" />
         <LoginImage class="registerContainer__image" />
     </div>
