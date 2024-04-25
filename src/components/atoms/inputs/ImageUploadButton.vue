@@ -20,10 +20,9 @@ const props = defineProps({
 });
 
 const userIdFromSession = sessionStorage.getItem('userId');
-
 const iconComponent = computed(() => Plus);
-
 const fileInput = ref(null);
+const imageUrl = ref(null);
 
 const openFileExplorer = () => {
     fileInput.value.click();
@@ -43,7 +42,7 @@ const handleFileChange = async (event) => {
                 'Content-Type': 'multipart/form-data'
             }
         });
-
+        imageUrl.value = response.data.imageUrl;
         emit('imageChanged', response.data.imageUrl);
     } catch (error) {
         console.error('Error uploading image:', error);
@@ -51,20 +50,18 @@ const handleFileChange = async (event) => {
 };
 
 const emit = defineEmits(['imageChanged']);
-
 </script>
+
 
 <template>
     <div class="imageUpload">
         <span class="imageUpload___label text-reg-normal">{{ label }}</span>
         <input type="file" accept="image/png, image/jpeg" @change="handleFileChange" style="display: none"
             ref="fileInput">
-        <button v-if="shape === 'circle'" class="imageUpload__circle" @click="openFileExplorer">
+        <div :class="shape === 'circle' ? 'imageUpload__circle' : 'imageUpload__square'"
+            :style="imageUrl ? { 'background-image': `url(${imageUrl})` } : {}" @click="openFileExplorer">
             <component v-if="!imageUrl" :is="iconComponent" class="imageUpload__plus" />
-        </button>
-        <button v-else class="imageUpload__square" @click="openFileExplorer">
-            <component v-if="!imageUrl" :is="iconComponent" class="imageUpload__plus" />
-        </button>
+        </div>
     </div>
 </template>
 
