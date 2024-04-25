@@ -1,66 +1,141 @@
 <script setup>
-import setupAxios from '../../setupAxios';
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import Form from '../../components/organisms/forms/Form.vue';
 import LoginImage from '../../components/molecules/login/LoginImage.vue';
 
-const inputField = ref({
-    hasLabel: true,
-    label: 'Company',
-    placeholder: 'Enter company name',
-    group: 'basicInfo'
-});
-
-const axiosInstance = setupAxios();
-const username = ref('');
-const companyNameNotFound = ref(false);
-
-onMounted(async () => {
-    try {
-        const userId = sessionStorage.getItem('userId');
-
-        if (!userId) {
-            throw new Error('User ID not found in session storage');
-        }
-
-        const response = await axiosInstance.get(`/user/${userId}`);
-        const userData = response.data.data.user;
-
-        username.value = userData.username;
-
-        // Check if company name is not found
-        companyNameNotFound.value = userData.companyName === undefined || userData.companyName === null;
-    } catch (error) {
-        console.error('Error fetching user data:', error);
+// Define ref for inputFields and imageUploads
+const inputFields = ref([
+    {
+        hasLabel: true,
+        label: 'Company email',
+        placeholder: 'Enter company email',
+        localStorageKey: 'companyName',
+        group: 'basicInfo'
+    },
+    {
+        hasLabel: true,
+        label: 'Location',
+        placeholder: 'Enter your location',
+        localStorageKey: 'functions',
+        group: 'basicInfo'
+    },
+    {
+        hasLabel: true,
+        label: 'Bio',
+        placeholder: 'Tell us about your company',
+        localStorageKey: 'skills',
+        group: 'profileDetails'
     }
-});
+]);
 
-const handleUpdateAgendaService = (service) => {
-    console.log('Agenda service entered:', service);
-    localStorage.setItem('agendaService', service);
-};
+const imageUploads = ref([
+    {
+        shape: 'circle',
+        label: 'Profile image',
+        localStorageKey: 'profileImage',
+        group: 'basicInfo'
+    },
+    {
+        shape: 'square',
+        label: 'Banner image',
+        localStorageKey: 'bannerImage',
+        group: 'basicInfo'
+    }
+]);
+
+const multidropdownProps = ref([
+    {
+        hasLabel: true,
+        label: 'Media types',
+        placeholder: 'Select your media types...',
+        options: [
+            "Animation",
+            "Children's programming",
+            "Commercials",
+            "Documentaries",
+            "Feature films",
+            "Game shows",
+            "Music videos",
+            "Reality television",
+            "Short films",
+            "Sports broadcasts",
+            "Television programs",
+            "Television shows",
+            "Web series"
+        ],
+        localStorageKey: 'functions',
+        group: 'basicInfo'
+    },
+    {
+        hasLabel: true,
+        label: 'Languages',
+        placeholder: 'Select your languages...',
+        options: [
+            'English',
+            'Español',
+            'Deutsch',
+            'Français',
+            'Italiano',
+            'Português',
+            'Русский',
+            'Nederlands',
+            'Polski',
+            'Svenska',
+            'Norsk',
+            'Dansk',
+            'Suomi',
+            'Ελληνικά',
+            'Čeština',
+            'Magyar',
+            'Türkçe',
+            'Română',
+            'Български',
+            'Українська',
+            'Slovenčina',
+            'Lietuvių',
+            'Latviešu',
+            'Eesti',
+            'Hrvatski',
+            'Srpski',
+            'Српски',
+            'Slovenščina',
+            'Беларуская',
+            'Íslenska',
+            'العربية',
+            'हिन्दी',
+            '中文',
+            '日本語',
+            '한국어',
+            'فارسی',
+            'বাংলা',
+            'עברית',
+            'ਪੰਜਾਬੀ',
+            'தமிழ்',
+            'తెలుగు',
+            'മലയാളം',
+            'ਪੰਜਾਬੀ',
+            'ગુજરાતી'
+        ],
+        localStorageKey: 'skills',
+        group: 'profileDetails'
+    }
+]);
+const multidropdowns = ref(multidropdownProps);
+
 </script>
 
 <template>
     <div class="registerContainer">
-        <Form class="registerContainer__form" :header="'Hello ' + username" :hasSteps="false" steps="" :hasBack="true"
-            :hasSkip="false" :hasText="true"
-            text="Create your business account below and enter the company name. If it exists, join your employer or create your business on kroo."
-            :inputFields="[inputField]" :hasLargeButton="true" buttonLabel="Next"
-            redirect="/register/business/step-2" :inputNoteText="companyNameNotFound ? 'Company not found. Check the spelling or continue to create your company.' : ''"/>
+        <Form class="registerContainer__form" header="Business info" :hasSteps="true"
+            steps="Set up business account: step 1/5" :hasBack="true" :hasSkip="false" :hasText="true"
+            text="Glad to see you here Grasshoppers Academy. Let’s get you up and running." :inputFields="inputFields"
+            :hasImageUpload="true" :imageUploads="imageUploads" :hasMultiDropdown=true
+            :multidropdowns="multidropdownProps" :hasLargeButton="true" buttonLabel="Next"
+            redirect="/register/business/step-2">
+        </Form>
+
         <LoginImage class="registerContainer__image" />
     </div>
 </template>
 
-<style>
-.registerContainer {
-    display: flex;
-    justify-content: space-between;
-    margin-left: 156px;
-    margin-right: 244px;
-}
-
-.registerContainer__form {
-    margin-top: 24px;
-}
-</style>
+<style scoped></style>

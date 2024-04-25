@@ -5,19 +5,20 @@ import Login from './views/Login.vue';
 import Register from './views/Register.vue';
 import ForgotPassword from './views/ForgotPassword.vue';
 
-    // REGISTER CREW
-    import RegisterCrewStep1 from './views/registerCrew/RegisterCrewStep1.vue';
-    import RegisterCrewStep2 from './views/registerCrew/RegisterCrewStep2.vue';
-    import RegisterCrewStep3 from './views/registerCrew/RegisterCrewStep3.vue';
-    import RegisterCrewStep4 from './views/registerCrew/RegisterCrewStep4.vue';
-    import RegisterCrewStep5 from './views/registerCrew/RegisterCrewStep5.vue';
+// REGISTER CREW
+import RegisterCrewStep1 from './views/registerCrew/RegisterCrewStep1.vue';
+import RegisterCrewStep2 from './views/registerCrew/RegisterCrewStep2.vue';
+import RegisterCrewStep3 from './views/registerCrew/RegisterCrewStep3.vue';
+import RegisterCrewStep4 from './views/registerCrew/RegisterCrewStep4.vue';
+import RegisterCrewStep5 from './views/registerCrew/RegisterCrewStep5.vue';
 
-    // REGISTER BUSINESS
-    import RegisterBusinessStep1 from './views/registerBusiness/RegisterBusinessStep1.vue';
-    import RegisterBusinessStep2 from './views/registerBusiness/RegisterBusinessStep2.vue';
-    import RegisterBusinessStep3 from './views/registerBusiness/RegisterBusinessStep3.vue';
-    import RegisterBusinessStep4 from './views/registerBusiness/RegisterBusinessStep4.vue';
-    import RegisterBusinessStep5 from './views/registerBusiness/RegisterBusinessStep5.vue';
+// REGISTER BUSINESS
+import RegisterBusiness from './views/registerBusiness/RegisterBusiness.vue';
+import RegisterBusinessStep1 from './views/registerBusiness/RegisterBusinessStep1.vue';
+import RegisterBusinessStep2 from './views/registerBusiness/RegisterBusinessStep2.vue';
+import RegisterBusinessStep3 from './views/registerBusiness/RegisterBusinessStep3.vue';
+import RegisterBusinessStep4 from './views/registerBusiness/RegisterBusinessStep4.vue';
+import RegisterBusinessStep5 from './views/registerBusiness/RegisterBusinessStep5.vue';
 
 // MAIN APP ROUTES
 import Calendar from './views/Calendar.vue';
@@ -44,6 +45,7 @@ const routes = [
     { path: '/register/crew/step-4', component: RegisterCrewStep4 },
     { path: '/register/crew/step-5', component: RegisterCrewStep5 },
     
+    { path: '/register/business', component: RegisterBusiness },
     { path: '/register/business/step-1', component: RegisterBusinessStep1 },
     { path: '/register/business/step-2', component: RegisterBusinessStep2 },
     { path: '/register/business/step-3', component: RegisterBusinessStep3 },

@@ -61,7 +61,7 @@ const setRedirectPath = () => {
   if (selectedRole.value === 'crew') {
     return '/register/crew/step-1';
   } else if (selectedRole.value === 'business') {
-    return '/register/business/step-1';
+    return '/register/business';
   } else {
     return '/register/crew/step-1';
   }
