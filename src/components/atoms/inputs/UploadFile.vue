@@ -1,6 +1,7 @@
 <script setup>
 import { Upload } from '@iconoir/vue';
 import { computed, defineProps, ref, defineEmits } from 'vue';
+import setupAxios from '../../../setupAxios';
 
 const props = defineProps({
     label: String,
@@ -19,39 +20,38 @@ const props = defineProps({
     inputWidth: {
         type: String,
         default: '100%'
-    },
-    localStorageKey: String,
-    group: String,
+    }
 });
 
-
+const userIdFromSession = sessionStorage.getItem('userId');
 const fileInput = ref(null);
-
-const fetchFile = () => {
-    const postData = localStorage.getItem('postData') ? JSON.parse(localStorage.getItem('postData')) : {};
-    const groupData = postData[props.group] || {};
-    return groupData[props.localStorageKey] || null;
-};
-
-const imageUrl = ref(fetchFile());
+const fileName = ref('');
 
 const openFileExplorer = () => {
     fileInput.value.click();
 };
 
-const handleFileChange = (event) => {
+const handleFileChange = async (event) => {
+    if (event.target.files.length === 0) return;
+
     const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-        imageUrl.value = reader.result;
-        const postData = localStorage.getItem('postData') ? JSON.parse(localStorage.getItem('postData')) : {};
-        const groupData = postData[props.group] || {};
-        groupData[props.localStorageKey] = reader.result;
-        postData[props.group] = groupData;
-        localStorage.setItem('postData', JSON.stringify(postData));
-        emit('fileUploaded', props.group, props.localStorageKey, reader.result);
-    };
-    reader.readAsDataURL(file);
+    fileName.value = file.name;
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('userId', userIdFromSession);
+
+    try {
+        const axiosInstance = setupAxios();
+        const response = await axiosInstance.post('/file/uploadfile', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        emit('fileUploaded', response.data.fileUrl);
+    } catch (error) {
+        console.error('Error uploading file:', error);
+    }
 };
 
 const emit = defineEmits(['fileUploaded']);
@@ -61,16 +61,17 @@ const emit = defineEmits(['fileUploaded']);
     <div class="inputContainer">
         <label v-if="hasLabel">{{ label }}</label>
         <div class="inputContainer__wrapper">
-            <input type="file" style="display: none;" ref="fileInput" @change="handleFileChange"
+            <input type="file" ref="fileInput" @change="handleFileChange" style="display: none;"
                 accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
-            <input type="text" :value="file ? file.name : ''" :placeholder="file ? '' : placeholder"
-                :class="{ error: isError }" :style="{ width: inputWidth }" readonly @click="openFileExplorer">
-            <span class="icon">
+            <input type="text" :value="fileName" :placeholder="placeholder" :class="{ error: isError }"
+                :style="{ width: inputWidth }" readonly @click="openFileExplorer">
+            <span class="icon" @click="openFileExplorer">
                 <Upload />
             </span>
         </div>
     </div>
 </template>
+
 
 <style scoped>
 .inputContainer {
