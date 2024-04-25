@@ -12,13 +12,14 @@ const props = defineProps({
         type: String,
         default: 'Label'
     },
-    userId: {
+    imageType: {
         type: String,
-        default: ''
-    }
+        default: 'profile',
+        required: true
+    },
 });
 
-console.log('userId:', props.userId);
+const userIdFromSession = sessionStorage.getItem('userId');
 
 const iconComponent = computed(() => Plus);
 
@@ -32,9 +33,8 @@ const handleFileChange = async (event) => {
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('userId', props.userId);
-
-    console.log('FormData:', formData);
+    formData.append('userId', userIdFromSession);
+    formData.append('imageType', props.imageType);
 
     try {
         const axiosInstance = setupAxios();
@@ -44,15 +44,6 @@ const handleFileChange = async (event) => {
             }
         });
 
-        console.log('Request:', {
-            method: 'POST',
-            url: '/uploadimage',
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
-            body: formData
-        });
-
         emit('imageChanged', response.data.imageUrl);
     } catch (error) {
         console.error('Error uploading image:', error);
@@ -60,6 +51,7 @@ const handleFileChange = async (event) => {
 };
 
 const emit = defineEmits(['imageChanged']);
+
 </script>
 
 <template>
