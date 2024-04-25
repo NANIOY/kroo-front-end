@@ -20,6 +20,7 @@ import Checkbox from '../../atoms/selectors/Checkbox.vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import AuthButton from '../../atoms/buttons/AuthButton.vue';
+import LocalStorageButton from '../../atoms/buttons/LocalStorageButton.vue';
 
 const props = defineProps({
     hasSelectors: Boolean,
@@ -71,6 +72,7 @@ const props = defineProps({
     isRegistration: Boolean,
     hasLargeButton: Boolean,
     hasAuthButton: Boolean,
+    hasLocalStorageButton: Boolean,
 
     selectedRole: String,
     postData: Object,
@@ -229,6 +231,8 @@ const handleUrlChange = (localStorageKey, userUrl) => {
             <LargeButton v-if="(hasLargeButton)" :label="buttonLabel" :endpoint="endpoint" :postData="postData"
                 :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" />
             <AuthButton v-if="(hasAuthButton)" :label="buttonLabel" :endpoint="endpoint" :postData="postData"
+                :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" />
+            <LocalStorageButton v-if="(hasLocalStorageButton)" :label="buttonLabel" :endpoint="endpoint" :postData="postData"
                 :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" />
 
             <div class="form__buttons__note" v-if="noteLink">

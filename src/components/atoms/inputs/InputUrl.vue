@@ -84,6 +84,7 @@ const handleUrlChange = (value) => {
     align-items: center;
     position: relative;
     width: 100%;
+    font-family: var(--font-body);
 }
 
 .inputContainer__wrapper__prefix,
