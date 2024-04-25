@@ -63,15 +63,14 @@ const emit = defineEmits(['fileUploaded']);
         <div class="inputContainer__wrapper">
             <input type="file" ref="fileInput" @change="handleFileChange" style="display: none;"
                 accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
-            <input type="text" :value="fileName" :placeholder="placeholder" :class="{ error: isError }"
-                :style="{ width: inputWidth }" readonly @click="openFileExplorer">
+            <input type="text" :value="fileName || ''" :placeholder="fileName ? '' : placeholder"
+                :class="{ error: isError }" :style="{ width: inputWidth }" readonly @click="openFileExplorer">
             <span class="icon" @click="openFileExplorer">
                 <Upload />
             </span>
         </div>
     </div>
 </template>
-
 
 <style scoped>
 .inputContainer {
