@@ -50,11 +50,10 @@ onMounted(fetchUserData);
 
 <template>
     <div class="registerContainer">
-        <Form class="registerContainer__form" header="Connectivity" :hasSteps="true" steps="Set up business account: step 2/5"
-        :dropdown="dropdown"
-            :hasBack="true" :hasText="true" text="Establish seamless connections to enhance your business network."
-            :hasSocialInput="true" :hasLargeButton="true" buttonLabel="Next"
-            redirect="/register/business/step-3" />
+        <Form class="registerContainer__form" header="Connectivity" :hasSteps="true"
+            steps="Set up business account: step 2/5" :dropdown="dropdown" :hasBack="true" :hasText="true"
+            text="Establish seamless connections to enhance your business network." :hasSocialInput="true"
+            :hasLargeButton="true" buttonLabel="Next" redirect="/register/business/step-3" />
         <LoginImage class="registerContainer__image" />
     </div>
 </template>
