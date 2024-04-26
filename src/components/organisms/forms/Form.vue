@@ -20,6 +20,7 @@ import Checkbox from '../../atoms/selectors/Checkbox.vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import AuthButton from '../../atoms/buttons/AuthButton.vue';
+import LocalStorageButton from '../../atoms/buttons/LocalStorageButton.vue';
 
 const props = defineProps({
     hasSelectors: Boolean,
@@ -71,6 +72,7 @@ const props = defineProps({
     isRegistration: Boolean,
     hasLargeButton: Boolean,
     hasAuthButton: Boolean,
+    hasLocalStorageButton: Boolean,
 
     selectedRole: String,
     postData: Object,
@@ -127,24 +129,9 @@ const handleOptionSelected = (option, localStorageKey, group) => {
     updatePostData(group, localStorageKey, data);
 };
 
-const handleImageChanged = (imageData) => {
-    const router = useRouter();
-    const axiosInstance = setupAxios(router);
-    const formData = new FormData();
-    formData.append('image', imageData);
-
-    axiosInstance.post('/crew', formData)
-        .then(response => {
-            console.log('Image uploaded successfully:', response.data);
-        })
-        .catch(error => {
-            console.error('Error uploading image:', error);
-        });
+const handleImageChanged = (group, localStorageKey, imageUrl) => {
+    updatePostData(group, localStorageKey, imageUrl);
 };
-
-// const handleImageChanged = (group, localStorageKey, imageUrl) => {
-//     updatePostData(group, localStorageKey, imageUrl);
-// };
 
 const handleInputChange = (group, localStorageKey, value) => {
     const postData = JSON.parse(localStorage.getItem('postData')) || {};
@@ -188,7 +175,7 @@ const handleUrlChange = (localStorageKey, userUrl) => {
             <UploadFile v-if="uploadFile" :label="uploadFile.label" :hasLabel="uploadFile.hasLabel"
                 :placeholder="uploadFile.placeholder" :isError="uploadFile.isError" :inputWidth="uploadFile.inputWidth"
                 :localStorageKey="uploadFile.localStorageKey" :group="uploadFile.group"
-                @fileUploaded="handleFileUploaded(uploadFile.localStorageKey, $event.target.value)" />
+                @fileUploaded="handleFileUploaded" />
             <InputField v-for="(field, index) in inputFields" :key="index" :label="field.label"
                 :hasLabel="field.hasLabel" :iconLeftName="field.iconLeftName" :hasIconLeft="field.hasIconLeft"
                 :iconRightName="field.iconRightName" :hasIconRight="field.hasIconRight" :placeholder="field.placeholder"
@@ -205,11 +192,8 @@ const handleUrlChange = (localStorageKey, userUrl) => {
             <div v-if="hasImageUpload" class="form__inputs__image">
                 <ImageUploadButton v-for="(imageUpload, index) in imageUploads" :key="index" :shape="imageUpload.shape"
                     :label="imageUpload.label" :localStorageKey="imageUpload.localStorageKey" :group="imageUpload.group"
-                    :userId="userId"
+                    :imageType="imageUpload.imageType"
                     @imageChanged="(imageData) => handleImageChanged(imageData, imageUpload.localStorageKey, imageUpload.group)" />
-                <!-- <ImageUploadButton v-for="(imageUpload, index) in imageUploads" :key="index" :shape="imageUpload.shape"
-                    :label="imageUpload.label" :localStorageKey="imageUpload.localStorageKey" :group="imageUpload.group"
-                    @imageChanged="handleImageChanged(imageUpload.localStorageKey, $event)" /> -->
             </div>
 
             <Slider v-if="slider" class="form__inputs__slider" :label="slider.label" :maxValue="slider.maxValue"
@@ -247,6 +231,8 @@ const handleUrlChange = (localStorageKey, userUrl) => {
             <LargeButton v-if="(hasLargeButton)" :label="buttonLabel" :endpoint="endpoint" :postData="postData"
                 :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" />
             <AuthButton v-if="(hasAuthButton)" :label="buttonLabel" :endpoint="endpoint" :postData="postData"
+                :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" />
+            <LocalStorageButton v-if="(hasLocalStorageButton)" :label="buttonLabel" :endpoint="endpoint" :postData="postData"
                 :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" />
 
             <div class="form__buttons__note" v-if="noteLink">

@@ -8,13 +8,15 @@ const imageUploads = ref([
         shape: 'circle',
         label: 'Profile image',
         localStorageKey: 'profileImage',
-        group: 'basicInfo'
+        group: 'basicInfo',
+        imageType: 'profile'
     },
     {
         shape: 'square',
         label: 'Banner image',
         localStorageKey: 'bannerImage',
-        group: 'basicInfo'
+        group: 'basicInfo',
+        imageType: 'banner'
     }
 ]);
 
