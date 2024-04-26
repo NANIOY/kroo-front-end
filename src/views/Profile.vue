@@ -1,13 +1,11 @@
 <script setup>
-
+  import ProfileImg from '../components/atoms/profile/ProfileImg.vue';
+  import Tab from '../components/atoms/profile/Tab.vue';
+  import PortfolioImg from '../components/atoms/profile/PortfolioImg.vue';
 </script>
 
 <template>
-  <div>
-    <h1>Profile</h1>
-    <p>This is profile</p>
-  </div>
-
+ 
 </template>
 
 <style scoped></style>
