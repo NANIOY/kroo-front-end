@@ -16,15 +16,24 @@ const func = ref(props.func);
 const profileImage = ref(props.profileImage);
 
 const fetchUserData = async () => {
-  try {
-    const response = await axiosInstance.get(`/user/${userId}`);
-    const userData = response.data.data.user;
-    name.value = userData.username;
-    func.value = userData.role; // has to fetch role from crewId instead of userId
-    profileImage.value = userData.profileImage; // has to fetch image from crewId instead of userId
-  } catch (error) {
-    console.error('Error fetching user data:', error);
-  }
+    try {
+        const userResponse = await axiosInstance.get(`/user/${userId}`);
+        const userData = userResponse.data.data.user;
+        name.value = userData.username;
+
+        const crewDataId = userData.crewData?._id;
+        if (crewDataId) {
+            const crewResponse = await axiosInstance.get(`/crew/${crewDataId}`);
+            const crewData = crewResponse.data.data;
+
+            func.value = crewData.basicInfo.functions.join(', ');
+            profileImage.value = crewData.basicInfo.profileImage;
+        } else {
+            throw new Error('crewDataId is not available');
+        }
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+    }
 };
 
 onMounted(fetchUserData);
