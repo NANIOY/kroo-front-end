@@ -182,12 +182,6 @@ const handleUrlChange = (localStorageKey, userUrl) => {
                 :isError="field.isError" :isPassword="field.isPassword" class="form__inputs__field"
                 @input="updatePostData(field.label, $event.target.value)" />
 
-            <InputField v-for="(localfield, index) in localfields" :key="index" :label="localfield.label"
-                :hasLabel="localfield.hasLabel" :iconLeftName="localfield.iconLeftName"
-                :hasIconLeft="localfield.hasIconLeft" :iconRightName="localfield.iconRightName"
-                :hasIconRight="localfield.hasIconRight" :placeholder="localfield.placeholder"
-                :isError="localfield.isError" :isPassword="localfield.isPassword" class="form__inputs__field"
-                @input="handleInputChange(localfield.group, localfield.localStorageKey, $event.target.value)" />
 
             <div v-if="hasImageUpload" class="form__inputs__image">
                 <ImageUploadButton v-for="(imageUpload, index) in imageUploads" :key="index" :shape="imageUpload.shape"
@@ -195,6 +189,13 @@ const handleUrlChange = (localStorageKey, userUrl) => {
                     :imageType="imageUpload.imageType"
                     @imageChanged="(imageData) => handleImageChanged(imageData, imageUpload.localStorageKey, imageUpload.group)" />
             </div>
+            
+            <InputField v-for="(localfield, index) in localfields" :key="index" :label="localfield.label"
+                :hasLabel="localfield.hasLabel" :iconLeftName="localfield.iconLeftName"
+                :hasIconLeft="localfield.hasIconLeft" :iconRightName="localfield.iconRightName"
+                :hasIconRight="localfield.hasIconRight" :placeholder="localfield.placeholder"
+                :isError="localfield.isError" :isPassword="localfield.isPassword" class="form__inputs__field"
+                @input="handleInputChange(localfield.group, localfield.localStorageKey, $event.target.value)" />
 
             <Slider v-if="slider" class="form__inputs__slider" :label="slider.label" :maxValue="slider.maxValue"
                 :localStorageKey="slider.localStorageKey" :group="slider.group"
@@ -232,8 +233,9 @@ const handleUrlChange = (localStorageKey, userUrl) => {
                 :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" />
             <AuthButton v-if="(hasAuthButton)" :label="buttonLabel" :endpoint="endpoint" :postData="postData"
                 :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" />
-            <LocalStorageButton v-if="(hasLocalStorageButton)" :label="buttonLabel" :endpoint="endpoint" :postData="postData"
-                :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" />
+            <LocalStorageButton v-if="(hasLocalStorageButton)" :label="buttonLabel" :endpoint="endpoint"
+                :postData="postData" :redirect="redirect" :isRegistration="isRegistration"
+                class="form__buttons__button button--primary" />
 
             <div class="form__buttons__note" v-if="noteLink">
                 <p class="button-normal" v-if="!noteLink">{{ noteText }}</p>

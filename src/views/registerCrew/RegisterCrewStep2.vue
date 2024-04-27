@@ -20,6 +20,19 @@ const imageUploads = ref([
     }
 ]);
 
+const localfields = ref([
+    {
+        label: 'Tagline',
+        hasLabel: true,
+        placeholder: 'Enter a short tagline',
+        hasIconLeft: false,
+        hasIconRight: false,
+        isPassword: false,
+        localStorageKey: 'tagline',
+        group: 'profileDetails'
+    },
+]);
+
 const multidropdownProps = ref([
     {
         hasLabel: true,
@@ -145,7 +158,7 @@ const multidropdowns = ref(multidropdownProps);
     <div class="registerContainer">
         <Form class="registerContainer__form" header="Basic info" :hasSteps="true" steps="Setup profile: Step 2/5"
             :hasBack="true" :hasSkip="true" :hasText="true" text="Great! Let's tailor your profile and make you shine."
-            :hasImageUpload="true" :imageUploads="imageUploads" :hasMultiDropdown="true"
+            :hasImageUpload="true" :imageUploads="imageUploads" :localfields="localfields" :hasMultiDropdown="true"
             :multidropdowns="multidropdowns" :hasLargeButton="true" buttonLabel="Next"
             redirect="/register/crew/step-3" />
         <LoginImage class="registerContainer__image" />
