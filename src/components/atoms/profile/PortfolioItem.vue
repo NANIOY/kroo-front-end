@@ -18,16 +18,17 @@ const props = defineProps({
 <style scoped>
 .portfolioitem {
   width: 100%;
-  max-height: 600px;
   border-radius: 12px;
   overflow: hidden;
+  display: block;
   position: relative;
+  break-inside: avoid;
+  margin-bottom: 24px;
 }
 
 .portfolioitem__img {
   width: 100%;
   height: 100%;
-  max-height: 600px;
   display: block;
   object-fit: cover;
   background-color: var(--gray);
