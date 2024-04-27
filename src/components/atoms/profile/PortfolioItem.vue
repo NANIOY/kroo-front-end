@@ -24,6 +24,7 @@ const props = defineProps({
   position: relative;
   break-inside: avoid;
   margin-bottom: 24px;
+  cursor: pointer;
 }
 
 .portfolioitem__img {
