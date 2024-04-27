@@ -43,17 +43,19 @@ onMounted(async () => {
                     <h4>{{ name }}</h4>
 
                     <div class="profileinfo__container__info__text__functions">
-                        <span v-for="(func, index) in functions" :key="index"
-                            class="profileinfo__container__info__text__functions__item text-reg-normal">
-                            {{ func }}
-                        </span>
+                        <Tag class="profileinfo__container__info__text__functions__function"
+                            v-for="(func, index) in functions" :key="index" type="colored">{{ func }}</Tag>
+
                     </div>
 
                     <div class="profileinfo__container__info__text__skilldesc">
                         <div>
-                            <Tag v-for="skill in skills" :key="skill" type="colored">{{ skill }}</Tag>
+                            <span v-for="skill in skills" :key="skill"
+                                class="profileinfo__container__info__text__skilldesc__skill text-reg-s">
+                                {{ skill }}
+                            </span>
                         </div>
-                        <p class="text-reg-s">
+                        <p class="text-reg-normal">
                             {{ description }}
                         </p>
                     </div>
@@ -70,8 +72,7 @@ onMounted(async () => {
 .profileinfo__container,
 .profileinfo__container__info,
 .profileinfo__container__info__text,
-.profileinfo__container__info__text__skilldesc,
-.profileinfo__container__info__text__skilldesc div {
+.profileinfo__container__info__text__skilldesc {
     display: flex;
     align-items: center;
 }
@@ -88,10 +89,10 @@ onMounted(async () => {
 .profileinfo__container__info,
 .profileinfo__container__info__text,
 .profileinfo__container__info__text__skilldesc {
-    gap: 16px;
+    gap: 24px;
 }
 
-.profileinfo__container__info__text__functions,
+
 .profileinfo__container__info__text__skilldesc p {
     text-align: center;
 }
@@ -106,17 +107,22 @@ onMounted(async () => {
 }
 
 /* FUNCTIONS */
-.profileinfo__container__info__text__functions__item:not(:last-child)::after {
-    content: "|";
-    margin: 0 8px;
-    color: var(--neutral-40);
-}
-
-/* SKILLS + DESCRIPTION */
-.profileinfo__container__info__text__skilldesc div {
-    flex-direction: row;
+.profileinfo__container__info__text__functions {
+    display: flex;
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
+}
+
+/* SKILLS + DESCRIPTION */
+.profileinfo__container__info__text__skilldesc {
+    align-items: center;
+    text-align: center;
+}
+
+.profileinfo__container__info__text__skilldesc__skill:not(:last-child)::after {
+    content: "|";
+    margin: 0 8px;
+    color: var(--neutral-40);
 }
 </style>

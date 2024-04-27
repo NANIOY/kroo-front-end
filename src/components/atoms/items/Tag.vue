@@ -23,7 +23,6 @@ const props = defineProps({
     display: inline-flex;
     align-items: center;
     height: 20px;
-    max-width: 200px;
     padding: 2px 8px;
     line-height: 1;
     border-radius: 2px;
