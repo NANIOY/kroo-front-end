@@ -10,26 +10,33 @@ const props = defineProps({
 </script>
 
 <template>
-    <div :class="[
-        'tag',
-        { 'tag--colored': type === 'colored', 'tag--transparent': type === 'transparent' },
-        'text-bold-s'
-    ]">
-        <slot></slot>
+    <div class="tag text-bold-s"
+        :class="{ 'tag--colored': type === 'colored', 'tag--transparent': type === 'transparent' }">
+        <span class="tag__text text-bold-s">
+            <slot></slot>
+        </span>
     </div>
 </template>
 
-
 <style scoped>
 .tag {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     height: 20px;
+    max-width: 128px;
     padding: 2px 8px;
-    line-height: 22px;
+    line-height: 1;
     border-radius: 2px;
     background-color: var(--neutral-70);
     color: var(--white);
     text-transform: uppercase;
+    overflow: hidden;
+}
+
+.tag__text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .tag--colored {
@@ -40,7 +47,6 @@ const props = defineProps({
 .tag--transparent {
     background-color: transparent;
     color: var(--neutral-70);
-    outline: 2px solid var(--neutral-70);
-    outline-offset: -2px;
+    border: 2px solid var(--neutral-70);
 }
 </style>
