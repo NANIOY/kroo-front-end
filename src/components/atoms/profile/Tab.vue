@@ -14,7 +14,7 @@ const makeActive = () => {
 </script>
 
 <template>
-    <div class="tab text-reg-l" :class="{ 'active': isActive }" @click="makeActive">
+    <div class="tab text-bold-l" :class="{ 'active': isActive }" @click="makeActive">
         {{ label }}
         <div v-if="isActive" class="indicator"></div>
     </div>
@@ -26,8 +26,10 @@ const makeActive = () => {
     position: relative;
     text-align: center;
     height: 40px;
-    display: inline-block;
-    color: var(--black);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--neutral-50);
     user-select: none;
 }
 
@@ -42,8 +44,25 @@ const makeActive = () => {
     background-color: currentColor;
 }
 
+.tab::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 3px;
+    width: 40px;
+    border-radius: 999px;
+    background-color: transparent;
+    transition: 0.3s;
+}
+
 .active {
     color: var(--blurple);
-    font-weight: bold;
+    opacity: 1;
+}
+
+.active::after {
+    background-color: currentColor;
 }
 </style>
