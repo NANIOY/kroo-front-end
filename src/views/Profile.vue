@@ -1,11 +1,18 @@
 <script setup>
-  import ProfileImg from '../components/atoms/profile/ProfileImg.vue';
-  import Tab from '../components/atoms/profile/Tab.vue';
-  import PortfolioImg from '../components/atoms/profile/PortfolioImg.vue';
+import ProfileLeft from '../components/organisms/profile/ProfileLeft.vue';
+import ProfileRight from '../components/organisms/profile/ProfileRight.vue';
 </script>
 
 <template>
- 
+  <div class="profile">
+    <ProfileLeft />
+    <ProfileRight />
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+  .profile {
+    display: flex;
+    gap: 80px;
+  }
+</style>
