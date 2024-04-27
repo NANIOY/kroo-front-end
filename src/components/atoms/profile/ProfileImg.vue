@@ -46,8 +46,8 @@ onMounted(async () => {
 .pfpContainer__image {
     border-radius: 50%;
     border: 2px solid var(--white);
-    width: 200px;
-    height: 200px;
+    width: 168px;
+    height: 168px;
     object-fit: cover;
 }
 
@@ -59,8 +59,8 @@ onMounted(async () => {
 }
 
 .pfpContainer__badge img {
-    width: 56px;
-    height: 56px;
+    width: 48px;
+    height: 48px;
 }
 
 .pfpContainer__badge::after {
