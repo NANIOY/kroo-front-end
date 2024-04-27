@@ -6,17 +6,15 @@ const props = defineProps({
     isActive: Boolean
 });
 
-const emits = defineEmits(['update:isActive']);
+const emits = defineEmits(['tabSelected']);
 
 const makeActive = () => {
-    if (!props.isActive) {
-        emits('update:isActive', true);
-    }
+    emits('tabSelected', props.label);
 };
 </script>
 
 <template>
-    <div class="tab text-reg-l" :class="{ 'active': isActive, 'text-bold-l': isActive }" @click="makeActive">
+    <div class="tab text-reg-l" :class="{ 'active': isActive }" @click="makeActive">
         {{ label }}
         <div v-if="isActive" class="indicator"></div>
     </div>
@@ -30,6 +28,7 @@ const makeActive = () => {
     height: 40px;
     display: inline-block;
     color: var(--black);
+    user-select: none;
 }
 
 .indicator {
@@ -45,5 +44,6 @@ const makeActive = () => {
 
 .active {
     color: var(--blurple);
+    font-weight: bold;
 }
 </style>

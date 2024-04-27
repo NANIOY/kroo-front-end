@@ -1,14 +1,27 @@
 <script setup>
 import Tab from '../../atoms/profile/Tab.vue'
+import { ref, defineEmits } from 'vue';
+
+const activeTab = ref('About');
+const emits = defineEmits(['update:activeTab']);
+
+const changeTab = (newTab) => {
+  activeTab.value = newTab;
+  emits('update:activeTab', newTab);
+};
 </script>
 
 <template>
     <div class="tabs">
-        <Tab label="About" />
-        <Tab label="Portfolio" />
-        <Tab label="Activity" />
+      <Tab
+        v-for="tab in ['About', 'Portfolio', 'Activity']"
+        :key="tab"
+        :label="tab"
+        :isActive="activeTab === tab"
+        @tabSelected="changeTab"
+      />
     </div>
-</template>
+  </template>
 
 <style scoped>
 .tabs {
