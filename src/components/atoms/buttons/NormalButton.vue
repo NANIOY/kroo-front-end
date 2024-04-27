@@ -1,5 +1,5 @@
 <script>
-import { NavArrowDown, NavArrowUp, NavArrowLeft, NavArrowRight, User, HandCard, Bell, Accessibility, Behance, Tiktok, Threads, X, Linkedin, Youtube, Instagram, Facebook, Dribbble, MapPin, AtSign, CheckCircle, MoreHoriz, Xmark, Learning, CinemaOld, DragHandGesture, Attachment, Calendar, Search, Plus, Clock, BadgeCheck } from '@iconoir/vue';
+import { NavArrowDown, NavArrowUp, NavArrowLeft, NavArrowRight, User, HandCard, Bell, Accessibility, Behance, Tiktok, Threads, X, Linkedin, Youtube, Instagram, Facebook, Dribbble, MapPin, AtSign, CheckCircle, MoreHoriz, Xmark, Learning, CinemaOld, DragHandGesture, Attachment, Calendar, Search, Plus, Clock, BadgeCheck, EditPencil } from '@iconoir/vue';
 import { useRouter } from 'vue-router';
 import setupAxios from '../../../setupAxios.js'
 
@@ -51,6 +51,9 @@ export default {
                         console.error('Error making POST request:', error);
                     });
             }
+            if (props.redirect) {
+                router.push(props.redirect);
+            }
         };
 
         return {
@@ -88,7 +91,8 @@ export default {
         Search,
         Plus,
         Clock,
-        BadgeCheck
+        BadgeCheck,
+        EditPencil
     }
 };
 </script>
