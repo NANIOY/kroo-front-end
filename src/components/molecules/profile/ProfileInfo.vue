@@ -24,7 +24,7 @@ onMounted(async () => {
                 const crewData = crewResponse.data.data;
                 functions.value = crewData.basicInfo.functions;
                 skills.value = crewData.profileDetails.skills;
-                description.value = crewData.profileDetails.bio;
+                description.value = crewData.profileDetails.tagline;
             }
         } catch (error) {
             console.error('Error fetching user data:', error);
