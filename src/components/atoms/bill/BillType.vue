@@ -1,5 +1,8 @@
 <script setup>
-
+const BillingType = {
+  MONTHLY: 'monthly',
+  YEARLY: 'yearly',
+};
 </script>
 
 <template>
