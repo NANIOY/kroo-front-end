@@ -6,6 +6,10 @@ const BillingType = {
 
 const selectedBillingType = ref(BillingType.MONTHLY); // Set monthly as default
 
+const handleBillingTypeChange = (newType) => {
+  selectedBillingType.value = newType;
+};
+
 </script>
 
 <template>
