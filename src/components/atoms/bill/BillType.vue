@@ -37,7 +37,6 @@ const handleBillingTypeChange = (newType) => {
 
 <template>
     <div class="billing-type">
-        <p>Select Billing Type:</p>
         <div class="radio-group">
             <RadioButton v-for="type in Object.values(BillingType)" :key="type"
                 :label="type === BillingType.MONTHLY ? 'Monthly' : 'Yearly'"
