@@ -3,6 +3,9 @@ const BillingType = {
   MONTHLY: 'monthly',
   YEARLY: 'yearly',
 };
+
+const selectedBillingType = ref(BillingType.MONTHLY); // Set monthly as default
+
 </script>
 
 <template>
