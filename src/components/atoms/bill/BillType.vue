@@ -11,6 +11,10 @@ const BillingType = {
 const selectedBillingType = ref(BillingType.MONTHLY); // Set monthly as default
 
 const props = defineProps({
+    billingOptionText: { // New prop for billing option text
+        type: String,
+        default: 'Bill Monthly', // Set default value
+    },
     billingType: {
         type: String,
         required: true,
@@ -37,6 +41,7 @@ const handleBillingTypeChange = (newType) => {
 
 <template>
     <div class="billing-type">
+        <div>{{ billingOptionText }}</div>
         <div class="radio-group">
             <RadioButton v-for="type in Object.values(BillingType)" :key="type"
                 :label="type === BillingType.MONTHLY ? 'Monthly' : 'Yearly'"
@@ -44,3 +49,5 @@ const handleBillingTypeChange = (newType) => {
         </div>
     </div>
 </template>
+
+<style></style>
