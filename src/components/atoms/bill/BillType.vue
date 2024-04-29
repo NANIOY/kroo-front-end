@@ -8,7 +8,7 @@ const BillingType = {
     YEARLY: 'yearly',
 };
 
-const selectedBillingType = ref(BillingType.MONTHLY); // Set monthly as default
+const selectedBillingType = ref(BillingType.MONTHLY);
 
 const props = defineProps({
     billingOptionText: {
@@ -43,7 +43,7 @@ defineExpose({ handleBillingTypeChange });
 
 <template>
     <div class="billing-type">
-        <div class="option">
+        <div class="option" style="--background-color: var(--white); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);">
             <span class="title">Bill Monthly</span>
             <Radiobutton
                 :isChecked="selectedBillingType === BillingType.MONTHLY"
@@ -52,7 +52,7 @@ defineExpose({ handleBillingTypeChange });
             <span class="price">€{{ priceForMonthlyBilling }}/month</span>
         </div>
         <div class="gap"></div>
-        <div class="option">
+        <div class="option" style="--background-color: var(--white); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);">
             <span class="title">Bill Yearly</span>
             <Radiobutton
                 :isChecked="selectedBillingType === BillingType.YEARLY"
@@ -73,17 +73,19 @@ defineExpose({ handleBillingTypeChange });
     display: flex;
     align-items: center;
     margin-right: 20px;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .title {
-    margin-right: 12px; /* Adjust the gap between the title and the radio button */
+    margin-right: 12px;
 }
 
 .gap {
-    width: 40px; /* Adjust the gap width as needed */
+    width: 40px; 
 }
 
 .price {
-    margin-left: 8px; /* Adjust the left margin as needed */
+    margin-left: 8px; 
 }
 </style>
