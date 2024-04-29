@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue';
-import RadioButton from '../selectors/RadioButton.vue';
 import { defineExpose } from 'vue';
 
 const BillingType = {
@@ -47,17 +46,11 @@ defineExpose({ handleBillingTypeChange });
         <div class="radio-group">
             <label class="radio-option">
                 <span>Bill Monthly</span>
-                <RadioButton
-                    :checked="selectedBillingType.value === BillingType.MONTHLY"
-                    @change="handleBillingTypeChange(BillingType.MONTHLY)"
-                />
+                <input type="radio" :checked="selectedBillingType === BillingType.MONTHLY" @change="handleBillingTypeChange(BillingType.MONTHLY)">
             </label>
             <label class="radio-option">
                 <span>Bill Yearly</span>
-                <RadioButton
-                    :checked="selectedBillingType.value === BillingType.YEARLY"
-                    @change="handleBillingTypeChange(BillingType.YEARLY)"
-                />
+                <input type="radio" :checked="selectedBillingType === BillingType.YEARLY" @change="handleBillingTypeChange(BillingType.YEARLY)">
             </label>
         </div>
         <div v-if="selectedBillingType === BillingType.MONTHLY">€{{ priceForMonthlyBilling }}/month</div>
@@ -69,5 +62,9 @@ defineExpose({ handleBillingTypeChange });
 .radio-option {
     display: flex;
     align-items: center;
+}
+
+.radio-option input[type="radio"] {
+    margin-right: 8px;
 }
 </style>
