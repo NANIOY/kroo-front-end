@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
+import { defineProps, defineExpose } from 'vue';
 import Radiobutton from '../selectors/RadioButton.vue';
-import { defineExpose } from 'vue';
 
 const BillingType = {
     MONTHLY: 'monthly',
@@ -46,19 +46,19 @@ defineExpose({ handleBillingTypeChange });
         <div class="option">
             <span class="title">Bill Monthly</span>
             <Radiobutton
-                :isChecked="selectedBillingType.value === BillingType.MONTHLY"
+                :isChecked="selectedBillingType === BillingType.MONTHLY"
                 @change="handleBillingTypeChange(BillingType.MONTHLY)"
             />
-            <span v-if="selectedBillingType.value === BillingType.MONTHLY" class="price">€{{ priceForMonthlyBilling }}/month</span>
+            <span class="price">€{{ priceForMonthlyBilling }}/month</span>
         </div>
         <div class="gap"></div>
         <div class="option">
             <span class="title">Bill Yearly</span>
             <Radiobutton
-                :isChecked="selectedBillingType.value === BillingType.YEARLY"
+                :isChecked="selectedBillingType === BillingType.YEARLY"
                 @change="handleBillingTypeChange(BillingType.YEARLY)"
             />
-            <span v-if="selectedBillingType.value === BillingType.YEARLY" class="price">€{{ priceForYearlyBilling }}/year</span>
+            <span class="price">€{{ priceForYearlyBilling }}/year</span>
         </div>
     </div>
 </template>
