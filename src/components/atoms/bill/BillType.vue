@@ -3,10 +3,8 @@
         <div class="option" style="--background-color: var(--white); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);">
             <div class="billing-option">
                 <span class="title">Bill Monthly</span>
-                <Radiobutton
-                    :isChecked="selectedBillingType === BillingType.MONTHLY"
-                    @change="handleBillingTypeChange(BillingType.MONTHLY)"
-                />
+                <Radiobutton :isChecked="selectedBillingType === BillingType.MONTHLY"
+                    @change="handleBillingTypeChange(BillingType.MONTHLY)" />
             </div>
             <span class="price">€{{ priceForMonthlyBilling }}/month</span>
         </div>
@@ -14,10 +12,8 @@
         <div class="option" style="--background-color: var(--white); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);">
             <div class="billing-option">
                 <span class="title">Bill Yearly</span>
-                <Radiobutton
-                    :isChecked="selectedBillingType === BillingType.YEARLY"
-                    @change="handleBillingTypeChange(BillingType.YEARLY)"
-                />
+                <Radiobutton :isChecked="selectedBillingType === BillingType.YEARLY"
+                    @change="handleBillingTypeChange(BillingType.YEARLY)" />
             </div>
             <span class="price">€{{ priceForYearlyBilling }}/year</span>
         </div>
@@ -84,7 +80,7 @@ defineExpose({ handleBillingTypeChange });
     border-radius: 5px;
     margin-right: 20px;
     width: 260px;
-    Height:73px;
+    Height: 73px;
 }
 
 .billing-option {
@@ -97,7 +93,7 @@ defineExpose({ handleBillingTypeChange });
 }
 
 .gap {
-    width: 40px; 
+    width: 40px;
 }
 
 .price {
