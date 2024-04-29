@@ -6,24 +6,12 @@ import TopNav from './components/organisms/navigation/topNav/topNav.vue';
 import TopNavDash from './components/organisms/navigation/topNav/topNavDash.vue';
 import NavbarLogo from './components/organisms/navigation/NavbarLogo.vue';
 
-import BillType from './components/atoms/bill/BillType.vue';
-
 const route = useRoute();
 const isDashboardRoute = ref(route.path === '/dashboard');
-
-const selectedBillingType = ref(null); 
 
 watchEffect(() => {
   isDashboardRoute.value = route.path === '/dashboard';
 });
-
-// Define handleBillingTypeChange function
-const handleBillingTypeChange = (newType) => {
-  if (selectedBillingType.value !== null) {
-    selectedBillingType.value = newType;
-  }
-};
-
 </script>
 
 <template>
@@ -40,16 +28,6 @@ const handleBillingTypeChange = (newType) => {
       <TopNavDash v-if="['/dashboard'].includes(route.path)" :userId="userId" :func="func"
         :profileImage="profileImage" />
       <router-view></router-view>
-
-      <!-- Configure BillType component -->
-      <BillType
-        v-if="['/dashboard'].includes(route.path)"
-        billingOptionText="Billing Type"
-        :billingType="selectedBillingType === null ? '' : selectedBillingType"
-        :onBillingTypeChange="handleBillingTypeChange"
-        :priceForMonthlyBilling="25"
-        :priceForYearlyBilling="250" 
-      />
     </div>
   </div>
 </template>
