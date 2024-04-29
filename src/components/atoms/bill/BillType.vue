@@ -48,7 +48,6 @@ defineExpose({ handleBillingTypeChange });
             <label class="radio-option">
                 <span>Bill Monthly</span>
                 <RadioButton
-                    :label="'Monthly'"
                     :checked="selectedBillingType.value === BillingType.MONTHLY"
                     @change="handleBillingTypeChange(BillingType.MONTHLY)"
                 />
@@ -56,14 +55,13 @@ defineExpose({ handleBillingTypeChange });
             <label class="radio-option">
                 <span>Bill Yearly</span>
                 <RadioButton
-                    :label="'Yearly'"
                     :checked="selectedBillingType.value === BillingType.YEARLY"
                     @change="handleBillingTypeChange(BillingType.YEARLY)"
                 />
             </label>
         </div>
-        <div v-if="selectedBillingType === BillingType.MONTHLY">{{ priceForMonthlyBilling }}€/month</div>
-        <div v-else>{{ priceForYearlyBilling }}€/year</div>
+        <div v-if="selectedBillingType === BillingType.MONTHLY">€{{ priceForMonthlyBilling }}/month</div>
+        <div v-else>€{{ priceForYearlyBilling }}/year</div>
     </div>
 </template>
 
