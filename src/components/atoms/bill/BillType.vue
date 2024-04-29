@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
-import { defineProps } from 'vue';
 import RadioButton from '../selectors/RadioButton.vue';
+import { defineExpose } from 'vue';
 
 const BillingType = {
     MONTHLY: 'monthly',
@@ -37,6 +37,8 @@ const handleBillingTypeChange = (newType) => {
     selectedBillingType.value = newType;
     onBillingTypeChange(newType);
 };
+
+defineExpose({ handleBillingTypeChange });
 </script>
 
 <template>
