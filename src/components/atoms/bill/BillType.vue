@@ -11,9 +11,9 @@ const BillingType = {
 const selectedBillingType = ref(BillingType.MONTHLY); // Set monthly as default
 
 const props = defineProps({
-    billingOptionText: { // New prop for billing option text
+    billingOptionText: {
         type: String,
-        default: 'Bill Monthly', // Set default value
+        default: 'Billing Type',
     },
     billingType: {
         type: String,
@@ -45,11 +45,31 @@ defineExpose({ handleBillingTypeChange });
     <div class="billing-type">
         <div>{{ billingOptionText }}</div>
         <div class="radio-group">
-            <RadioButton v-for="type in Object.values(BillingType)" :key="type"
-                :label="type === BillingType.MONTHLY ? 'Monthly' : 'Yearly'"
-                :checked="selectedBillingType.value === type" @change="handleBillingTypeChange(type)" />
+            <label class="radio-option">
+                <span>Bill Monthly</span>
+                <RadioButton
+                    :label="'Monthly'"
+                    :checked="selectedBillingType.value === BillingType.MONTHLY"
+                    @change="handleBillingTypeChange(BillingType.MONTHLY)"
+                />
+            </label>
+            <label class="radio-option">
+                <span>Bill Yearly</span>
+                <RadioButton
+                    :label="'Yearly'"
+                    :checked="selectedBillingType.value === BillingType.YEARLY"
+                    @change="handleBillingTypeChange(BillingType.YEARLY)"
+                />
+            </label>
         </div>
+        <div v-if="selectedBillingType === BillingType.MONTHLY">{{ priceForMonthlyBilling }}€/month</div>
+        <div v-else>{{ priceForYearlyBilling }}€/year</div>
     </div>
 </template>
 
-<style></style>
+<style scoped>
+.radio-option {
+    display: flex;
+    align-items: center;
+}
+</style>
