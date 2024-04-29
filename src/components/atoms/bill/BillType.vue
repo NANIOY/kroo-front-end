@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import Radiobutton from '../selectors/RadioButton.vue';
 import { defineExpose } from 'vue';
 
 const BillingType = {
@@ -42,29 +43,47 @@ defineExpose({ handleBillingTypeChange });
 
 <template>
     <div class="billing-type">
-        <div>{{ billingOptionText }}</div>
-        <div class="radio-group">
-            <label class="radio-option">
-                <span>Bill Monthly</span>
-                <input type="radio" :checked="selectedBillingType === BillingType.MONTHLY" @change="handleBillingTypeChange(BillingType.MONTHLY)">
-            </label>
-            <label class="radio-option">
-                <span>Bill Yearly</span>
-                <input type="radio" :checked="selectedBillingType === BillingType.YEARLY" @change="handleBillingTypeChange(BillingType.YEARLY)">
-            </label>
+        <div class="option">
+            <span class="title">Bill Monthly</span>
+            <Radiobutton
+                :isChecked="selectedBillingType.value === BillingType.MONTHLY"
+                @change="handleBillingTypeChange(BillingType.MONTHLY)"
+            />
+            <span v-if="selectedBillingType.value === BillingType.MONTHLY" class="price">€{{ priceForMonthlyBilling }}/month</span>
         </div>
-        <div v-if="selectedBillingType === BillingType.MONTHLY">€{{ priceForMonthlyBilling }}/month</div>
-        <div v-else>€{{ priceForYearlyBilling }}/year</div>
+        <div class="gap"></div>
+        <div class="option">
+            <span class="title">Bill Yearly</span>
+            <Radiobutton
+                :isChecked="selectedBillingType.value === BillingType.YEARLY"
+                @change="handleBillingTypeChange(BillingType.YEARLY)"
+            />
+            <span v-if="selectedBillingType.value === BillingType.YEARLY" class="price">€{{ priceForYearlyBilling }}/year</span>
+        </div>
     </div>
 </template>
 
 <style scoped>
-.radio-option {
+.billing-type {
     display: flex;
     align-items: center;
 }
 
-.radio-option input[type="radio"] {
-    margin-right: 8px;
+.option {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.title {
+    margin-right: 12px; /* Adjust the gap between the title and the radio button */
+}
+
+.gap {
+    width: 40px; /* Adjust the gap width as needed */
+}
+
+.price {
+    margin-left: 8px; /* Adjust the left margin as needed */
 }
 </style>
