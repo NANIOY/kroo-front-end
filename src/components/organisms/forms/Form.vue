@@ -109,6 +109,7 @@ const postData = ref({
     userUrl: ''
 });
 
+const axiosInstance = setupAxios();
 const emit = defineEmits(['update:selectedRole']);
 
 const handleButtonSelect = (role) => {
@@ -124,9 +125,18 @@ const handleRememberMeChange = (value) => {
     updatePostData('rememberMe', value);
 };
 
-const handleOptionSelected = (option, localStorageKey, group) => {
-    const data = JSON.parse(localStorage.getItem(localStorageKey));
-    updatePostData(group, localStorageKey, data);
+const handleOptionSelected = async (option) => {
+    console.log('Option received in form component:', option);
+
+    if (option === 'Google Calendar') {
+        const userId = sessionStorage.getItem('userId');
+        if (!userId) {
+            console.error('User ID not found in session storage');
+            return;
+        }
+        const authUrl = `http://localhost:3000/api/v1/calendar/google?userId=${userId}`;
+        window.location.href = authUrl;
+    }
 };
 
 const handleImageChanged = (group, localStorageKey, imageUrl) => {
@@ -189,7 +199,7 @@ const handleUrlChange = (localStorageKey, userUrl) => {
                     :imageType="imageUpload.imageType"
                     @imageChanged="(imageData) => handleImageChanged(imageData, imageUpload.localStorageKey, imageUpload.group)" />
             </div>
-            
+
             <InputField v-for="(localfield, index) in localfields" :key="index" :label="localfield.label"
                 :hasLabel="localfield.hasLabel" :iconLeftName="localfield.iconLeftName"
                 :hasIconLeft="localfield.hasIconLeft" :iconRightName="localfield.iconRightName"
@@ -201,8 +211,8 @@ const handleUrlChange = (localStorageKey, userUrl) => {
                 :localStorageKey="slider.localStorageKey" :group="slider.group"
                 @input="handleInputChange(slider.group, slider.localStorageKey, $event.target.value)" />
 
-            <DropDown v-if="dropdown" :hasLabel="dropdown.hasLabel" :label="dropdown.label"
-                :placeholder="dropdown.placeholder" :options="dropdown.options" class="form__inputs__dropdown"
+            <DropDown v-if="dropdown" class="form__inputs__dropdown" :hasLabel="dropdown.hasLabel"
+                :label="dropdown.label" :placeholder="dropdown.placeholder" :options="dropdown.options"
                 :group="dropdown.group" :localStorageKey="dropdown.localStorageKey"
                 @optionSelected="handleOptionSelected" />
             <MultiDropdown v-if="hasMultiDropdown" v-for="(multidropdown, index) in multidropdowns" :key="index"
