@@ -109,7 +109,6 @@ const postData = ref({
     userUrl: ''
 });
 
-const axiosInstance = setupAxios();
 const emit = defineEmits(['update:selectedRole']);
 
 const handleButtonSelect = (role) => {
@@ -125,17 +124,16 @@ const handleRememberMeChange = (value) => {
     updatePostData('rememberMe', value);
 };
 
+const axiosInstance = setupAxios();
 const handleOptionSelected = async (option) => {
     console.log('Option received in form component:', option);
+    const userId = sessionStorage.getItem('userId');
 
-    if (option === 'Google Calendar') {
-        const userId = sessionStorage.getItem('userId');
-        if (!userId) {
-            console.error('User ID not found in session storage');
-            return;
-        }
-        const authUrl = `http://localhost:3000/api/v1/calendar/google?userId=${userId}`;
+    if (option === 'Google Calendar' && userId) {
+        const authUrl = `${axiosInstance.defaults.baseURL}/calendar/google?userId=${userId}`;
         window.location.href = authUrl;
+    } else {
+        console.error('User ID not found in session storage');
     }
 };
 
