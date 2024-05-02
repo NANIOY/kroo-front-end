@@ -23,7 +23,7 @@ const billingOptions = ref([
 
 const handleBillingTypeChange = (newType) => {
     if (selectedBillingType.value === newType) {
-        selectedBillingType.value = ''; // Deselect if clicked again
+        selectedBillingType.value = '';
     } else {
         selectedBillingType.value = newType;
     }
