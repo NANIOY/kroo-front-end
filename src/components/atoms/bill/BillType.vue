@@ -10,26 +10,30 @@ const billingOptions = ref([
         title: 'Bill Monthly',
         price: 19.99,
         interval: 'month',
-        class: 'monthly'
+        modifier: 'monthly'
     },
     {
         type: 'yearly',
         title: 'Bill Yearly',
         price: 199.99,
         interval: 'year',
-        class: 'yearly'
+        modifier: 'yearly'
     }
 ]);
 
 const handleBillingTypeChange = (newType) => {
-    if (selectedBillingType.value === newType) {
-        selectedBillingType.value = '';
-    } else {
-        selectedBillingType.value = newType;
-    }
+    selectedBillingType.value = selectedBillingType.value === newType ? '' : newType;
 };
 
 const isRadioButtonChecked = (type) => {
+    return selectedBillingType.value === type;
+};
+
+const optionBlockClass = (modifier) => {
+    return 'option option--' + modifier;
+};
+
+const isSelected = (type) => {
     return selectedBillingType.value === type;
 };
 </script>
@@ -37,13 +41,13 @@ const isRadioButtonChecked = (type) => {
 <template>
     <div class="billing-type">
         <div v-for="(option, index) in billingOptions" :key="index"
-            :class="['option', option.class, { 'active': selectedBillingType === option.type }]"
+            :class="[optionBlockClass(option.modifier), { 'active': isSelected(option.type) }]"
             @click="handleBillingTypeChange(option.type)">
             <div class="billing-option">
-                <span class="title">{{ option.title }}</span>
+                <span class="billing-option__title">{{ option.title }}</span>
                 <Radiobutton :isChecked="isRadioButtonChecked(option.type)" />
             </div>
-            <span class="price">€{{ option.price }}/ {{ option.interval }}</span>
+            <span class="billing-option__price">€{{ option.price }}/ {{ option.interval }}</span>
         </div>
     </div>
 </template>
@@ -65,10 +69,6 @@ const isRadioButtonChecked = (type) => {
     box-sizing: border-box;
     cursor: pointer;
     user-select: none;
-}
-
-.monthly,
-.yearly {
     background-color: #EBEBEB;
 }
 
@@ -79,15 +79,11 @@ const isRadioButtonChecked = (type) => {
     width: 100%;
 }
 
-.title {
+.billing-option__title {
     margin-right: auto;
 }
 
-.gap {
-    width: 40px;
-}
-
-.price {
+.billing-option__price {
     margin-top: 8px;
 }
 
