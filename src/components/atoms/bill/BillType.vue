@@ -38,15 +38,19 @@ const handleBillingTypeChange = (newType) => {
     onBillingTypeChange(newType);
 };
 
-defineExpose({ handleBillingTypeChange, billingOptions, selectedBillingType });
+const isRadioButtonChecked = (type) => {
+    return selectedBillingType.value === type && selectedBillingType.value === 'monthly';
+};
+
+defineExpose({ handleBillingTypeChange, billingOptions, selectedBillingType, isRadioButtonChecked });
 </script>
 
 <template>
     <div class="billing-type">
-        <div v-for="(option, index) in billingOptions" :key="index" :class="['option', option.class]">
+        <div v-for="(option, index) in billingOptions" :key="index" :class="['option', option.class, { 'active': selectedBillingType === option.type }]">
             <div class="billing-option">
                 <span class="title">{{ option.title }}</span>
-                <Radiobutton :isChecked="selectedBillingType === option.type"
+                <Radiobutton :isChecked="isRadioButtonChecked(option.type)"
                     @change="handleBillingTypeChange(option.type)" />
             </div>
             <span class="price">€{{ option.price }}/ {{ option.interval }}</span>
@@ -93,5 +97,9 @@ defineExpose({ handleBillingTypeChange, billingOptions, selectedBillingType });
 
 .price {
     margin-top: 8px;
+}
+
+.active {
+    border: 1px solid var(--blurple);
 }
 </style>
