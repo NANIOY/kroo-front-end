@@ -1,33 +1,21 @@
 <script setup>
 import { ref } from 'vue';
-import { defineProps, defineExpose } from 'vue';
 import Radiobutton from '../selectors/RadioButton.vue';
 
-const selectedBillingType = ref('monthly'); 
-
-const props = defineProps({
-    billingOptionText: {
-        type: String,
-        default: 'Billing Type',
-    },
-    onBillingTypeChange: {
-        type: Function,
-        required: true,
-    },
-});
+const selectedBillingType = ref('monthly');
 
 const billingOptions = ref([
     {
         type: 'monthly',
         title: 'Bill Monthly',
-        price: 10, 
+        price: 19.99,
         interval: 'month',
         class: 'monthly'
     },
     {
         type: 'yearly',
         title: 'Bill Yearly',
-        price: 100, 
+        price: 199.99,
         interval: 'year',
         class: 'yearly'
     }
@@ -35,23 +23,21 @@ const billingOptions = ref([
 
 const handleBillingTypeChange = (newType) => {
     selectedBillingType.value = newType;
-    onBillingTypeChange(newType);
 };
 
 const isRadioButtonChecked = (type) => {
-    return selectedBillingType.value === type && selectedBillingType.value === 'monthly';
+    return selectedBillingType.value === type;
 };
-
-defineExpose({ handleBillingTypeChange, billingOptions, selectedBillingType, isRadioButtonChecked });
 </script>
 
 <template>
     <div class="billing-type">
-        <div v-for="(option, index) in billingOptions" :key="index" :class="['option', option.class, { 'active': selectedBillingType === option.type }]">
+        <div v-for="(option, index) in billingOptions" :key="index"
+            :class="['option', option.class, { 'active': selectedBillingType === option.type }]">
             <div class="billing-option">
                 <span class="title">{{ option.title }}</span>
                 <Radiobutton :isChecked="isRadioButtonChecked(option.type)"
-                    @change="handleBillingTypeChange(option.type)" />
+                    @update:checked="handleBillingTypeChange(option.type)" :isDisabled="false" />
             </div>
             <span class="price">€{{ option.price }}/ {{ option.interval }}</span>
         </div>
