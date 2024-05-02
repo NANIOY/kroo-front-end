@@ -5,6 +5,7 @@ import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 import CalendarCard from './CalendarCard.vue';
 
+// VARIABLES
 const axiosInstance = setupAxios(null);
 const currentTimePosition = ref('0px');
 const currentDate = ref(new Date());
@@ -23,19 +24,27 @@ async function fetchCalendarEvents() {
   const userId = sessionStorage.getItem('userId');
   try {
     const response = await axiosInstance.get(`/calendar/google/events?userId=${userId}`);
-    calendarEvents.value = response.data.map(event => ({
-      ...event,
-      date: new Date(event.start.dateTime),
-      startTime: event.start.dateTime.split('T')[1].substring(0, 5),
-      endTime: event.end.dateTime.split('T')[1].substring(0, 5),
-      emoji: '📅',
-      label: event.summary,
-      type: 'personal'
-    }));
+    calendarEvents.value = response.data.map(event => {
+      const startDate = event.start.dateTime ? new Date(event.start.dateTime) : new Date(event.start.date);
+      const endDate = event.end.dateTime ? new Date(event.end.dateTime) : new Date(event.end.date);
+      const startTime = event.start.dateTime ? event.start.dateTime.split('T')[1].substring(0, 5) : 'All Day';
+      const endTime = event.end.dateTime ? event.end.dateTime.split('T')[1].substring(0, 5) : 'All Day';
+
+      return {
+        ...event,
+        date: startDate,
+        startTime: startTime,
+        endTime: endTime,
+        emoji: '📅',
+        label: event.summary || 'No Title', 
+        type: 'personal'
+      };
+    });
   } catch (error) {
     console.error('Failed to fetch calendar events:', error);
   }
 }
+
 
 function updateCurrentTimePosition() {
   currentTimePosition.value = calculateTimeIndicatorPosition();
