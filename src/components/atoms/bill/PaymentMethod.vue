@@ -2,26 +2,47 @@
 import { ref } from 'vue';
 
 const props = defineProps({
-    method: Object
+    methods: Array
 });
 
-const isSelected = ref(false);
+const isSelected = ref(null);
 
-const toggleSelection = () => {
-    isSelected.value = !isSelected.value;
+const toggleSelection = (index) => {
+    isSelected.value = index;
 };
 </script>
 
 <template>
-    <div class="payment-method" :class="{ 'selected': isSelected }" @click="toggleSelection">
-        <div class="payment-image">
-            <img v-if="method.imageUrl" :src="method.imageUrl" :alt="method.name" />
-            <div v-else class="no-image">No Image</div>
+    <div>
+        <div class="payment-method-title">Payment method</div>
+        <div class="payment-methods">
+            <div
+                v-for="(method, index) in methods"
+                :key="index"
+                class="payment-method"
+                :class="{ 'selected': isSelected === index }"
+                @click="toggleSelection(index)"
+            >
+                <div class="payment-image">
+                    <img v-if="method.imageUrl" :src="method.imageUrl" :alt="method.name" />
+                    <div v-else class="no-image">No Image</div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <style scoped>
+.payment-method-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.payment-methods {
+    display: flex;
+    gap: 10px;
+}
+
 .payment-method {
     cursor: pointer;
 }
