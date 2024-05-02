@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import Radiobutton from '../selectors/RadioButton.vue';
 
-const selectedBillingType = ref('monthly');
+const selectedBillingType = ref('');
 
 const billingOptions = ref([
     {
@@ -22,7 +22,11 @@ const billingOptions = ref([
 ]);
 
 const handleBillingTypeChange = (newType) => {
-    selectedBillingType.value = newType;
+    if (selectedBillingType.value === newType) {
+        selectedBillingType.value = ''; // Deselect if clicked again
+    } else {
+        selectedBillingType.value = newType;
+    }
 };
 
 const isRadioButtonChecked = (type) => {
@@ -33,11 +37,11 @@ const isRadioButtonChecked = (type) => {
 <template>
     <div class="billing-type">
         <div v-for="(option, index) in billingOptions" :key="index"
-            :class="['option', option.class, { 'active': selectedBillingType === option.type }]">
+            :class="['option', option.class, { 'active': selectedBillingType === option.type }]"
+            @click="handleBillingTypeChange(option.type)">
             <div class="billing-option">
                 <span class="title">{{ option.title }}</span>
-                <Radiobutton :isChecked="isRadioButtonChecked(option.type)"
-                    @update:checked="handleBillingTypeChange(option.type)" :isDisabled="false" />
+                <Radiobutton :isChecked="isRadioButtonChecked(option.type)" />
             </div>
             <span class="price">€{{ option.price }}/ {{ option.interval }}</span>
         </div>
@@ -59,6 +63,8 @@ const isRadioButtonChecked = (type) => {
     margin-right: 20px;
     width: 260px;
     box-sizing: border-box;
+    cursor: pointer;
+    user-select: none;
 }
 
 .monthly,
