@@ -92,10 +92,12 @@ defineExpose({ handleBillingTypeChange });
 .billing-option {
     display: flex;
     align-items: center;
+    justify-content: space-between; 
+    width: 100%; 
 }
 
 .title {
-    margin-right: 12px;
+    margin-right: auto; 
 }
 
 .gap {
