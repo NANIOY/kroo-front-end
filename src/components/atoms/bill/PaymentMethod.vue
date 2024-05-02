@@ -23,6 +23,9 @@ const toggleSelection = (index) => {
                     <div v-else class="no-image">No Image</div>
                 </div>
             </div>
+            <template v-if="methods.length > 3">
+                <br v-for="i in Math.ceil((methods.length - 3) / 3)" :key="`br-${i}`">
+            </template>
         </div>
     </div>
 </template>
@@ -35,11 +38,14 @@ const toggleSelection = (index) => {
 
 .payment-methods {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
 }
 
 .payment-method {
     cursor: pointer;
+    flex-basis: calc(33.33% - 10px); /* 33.33% width with a gap of 10px */
+    margin-bottom: 10px;
 }
 
 .selected {
