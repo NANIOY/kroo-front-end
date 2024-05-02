@@ -3,62 +3,53 @@ import { ref } from 'vue';
 import { defineProps, defineExpose } from 'vue';
 import Radiobutton from '../selectors/RadioButton.vue';
 
-const BillingType = {
-    MONTHLY: 'monthly',
-    YEARLY: 'yearly',
-};
-
-const selectedBillingType = ref(BillingType.MONTHLY);
+const selectedBillingType = ref('monthly'); 
 
 const props = defineProps({
     billingOptionText: {
         type: String,
         default: 'Billing Type',
     },
-    billingType: {
-        type: String,
-        required: true,
-    },
     onBillingTypeChange: {
         type: Function,
         required: true,
     },
-    priceForMonthlyBilling: {
-        type: Number,
-        required: true,
-    },
-    priceForYearlyBilling: {
-        type: Number,
-        required: true,
-    },
 });
+
+const billingOptions = ref([
+    {
+        type: 'monthly',
+        title: 'Bill Monthly',
+        price: 10, 
+        interval: 'month',
+        class: 'monthly'
+    },
+    {
+        type: 'yearly',
+        title: 'Bill Yearly',
+        price: 100, 
+        interval: 'year',
+        class: 'yearly'
+    }
+]);
 
 const handleBillingTypeChange = (newType) => {
     selectedBillingType.value = newType;
     onBillingTypeChange(newType);
 };
 
-defineExpose({ handleBillingTypeChange });
+defineExpose({ handleBillingTypeChange, billingOptions, selectedBillingType });
 </script>
 
 <template>
     <div class="billing-type">
-        <div class="option monthly">
+        <div v-for="(option, index) in billingOptions" :key="index" :class="['option', option.class]">
             <div class="billing-option">
-                <span class="title">Bill Monthly</span>
-                <Radiobutton :isChecked="selectedBillingType === BillingType.MONTHLY"
-                    @change="handleBillingTypeChange(BillingType.MONTHLY)" />
+                <span class="title">{{ option.title }}</span>
+                <Radiobutton :isChecked="selectedBillingType === option.type"
+                    @change="handleBillingTypeChange(option.type)" />
             </div>
-            <span class="price">€{{ priceForMonthlyBilling }}/month</span>
-        </div>
-        <div class="gap"></div>
-        <div class="option yearly">
-            <div class="billing-option">
-                <span class="title">Bill Yearly</span>
-                <Radiobutton :isChecked="selectedBillingType === BillingType.YEARLY"
-                    @change="handleBillingTypeChange(BillingType.YEARLY)" />
-            </div>
-            <span class="price">€{{ priceForYearlyBilling }}/year</span>
+            <span class="price">€{{ option.price }}/ {{ option.interval }}</span>
         </div>
     </div>
 </template>
@@ -77,27 +68,23 @@ defineExpose({ handleBillingTypeChange });
     border-radius: 5px;
     margin-right: 20px;
     width: 260px;
-    height: 73px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
 }
 
-.monthly {
-    --background-color: var(--white);
-}
-
+.monthly,
 .yearly {
-    --background-color: var(--white);
+    background-color: #EBEBEB;
 }
 
 .billing-option {
     display: flex;
     align-items: center;
-    justify-content: space-between; 
-    width: 100%; 
+    justify-content: space-between;
+    width: 100%;
 }
 
 .title {
-    margin-right: auto; 
+    margin-right: auto;
 }
 
 .gap {
