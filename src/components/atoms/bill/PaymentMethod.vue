@@ -16,13 +16,8 @@ const toggleSelection = (index) => {
     <div>
         <div class="payment-method-title">Payment method</div>
         <div class="payment-methods">
-            <div
-                v-for="(method, index) in methods"
-                :key="index"
-                class="payment-method"
-                :class="{ 'selected': isSelected === index }"
-                @click="toggleSelection(index)"
-            >
+            <div v-for="(method, index) in methods" :key="index" class="payment-method"
+                :class="{ 'selected': isSelected === index }" @click="toggleSelection(index)">
                 <div class="payment-image">
                     <img v-if="method.imageUrl" :src="method.imageUrl" :alt="method.name" />
                     <div v-else class="no-image">No Image</div>
