@@ -116,6 +116,7 @@ function isEventInCurrentWeek(event) {
   const startOfWeek = getStartOfWeek(currentDate.value);
   const endOfWeek = new Date(startOfWeek);
   endOfWeek.setDate(endOfWeek.getDate() + 6);
+  endOfWeek.setHours(23, 59, 59, 999);
 
   return event.date >= startOfWeek && event.date <= endOfWeek;
 }
