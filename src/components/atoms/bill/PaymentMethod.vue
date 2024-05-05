@@ -9,12 +9,10 @@ const props = defineProps({
 const isSelected = ref(false);
 
 function handleClick() {
-    // Clear all selections
     document.querySelectorAll('.payment-method.selected').forEach((element) => {
         element.classList.remove('selected');
     });
 
-    // Set this item as selected
     isSelected.value = true;
 }
 </script>
