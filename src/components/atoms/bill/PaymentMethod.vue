@@ -16,7 +16,7 @@ function handleClick() {
 <template>
     <div class="payment-method" :class="{ 'clicked': isClicked }" @click="handleClick">
         <div class="payment-image">
-            <img :src="props.imageUrl" :alt="props.altText" class="center-image" />
+            <img :src="imageUrl" :alt="altText" class="center-image" />
         </div>
     </div>
 </template>
@@ -30,8 +30,8 @@ function handleClick() {
     width: 252px;
     box-sizing: border-box;
     border-radius: 5px;
-    background-color: var(--gray); 
-    border: 2px solid transparent; 
+    background-color: var(--gray);
+    border: 2px solid transparent;
 }
 
 .payment-image {
