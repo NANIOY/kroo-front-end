@@ -6,15 +6,21 @@ const props = defineProps({
     altText: String
 });
 
-const isClicked = ref(false);
+const isSelected = ref(false);
 
 function handleClick() {
-    isClicked.value = !isClicked.value;
+    // Clear all selections
+    document.querySelectorAll('.payment-method.selected').forEach((element) => {
+        element.classList.remove('selected');
+    });
+
+    // Set this item as selected
+    isSelected.value = true;
 }
 </script>
 
 <template>
-    <div class="payment-method" :class="{ 'clicked': isClicked }" @click="handleClick">
+    <div class="payment-method" :class="{ 'selected': isSelected }" @click="handleClick">
         <div class="payment-image">
             <img :src="imageUrl" :alt="altText" class="center-image" />
         </div>
@@ -50,7 +56,7 @@ function handleClick() {
     user-select: none;
 }
 
-.clicked {
+.selected {
     border-color: var(--blurple);
 }
 </style>
