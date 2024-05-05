@@ -29,6 +29,7 @@ function handleClick() {
     height: 48px;
     width: 252px;
     box-sizing: border-box;
+    border-radius: 5px;
 }
 
 .payment-image {
