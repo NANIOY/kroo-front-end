@@ -30,6 +30,8 @@ function handleClick() {
     width: 252px;
     box-sizing: border-box;
     border-radius: 5px;
+    background-color: var(--gray); 
+    border: 2px solid transparent; 
 }
 
 .payment-image {
@@ -49,6 +51,6 @@ function handleClick() {
 }
 
 .clicked {
-    background-color: var(--blurple);
+    border-color: var(--blurple);
 }
 </style>
