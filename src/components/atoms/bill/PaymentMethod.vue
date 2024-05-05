@@ -1,31 +1,48 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 const props = defineProps({
-    methods: Array
+    paymentMethod: String
 });
 
-const isSelected = ref(null);
+const getPaymentMethodObject = (method) => {
+    const paymentMethodImages = {
+        'apple pay': { name: 'Apple Pay', imageUrl: '../../../assets/paymentMethod/ApplePay.webp' },
+        'visa': { name: 'Visa', imageUrl: '../../../assets/paymentMethod/visa-logo.webp' },
+        'mastercard': { name: 'Mastercard', imageUrl: '../../../assets/paymentMethod/mastercard.webp' },
+        'paypal': { name: 'Paypal', imageUrl: '../../../assets/paymentMethod/paypal.webp' },
+        'google pay': { name: 'Google Pay', imageUrl: '../../../assets/paymentMethod/googlepay.webp' },
+        'bancontact': { name: 'Bancontact', imageUrl: '../../../assets/paymentMethod/bancontact.webp' },
+    };
 
-const toggleSelection = (index) => {
-    isSelected.value = index;
+    const selectedMethod = paymentMethodImages[method.toLowerCase()] || { name: 'Unknown', imageUrl: '' };
+
+    // Log the selected image URL
+    console.log(`Selected payment method: ${selectedMethod.name}`);
+    console.log(`Image URL: ${selectedMethod.imageUrl}`);
+
+    return selectedMethod;
 };
+
+const paymentMethod = computed(() => {
+    return props.paymentMethod ? getPaymentMethodObject(props.paymentMethod) : null;
+});
+
+function logImageDimensions(event) {
+    console.log(`Image dimensions: ${event.target.width} x ${event.target.height}`);
+}
 </script>
 
 <template>
     <div>
         <div class="payment-method-title">Payment method</div>
         <div class="payment-methods">
-            <div v-for="(method, index) in methods" :key="index" class="payment-method"
-                :class="{ 'selected': isSelected === index }" @click="toggleSelection(index)">
+            <div v-if="paymentMethod" class="payment-method" @click="logImageDimensions">
                 <div class="payment-image">
-                    <img v-if="method.imageUrl" :src="method.imageUrl" :alt="method.name" />
-                    <div v-else class="no-image">No Image</div>
+                    <img :src="paymentMethod.imageUrl" :alt="paymentMethod.name" @load="logImageDimensions" />
                 </div>
             </div>
-            <template v-if="methods.length > 3">
-                <br v-for="i in Math.ceil((methods.length - 3) / 3)" :key="`br-${i}`">
-            </template>
+            <div v-else class="no-image">No Image</div>
         </div>
     </div>
 </template>
@@ -44,7 +61,8 @@ const toggleSelection = (index) => {
 
 .payment-method {
     cursor: pointer;
-    flex-basis: calc(33.33% - 10px); /* 33.33% width with a gap of 10px */
+    flex-basis: calc(33.33% - 10px);
+    /* 33.33% width with a gap of 10px */
     margin-bottom: 10px;
 }
 
@@ -63,7 +81,11 @@ const toggleSelection = (index) => {
 
 .payment-image img {
     width: 100px;
+    height: auto;
     border-radius: 8px;
+    background-size: contain;
+    background-image: url('../../..//assets/');
+    background-color: red;
 }
 
 .no-image {
