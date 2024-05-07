@@ -4,12 +4,15 @@ import { ref, onMounted } from 'vue';
 import Form from '../../components/organisms/forms/Form.vue';
 import LoginImage from '../../components/molecules/login/LoginImage.vue';
 
-const inputField = ref({
-    hasLabel: true,
-    label: 'Company',
-    placeholder: 'Enter company name',
-    group: 'basicInfo'
-});
+const localfields = ref([
+    {
+        hasLabel: true,
+        label: 'Company',
+        placeholder: 'Enter company name',
+        localStorageKey: 'companyName',
+        group: 'businessInfo'
+    }
+]);
 
 const axiosInstance = setupAxios();
 const username = ref('');
@@ -28,17 +31,12 @@ onMounted(async () => {
 
         username.value = userData.username;
 
-        // Check if company name is not found
         companyNameNotFound.value = userData.companyName === undefined || userData.companyName === null;
     } catch (error) {
         console.error('Error fetching user data:', error);
     }
 });
 
-const handleUpdateAgendaService = (service) => {
-    console.log('Agenda service entered:', service);
-    localStorage.setItem('agendaService', service);
-};
 </script>
 
 <template>
@@ -46,8 +44,8 @@ const handleUpdateAgendaService = (service) => {
         <Form class="registerContainer__form" :header="'Hello ' + username" :hasSteps="false" steps="" :hasBack="true"
             :hasSkip="false" :hasText="true"
             text="Create your business account below and enter the company name. If it exists, join your employer or create your business on kroo."
-            :inputFields="[inputField]" :hasLargeButton="true" buttonLabel="Next"
-            redirect="/register/business/step-1" :inputNoteText="companyNameNotFound ? 'Company not found. Check the spelling or continue to create your company.' : ''"/>
+            :localfields="localfields" :hasLargeButton="true" buttonLabel="Next" redirect="/register/business/step-1"
+            :inputNoteText="companyNameNotFound ? 'Company not found. Check the spelling or continue to create your company.' : ''" />
         <LoginImage class="registerContainer__image" />
     </div>
 </template>
