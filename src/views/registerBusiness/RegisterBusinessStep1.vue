@@ -3,43 +3,42 @@ import { ref } from 'vue';
 import Form from '../../components/organisms/forms/Form.vue';
 import LoginImage from '../../components/molecules/login/LoginImage.vue';
 
-// Define ref for inputFields and imageUploads
-const inputFields = ref([
+const localfields = ref([
     {
         hasLabel: true,
         label: 'Company email',
         placeholder: 'Enter company email',
-        localStorageKey: 'companyName',
-        group: 'basicInfo'
+        localStorageKey: 'companyEmail',
+        group: 'businessInfo'
     },
     {
         hasLabel: true,
         label: 'Location',
         placeholder: 'Enter your location',
-        localStorageKey: 'functions',
-        group: 'basicInfo'
+        localStorageKey: 'location',
+        group: 'businessInfo'
     },
     {
         hasLabel: true,
         label: 'Bio',
         placeholder: 'Tell us about your company',
-        localStorageKey: 'skills',
-        group: 'profileDetails'
+        localStorageKey: 'bio',
+        group: 'businessInfo'
     }
 ]);
 
 const imageUploads = ref([
     {
         shape: 'circle',
-        label: 'Profile image',
-        localStorageKey: 'profileImage',
-        group: 'basicInfo'
+        label: 'Logo',
+        localStorageKey: 'logo',
+        group: 'businessInfo'
     },
     {
         shape: 'square',
         label: 'Banner image',
         localStorageKey: 'bannerImage',
-        group: 'basicInfo'
+        group: 'businessInfo'
     }
 ]);
 
@@ -63,8 +62,8 @@ const multidropdownProps = ref([
             "Television shows",
             "Web series"
         ],
-        localStorageKey: 'functions',
-        group: 'basicInfo'
+        localStorageKey: 'mediaTypes',
+        group: 'businessInfo'
     },
     {
         hasLabel: true,
@@ -116,8 +115,8 @@ const multidropdownProps = ref([
             'ਪੰਜਾਬੀ',
             'ગુજરાતી'
         ],
-        localStorageKey: 'skills',
-        group: 'profileDetails'
+        localStorageKey: 'languages',
+        group: 'businessInfo'
     }
 ]);
 const multidropdowns = ref(multidropdownProps);
@@ -128,7 +127,7 @@ const multidropdowns = ref(multidropdownProps);
     <div class="registerContainer">
         <Form class="registerContainer__form" header="Business info" :hasSteps="true"
             steps="Set up business account: step 1/5" :hasBack="true" :hasSkip="false" :hasText="true"
-            text="Glad to see you here Grasshoppers Academy. Let’s get you up and running." :inputFields="inputFields"
+            text="Glad to see you here Grasshoppers Academy. Let’s get you up and running." :localfields="localfields"
             :hasImageUpload="true" :imageUploads="imageUploads" :hasMultiDropdown=true
             :multidropdowns="multidropdownProps" :hasLargeButton="true" buttonLabel="Next"
             redirect="/register/business/step-2">
