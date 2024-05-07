@@ -46,15 +46,15 @@ const emit = defineEmits(['urlChanged']);
 
 const handleUrlChange = (value) => {
     inputValue.value = value;
+    const postData = JSON.parse(localStorage.getItem('postData')) || {};
+
     if (props.type === 'business') {
-        const connectivityData = JSON.parse(localStorage.getItem('connectivity')) || {};
-        connectivityData.customUrl = value;  // Store only the user-input value
-        localStorage.setItem('connectivity', JSON.stringify(connectivityData));
+        postData.connectivity = { customUrl: value };
     } else {
-        const postData = JSON.parse(localStorage.getItem('postData')) || {};
         postData.userUrl = value;
-        localStorage.setItem('postData', JSON.stringify(postData));
     }
+
+    localStorage.setItem('postData', JSON.stringify(postData));
     emit('urlChanged', `${urlPrefix.value}${value}`);
 };
 </script>
