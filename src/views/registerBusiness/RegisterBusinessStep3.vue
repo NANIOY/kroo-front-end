@@ -10,8 +10,7 @@ const inputUrlProps = {
     placeholder: computed(() => `${username.value}`),
     isError: false,
     inputWidth: '100%',
-    type: 'user',
-    localStorageKey: 'userUrl',
+    type: 'business',
 };
 
 const inputUrl = ref(inputUrlProps);
