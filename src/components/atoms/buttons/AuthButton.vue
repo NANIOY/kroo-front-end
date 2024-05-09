@@ -50,10 +50,13 @@ export default {
 
                 // extract userId from response data based on endpoint
                 let userId;
+                let role;
                 if (props.isRegistration) {
                     userId = response.data.data.user._id;
+                    role = response.data.data.user.role;
                 } else {
                     userId = response.data.data.userId;
+                    role = response.data.data.role;
                 }
 
                 // log response data
@@ -61,6 +64,7 @@ export default {
 
                 // store userId in sessionStorage
                 sessionStorage.setItem('userId', userId);
+                sessionStorage.setItem('role', role);
 
                 // if redirect prop is provided, redirect to that route
                 if (props.redirect) {

@@ -1,29 +1,51 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import setupAxios from '../../../setupAxios';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 import CalendarCard from './CalendarCard.vue';
 
 // VARIABLES
+const axiosInstance = setupAxios(null);
 const currentTimePosition = ref('0px');
 const currentDate = ref(new Date());
 const formattedDate = ref('');
 const weekDays = ref([]);
-
-const props = defineProps({
-  calendarEvents: {
-    type: Array,
-    required: true
-  }
-});
+const calendarEvents = ref([]);
 
 // LIFECYCLE HOOKS
 onMounted(() => {
+  fetchCalendarEvents();
   updateCurrentTimePosition();
   updateWeek();
 });
 
-// FUNCTIONS
+async function fetchCalendarEvents() {
+  const userId = sessionStorage.getItem('userId');
+  try {
+    const response = await axiosInstance.get(`/calendar/google/events?userId=${userId}`);
+    calendarEvents.value = response.data.map(event => {
+      const startDate = event.start.dateTime ? new Date(event.start.dateTime) : new Date(event.start.date);
+      const endDate = event.end.dateTime ? new Date(event.end.dateTime) : new Date(event.end.date);
+      const startTime = event.start.dateTime ? event.start.dateTime.split('T')[1].substring(0, 5) : 'All Day';
+      const endTime = event.end.dateTime ? event.end.dateTime.split('T')[1].substring(0, 5) : 'All Day';
+
+      return {
+        ...event,
+        date: startDate,
+        startTime: startTime,
+        endTime: endTime,
+        emoji: '📅',
+        label: event.summary || 'No Title', 
+        type: 'personal'
+      };
+    });
+  } catch (error) {
+    console.error('Failed to fetch calendar events:', error);
+  }
+}
+
+
 function updateCurrentTimePosition() {
   currentTimePosition.value = calculateTimeIndicatorPosition();
   setTimeout(updateCurrentTimePosition, 60000);
@@ -94,6 +116,7 @@ function isEventInCurrentWeek(event) {
   const startOfWeek = getStartOfWeek(currentDate.value);
   const endOfWeek = new Date(startOfWeek);
   endOfWeek.setDate(endOfWeek.getDate() + 6);
+  endOfWeek.setHours(23, 59, 59, 999);
 
   return event.date >= startOfWeek && event.date <= endOfWeek;
 }
@@ -103,8 +126,11 @@ function getStartOfWeek(date) {
   const dayOfWeek = date.getDay();
   const diff = date.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
   startOfWeek.setDate(diff);
+  startOfWeek.setHours(0, 0, 0, 0);
+
   return startOfWeek;
 }
+
 </script>
 
 <template>
@@ -142,7 +168,7 @@ function getStartOfWeek(date) {
               <div class="schedule__column__blocks">
                 <div class="schedule__column__blocks__block" v-for="hour in 24" :key="hour"
                   :class="{ weekend: day > 5 }"></div>
-                  <template v-for="(event, index) in calendarEvents" :key="index">
+                <template v-for="(event, index) in calendarEvents" :key="index">
                   <div v-if="isEventInCurrentWeek(event) && event.date.getDay() === day - 1"
                     :style="getCardPosition(event)" class="schedule__calendar__card">
                     <CalendarCard :emoji="event.emoji" :label="event.label" :startTime="event.startTime"

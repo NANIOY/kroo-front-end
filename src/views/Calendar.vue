@@ -1,35 +1,8 @@
 <script setup>
-import { ref } from 'vue';
 import Month from '../components/molecules/calendar/Month.vue';
 import CalendarFilter from '../components/molecules/calendar/CalendarFilter.vue';
 import Schedule from '../components/molecules/calendar/Schedule.vue';
 
-const calendarEvents = ref([
-  {
-    emoji: "📅",
-    label: "Meeting",
-    startTime: "00:00",
-    endTime: "10:00",
-    type: "interview",
-    date: new Date(2024, 3, 18)
-  },
-  {
-    emoji: "📅",
-    label: "Meeting",
-    startTime: "00:00",
-    endTime: "10:00",
-    type: "interview",
-    date: new Date(2024, 3, 16)
-  },
-  {
-    emoji: "📅",
-    label: "Meeting",
-    startTime: "00:00",
-    endTime: "10:00",
-    type: "interview",
-    date: new Date(2024, 3, 15)
-  },
-]);
 </script>
 
 <template>
@@ -38,7 +11,7 @@ const calendarEvents = ref([
       <Month class="test" />
       <CalendarFilter class="test" />
     </div>
-    <Schedule :calendarEvents="calendarEvents" />
+    <Schedule />
   </div>
 </template>
 
