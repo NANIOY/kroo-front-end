@@ -53,7 +53,7 @@ export default {
                 let role;
                 if (props.isRegistration) {
                     userId = response.data.data.user._id;
-                    role = response.data.data.user.activeRole;
+                    role = response.data.data.activeRole;
                 } else {
                     userId = response.data.data.userId;
                     role = response.data.data.activeRole;
@@ -73,7 +73,11 @@ export default {
 
                 // check if button is for registration
                 if (props.isRegistration) {
-                    await loginAfterRegistration(props.postData);
+                    await loginAfterRegistration({
+                        email: props.postData.email,
+                        password: props.postData.password,
+                        role: role
+                    });
                 }
             } catch (error) {
                 console.error('Error making POST request:', error);
@@ -84,6 +88,8 @@ export default {
             try {
                 const loginResponse = await axiosInstance.post('/auth/login', registrationData);
                 console.log('Login response:', loginResponse);
+                sessionStorage.setItem('role', loginResponse.data.data.activeRole);
+
                 if (props.redirect) {
                     router.push(props.redirect);
                 }
