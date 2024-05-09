@@ -53,10 +53,10 @@ export default {
                 let role;
                 if (props.isRegistration) {
                     userId = response.data.data.user._id;
-                    role = response.data.data.user.role;
+                    role = response.data.data.user.activeRole;
                 } else {
                     userId = response.data.data.userId;
-                    role = response.data.data.role;
+                    role = response.data.data.activeRole;
                 }
 
                 // log response data
