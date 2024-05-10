@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
 import TransparentButton from '../../../atoms/buttons/TransparentButton.vue';
 import setupAxios from '../../../../setupAxios.js';
@@ -22,11 +22,16 @@ const dynamicPageName = computed(() => {
   }
 });
 
+const capitalizeFirstLetter = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
 const axiosInstance = setupAxios();
 const userId = sessionStorage.getItem('userId');
 const name = ref(props.name);
 const func = ref(props.func);
 const profileImage = ref(props.profileImage);
+const hasBusiness = ref(false);
 
 const fetchUserData = async () => {
   try {
@@ -38,7 +43,6 @@ const fetchUserData = async () => {
     if (crewDataId) {
       const crewResponse = await axiosInstance.get(`/crew/${crewDataId}`);
       const crewData = crewResponse.data.data;
-
       const functions = crewData.basicInfo.functions;
       if (functions.length > 2) {
         func.value = functions.slice(0, 2).join(', ') + ', ...';
@@ -46,19 +50,41 @@ const fetchUserData = async () => {
         func.value = functions.join(', ');
       }
       profileImage.value = crewData.basicInfo.profileImage;
+    }
+
+    // fetch business data
+    const businessDataId = userData.businessData?._id;
+    if (businessDataId) {
+      await axiosInstance.get(`/business/${businessDataId}`);
+      hasBusiness.value = true;
     } else {
-      throw new Error('crewDataId is not available');
+      hasBusiness.value = false;
     }
   } catch (error) {
     console.error('Error fetching user data:', error);
   }
 };
-onMounted(fetchUserData);
 
-const capitalizeFirstLetter = (str) => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
+const showDropdown = ref(false);
+const toggleDropdown = () => {
+  showDropdown.value = !showDropdown.value;
 };
+const closeDropdown = event => {
+  if (!event.target.closest('.navbarTop_right__dropdown') && !event.target.closest('#navbarTop_right_account')) {
+    showDropdown.value = false;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('click', closeDropdown);
+  fetchUserData();
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', closeDropdown);
+});
 </script>
+
 
 <template>
   <div class="navbarTop sticky">
@@ -67,16 +93,18 @@ const capitalizeFirstLetter = (str) => {
     </div>
 
     <div id="navbarTop_right">
-      <div id="navbarTop_right_account">
+      <div id="navbarTop_right_account" @click="toggleDropdown">
         <img class="radius-full" :src="profileImage" alt="profile image">
         <div id="navbarTop_right_account_info">
           <p class="text-bold-l text-primary">{{ name }}</p>
           <p class="text-reg-normal text-secondary">{{ func }}</p>
         </div>
+        <TransparentButton class="no-label navbarTop_right_account__button" iconName="NavArrowDown" />
       </div>
-      <div id="navbarTop__right__switch">
-        <TransparentButton class="no-label" iconName="NavArrowUp" />
-        <TransparentButton class="no-label" iconName="NavArrowDown" />
+      <div v-if="showDropdown" class="navbarTop_right__dropdown">
+        <p v-if="hasBusiness" @click="switchToBusiness">Switch to Business Profile</p>
+        <p v-else @click="createBusiness">Create Business Profile</p>
+        <p @click="switchToCrew">Switch to Crew Profile</p>
       </div>
     </div>
   </div>
@@ -117,5 +145,29 @@ img {
 p,
 h3 {
   margin: 0;
+}
+
+/* DROPDOWN MENU */
+.navbarTop_right__dropdown {
+  position: absolute;
+  background-color: var(--white);
+  box-shadow: 0 1px 4px rgba(14, 15, 15, 0.1);
+  width: auto;
+  right: 0;
+  top: 72px;
+  border-radius: 4px;
+  z-index: 999;
+  border: var(--gray) 1px solid;
+}
+
+.navbarTop_right__dropdown p {
+  padding: 12px 16px;
+  text-align: right;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.navbarTop_right__dropdown p:hover {
+  background-color: var(--gray);
 }
 </style>
