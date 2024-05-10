@@ -41,6 +41,7 @@ import BusinessSettings from './views/business/Settings.vue';
 import BusinessTools from './views/business/Tools.vue';
 import BusinessTracker from './views/business/Tracker.vue';
 import BusinessUpgrade from './views/business/Upgrade.vue';
+import BusinessTeam from './views/business/Team.vue';
 
 // REMOVE FROM PRODUCTION
 import Test from './views/Test.vue';
@@ -77,6 +78,7 @@ const routes = [
     { path: '/tools', component: () => loadComponentForRole(CrewTools, BusinessTools) },
     { path: '/tracker', component: () => loadComponentForRole(CrewTracker, BusinessTracker) },
     { path: '/upgrade', component: () => loadComponentForRole(CrewUpgrade, BusinessUpgrade) },
+    { path: '/team', component: BusinessTeam },
     
     { path: '/test', component: Test }, // REMOVE FROM PRODUCTION
 ];
