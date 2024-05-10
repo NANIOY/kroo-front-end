@@ -1,5 +1,6 @@
 <script setup>
-import { defineProps, ref, onMounted } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import TransparentButton from '../../../atoms/buttons/TransparentButton.vue';
 import setupAxios from '../../../../setupAxios.js';
 
@@ -14,6 +15,9 @@ const userId = sessionStorage.getItem('userId');
 const name = ref(props.name);
 const func = ref(props.func);
 const profileImage = ref(props.profileImage);
+const hasBusiness = ref(false);
+const currentRole = ref(sessionStorage.getItem('role'));
+const router = useRouter();
 
 const fetchUserData = async () => {
   try {
@@ -25,7 +29,6 @@ const fetchUserData = async () => {
     if (crewDataId) {
       const crewResponse = await axiosInstance.get(`/crew/${crewDataId}`);
       const crewData = crewResponse.data.data;
-
       const functions = crewData.basicInfo.functions;
       if (functions.length > 2) {
         func.value = functions.slice(0, 2).join(', ') + ', ...';
@@ -33,15 +36,104 @@ const fetchUserData = async () => {
         func.value = functions.join(', ');
       }
       profileImage.value = crewData.basicInfo.profileImage;
+    }
+
+    // fetch business data
+    const businessDataId = userData.businessData;
+    if (businessDataId) {
+      try {
+        const businessResponse = await axiosInstance.get(`/business/${businessDataId}`);
+        if (businessResponse && businessResponse.data) {
+          hasBusiness.value = true;
+        } else {
+          hasBusiness.value = false;
+        }
+      } catch (err) {
+        console.error('Fetching business data failed:', err);
+        hasBusiness.value = false;
+      }
     } else {
-      throw new Error('crewDataId is not available');
+      hasBusiness.value = false;
     }
   } catch (error) {
     console.error('Error fetching user data:', error);
   }
 };
 
-onMounted(fetchUserData);
+const showDropdown = ref(false);
+const toggleDropdown = () => {
+  showDropdown.value = !showDropdown.value;
+};
+
+const closeDropdown = event => {
+  if (!event.target.closest('.navbarTop_right__dropdown') && !event.target.closest('#navbarTop_right_account')) {
+    showDropdown.value = false;
+  }
+};
+
+const switchToBusiness = async () => {
+  const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+  console.log('token:', token);
+  if (!token) {
+    console.error("No token available for authentication");
+    return;
+  }
+
+  try {
+    const response = await axiosInstance.post('/auth/switch-role', {
+      token,
+      role: 'business'
+    });
+    console.log("response:", response);
+
+    if (response && response.data) {
+      sessionStorage.setItem('sessionToken', response.data.token);
+      sessionStorage.setItem('role', 'business');
+      currentRole.value = 'business';
+    }
+  } catch (error) {
+    console.error("Error switching to business profile:", error.response ? error.response.data : error);
+  }
+};
+
+const switchToCrew = async () => {
+  const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+  console.log('token:', token);
+  if (!token) {
+    console.error("No token available for authentication");
+    return;
+  }
+
+  try {
+    const response = await axiosInstance.post('/auth/switch-role', {
+      token,
+      role: 'crew'
+    });
+    console.log("response:", response);
+
+    if (response && response.data) {
+      sessionStorage.setItem('sessionToken', response.data.token);
+      sessionStorage.setItem('role', 'crew');
+      currentRole.value = 'crew';
+    }
+  } catch (error) {
+    console.error("Error switching to crew profile:", error.response ? error.response.data : error);
+  }
+};
+
+const createBusiness = () => {
+  let route = '/register/business';
+  router.push(route);
+};
+
+onMounted(() => {
+  document.addEventListener('click', closeDropdown);
+  fetchUserData();
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', closeDropdown);
+});
 </script>
 
 <template>
@@ -58,10 +150,12 @@ onMounted(fetchUserData);
           <p class="text-bold-l text-primary">{{ name }}</p>
           <p class="text-reg-normal text-secondary">{{ func }}</p>
         </div>
+        <TransparentButton class="no-label navbarTop_right_account__button" iconName="NavArrowDown"  @click="toggleDropdown"/>
       </div>
-      <div id="navbarTop__right__switch">
-        <TransparentButton class="no-label" iconName="NavArrowUp" />
-        <TransparentButton class="no-label" iconName="NavArrowDown" />
+      <div v-if="showDropdown" class="navbarTop_right__dropdown text-reg-normal">
+        <p v-if="hasBusiness && currentRole !== 'business'" @click="switchToBusiness">Switch to Business Profile</p>
+        <p v-if="!hasBusiness" @click="createBusiness">Create Business Profile</p>
+        <p v-if="currentRole !== 'crew'" @click="switchToCrew">Switch to Crew Profile</p>
       </div>
     </div>
   </div>
@@ -94,5 +188,30 @@ img {
 
 p {
   margin: 0;
+}
+
+/* DROPDOWN MENU */
+.navbarTop_right__dropdown {
+  position: absolute;
+  background-color: var(--white);
+  box-shadow: 0 1px 4px rgba(14, 15, 15, 0.1);
+  width: auto;
+  right: 56px;
+  top: 104px;
+  border-radius: 4px;
+  z-index: 999;
+  border: var(--gray) 1px solid;
+}
+
+.navbarTop_right__dropdown p {
+  padding: 12px 16px;
+  text-align: right;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s;
+}
+
+.navbarTop_right__dropdown p:hover {
+  background-color: var(--gray);
 }
 </style>
