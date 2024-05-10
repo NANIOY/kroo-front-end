@@ -31,6 +31,7 @@ const userId = sessionStorage.getItem('userId');
 const name = ref(props.name);
 const func = ref(props.func);
 const profileImage = ref(props.profileImage);
+const businessName = ref('');
 const hasBusiness = ref(false);
 const currentRole = ref(sessionStorage.getItem('role'));
 const router = useRouter();
@@ -41,6 +42,7 @@ const fetchUserData = async () => {
     const userData = userResponse.data.data.user;
     name.value = userData.username;
 
+    // fetch crew data
     const crewDataId = userData.crewData?._id;
     if (crewDataId) {
       const crewResponse = await axiosInstance.get(`/crew/${crewDataId}`);
@@ -60,15 +62,19 @@ const fetchUserData = async () => {
       try {
         const businessResponse = await axiosInstance.get(`/business/${businessDataId}`);
         if (businessResponse && businessResponse.data) {
+          businessName.value = businessResponse.data.data.business.businessInfo.companyName;
           hasBusiness.value = true;
         } else {
+          businessName.value = '';
           hasBusiness.value = false;
         }
       } catch (err) {
         console.error('Fetching business data failed:', err);
+        businessName.value = '';
         hasBusiness.value = false;
       }
     } else {
+      businessName.value = '';
       hasBusiness.value = false;
     }
   } catch (error) {
@@ -170,7 +176,6 @@ onUnmounted(() => {
 });
 </script>
 
-
 <template>
   <div class="navbarTop sticky">
     <div id="navbarTop_left">
@@ -178,14 +183,15 @@ onUnmounted(() => {
     </div>
 
     <div id="navbarTop_right">
-      <div id="navbarTop_right_account">
+      <div id="navbarTop_right_account" @click="toggleDropdown">
         <img class="radius-full" :src="profileImage" alt="profile image">
         <div id="navbarTop_right_account_info">
           <p class="text-bold-l text-primary">{{ name }}</p>
-          <p class="text-reg-normal text-secondary">{{ func }}</p>
+          <p class="text-reg-normal text-secondary">
+            {{ currentRole === 'business' ? businessName : func }}
+          </p>
         </div>
-        <TransparentButton class="no-label navbarTop_right_account__button" iconName="NavArrowDown"
-          @click="toggleDropdown" />
+        <TransparentButton class="no-label navbarTop_right_account__button" iconName="NavArrowDown" />
       </div>
       <div v-if="showDropdown" class="navbarTop_right__dropdown text-reg-normal">
         <p v-if="hasBusiness && currentRole !== 'business'" @click="switchToBusiness">Switch to Business Profile</p>
