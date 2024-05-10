@@ -160,13 +160,13 @@ onUnmounted(() => {
     </div>
 
     <div id="navbarTop_right">
-      <div id="navbarTop_right_account" @click="toggleDropdown">
+      <div id="navbarTop_right_account">
         <img class="radius-full" :src="profileImage" alt="profile image">
         <div id="navbarTop_right_account_info">
           <p class="text-bold-l text-primary">{{ name }}</p>
           <p class="text-reg-normal text-secondary">{{ func }}</p>
         </div>
-        <TransparentButton class="no-label navbarTop_right_account__button" iconName="NavArrowDown" />
+        <TransparentButton class="no-label navbarTop_right_account__button" iconName="NavArrowDown"  @click="toggleDropdown"/>
       </div>
       <div v-if="showDropdown" class="navbarTop_right__dropdown text-reg-normal">
         <p v-if="hasBusiness && currentRole !== 'business'" @click="switchToBusiness">Switch to Business Profile</p>
