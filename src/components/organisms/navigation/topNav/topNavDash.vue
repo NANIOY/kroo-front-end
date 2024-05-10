@@ -72,8 +72,8 @@ const closeDropdown = event => {
 };
 
 const switchToBusiness = async () => {
+  let route = '/dashboard';
   const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
-  console.log('token:', token);
   if (!token) {
     console.error("No token available for authentication");
     return;
@@ -89,7 +89,16 @@ const switchToBusiness = async () => {
     if (response && response.data) {
       sessionStorage.setItem('sessionToken', response.data.token);
       sessionStorage.setItem('role', 'business');
-      currentRole.value = 'business';
+
+      if (router.currentRoute.value.path !== route) {
+        router.push(route).then(() => {
+          router.isReady().then(() => {
+            window.location.reload();
+          });
+        });
+      } else {
+        window.location.reload();
+      }
     }
   } catch (error) {
     console.error("Error switching to business profile:", error.response ? error.response.data : error);
@@ -97,8 +106,8 @@ const switchToBusiness = async () => {
 };
 
 const switchToCrew = async () => {
+  let route = '/dashboard';
   const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
-  console.log('token:', token);
   if (!token) {
     console.error("No token available for authentication");
     return;
@@ -114,7 +123,16 @@ const switchToCrew = async () => {
     if (response && response.data) {
       sessionStorage.setItem('sessionToken', response.data.token);
       sessionStorage.setItem('role', 'crew');
-      currentRole.value = 'crew';
+
+      if (router.currentRoute.value.path !== route) {
+        router.push(route).then(() => {
+          router.isReady().then(() => {
+            window.location.reload();
+          });
+        });
+      } else {
+        window.location.reload();
+      }
     }
   } catch (error) {
     console.error("Error switching to crew profile:", error.response ? error.response.data : error);
@@ -150,7 +168,8 @@ onUnmounted(() => {
           <p class="text-bold-l text-primary">{{ name }}</p>
           <p class="text-reg-normal text-secondary">{{ func }}</p>
         </div>
-        <TransparentButton class="no-label navbarTop_right_account__button" iconName="NavArrowDown"  @click="toggleDropdown"/>
+        <TransparentButton class="no-label navbarTop_right_account__button" iconName="NavArrowDown"
+          @click="toggleDropdown" />
       </div>
       <div v-if="showDropdown" class="navbarTop_right__dropdown text-reg-normal">
         <p v-if="hasBusiness && currentRole !== 'business'" @click="switchToBusiness">Switch to Business Profile</p>
