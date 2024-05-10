@@ -32,6 +32,7 @@ const name = ref(props.name);
 const func = ref(props.func);
 const profileImage = ref(props.profileImage);
 const hasBusiness = ref(false);
+const currentRole = ref(sessionStorage.getItem('role'));
 
 const fetchUserData = async () => {
   try {
@@ -78,6 +79,7 @@ const showDropdown = ref(false);
 const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value;
 };
+
 const closeDropdown = event => {
   if (!event.target.closest('.navbarTop_right__dropdown') && !event.target.closest('#navbarTop_right_account')) {
     showDropdown.value = false;
@@ -111,9 +113,9 @@ onUnmounted(() => {
         <TransparentButton class="no-label navbarTop_right_account__button" iconName="NavArrowDown" />
       </div>
       <div v-if="showDropdown" class="navbarTop_right__dropdown text-reg-normal">
-        <p v-if="hasBusiness" @click="switchToBusiness">Switch to Business Profile</p>
-        <p v-else @click="createBusiness">Create Business Profile</p>
-        <p @click="switchToCrew">Switch to Crew Profile</p>
+        <p v-if="hasBusiness && currentRole !== 'business'" @click="switchToBusiness">Switch to Business Profile</p>
+        <p v-if="!hasBusiness" @click="createBusiness">Create Business Profile</p>
+        <p v-if="currentRole !== 'crew'" @click="switchToCrew">Switch to Crew Profile</p>
       </div>
     </div>
   </div>
