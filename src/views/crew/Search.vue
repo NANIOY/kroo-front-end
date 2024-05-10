@@ -1,10 +1,10 @@
 <script setup>
-import SearchJob from '../components/molecules/jobs/SearchJob.vue';
-import JobPop from '../components/molecules/popups/JobPop.vue';
-import Overlay from '../components/molecules/popups/Overlay.vue';
-import SearchFilter from '../components/molecules/filter/SearchFilter.vue';
-import TransparentButton from '../components/atoms/buttons/TransparentButton.vue';
-import NormalButton from '../components/atoms/buttons/NormalButton.vue';
+import SearchJob from '../../components/molecules/jobs/SearchJob.vue';
+import JobPop from '../../components/molecules/popups/JobPop.vue';
+import Overlay from '../../components/molecules/popups/Overlay.vue';
+import SearchFilter from '../../components/molecules/filter/SearchFilter.vue';
+import TransparentButton from '../../components/atoms/buttons/TransparentButton.vue';
+import NormalButton from '../../components/atoms/buttons/NormalButton.vue';
 import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 

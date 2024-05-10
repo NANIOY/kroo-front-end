@@ -1,15 +1,15 @@
 <script setup>
 // IMPORT DASHBOARD COMPONENTS
-import JobCard from '../components/molecules/dashboard/JobCard.vue';
-import JobSug from '../components/molecules/dashboard/JobSug.vue';
-import Week from '../components/molecules/dashboard/Week.vue';
-import ScheduleCard from '../components/molecules/dashboard/ScheduleCard.vue';
-import Upgrade from '../components/molecules/dashboard/Upgrade.vue';
+import JobCard from '../../components/molecules/dashboard/JobCard.vue';
+import JobSug from '../../components/molecules/dashboard/JobSug.vue';
+import Week from '../../components/molecules/dashboard/Week.vue';
+import ScheduleCard from '../../components/molecules/dashboard/ScheduleCard.vue';
+import Upgrade from '../../components/molecules/dashboard/Upgrade.vue';
 
 // IMPORT OTHER
-import TransparentButton from '../components/atoms/buttons/TransparentButton.vue';
-import JobPop from '../components/molecules/popups/JobPop.vue';
-import Overlay from '../components/molecules/popups/Overlay.vue';
+import TransparentButton from '../../components/atoms/buttons/TransparentButton.vue';
+import JobPop from '../../components/molecules/popups/JobPop.vue';
+import Overlay from '../../components/molecules/popups/Overlay.vue';
 
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';

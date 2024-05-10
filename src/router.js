@@ -21,15 +21,15 @@ import RegisterBusinessStep4 from './views/registerBusiness/RegisterBusinessStep
 import RegisterBusinessStep5 from './views/registerBusiness/RegisterBusinessStep5.vue';
 
 // MAIN APP ROUTES
-import Calendar from './views/Calendar.vue';
-import Dashboard from './views/Dashboard.vue';
-import Help from './views/Help.vue';
-import Profile from './views/Profile.vue';
-import Search from './views/Search.vue';
-import Settings from './views/Settings.vue';
-import Tools from './views/Tools.vue';
-import Tracker from './views/Tracker.vue';
-import Upgrade from './views/Upgrade.vue';
+import Calendar from './views/crew/Calendar.vue';
+import Dashboard from './views/crew/Dashboard.vue';
+import Help from './views/crew/Help.vue';
+import Profile from './views/crew/Profile.vue';
+import Search from './views/crew/Search.vue';
+import Settings from './views/crew/Settings.vue';
+import Tools from './views/crew/Tools.vue';
+import Tracker from './views/crew/Tracker.vue';
+import Upgrade from './views/crew/Upgrade.vue';
 
 // REMOVE FROM PRODUCTION
 import Test from './views/Test.vue';

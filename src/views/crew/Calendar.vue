@@ -1,7 +1,7 @@
 <script setup>
-import Month from '../components/molecules/calendar/Month.vue';
-import CalendarFilter from '../components/molecules/calendar/CalendarFilter.vue';
-import Schedule from '../components/molecules/calendar/Schedule.vue';
+import Month from '../../components/molecules/calendar/Month.vue';
+import CalendarFilter from '../../components/molecules/calendar/CalendarFilter.vue';
+import Schedule from '../../components/molecules/calendar/Schedule.vue';
 
 </script>
 
