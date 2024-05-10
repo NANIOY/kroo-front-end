@@ -60,6 +60,9 @@ const navigateToRoute = () => {
         case 'HelpCircle':
             route = '/help';
             break;
+        case 'Community':
+            route = '/team';
+            break;
         default:
             break;
     }

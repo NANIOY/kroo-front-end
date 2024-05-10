@@ -3,6 +3,7 @@ import NavbarLabel from '../../atoms/items/NavbarLabel.vue';
 import { ref } from 'vue';
 
 const activeLabel = ref(null);
+const currentRole = ref(sessionStorage.getItem('role') || 'crew');
 
 const toggleActiveLabel = (iconName) => {
   activeLabel.value = activeLabel.value === iconName ? null : iconName;
@@ -27,6 +28,8 @@ const toggleActiveLabel = (iconName) => {
             :isActive="activeLabel === 'Bookmark'" @toggleActive="toggleActiveLabel" />
           <NavbarLabel iconName="Tools" label="Tools" :hasLabel="false" :darkMode="true"
             :isActive="activeLabel === 'Tools'" @toggleActive="toggleActiveLabel" />
+          <NavbarLabel v-if="currentRole === 'business'" iconName="Community" label="Community" :hasLabel="false" :darkMode="true"
+            :isActive="activeLabel === 'Community'" @toggleActive="toggleActiveLabel" />
         </div>
         <div id="navbar_contents--items_account">
           <NavbarLabel iconName="User" label="Profile" :hasLabel="false" :darkMode="true"
