@@ -53,10 +53,19 @@ const fetchUserData = async () => {
     }
 
     // fetch business data
-    const businessDataId = userData.businessData?._id;
+    const businessDataId = userData.businessData;
     if (businessDataId) {
-      await axiosInstance.get(`/business/${businessDataId}`);
-      hasBusiness.value = true;
+      try {
+        const businessResponse = await axiosInstance.get(`/business/${businessDataId}`);
+        if (businessResponse && businessResponse.data) {
+          hasBusiness.value = true;
+        } else {
+          hasBusiness.value = false;
+        }
+      } catch (err) {
+        console.error('Fetching business data failed:', err);
+        hasBusiness.value = false;
+      }
     } else {
       hasBusiness.value = false;
     }
@@ -101,7 +110,7 @@ onUnmounted(() => {
         </div>
         <TransparentButton class="no-label navbarTop_right_account__button" iconName="NavArrowDown" />
       </div>
-      <div v-if="showDropdown" class="navbarTop_right__dropdown">
+      <div v-if="showDropdown" class="navbarTop_right__dropdown text-reg-normal">
         <p v-if="hasBusiness" @click="switchToBusiness">Switch to Business Profile</p>
         <p v-else @click="createBusiness">Create Business Profile</p>
         <p @click="switchToCrew">Switch to Crew Profile</p>
@@ -164,6 +173,7 @@ h3 {
   padding: 12px 16px;
   text-align: right;
   cursor: pointer;
+  user-select: none;
   transition: background-color 0.3s;
 }
 
