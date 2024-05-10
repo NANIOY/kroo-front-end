@@ -20,19 +20,35 @@ import RegisterBusinessStep3 from './views/registerBusiness/RegisterBusinessStep
 import RegisterBusinessStep4 from './views/registerBusiness/RegisterBusinessStep4.vue';
 import RegisterBusinessStep5 from './views/registerBusiness/RegisterBusinessStep5.vue';
 
-// MAIN APP ROUTES
-import Calendar from './views/crew/Calendar.vue';
-import Dashboard from './views/crew/Dashboard.vue';
-import Help from './views/crew/Help.vue';
-import Profile from './views/crew/Profile.vue';
-import Search from './views/crew/Search.vue';
-import Settings from './views/crew/Settings.vue';
-import Tools from './views/crew/Tools.vue';
-import Tracker from './views/crew/Tracker.vue';
-import Upgrade from './views/crew/Upgrade.vue';
+// MAIN CREW ROUTES
+import CrewCalendar from './views/crew/Calendar.vue';
+import CrewDashboard from './views/crew/Dashboard.vue';
+import CrewHelp from './views/crew/Help.vue';
+import CrewProfile from './views/crew/Profile.vue';
+import CrewSearch from './views/crew/Search.vue';
+import CrewSettings from './views/crew/Settings.vue';
+import CrewTools from './views/crew/Tools.vue';
+import CrewTracker from './views/crew/Tracker.vue';
+import CrewUpgrade from './views/crew/Upgrade.vue';
+
+// MAIN BUSINESS ROUTES
+import BusinessCalendar from './views/business/Calendar.vue';
+import BusinessDashboard from './views/business/Dashboard.vue';
+import BusinessHelp from './views/business/Help.vue';
+import BusinessProfile from './views/business/Profile.vue';
+import BusinessSearch from './views/business/Search.vue';
+import BusinessSettings from './views/business/Settings.vue';
+import BusinessTools from './views/business/Tools.vue';
+import BusinessTracker from './views/business/Tracker.vue';
+import BusinessUpgrade from './views/business/Upgrade.vue';
 
 // REMOVE FROM PRODUCTION
 import Test from './views/Test.vue';
+
+function loadComponentForRole(crewComponent, businessComponent) {
+    const role = sessionStorage.getItem('role');
+    return role === 'business' ? businessComponent : crewComponent;
+}
 
 const routes = [
     { path: '/login', component: Login },
@@ -44,7 +60,7 @@ const routes = [
     { path: '/register/crew/step-3', component: RegisterCrewStep3 },
     { path: '/register/crew/step-4', component: RegisterCrewStep4 },
     { path: '/register/crew/step-5', component: RegisterCrewStep5 },
-    
+
     { path: '/register/business', component: RegisterBusiness },
     { path: '/register/business/step-1', component: RegisterBusinessStep1 },
     { path: '/register/business/step-2', component: RegisterBusinessStep2 },
@@ -52,15 +68,16 @@ const routes = [
     { path: '/register/business/step-4', component: RegisterBusinessStep4 },
     { path: '/register/business/step-5', component: RegisterBusinessStep5 },
 
-    { path: '/calendar', component: Calendar },
-    { path: '/dashboard', component: Dashboard },
-    { path: '/help', component: Help },
-    { path: '/profile', component: Profile },
-    { path: '/search', component: Search },
-    { path: '/settings', component: Settings },
-    { path: '/tools', component: Tools },
-    { path: '/tracker', component: Tracker },
-    { path: '/upgrade', component: Upgrade },
+    { path: '/calendar', component: () => loadComponentForRole(CrewCalendar, BusinessCalendar) },
+    { path: '/dashboard', component: () => loadComponentForRole(CrewDashboard, BusinessDashboard) },
+    { path: '/help', component: () => loadComponentForRole(CrewHelp), BusinessHelp },
+    { path: '/profile', component: () => loadComponentForRole(CrewProfile, BusinessProfile) },
+    { path: '/search', component: () => loadComponentForRole(CrewSearch, BusinessSearch) },
+    { path: '/settings', component: () => loadComponentForRole(CrewSettings, BusinessSettings) },
+    { path: '/tools', component: () => loadComponentForRole(CrewTools, BusinessTools) },
+    { path: '/tracker', component: () => loadComponentForRole(CrewTracker, BusinessTracker) },
+    { path: '/upgrade', component: () => loadComponentForRole(CrewUpgrade, BusinessUpgrade) },
+    
     { path: '/test', component: Test }, // REMOVE FROM PRODUCTION
 ];
 
