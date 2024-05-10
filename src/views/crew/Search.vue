@@ -6,7 +6,9 @@ import SearchFilter from '../../components/molecules/filter/SearchFilter.vue';
 import TransparentButton from '../../components/atoms/buttons/TransparentButton.vue';
 import NormalButton from '../../components/atoms/buttons/NormalButton.vue';
 import { ref, onMounted, computed } from 'vue';
-import axios from 'axios';
+import setupAxios from '../../setupAxios'
+
+const axiosInstance = setupAxios();
 
 const fetchedJobs = ref([]);
 const selectedJob = ref(null);
@@ -42,7 +44,7 @@ const visiblePages = computed(() => {
 // fetch all jobs
 const fetchJobs = async () => {
   try {
-    const response = await axios.get('https://kroo-back-end.onrender.com/api/v1/crewjob/jobs');
+    const response = await axiosInstance.get('/crewjob/jobs');
     fetchedJobs.value = response.data.data.jobs.map(job => ({
       ...job,
       id: job._id
@@ -51,7 +53,7 @@ const fetchJobs = async () => {
     // fetch employer details for each job based on businessId
     await Promise.all(fetchedJobs.value.map(async (job) => {
       try {
-        const businessResponse = await axios.get(`https://kroo-back-end.onrender.com/api/v1/business/${job.businessId}`);
+        const businessResponse =  await axiosInstance.get(`/business/${job.businessId}`)
         job.employer = {
           name: businessResponse.data.data.business.name,
           image: businessResponse.data.data.business.businessInfo.logo
