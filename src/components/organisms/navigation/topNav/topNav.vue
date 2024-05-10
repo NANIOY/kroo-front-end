@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref, onMounted, onUnmounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import TransparentButton from '../../../atoms/buttons/TransparentButton.vue';
 import setupAxios from '../../../../setupAxios.js';
 
@@ -33,6 +33,7 @@ const func = ref(props.func);
 const profileImage = ref(props.profileImage);
 const hasBusiness = ref(false);
 const currentRole = ref(sessionStorage.getItem('role'));
+const router = useRouter();
 
 const fetchUserData = async () => {
   try {
@@ -84,6 +85,61 @@ const closeDropdown = event => {
   if (!event.target.closest('.navbarTop_right__dropdown') && !event.target.closest('#navbarTop_right_account')) {
     showDropdown.value = false;
   }
+};
+
+const switchToBusiness = async () => {
+  const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+  console.log('token:', token);
+  if (!token) {
+    console.error("No token available for authentication");
+    return;
+  }
+
+  try {
+    const response = await axiosInstance.post('/auth/switch-role', {
+      token,
+      role: 'business'
+    });
+    console.log("response:", response);
+
+    if (response && response.data) {
+      sessionStorage.setItem('sessionToken', response.data.token);
+      sessionStorage.setItem('role', 'business');
+      currentRole.value = 'business';
+    }
+  } catch (error) {
+    console.error("Error switching to business profile:", error.response ? error.response.data : error);
+  }
+};
+
+const switchToCrew = async () => {
+  const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+  console.log('token:', token);
+  if (!token) {
+    console.error("No token available for authentication");
+    return;
+  }
+
+  try {
+    const response = await axiosInstance.post('/auth/switch-role', {
+      token,
+      role: 'crew'
+    });
+    console.log("response:", response);
+
+    if (response && response.data) {
+      sessionStorage.setItem('sessionToken', response.data.token);
+      sessionStorage.setItem('role', 'crew');
+      currentRole.value = 'crew';
+    }
+  } catch (error) {
+    console.error("Error switching to crew profile:", error.response ? error.response.data : error);
+  }
+};
+
+const createBusiness = () => {
+  let route = '/register/business';
+  router.push(route);
 };
 
 onMounted(() => {
