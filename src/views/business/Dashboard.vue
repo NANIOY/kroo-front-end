@@ -71,7 +71,18 @@ const closeJobPop = () => {
                         label="Search more" iconName="NavArrowRight" iconPosition="right" />
                 </div>
                 <div class="dashboard__left__block--sug__jobs">
-
+                    <CrewSug name="Test"
+                        img="https://res.cloudinary.com/dqzaz6d2o/image/upload/v1715265202/user-images/jji0f5zxxzaop7kkihn7.png"
+                        perc="00" jobtitle="job title" />
+                    <CrewSug name="Test"
+                        img="https://res.cloudinary.com/dqzaz6d2o/image/upload/v1715265202/user-images/jji0f5zxxzaop7kkihn7.png"
+                        perc="00" jobtitle="job title" />
+                    <CrewSug name="Test"
+                        img="https://res.cloudinary.com/dqzaz6d2o/image/upload/v1715265202/user-images/jji0f5zxxzaop7kkihn7.png"
+                        perc="00" jobtitle="job title" />
+                    <CrewSug name="Test"
+                        img="https://res.cloudinary.com/dqzaz6d2o/image/upload/v1715265202/user-images/jji0f5zxxzaop7kkihn7.png"
+                        perc="00" jobtitle="job title" />
                 </div>
             </div>
         </div>
