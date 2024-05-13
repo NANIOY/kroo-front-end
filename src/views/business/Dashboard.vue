@@ -30,9 +30,14 @@ const goToSearch = () => {
 
 
 const fetchActiveJobs = async () => {
+    const userId = sessionStorage.getItem('userId');
     try {
-        const response = await axiosInstance.get('/business/jobs');
-        activeJobs.value = response.data.jobs;
+        const userResponse = await axiosInstance.get(`/user/${userId}`);
+        const businessId = userResponse.data.data.user.businessData;
+
+        const jobResponse = await axiosInstance.get(`/bussjob/${businessId}`);
+        const sortedJobs = jobResponse.data.linkedJobs.sort((a, b) => new Date(a.date) - new Date(b.date));
+        activeJobs.value = sortedJobs.slice(0, 3);
     } catch (error) {
         console.error('Error fetching active jobs:', error);
     }
@@ -86,14 +91,16 @@ const closeJobPop = () => {
                 </div>
                 <div class="dashboard__left__block--active__jobs">
                     <div class="dashboard__left__block--active__jobs">
-                        <JobCardBus v-for="job in activeJobs" :key="job.id" :job="job" @jobClick="openJobPop" />
+                        <JobCardBus v-for="job in activeJobs" :key="job._id"
+                            :date="new Date(job.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })"
+                            :title="job.title" :func="job.jobFunction" :applicants="12" :status="'Open'" />
                     </div>
                 </div>
             </div>
 
             <div class="dashboard__left__block">
                 <div class="dashboard__left__header">
-                    <h5>Crew Suggestions</h5>
+                    <h5>Applicant Suggestions</h5>
                     <TransparentButton @click="goToSearch"
                         class="dashboard__left__header__button dashboard__left__header__button--sug" hasLabel="true"
                         label="Search more" iconName="NavArrowRight" iconPosition="right" />
