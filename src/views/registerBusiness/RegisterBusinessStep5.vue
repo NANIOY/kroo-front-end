@@ -11,7 +11,6 @@ const inputComboProps = {
     input2Placeholder: 'Role',
     buttonLabel: 'Add',
     showCounter: true,
-    
 };
 
 const inputCombo = ref(inputComboProps);
@@ -22,9 +21,8 @@ const inputCombo = ref(inputComboProps);
     <div class="registerContainer">
         <Form class="registerContainer__form" header="Add members" :hasSteps="true"
             steps="Set up business account: step 5/5" :hasBack="true" :hasText="true"
-            text="Invite your employees and assign roles for permissions."
-            :hasLocalStorageButton="true" buttonLabel="Finish" endpoint="/business" redirect="/dashboard"
-            :inputCombo="inputCombo"  />
+            text="Invite your employees and assign roles for permissions." :hasLocalStorageButton="true"
+            buttonLabel="Finish" endpoint="/business" redirect="/dashboard" :inputCombo="inputCombo" />
         <LoginImage class="registerContainer__image" />
     </div>
 </template>
