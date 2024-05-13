@@ -1,6 +1,5 @@
 <script setup>
 import { defineProps, ref, onMounted } from 'vue';
-import { Check } from '@iconoir/vue';
 import setupAxios from '../../../setupAxios.js';
 
 const props = defineProps({
