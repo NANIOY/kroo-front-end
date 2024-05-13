@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import SearchCrew from '../../components/molecules/crew/SearchCrew.vue';
-import SearchFilter from '../../components/molecules/filter/SearchFilter.vue';
+import SearchCrewFilter from '../../components/molecules/filter/SearchCrewFilter.vue';
 import NormalButton from '../../components/atoms/buttons/NormalButton.vue';
 import TransparentButton from '../../components/atoms/buttons/TransparentButton.vue';
 import setupAxios from '../../setupAxios';
@@ -93,7 +93,7 @@ onMounted(() => {
 
 <template>
     <div class="viewcontainer">
-        <SearchFilter />
+        <SearchCrewFilter />
 
         <div class="crew-container">
             <div class="viewcontainer__crews">
@@ -128,7 +128,6 @@ onMounted(() => {
                     class="pagination__button pagination__button--arrow button--tertiary" />
             </div>
         </div>
-
 
     </div>
 </template>
