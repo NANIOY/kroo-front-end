@@ -29,7 +29,6 @@ function handleClick() {
 .payment-method {
     cursor: pointer;
     flex-basis: calc(33.33% - 10px);
-    margin-bottom: 10px;
     height: 48px;
     width: 252px;
     box-sizing: border-box;
