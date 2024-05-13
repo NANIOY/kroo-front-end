@@ -182,7 +182,7 @@ const handleUrlChange = (localStorageKey, userUrl) => {
             <InputCombo v-if="inputCombo" :label="inputCombo.label" :input1Placeholder="inputCombo.input1Placeholder"
                 :input2Placeholder="inputCombo.input2Placeholder" :dropdownOptions="inputCombo.dropdownOptions"
                 :showCounter="inputCombo.showCounter" :showDropdown="inputCombo.showDropdown"
-                :buttonLabel="inputCombo.buttonLabel" :buttonIcon="inputCombo.buttonIcon" class="form__inputs__field" $event.target.value
+                :buttonLabel="inputCombo.buttonLabel" :buttonIcon="inputCombo.buttonIcon" class="form__inputs__field"
                 @click="handleButtonClick" />
             <DropBillCombo class="form__inputs__field" v-if="dropBillCombo" />
             <PaymentMethodCombo class="form__inputs__field" v-if="paymentMethodCombo" />
