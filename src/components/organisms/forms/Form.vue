@@ -15,6 +15,8 @@ import Slider from '../../atoms/inputs/Slider.vue';
 import InputUrl from '../../atoms/inputs/InputUrl.vue';
 import SocialInput from '../../atoms/inputs/SocialInput.vue';
 import Checkbox from '../../atoms/selectors/Checkbox.vue';
+import PaymentMethodCombo from '../../atoms/bill/PaymentMethodCombo.vue';
+import DropBillCombo from '../../atoms/bill/DropBillCombo.vue';
 
 // BUTTONS
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
@@ -73,6 +75,8 @@ const props = defineProps({
     hasLargeButton: Boolean,
     hasAuthButton: Boolean,
     hasLocalStorageButton: Boolean,
+    paymentMethodCombo: Boolean,
+    dropBillCombo: Boolean,
 
     selectedRole: String,
     postData: Object,
@@ -180,6 +184,9 @@ const handleUrlChange = (localStorageKey, userUrl) => {
                 :showCounter="inputCombo.showCounter" :showDropdown="inputCombo.showDropdown"
                 :buttonLabel="inputCombo.buttonLabel" :buttonIcon="inputCombo.buttonIcon" class="form__inputs__field" $event.target.value)"
                 @click="handleButtonClick" /> -->
+            <DropBillCombo class="form__inputs__field" v-if="dropBillCombo" />
+            <PaymentMethodCombo class="form__inputs__field" v-if="paymentMethodCombo" />
+
             <UploadFile v-if="uploadFile" :label="uploadFile.label" :hasLabel="uploadFile.hasLabel"
                 :placeholder="uploadFile.placeholder" :isError="uploadFile.isError" :inputWidth="uploadFile.inputWidth"
                 :localStorageKey="uploadFile.localStorageKey" :group="uploadFile.group"
