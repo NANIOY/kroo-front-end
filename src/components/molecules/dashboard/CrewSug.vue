@@ -50,6 +50,12 @@ onMounted(() => {
 
 <style scoped>
 /* GENERAL */
+.crewSug__top__img,
+.crewSug__top__perc,
+.crewSug__bot {
+    user-select: none;
+}
+
 .crewSug {
     width: calc(568px - 48px);
     height: calc(160px - 64px);
