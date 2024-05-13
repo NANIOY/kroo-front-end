@@ -6,10 +6,6 @@ const dropdownOptions = [
     '2', '3', '4', '5+', '10+'
 ];
 
-const handleDropdownOptionSelected = (option) => {
-    console.log('Selected dropdown option:', option);
-};
-
 const selectedOption = '1'; // Default placeholder value
 </script>
 
