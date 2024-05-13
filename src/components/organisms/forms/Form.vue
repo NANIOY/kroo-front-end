@@ -6,7 +6,7 @@ import { useRouter } from 'vue-router';
 
 // INPUTS
 import InputField from '../../atoms/inputs/InputField.vue';
-// import InputCombo from '../../atoms/inputs/InputCombo.vue';
+import InputCombo from '../../atoms/inputs/InputCombo.vue';
 import DropDown from '../../atoms/inputs/DropDown.vue';
 import MultiDropdown from '../../atoms/inputs/MultiDropdown.vue';
 import ImageUploadButton from '../../atoms/inputs/ImageUploadButton.vue';
@@ -179,11 +179,11 @@ const handleUrlChange = (localStorageKey, userUrl) => {
         <!-- INPUTS -->
         <div class="form__inputs">
             <SocialInput v-if="hasSocialInput" />
-            <!-- <InputCombo v-if="inputCombo" :label="inputCombo.label" :input1Placeholder="inputCombo.input1Placeholder"
+            <InputCombo v-if="inputCombo" :label="inputCombo.label" :input1Placeholder="inputCombo.input1Placeholder"
                 :input2Placeholder="inputCombo.input2Placeholder" :dropdownOptions="inputCombo.dropdownOptions"
                 :showCounter="inputCombo.showCounter" :showDropdown="inputCombo.showDropdown"
-                :buttonLabel="inputCombo.buttonLabel" :buttonIcon="inputCombo.buttonIcon" class="form__inputs__field" $event.target.value)"
-                @click="handleButtonClick" /> -->
+                :buttonLabel="inputCombo.buttonLabel" :buttonIcon="inputCombo.buttonIcon" class="form__inputs__field" $event.target.value
+                @click="handleButtonClick" />
             <DropBillCombo class="form__inputs__field" v-if="dropBillCombo" />
             <PaymentMethodCombo class="form__inputs__field" v-if="paymentMethodCombo" />
 
