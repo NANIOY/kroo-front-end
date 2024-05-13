@@ -1,5 +1,5 @@
 <script setup>
-import { IconoirProvider, MapPin, Learning, CinemaOld, DragHandGesture, Attachment, Calendar, Clock } from '@iconoir/vue';
+import { IconoirProvider, MapPin, Learning, CinemaOld, DragHandGesture, Attachment, Calendar, Clock, User, InfoCircle } from '@iconoir/vue';
 import { defineProps } from 'vue';
 
 const props = defineProps({
@@ -23,7 +23,9 @@ const iconComponents = {
     DragHandGesture,
     Attachment,
     Calendar,
-    Clock
+    Clock,
+    User,
+    InfoCircle
 };
 
 const iconSize = {
