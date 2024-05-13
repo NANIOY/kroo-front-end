@@ -9,8 +9,6 @@ import setupAxios from '../../setupAxios';
 const axiosInstance = setupAxios();
 
 const fetchedCrew = ref([]);
-const crewList = ref([]);
-
 const currentPage = ref(1);
 const crewPerPage = 12;
 
@@ -40,34 +38,24 @@ const visiblePages = computed(() => {
     return pages;
 });
 
-
 const fetchCrewData = async () => {
     try {
         const { data } = await axiosInstance.get('/user');
         const crewMembers = data.data.users.filter(user => user.crewData);
-        const crewDetails = await Promise.all(crewMembers.map(async member => {
+        fetchedCrew.value = await Promise.all(crewMembers.map(async member => {
             const crewResponse = await axiosInstance.get(`/crew/${member.crewData}`);
             const crewData = crewResponse.data.data;
             return {
                 img: crewData.basicInfo.profileImage,
                 name: member.username,
                 city: crewData.profileDetails.location,
+                country: 'Country',
                 functions: crewData.basicInfo.functions
             };
         }));
-
-        crewList.value = crewDetails;
     } catch (error) {
         console.error('Error fetching crew data:', error);
     }
-};
-
-const openCrew = (crew) => {
-    selectedCrew.value = crew;
-};
-
-const closeCrew = () => {
-    selectedCrew.value = null;
 };
 
 const previousPage = () => {
@@ -97,7 +85,7 @@ onMounted(() => {
 
         <div class="crew-container">
             <div class="viewcontainer__crews">
-                <SearchCrew v-for="crew in crewList" :key="crew.name" :img="crew.img" :name="crew.name"
+                <SearchCrew v-for="crew in paginatedCrew" :key="crew.name" :img="crew.img" :name="crew.name"
                     :city="crew.city" :country="crew.country" :functions="crew.functions" />
             </div>
 
