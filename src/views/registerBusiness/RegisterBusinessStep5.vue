@@ -5,15 +5,13 @@ import Form from '../../components/organisms/forms/Form.vue';
 import LoginImage from '../../components/molecules/login/LoginImage.vue';
 
 const inputComboProps = {
-    label: 'Education/Training',
+    label: 'Invite employees',
     showDropdown: false,
-    input1Placeholder: 'Title',
-    input2Placeholder: 'Where',
+    input1Placeholder: 'Email',
+    input2Placeholder: 'Role',
     buttonLabel: 'Add',
-    // input1Key: 'title',
-    // input2Key: 'where',
-    // localStorageKey: 'educationTraining',
-    // group: 'careerDetails',
+    showCounter: true,
+    
 };
 
 const inputCombo = ref(inputComboProps);
