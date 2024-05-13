@@ -4,6 +4,20 @@ import { ref, onMounted, computed } from 'vue';
 import Form from '../../components/organisms/forms/Form.vue';
 import LoginImage from '../../components/molecules/login/LoginImage.vue';
 
+const inputComboProps = {
+    label: 'Education/Training',
+    showDropdown: false,
+    input1Placeholder: 'Title',
+    input2Placeholder: 'Where',
+    buttonLabel: 'Add',
+    // input1Key: 'title',
+    // input2Key: 'where',
+    // localStorageKey: 'educationTraining',
+    // group: 'careerDetails',
+};
+
+const inputCombo = ref(inputComboProps);
+
 </script>
 
 <template>
@@ -11,7 +25,8 @@ import LoginImage from '../../components/molecules/login/LoginImage.vue';
         <Form class="registerContainer__form" header="Add members" :hasSteps="true"
             steps="Set up business account: step 5/5" :hasBack="true" :hasText="true"
             text="Invite your employees and assign roles for permissions."
-            :hasLocalStorageButton="true" buttonLabel="Finish" endpoint="/business" redirect="/dashboard" />
+            :hasLocalStorageButton="true" buttonLabel="Finish" endpoint="/business" redirect="/dashboard"
+            :inputCombo="inputCombo"  />
         <LoginImage class="registerContainer__image" />
     </div>
 </template>
