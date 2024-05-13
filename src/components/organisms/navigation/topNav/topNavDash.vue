@@ -169,7 +169,7 @@ onUnmounted(() => {
 
     <div id="navbarTop_right">
       <div id="navbarTop_right_account">
-        <img class="radius-full" :src="profileImage" alt="profile image">
+        <img :src="profileImage" alt="profile image">
         <div id="navbarTop_right_account_info">
           <p class="text-bold-l text-primary">{{ name }}</p>
           <p class="text-reg-normal text-secondary">
@@ -207,6 +207,7 @@ img {
   width: 56px;
   height: 56px;
   margin-right: 16px;
+  border-radius: 4px;
 }
 
 #navbarTop_right_account_info {
