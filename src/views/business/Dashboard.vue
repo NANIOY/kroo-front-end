@@ -28,7 +28,6 @@ const goToSearch = () => {
     router.push('/search');
 };
 
-
 const fetchActiveJobs = async () => {
     const userId = sessionStorage.getItem('userId');
     try {
@@ -91,9 +90,10 @@ const closeJobPop = () => {
                 </div>
                 <div class="dashboard__left__block--active__jobs">
                     <div class="dashboard__left__block--active__jobs">
-                        <JobCardBus v-for="job in activeJobs" :key="job._id"
+                        <JobCardBus v-for="(job, index) in activeJobs" :key="job._id"
                             :date="new Date(job.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })"
-                            :title="job.title" :func="job.jobFunction" :applicants="12" :status="'Open'" />
+                            :title="job.title" :func="job.jobFunction" :applicants="job.applications.length.toString()"
+                            :status="'Open'" :cardType="index === 0 ? 'highlight' : 'default'" />
                     </div>
                 </div>
             </div>

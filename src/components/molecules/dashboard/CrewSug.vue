@@ -39,7 +39,7 @@ onMounted(() => {
             </div>
         </div>
         <div class="crewSug__bot">
-            <Tag v-for="(func, index) in functions" :key="index" type="colored">{{ func }}</Tag>
+            <Tag v-for="(func, index) in functions" :key="index">{{ func }}</Tag>
         </div>
     </div>
 </template>
