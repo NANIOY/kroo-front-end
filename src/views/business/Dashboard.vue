@@ -9,11 +9,16 @@ import ScheduleCard from '../../components/molecules/dashboard/ScheduleCard.vue'
 import TransparentButton from '../../components/atoms/buttons/TransparentButton.vue';
 import JobPop from '../../components/molecules/popups/JobPop.vue';
 import Overlay from '../../components/molecules/popups/Overlay.vue';
+import setupAxios from '../../setupAxios';
 
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 
+const axiosInstance = setupAxios();
 const router = useRouter();
+const activeJobs = ref([]);
+const crewSuggestions = ref([]);
+const selectedJob = ref(null);
 
 // NAVIGATION FUNCTIONS
 const goToTracker = () => {
@@ -22,23 +27,49 @@ const goToTracker = () => {
 const goToSearch = () => {
     router.push('/search');
 };
-const goToUpgrade = () => {
-    router.push('/upgrade');
+
+
+const fetchActiveJobs = async () => {
+    try {
+        const response = await axiosInstance.get('/business/jobs');
+        activeJobs.value = response.data.jobs;
+    } catch (error) {
+        console.error('Error fetching active jobs:', error);
+    }
 };
 
-const fetchedJobs = ref([]);
-const selectedJob = ref(null);
+const fetchCrewSuggestions = async () => {
+    try {
+        const { data } = await axiosInstance.get('/user');
+        const crewMembers = data.data.users.filter(user => user.crewData).slice(0, 4);
+        crewSuggestions.value = await Promise.all(crewMembers.map(async member => {
+            const crewDataResponse = await axiosInstance.get(`/crew/${member.crewData}`);
+            const crewData = crewDataResponse.data.data;
+            return {
+                img: crewData.basicInfo.profileImage,
+                name: member.username,
+                perc: '85', // HARD CODED
+                jobtitle: 'Job title', // HARD CODED
+                functions: crewData.basicInfo.functions
+            };
+        }));
+    } catch (error) {
+        console.error('Error fetching crew suggestions:', error);
+    }
+};
 
-// open job popup when job is clicked
+onMounted(() => {
+    fetchActiveJobs();
+    fetchCrewSuggestions();
+});
+
 const openJobPop = (job) => {
     selectedJob.value = job;
 };
 
-// close job popup
 const closeJobPop = () => {
     selectedJob.value = null;
 };
-
 
 </script>
 
@@ -54,12 +85,9 @@ const closeJobPop = () => {
                         label="All jobs" iconName="NavArrowRight" iconPosition="right" />
                 </div>
                 <div class="dashboard__left__block--active__jobs">
-                    <JobCardBus cardType="highlight" applicants="12" status="Open" date="March 12" title="title"
-                        func="gaffer" />
-                    <JobCardBus cardType="default" applicants="12" status="Open" date="March 12" title="title"
-                        func="gaffer" />
-                    <JobCardBus cardType="default" applicants="12" status="Open" date="March 12" title="title"
-                        func="gaffer" />
+                    <div class="dashboard__left__block--active__jobs">
+                        <JobCardBus v-for="job in activeJobs" :key="job.id" :job="job" @jobClick="openJobPop" />
+                    </div>
                 </div>
             </div>
 
@@ -71,18 +99,7 @@ const closeJobPop = () => {
                         label="Search more" iconName="NavArrowRight" iconPosition="right" />
                 </div>
                 <div class="dashboard__left__block--sug__jobs">
-                    <CrewSug name="Test"
-                        img="https://res.cloudinary.com/dqzaz6d2o/image/upload/v1715265202/user-images/jji0f5zxxzaop7kkihn7.png"
-                        perc="00" jobtitle="job title" />
-                    <CrewSug name="Test"
-                        img="https://res.cloudinary.com/dqzaz6d2o/image/upload/v1715265202/user-images/jji0f5zxxzaop7kkihn7.png"
-                        perc="00" jobtitle="job title" />
-                    <CrewSug name="Test"
-                        img="https://res.cloudinary.com/dqzaz6d2o/image/upload/v1715265202/user-images/jji0f5zxxzaop7kkihn7.png"
-                        perc="00" jobtitle="job title" />
-                    <CrewSug name="Test"
-                        img="https://res.cloudinary.com/dqzaz6d2o/image/upload/v1715265202/user-images/jji0f5zxxzaop7kkihn7.png"
-                        perc="00" jobtitle="job title" />
+                    <CrewSug v-for="crew in crewSuggestions" :key="crew.name" v-bind="crew" />
                 </div>
             </div>
         </div>
