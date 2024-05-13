@@ -53,7 +53,7 @@ const fetchJobs = async () => {
     // fetch employer details for each job based on businessId
     await Promise.all(fetchedJobs.value.map(async (job) => {
       try {
-        const businessResponse =  await axiosInstance.get(`/business/${job.businessId}`)
+        const businessResponse = await axiosInstance.get(`/business/${job.businessId}`)
         job.employer = {
           name: businessResponse.data.data.business.name,
           image: businessResponse.data.data.business.businessInfo.logo
@@ -142,7 +142,7 @@ onMounted(() => {
       </div>
 
       <div class="pagination">
-        <NormalButton @click="previousPage" :disabled="currentPage === 1" iconName="NavArrowLeft"
+        <NormalButton @click="previousPage" :disabled="currentPage === 1" iconName="NavArrowLeft" :hasRequest="false"
           class="pagination__button pagination__button--arrow button--tertiary" />
         <template v-for="(page, index) in visiblePages" :key="index">
           <template v-if="index === 0">
@@ -165,7 +165,7 @@ onMounted(() => {
           </template>
         </template>
         <NormalButton @click="nextPage" :disabled="currentPage === totalPages" iconName="NavArrowRight"
-          class="pagination__button pagination__button--arrow button--tertiary" />
+          :hasRequest="false" class="pagination__button pagination__button--arrow button--tertiary" />
       </div>
     </div>
 
