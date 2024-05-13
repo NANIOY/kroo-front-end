@@ -56,6 +56,7 @@ const isSelected = (type) => {
 .billing-type {
     display: flex;
     align-items: center;
+    gap: 24px;
 }
 
 .option {
@@ -63,13 +64,13 @@ const isSelected = (type) => {
     flex-direction: column;
     align-items: flex-start;
     padding: 16px;
-    border-radius: 5px;
-    margin-right: 20px;
+    box-sizing: border-box;
+    border-radius: 4px;
     width: 260px;
     box-sizing: border-box;
     cursor: pointer;
     user-select: none;
-    background-color: #EBEBEB;
+    background-color: var(--gray);
 }
 
 .billing-option {
@@ -88,6 +89,6 @@ const isSelected = (type) => {
 }
 
 .active {
-    border: 1px solid var(--blurple);
+    outline: 2px solid var(--blurple);
 }
 </style>

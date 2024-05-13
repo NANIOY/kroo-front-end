@@ -1,50 +1,36 @@
 <script setup>
-import BillType from '../bill/BillType';
-import Dropdown from '../inputs/DropDown';
+import BillType from './BillType.vue';
+import Dropdown from '../inputs/DropDown.vue';
 
 const dropdownOptions = [
     '2', '3', '4', '5+', '10+'
 ];
 
-const handleDropdownOptionSelected = (option) => {
-    console.log('Selected dropdown option:', option);
-};
-
-const selectedOption = '1'; // Default placeholder value
 </script>
 
 <template>
-    <div class="container">
-        <Dropdown :options="dropdownOptions" @optionSelected="handleDropdownOptionSelected" hasLabel
-            label="Number of users" :placeholder="'1'" class="dropdown-width" />
+    <div class="dropbillcombo">
+        <Dropdown :options="dropdownOptions" hasLabel label="Number of users" :placeholder="'1'"
+            class="dropbillcombo__dropdown" />
 
-        <BillType class="margin-bottom-16" />
+        <BillType class="dropbillcombo__billtype" />
 
     </div>
 </template>
 
 <style scoped>
-.container {
-    margin-bottom: 16px;
-}
-
-.margin-bottom-16 {
-    margin-bottom: 16px;
-}
-
-.payment-methods {
+.dropbillcombo {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    flex-direction: column;
+    gap: 16px;
 }
 
-.payment-method-label {
-    margin-top: 20px;
-    font-size: 16px;
-    font-family: var(--font-body);
+.dropbillcombo__billtype {
+    display: flex;
+    justify-content: space-between
 }
 
-.dropdown-width {
+.dropbillcombo__dropdown {
     width: 100%;
 }
 </style>

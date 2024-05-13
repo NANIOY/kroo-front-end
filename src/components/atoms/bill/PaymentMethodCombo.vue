@@ -1,5 +1,5 @@
 <script setup>
-import PaymentMethodSelector from '../components/atoms/bill/PaymentMethod.vue';
+import PaymentMethodSelector from './PaymentMethod.vue';
 
 const paymentMethodOptions = [
     { imageUrl: "/assets/paymentMethod/ApplePay.webp", altText: "Apple Pay" },
@@ -13,10 +13,10 @@ const paymentMethodOptions = [
 </script>
 
 <template>
-    <div class="container">
-        <label class="payment-method-label">Payment methods</label>
+    <div class="paymentmethodcombo">
+        <label class="paymentmethodcombo__label text-reg-normal">Payment methods</label>
 
-        <div class="payment-methods">
+        <div class="paymentmethodcombo__methods">
             <PaymentMethodSelector v-for="(method, index) in paymentMethodOptions" :key="index"
                 :imageUrl="method.imageUrl" :altText="method.altText" @click="handlePaymentMethodSelected"
                 class="margin-bottom-16" />
@@ -25,19 +25,17 @@ const paymentMethodOptions = [
 </template>
 
 <style scoped>
-.container {
-    margin-bottom: 16px;
+.paymentmethodcombo {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
 }
 
-.payment-methods {
+.paymentmethodcombo__methods {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-}
-
-.payment-method-label {
-    margin-top: 20px;
-    font-size: 16px;
-    font-family: var(--font-body);
+    justify-content: space-between;
+    gap: 12px;
 }
 </style>
