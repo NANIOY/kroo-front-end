@@ -44,9 +44,10 @@ const props = defineProps({
 });
 
 const clickCount = ref(0);
+const input1Value = ref('');
 const input2Value = ref('');
 const counterFontWeight = 'bolder';
-const counterFontSize = '16px'; 
+const counterFontSize = '16px';
 
 const handleButtonClick = () => {
     clickCount.value++;
@@ -66,7 +67,7 @@ const handleButtonClick = () => {
             <InputField v-model="input1Value" :placeholder="input1Placeholder" class="custom-input" />
 
             <template v-if="showDropdown">
-                <DropDown :modelValue="input2Value" :placeholder="input2Placeholder" :options="dropdownOptions"
+                <DropDown v-model="input2Value" :placeholder="input2Placeholder" :options="dropdownOptions"
                     class="custom-input" />
             </template>
             <template v-else>
