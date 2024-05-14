@@ -4,21 +4,23 @@ import { ref } from 'vue';
 import Form from '../../components/organisms/forms/Form.vue';
 import LoginImage from '../../components/molecules/login/LoginImage.vue';
 
+const dropdownOptions = [
+    { value: 'Producer', label: 'Producer' },
+    { value: 'Editor', label: 'Editor' },
+    { value: 'Audience', label: 'Audience' }
+];
+
 const inputComboProps = {
     label: 'Invite employees',
     input1Placeholder: 'Email',
     input2Placeholder: 'Select Role',
     buttonLabel: 'Add',
     showCounter: true,
+    showDropdown: true,
+    dropdownOptions: dropdownOptions 
 };
 
 const inputCombo = ref(inputComboProps);
-
-const dropdownOptions = [
-    { value: 'Admin', label: 'Admin' },
-    { value: 'Manager', label: 'Manager' },
-    { value: 'Employee', label: 'Employee' }
-];
 </script>
 
 <template>
@@ -27,7 +29,7 @@ const dropdownOptions = [
             steps="Set up business account: step 5/5" :hasBack="true" :hasText="true"
             text="Invite your employees and assign roles for permissions." :hasLocalStorageButton="true"
             buttonLabel="Finish" endpoint="/business" redirect="/dashboard" :inputCombo="inputCombo"
-            :dropdownOptions="dropdownOptions" />
+            />
         <LoginImage class="registerContainer__image" />
     </div>
 </template>
