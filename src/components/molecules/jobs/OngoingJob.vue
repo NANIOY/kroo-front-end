@@ -71,6 +71,7 @@ img {
     flex-direction: column;
     width: 360px;
     padding: 12px;
+    box-sizing: border-box;
 }
 
 #ongoing__job__top {

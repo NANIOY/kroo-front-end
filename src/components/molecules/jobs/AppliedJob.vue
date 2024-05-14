@@ -50,6 +50,7 @@ img {
     flex-direction: column;
     width: 360px;
     padding: 12px;
+    box-sizing: border-box;
 }
 
 #applied__job__top {

@@ -68,6 +68,7 @@ img {
     flex-direction: column;
     width: 360px;
     padding: 12px;
+    box-sizing: border-box;
 }
 
 #saved__job__top {
