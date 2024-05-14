@@ -1,7 +1,8 @@
 <script setup>
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import { IconoirProvider, Calendar } from '@iconoir/vue';
-import { computed } from 'vue';
+import { computed, onMounted, ref } from 'vue';
+import setupAxios from '../../../setupAxios';
 
 const props = defineProps({
     type: {
@@ -12,6 +13,53 @@ const props = defineProps({
 });
 
 const isOffered = computed(() => props.type === 'Offered');
+const jobs = ref([]);
+const axiosInstance = setupAxios();
+
+const fetchJobs = async () => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+    if (!token) {
+        console.error('Authentication token is missing');
+        return;
+    }
+
+    try {
+        const savedResponse = await axiosInstance.get(`/crewJobInt/saved`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        jobs.value = savedResponse.data.savedJobs.map(job => ({ ...job, type: 'Saved' }));
+    } catch (error) {
+        console.error(`Failed to fetch saved jobs:`, error);
+    }
+
+    try {
+        const applicationsResponse = await axiosInstance.get(`/crewJobInt/applications`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const applications = applicationsResponse.data.applications;
+
+        const jobDetailsPromises = applications.map(application =>
+            axiosInstance.get(`/crewjob/jobs/${application.job}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+        );
+
+        const jobDetailsResponses = await Promise.all(jobDetailsPromises);
+        const appliedJobs = jobDetailsResponses.map((response, index) => ({
+            ...response.data.job,
+            type: 'Applied',
+            applicationDate: applications[index].date,
+            applicationStatus: applications[index].status
+        }));
+
+        jobs.value = [...jobs.value, ...appliedJobs];
+    } catch (error) {
+        console.error(`Failed to fetch applied jobs:`, error);
+    }
+};
+
+
+onMounted(fetchJobs);
 </script>
 
 <template>
