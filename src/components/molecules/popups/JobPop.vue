@@ -1,12 +1,13 @@
 <script setup>
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
-import AuthButton from '../../atoms/buttons/AuthButton.vue';
+import LargeButton from '../../atoms/buttons/LargeButton.vue';
 import IconLabel from '../../atoms/items/IconLabel.vue';
 import Tag from '../../atoms/items/Tag.vue';
 import { defineProps } from 'vue';
 
 const props = defineProps({
     job: Object,
+    jobType: String,
 });
 
 const formatDateTime = (dateTimeString) => {
@@ -49,8 +50,7 @@ const formatDateTime = (dateTimeString) => {
             <div class="jobpop__mid__details">
                 <p class="jobpop__mid__details__heading text-bold-l">Details</p>
                 <IconLabel iconName="Learning" :label="job.jobFunction" />
-                <IconLabel iconName="MapPin"
-                    :label="`${job.location.country}, ${job.location.city}, ${job.location.address}`" />
+                <IconLabel iconName="MapPin" :label="`${job.location.city}, ${job.location.country}`" />
                 <IconLabel iconName="CinemaOld" :label="job.production_type" />
                 <IconLabel iconName="DragHandGesture" :label="job.union_status" />
             </div>
@@ -65,10 +65,13 @@ const formatDateTime = (dateTimeString) => {
 
         <!-- Bottom Section -->
         <div class="jobpop__bottom">
-            <AuthButton label="Save" class="jobpop__bottom__button button--tertiary"
+            <LargeButton v-if="jobType === 'schedule'" label="Save" class="jobpop__bottom__button button--tertiary"
                 :endpoint="`/crewJobInt/${job.id}/save`" :postData="{}" />
-            <AuthButton label="Apply" class="jobpop__bottom__button button--primary"
+            <LargeButton v-if="jobType === 'schedule' || jobType === 'applied'" label="Apply"
+                class="jobpop__bottom__button button--primary"
                 :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" />
+            <LargeButton v-if="jobType === 'applied'" label="Cancel" class="jobpop__bottom__button button--secondary"
+                :endpoint="`/crewJobInt/${job.id}/cancel`" :postData="{}" />
         </div>
     </div>
 </template>
