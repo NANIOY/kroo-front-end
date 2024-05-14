@@ -1,8 +1,5 @@
 <script setup>
-  import AppliedJob from '../../components/molecules/jobs/AppliedJob.vue';
-  import OfferedJob from '../../components/molecules/jobs/OfferedJob.vue';
-  import OngoingJob from '../../components/molecules/jobs/OngoingJob.vue';
-  import SavedJob from '../../components/molecules/jobs/SavedJob.vue';
+  import TrackerJob from '../../components/molecules/jobs/TrackerJob.vue';
 
   let jobCounts = {
     applied: 4,
@@ -17,11 +14,11 @@
 
   <div id="tracker__container">
 
-    <div id="tracker__container--SavedJob"> 
+    <div id="tracker__container--TrackerJob"> 
       <h6 class="tracker__container__title">SAVED &#8722; {{ jobCounts.saved }}</h6>
       
-      <div class="tracker__container__SavedJob">
-        <SavedJob />
+      <div class="tracker__container__TrackerJob">
+        <TrackerJob type="Saved"/>
       </div>
 
     </div>
@@ -30,7 +27,7 @@
       <h6 class="tracker__container__title">APPLIED &#8722; {{ jobCounts.applied }}</h6>
 
       <div class="tracker__container__AppliedJob">
-        <AppliedJob />
+        <TrackerJob type="Applied" />
       </div>
     </div>
 
@@ -38,7 +35,7 @@
       <h6 class="tracker__container__title">ONGOING &#8722; {{ jobCounts.ongoing }}</h6>
 
       <div class="tracker__container__OngoingJob">
-        <OngoingJob />
+        <TrackerJob type="Ongoing" />
       </div>
     </div>
 
@@ -47,7 +44,7 @@
       <h6 class="tracker__container__title">OFFERED &#8722; {{ jobCounts.offered }}</h6>
 
       <div class="tracker__container__OfferedJob">
-        <OfferedJob />
+        <TrackerJob type="Offered" />
       </div>
     </div>
   </div>
@@ -67,11 +64,11 @@
 .tracker__container__AppliedJob,
 .tracker__container__OfferedJob,
 .tracker__container__OngoingJob,
-.tracker__container__SavedJob {
+.tracker__container__TrackerJob {
   padding: 8px;
 }
 
-.tracker__container__SavedJob { 
+.tracker__container__TrackerJob { 
   grid-area: 1 / 1 / 2 / 2; 
 }
 
