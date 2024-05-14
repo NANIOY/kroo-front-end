@@ -216,7 +216,7 @@ h5 {
 }
 
 .dashboard__right__schedule__cards {
-    max-height: 648px;
+    max-height: 612px;
     overflow-y: scroll;
     overflow-x: hidden;
     scrollbar-width: none;
