@@ -67,8 +67,7 @@ const formatDateTime = (dateTimeString) => {
         <div class="jobpop__bottom">
             <LargeButton v-if="jobType === 'schedule'" label="Save" class="jobpop__bottom__button button--tertiary"
                 :endpoint="`/crewJobInt/${job.id}/save`" :postData="{}" />
-            <LargeButton v-if="jobType === 'schedule' || jobType === 'applied'" label="Apply"
-                class="jobpop__bottom__button button--primary"
+            <LargeButton v-if="jobType === 'tracker'" label="Apply" class="jobpop__bottom__button button--primary"
                 :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" />
             <LargeButton v-if="jobType === 'applied'" label="Cancel" class="jobpop__bottom__button button--secondary"
                 :endpoint="`/crewJobInt/${job.id}/cancel`" :postData="{}" />
