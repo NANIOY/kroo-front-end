@@ -3,7 +3,6 @@ import { IconoirProvider } from '@iconoir/vue';
 import IconLabel from '../../atoms/items/IconLabel.vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 import { defineProps, defineEmits, ref, onMounted } from 'vue';
-import axios from 'axios';
 
 const props = defineProps({
     job: Object,
@@ -34,20 +33,6 @@ const openJobPop = () => {
     emits('jobClick', props.job);
 };
 
-// fetch employer details for each job based on businessId
-const fetchEmployerDetails = async () => {
-    try {
-        const businessResponse = await axios.get(`https://kroo-back-end.onrender.com/api/v1/business/${props.job.businessId}`);
-        props.job.employer = {
-            name: businessResponse.data.data.business.name,
-            image: businessResponse.data.data.business.businessInfo.logo
-        };
-    } catch (error) {
-        console.error('Error fetching employer details:', error);
-    }
-};
-
-fetchEmployerDetails();
 </script>
 
 <template>
@@ -75,7 +60,6 @@ fetchEmployerDetails();
         </div>
     </div>
 </template>
-
 
 <style scoped>
 /* GENERAL */
