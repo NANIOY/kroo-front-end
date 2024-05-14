@@ -47,8 +47,9 @@ const openJobPop = () => {
             <IconoirProvider :icon-props="{
                 'stroke-width': '2'
             }">
-                <TransparentButton class="jobSug__top__save no-label" :hasIcon="true" iconName="Bookmark"
-                    color="var(--blurple)" />
+                <TransparentButton @click.stop class="jobSug__top__save no-label" :hasIcon="true" iconName="Bookmark"
+                    color="var(--blurple)" :hasRequest="true" :endpoint="`/crewJobInt/${job.id}/save`"
+                    :postData="{ jobId: job.id }" />
             </IconoirProvider>
         </div>
         <div class="jobSug__bot">
