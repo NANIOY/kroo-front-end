@@ -1,6 +1,6 @@
 <script setup>
 import transparentButton from '../../atoms/buttons/TransparentButton.vue';
-import normalButton from '../../atoms/buttons/NormalButton.vue';
+import NormalButton from '../../atoms/buttons/NormalButton.vue';
 </script>
 
 <template>
@@ -40,14 +40,10 @@ import normalButton from '../../atoms/buttons/NormalButton.vue';
             </div>
         </div>
         <div id="saved__job__buttons">
-            <div id="saved_job__buttons-cancel">
-                <normalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
-                    :hasLabel="true" label="Unsave" iconName="" />
-            </div>
-            <div id="applied_job__buttons-details">
-                <normalButton id="normalButton__details" class="button--primary" :hasIcon="false" :hasLabel="true"
-                    label="Details" iconName="" />
-            </div>
+            <NormalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
+                :hasLabel="true" label="Unsave" iconName="" />
+            <NormalButton id="normalButton__details" class="button--primary" :hasIcon="false" :hasLabel="true"
+                label="Details" iconName="" />
         </div>
 
     </div>
@@ -67,8 +63,9 @@ img {
     display: flex;
     flex-direction: column;
     width: 360px;
-    padding: 12px;
+    padding: 20px;
     box-sizing: border-box;
+    gap: 12px;
 }
 
 #saved__job__top {
@@ -80,10 +77,7 @@ img {
 #saved__job__top__business {
     display: flex;
     align-items: center;
-}
-
-#saved__job__top__business__image {
-    margin-right: 8px;
+    gap: 8px;
 }
 
 #saved__job__jobTitle p {
@@ -95,23 +89,18 @@ img {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 12px;
-    margin-bottom: 12px;
-}
-
-#saved__job__details {
-    width: 100%;
 }
 
 #saved__job__buttons {
     display: flex;
     justify-content: space-between;
-    margin-top: 12px;
     width: 100%;
+    margin-top: 12px;
+    gap: 16px;
 }
 
 #normalButton__cancel,
 #normalButton__details {
-    width: 168px;
+    flex: 1;
 }
 </style>
