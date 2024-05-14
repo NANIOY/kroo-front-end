@@ -1,6 +1,6 @@
 <script setup>
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
-import LargeButton from '../../atoms/buttons/LargeButton.vue';
+import AuthButton from '../../atoms/buttons/AuthButton.vue';
 import IconLabel from '../../atoms/items/IconLabel.vue';
 import Tag from '../../atoms/items/Tag.vue';
 import { defineProps } from 'vue';
@@ -64,9 +64,9 @@ const formatDateTime = (dateTimeString) => {
 
         <!-- Bottom Section -->
         <div class="jobpop__bottom">
-            <LargeButton label="Save" class="jobpop__bottom__button button--tertiary"
+            <AuthButton label="Save" class="jobpop__bottom__button button--tertiary"
                 :endpoint="`/crewJobInt/${job.id}/save`" :postData="{}" />
-            <LargeButton label="Apply" class="jobpop__bottom__button button--primary"
+            <AuthButton label="Apply" class="jobpop__bottom__button button--primary"
                 :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" />
         </div>
     </div>
