@@ -1,49 +1,57 @@
 <script setup>
-  import TrackerJob from '../../components/molecules/jobs/TrackerJob.vue';
+import TrackerJob from '../../components/molecules/jobs/TrackerJob.vue';
 
-  let jobCounts = {
-    applied: 4,
-    offered: 9,
-    ongoing: 8,
-    saved: 10
-  };
+let jobCounts = {
+  applied: 4,
+  offered: 9,
+  ongoing: 8,
+  saved: 10
+};
 
 </script>
 
 <template>
 
-  <div id="tracker__container">
+  <div id="tracker">
 
-    <div id="tracker__container--TrackerJob"> 
-      <h6 class="tracker__container__title">SAVED &#8722; {{ jobCounts.saved }}</h6>
-      
-      <div class="tracker__container__TrackerJob">
-        <TrackerJob type="Saved"/>
+    <div class="tracker__container">
+      <h6>SAVED &#8722; {{ jobCounts.saved }}</h6>
+
+      <div class="tracker__container__column">
+        <TrackerJob type="Saved" />
+        <TrackerJob type="Saved" />
+        <TrackerJob type="Saved" />
       </div>
 
     </div>
 
-    <div id="tracker__container--AppliedJob">
-      <h6 class="tracker__container__title">APPLIED &#8722; {{ jobCounts.applied }}</h6>
+    <div class="tracker__container">
+      <h6>APPLIED &#8722; {{ jobCounts.applied }}</h6>
 
-      <div class="tracker__container__AppliedJob">
+      <div class="tracker__container__column">
+        <TrackerJob type="Applied" />
+        <TrackerJob type="Applied" />
         <TrackerJob type="Applied" />
       </div>
     </div>
 
-    <div id="tracker__container--OngoingJob">
-      <h6 class="tracker__container__title">ONGOING &#8722; {{ jobCounts.ongoing }}</h6>
+    <div class="tracker__container">
+      <h6>ONGOING &#8722; {{ jobCounts.ongoing }}</h6>
 
-      <div class="tracker__container__OngoingJob">
+      <div class="tracker__container__column">
+        <TrackerJob type="Ongoing" />
+        <TrackerJob type="Ongoing" />
         <TrackerJob type="Ongoing" />
       </div>
     </div>
 
 
-    <div id="tracker__container--OfferedJob">
-      <h6 class="tracker__container__title">OFFERED &#8722; {{ jobCounts.offered }}</h6>
+    <div class="tracker__container">
+      <h6>OFFERED &#8722; {{ jobCounts.offered }}</h6>
 
-      <div class="tracker__container__OfferedJob">
+      <div class="tracker__container__column">
+        <TrackerJob type="Offered" />
+        <TrackerJob type="Offered" />
         <TrackerJob type="Offered" />
       </div>
     </div>
@@ -52,40 +60,21 @@
 </template>
 
 <style scoped>
-
-#tracker__container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: 0;
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
+#tracker {
+  display: flex;
+  justify-content: space-between;
 }
 
-.tracker__container__AppliedJob,
-.tracker__container__OfferedJob,
-.tracker__container__OngoingJob,
-.tracker__container__TrackerJob {
+.tracker__container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tracker__container__column {
   padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
-
-.tracker__container__TrackerJob { 
-  grid-area: 1 / 1 / 2 / 2; 
-}
-
-.tracker__container__AppliedJob { 
-  grid-area: 1 / 2 / 2 / 3; 
-}
-
-.tracker__container__OngoingJob { 
-  grid-area: 1 / 3 / 2 / 4; 
-}
-
-.tracker__container__OfferedJob { 
-  grid-area: 1 / 4 / 2 / 5; 
-}
-
-.tracker__container__title {
-  margin-bottom: 8px;
-}
-
 </style>
