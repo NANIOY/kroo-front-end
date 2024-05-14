@@ -63,12 +63,14 @@ let jobCounts = {
 #tracker {
   display: flex;
   justify-content: space-between;
+  gap: 16px;
 }
 
 .tracker__container {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  flex: 1;
 }
 
 .tracker__container__column {
@@ -76,5 +78,16 @@ let jobCounts = {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  max-height: 768px;
+  overflow-y: auto;
+}
+
+.tracker__container__column::-webkit-scrollbar {
+  display: none;
+}
+
+.tracker__container__column {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 </style>
