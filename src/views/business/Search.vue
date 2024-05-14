@@ -48,8 +48,8 @@ const fetchCrewData = async () => {
             return {
                 img: crewData.basicInfo.profileImage,
                 name: member.username,
-                city: crewData.profileDetails.location,
-                country: 'Country',
+                city: crewData.profileDetails.city,
+                country:  crewData.profileDetails.country,
                 functions: crewData.basicInfo.functions
             };
         }));

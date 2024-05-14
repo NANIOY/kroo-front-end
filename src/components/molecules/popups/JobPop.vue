@@ -49,7 +49,8 @@ const formatDateTime = (dateTimeString) => {
             <div class="jobpop__mid__details">
                 <p class="jobpop__mid__details__heading text-bold-l">Details</p>
                 <IconLabel iconName="Learning" :label="job.jobFunction" />
-                <IconLabel iconName="MapPin" :label="`${job.location}`" />
+                <IconLabel iconName="MapPin"
+                    :label="`${job.location.country}, ${job.location.city}, ${job.location.address}`" />
                 <IconLabel iconName="CinemaOld" :label="job.production_type" />
                 <IconLabel iconName="DragHandGesture" :label="job.union_status" />
             </div>

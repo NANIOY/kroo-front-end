@@ -15,13 +15,13 @@ const localfields = ref([
         group: 'profileDetails'
     },
     {
-        label: 'location',
+        label: 'city',
         hasLabel: true,
-        placeholder: 'Enter your location',
+        placeholder: 'Enter your city',
         hasIconLeft: false,
         hasIconRight: false,
         isPassword: false,
-        localStorageKey: 'location',
+        localStorageKey: 'city',
         group: 'profileDetails'
     },
     {

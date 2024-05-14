@@ -53,7 +53,7 @@ const openJobPop = () => {
             </IconoirProvider>
         </div>
         <div class="jobSug__bot">
-            <IconLabel :iconName="'MapPin'" :label="job.location" size="small" />
+            <IconLabel :iconName="'MapPin'" :label="`${job.location.country}, ${job.location.city}`" size="small" />
             <span class="jobSug__bot__sep text-secondary text-reg-l">|</span>
             <IconLabel :iconName="'Calendar'" :label=formatDate(job.date) size="small" />
             <span class="jobSug__bot__sep text-secondary text-reg-l">|</span>
