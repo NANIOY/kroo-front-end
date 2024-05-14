@@ -1,8 +1,7 @@
 <script setup>
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import { IconoirProvider, Calendar } from '@iconoir/vue';
-import { computed, onMounted, ref } from 'vue';
-import setupAxios from '../../../setupAxios';
+import { computed } from 'vue';
 
 const props = defineProps({
     type: {
@@ -13,53 +12,6 @@ const props = defineProps({
 });
 
 const isOffered = computed(() => props.type === 'Offered');
-const jobs = ref([]);
-const axiosInstance = setupAxios();
-
-const fetchJobs = async () => {
-    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
-    if (!token) {
-        console.error('Authentication token is missing');
-        return;
-    }
-
-    try {
-        const savedResponse = await axiosInstance.get(`/crewJobInt/saved`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-        jobs.value = savedResponse.data.savedJobs.map(job => ({ ...job, type: 'Saved' }));
-    } catch (error) {
-        console.error(`Failed to fetch saved jobs:`, error);
-    }
-
-    try {
-        const applicationsResponse = await axiosInstance.get(`/crewJobInt/applications`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const applications = applicationsResponse.data.applications;
-
-        const jobDetailsPromises = applications.map(application =>
-            axiosInstance.get(`/crewjob/jobs/${application.job}`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            })
-        );
-
-        const jobDetailsResponses = await Promise.all(jobDetailsPromises);
-        const appliedJobs = jobDetailsResponses.map((response, index) => ({
-            ...response.data.job,
-            type: 'Applied',
-            applicationDate: applications[index].date,
-            applicationStatus: applications[index].status
-        }));
-
-        jobs.value = [...jobs.value, ...appliedJobs];
-    } catch (error) {
-        console.error(`Failed to fetch applied jobs:`, error);
-    }
-};
-
-
-onMounted(fetchJobs);
 </script>
 
 <template>
@@ -76,11 +28,11 @@ onMounted(fetchJobs);
                     </div>
                 </div>
                 <div v-if="isOffered" id="offered__job__top__right">
-                    <div id="offered__job__top__right__days">
-                        <p>0</p>
-                    </div>
                     <div id="offered__job__top__right__calendar">
                         <Calendar />
+                    </div>
+                    <div id="offered__job__top__right__days">
+                        <p>days</p>
                     </div>
                 </div>
             </div>
@@ -99,8 +51,8 @@ onMounted(fetchJobs);
                     </div>
                 </div>
                 <div :id="`${props.type.toLowerCase()}__job__info__place`">
-                    <div :id="`${props.type.toLowerCase()}__job__info__place__city`">
-                        <p>city</p>
+                    <div :id="`${props.type.toLowerCase()}__job__info__place__code`">
+                        <p>zip code</p>
                     </div>
                     <div :id="`${props.type.toLowerCase()}__job__info__place__country`">
                         <p>country</p>
@@ -109,7 +61,7 @@ onMounted(fetchJobs);
             </div>
 
             <div v-if="props.type === 'Offered'" id="offered__job__bottom">
-                <div id="offered__job__bottom__price">
+                <div>
                     <p class="button-l">€ #/hr</p>
                 </div>
                 <div id="offered__job__bottom__buttons">
@@ -156,8 +108,8 @@ onMounted(fetchJobs);
                 </div>
             </div>
             <div :id="`${props.type.toLowerCase()}__job__info__place`">
-                <div :id="`${props.type.toLowerCase()}__job__info__place__city`">
-                    <p>city</p>
+                <div :id="`${props.type.toLowerCase()}__job__info__place__code`">
+                    <p>zip code</p>
                 </div>
                 <div :id="`${props.type.toLowerCase()}__job__info__place__country`">
                     <p>country</p>
@@ -228,13 +180,6 @@ img {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-#saved__job__info__place,
-#applied__job__info__place,
-#ongoing__job__info__place,
-#offered__job__info__place {
-    text-align: right;
 }
 
 #saved__job__buttons,
