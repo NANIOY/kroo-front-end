@@ -29,11 +29,11 @@ import NormalButton from '../../atoms/buttons/NormalButton.vue';
                 </div>
             </div>
             <div id="ongoing__job__info__place">
-                <div id="ongoing__job__info__place__code">
-                    <p>zip code</p>
+                <div id="ongoing__job__info__place__city">
+                    <p class="text-reg-normal">city</p>
                 </div>
                 <div id="ongoing__job__info__place__country">
-                    <p>country</p>
+                    <p class="text-reg-s">country</p>
                 </div>
             </div>
         </div>
@@ -86,6 +86,10 @@ img {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+#ongoing__job__info__place {
+    text-align: right;
 }
 
 #ongoing__job__buttons {

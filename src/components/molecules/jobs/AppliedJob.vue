@@ -20,8 +20,8 @@ import NormalButton from '../../atoms/buttons/NormalButton.vue';
         </div>
 
         <div id="applied__job__buttons">
-            <NormalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false" :hasLabel="true"
-                label="Cancel" iconName="" />
+            <NormalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
+                :hasLabel="true" label="Cancel" iconName="" />
             <NormalButton id="normalButton__details" class="button--primary" :hasIcon="false" :hasLabel="true"
                 label="Details" iconName="" />
         </div>
