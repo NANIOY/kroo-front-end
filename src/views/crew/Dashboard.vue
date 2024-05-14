@@ -10,11 +10,12 @@ import Upgrade from '../../components/molecules/dashboard/Upgrade.vue';
 import TransparentButton from '../../components/atoms/buttons/TransparentButton.vue';
 import JobPop from '../../components/molecules/popups/JobPop.vue';
 import Overlay from '../../components/molecules/popups/Overlay.vue';
+import setupAxios from '../../setupAxios';
 
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
 
+const axiosInstance = setupAxios();
 const router = useRouter();
 
 // NAVIGATION FUNCTIONS
@@ -34,7 +35,7 @@ const selectedJob = ref(null);
 // fetch job suggestions
 const fetchJobSuggestions = async () => {
   try {
-    const response = await axios.get('https://kroo-back-end.onrender.com/api/v1/crewjob/jobs');
+    const response = await axiosInstance.get('/crewjob/jobs');
     fetchedJobs.value = response.data.data.jobs.map(job => ({
       ...job,
       id: job._id
@@ -43,7 +44,7 @@ const fetchJobSuggestions = async () => {
     // fetch employer details for each job based on businessId
     await Promise.all(fetchedJobs.value.map(async (job) => {
       try {
-        const businessResponse = await axios.get(`https://kroo-back-end.onrender.com/api/v1/business/${job.businessId}`);
+        const businessResponse = await axiosInstance.get(`/business/${job.businessId}`);
         job.employer = {
           name: businessResponse.data.data.business.name,
           image: businessResponse.data.data.business.businessInfo.logo
