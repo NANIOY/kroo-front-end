@@ -1,5 +1,8 @@
 <script setup>
-import TrackerJob from '../../components/molecules/jobs/TrackerJob.vue';
+import AppliedJob from '../../components/molecules/jobs/AppliedJob.vue';
+import OfferedJob from '../../components/molecules/jobs/OfferedJob.vue';
+import OngoingJob from '../../components/molecules/jobs/OngoingJob.vue';
+import SavedJob from '../../components/molecules/jobs/SavedJob.vue';
 
 let jobCounts = {
   applied: 4,
@@ -18,9 +21,7 @@ let jobCounts = {
       <h6>SAVED &#8722; {{ jobCounts.saved }}</h6>
 
       <div class="tracker__container__column">
-        <TrackerJob type="Saved" />
-        <TrackerJob type="Saved" />
-        <TrackerJob type="Saved" />
+        <SavedJob />
       </div>
 
     </div>
@@ -29,9 +30,7 @@ let jobCounts = {
       <h6>APPLIED &#8722; {{ jobCounts.applied }}</h6>
 
       <div class="tracker__container__column">
-        <TrackerJob type="Applied" />
-        <TrackerJob type="Applied" />
-        <TrackerJob type="Applied" />
+        <AppliedJob />
       </div>
     </div>
 
@@ -39,9 +38,7 @@ let jobCounts = {
       <h6>ONGOING &#8722; {{ jobCounts.ongoing }}</h6>
 
       <div class="tracker__container__column">
-        <TrackerJob type="Ongoing" />
-        <TrackerJob type="Ongoing" />
-        <TrackerJob type="Ongoing" />
+        <OngoingJob />
       </div>
     </div>
 
@@ -50,9 +47,7 @@ let jobCounts = {
       <h6>OFFERED &#8722; {{ jobCounts.offered }}</h6>
 
       <div class="tracker__container__column">
-        <TrackerJob type="Offered" />
-        <TrackerJob type="Offered" />
-        <TrackerJob type="Offered" />
+        <OfferedJob />
       </div>
     </div>
   </div>
