@@ -1,20 +1,21 @@
 <script setup>
-import setupAxios from '../../setupAxios';
-import { ref, onMounted, computed } from 'vue';
 import Form from '../../components/organisms/forms/Form.vue';
 import LoginImage from '../../components/molecules/login/LoginImage.vue';
 
-const inputComboProps = {
+const dropdownOptions = [
+    'Producer',
+    'Editor',
+    'Audience'
+];
+
+const inputCombo = {
     label: 'Invite employees',
-    showDropdown: false,
     input1Placeholder: 'Email',
-    input2Placeholder: 'Role',
+    input2Placeholder: 'Select Role',
     buttonLabel: 'Add',
     showCounter: true,
+    dropdownOptions: dropdownOptions
 };
-
-const inputCombo = ref(inputComboProps);
-
 </script>
 
 <template>

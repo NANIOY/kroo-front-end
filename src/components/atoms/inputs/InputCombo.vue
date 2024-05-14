@@ -44,13 +44,14 @@ const props = defineProps({
 });
 
 const clickCount = ref(0);
+const input1Value = ref('');
+const input2Value = ref('');
+const counterFontWeight = 'bolder';
+const counterFontSize = '16px';
 
 const handleButtonClick = () => {
     clickCount.value++;
 };
-
-const counterFontWeight = 'bolder';
-const counterFontSize = '16px'; 
 </script>
 
 <template>
