@@ -108,6 +108,12 @@ h3,
 h5 {
     margin: 0;
     font-weight: 100;
+    word-break: break-word;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
 }
 
 /*  PSEUDO CLASSES  */
