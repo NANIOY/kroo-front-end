@@ -66,16 +66,19 @@ const formatDateTime = (dateTimeString) => {
         <!-- Bottom Section -->
         <div class="jobpop__bottom">
             <div class="jobpop__bottom__buttons" v-if="jobType !== 'search'">
+                <LargeButton v-if="jobType === 'schedule'" label="Apply"
+                    class="jobpop__bottom__button button--primary half-width-button"
+                    :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" />
+                <LargeButton v-if="jobType === 'schedule'" label="Save"
+                    class="jobpop__bottom__button button--tertiary half-width-button"
+                    :endpoint="`/crewJobInt/${job.id}/save`" :postData="{}" />
                 <LargeButton v-if="jobType === 'tracker'" label="Apply"
                     class="jobpop__bottom__button button--primary full-width-button"
                     :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" />
-                <LargeButton v-if="jobType !== 'applied' && jobType !== 'tracker'" label="Save"
-                    class="jobpop__bottom__button button--tertiary half-width-button"
-                    :endpoint="`/crewJobInt/${job.id}/save`" :postData="{}" />
+                <LargeButton v-if="jobType === 'applied'" label="Cancel"
+                    class="jobpop__bottom__button button--secondary full-width-button"
+                    :endpoint="`/crewJobInt/${job.id}/cancel`" :postData="{}" />
             </div>
-            <LargeButton v-if="jobType === 'applied'" label="Cancel"
-                class="jobpop__bottom__button button--secondary full-width-button"
-                :endpoint="`/crewJobInt/${job.id}/cancel`" :postData="{}" />
         </div>
     </div>
 </template>
