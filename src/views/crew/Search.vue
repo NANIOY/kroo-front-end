@@ -151,7 +151,7 @@ onMounted(() => {
     </div>
 
     <Overlay v-if="selectedJob" @overlayClick="closeJobPop">
-      <JobPop v-if="selectedJob" :job="selectedJob" />
+      <JobPop v-if="selectedJob" :job="selectedJob" jobType="search" />
     </Overlay>
   </div>
 </template>
