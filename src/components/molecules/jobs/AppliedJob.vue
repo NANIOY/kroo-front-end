@@ -30,9 +30,7 @@ const fetchJobs = async () => {
         );
 
         const businessDetailsResponses = await Promise.all(businessDetailsPromises);
-        console.log('Business details responses:', businessDetailsResponses);
 
-        // Step 3: Combine data
         jobs.value = applications.map((application, index) => {
             const businessResponse = businessDetailsResponses[index].data;
             return {
