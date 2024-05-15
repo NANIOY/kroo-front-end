@@ -219,6 +219,5 @@ p {
 
 .half-width-button {
     width: calc(50% - 12px);
-    /* Subtracting gap width */
 }
 </style>
