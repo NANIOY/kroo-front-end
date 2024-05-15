@@ -65,7 +65,7 @@ const formatDateTime = (dateTimeString) => {
 
         <!-- Bottom Section -->
         <div class="jobpop__bottom">
-            <div class="jobpop__bottom__buttons">
+            <div class="jobpop__bottom__buttons" v-if="jobType !== 'search'">
                 <LargeButton v-if="jobType === 'schedule'" label="Apply" class="jobpop__bottom__button button--primary half-width-button"
                     :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" />
                 <LargeButton v-if="jobType !== 'applied'" label="Save" class="jobpop__bottom__button button--tertiary half-width-button"
