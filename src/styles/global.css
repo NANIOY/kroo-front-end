@@ -60,3 +60,13 @@
 * {
     scrollbar-track-color: var(--neutral-80);
 }
+
+::-moz-selection {
+    background: var(--blurple-10);
+    color: var(--black);
+}
+
+::selection {
+    background: var(--blurple-10);
+    color: var(--black);
+}
