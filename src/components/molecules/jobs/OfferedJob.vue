@@ -46,13 +46,13 @@ import { IconoirProvider, Calendar } from '@iconoir/vue';
                     </div>
                 </div>
                 <div id="offered__job__info__place">
-                <div id="offered__job__info__place__city">
-                    <p class="text-reg-normal">city</p>
+                    <div id="offered__job__info__place__city">
+                        <p class="text-reg-normal">city</p>
+                    </div>
+                    <div id="offered__job__info__place__country">
+                        <p class="text-reg-s">country</p>
+                    </div>
                 </div>
-                <div id="offered__job__info__place__country">
-                    <p class="text-reg-s">country</p>
-                </div>
-            </div>
             </div>
 
             <div id="offered__job__bottom">
@@ -62,7 +62,7 @@ import { IconoirProvider, Calendar } from '@iconoir/vue';
                 <div id="offered__job__bottom__buttons">
                     <NormalButton id="normalButton__details"
                         class="button--tertiary offered__job__bottom__buttons_details" :hasIcon="false" :hasLabel="true"
-                        label="Details" iconName="" :hasRequest="false"/>
+                        label="Details" iconName="" :hasRequest="false" />
                     <NormalButton id="normalButton__accept" class="button--primary offered__job__bottom__buttons_accept"
                         :hasIcon="false" :hasLabel="true" label="Accept" iconName="" />
                 </div>

@@ -56,7 +56,8 @@ onMounted(fetchJobs);
         <div id="applied__job__top">
             <div id="applied__job__top__business">
                 <div>
-                    <img class="radius-full" :src="job.businessImage || 'https://placehold.co/56x56'" alt="Business logo">
+                    <img class="radius-full" :src="job.businessImage || 'https://placehold.co/56x56'"
+                        alt="Business logo">
                 </div>
                 <div id="applied__job__top__business__name">
                     <p>{{ job.businessName }}</p>
