@@ -1,6 +1,70 @@
 <script setup>
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import { IconoirProvider, Calendar } from '@iconoir/vue';
+import { onMounted, ref } from 'vue';
+import setupAxios from '../../../setupAxios';
+
+const jobs = ref([]);
+const axiosInstance = setupAxios();
+
+const fetchJobs = async () => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+    if (!token) {
+        console.error('Authentication token is missing');
+        return;
+    }
+
+    try {
+        const offeredJobsResponse = await axiosInstance.get(`/crewJobInt/offers`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        const offeredJobs = offeredJobsResponse.data.offeredJobs;
+
+        const businessDetailsPromises = offeredJobs.map(job =>
+            axiosInstance.get(`/business/${job.businessId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            }).catch(error => {
+                console.error(`Failed to fetch business details for business ID: ${job.businessId}`, error);
+                return null;
+            })
+        );
+
+        const businessDetailsResponses = await Promise.all(businessDetailsPromises);
+
+        jobs.value = offeredJobs.map((job, index) => {
+            const businessDetails = businessDetailsResponses[index]?.data?.business?.businessInfo || {};
+            return {
+                ...job,
+                businessImage: businessDetails.logo || '',
+                businessName: businessDetails.companyName || 'Unknown Company',
+                city: job.location.city,
+                country: job.location.country,
+                wage: job.wage,
+                title: job.title,
+                daysLeft: calculateDaysLeft(job.date)
+            };
+        });
+
+    } catch (error) {
+        console.error('Failed to fetch offered jobs or business details:', error);
+    }
+};
+
+const getFormattedDate = (dateString, options) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', options);
+};
+
+const calculateDaysLeft = (dateString) => {
+    const offerDate = new Date(dateString);
+    const currentDate = new Date();
+    const timeDifference = offerDate.getTime() - currentDate.getTime();
+    const daysLeft = Math.ceil(timeDifference / (1000 * 3600 * 24));
+    return daysLeft > 0 ? daysLeft : 0;
+};
+
+onMounted(fetchJobs);
 </script>
 
 <template>
@@ -10,59 +74,58 @@ import { IconoirProvider, Calendar } from '@iconoir/vue';
         'height': '16',
         'stroke-width': '1.5'
     }">
-
-        <div id="offered__job" class="surface-tertiary radius-xs">
+        <div v-for="job in jobs" :key="job._id" id="offered__job" class="surface-tertiary radius-xs">
             <div id="offered__job__top">
                 <div id="offered__job__top__business">
                     <div>
-                        <img class="radius-full" src="https://placehold.co/56x56" alt="">
+                        <img class="radius-full" :src="job.businessImage || 'https://placehold.co/56x56'" alt="Business logo">
                     </div>
                     <div id="offered__job__top__business__name">
-                        <p>name</p>
+                        <p>{{ job.businessName }}</p>
                     </div>
                 </div>
 
                 <div id="offered__job__top__right">
+                    <div id="offered__job__top__right__days">
+                        <p>{{ job.daysLeft }}</p>
+                    </div>
                     <div id="offered__job__top__right__calendar">
                         <Calendar />
-                    </div>
-                    <div id="offered__job__top__right__days">
-                        <p>days</p>
                     </div>
                 </div>
             </div>
 
             <div id="offered__job__jobTitle">
-                <p class="text-bold-l">job title</p>
+                <p class="text-bold-l">{{ job.title }}</p>
             </div>
 
             <div id="offered__job__info">
                 <div id="offered__job__info__date">
                     <div id="offered__job__info__date__day">
-                        <p>day</p>
+                        <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }}</p>
                     </div>
                     <div id="offered__job__info__date__month">
-                        <p>month</p>
+                        <p>{{ getFormattedDate(job.date, { month: 'long' }) }}</p>
                     </div>
                 </div>
                 <div id="offered__job__info__place">
                     <div id="offered__job__info__place__city">
-                        <p class="text-reg-normal">city</p>
+                        <p class="text-reg-normal">{{ job.city }}</p>
                     </div>
                     <div id="offered__job__info__place__country">
-                        <p class="text-reg-s">country</p>
+                        <p class="text-reg-s">{{ job.country }}</p>
                     </div>
                 </div>
             </div>
 
             <div id="offered__job__bottom">
                 <div>
-                    <p class="button-l">€ #/hr</p>
+                    <p class="button-l">€ {{ job.wage }}/hr</p>
                 </div>
                 <div id="offered__job__bottom__buttons">
                     <NormalButton id="normalButton__details"
                         class="button--tertiary offered__job__bottom__buttons_details" :hasIcon="false" :hasLabel="true"
-                        label="Details" iconName="" :hasRequest="false" />
+                        label="Details" iconName="" />
                     <NormalButton id="normalButton__accept" class="button--primary offered__job__bottom__buttons_accept"
                         :hasIcon="false" :hasLabel="true" label="Accept" iconName="" />
                 </div>
