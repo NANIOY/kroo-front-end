@@ -65,11 +65,13 @@ const formatDateTime = (dateTimeString) => {
 
         <!-- Bottom Section -->
         <div class="jobpop__bottom">
-            <LargeButton v-if="jobType === 'schedule'" label="Save" class="jobpop__bottom__button button--tertiary"
-                :endpoint="`/crewJobInt/${job.id}/save`" :postData="{}" />
-            <LargeButton v-if="jobType === 'tracker'" label="Apply" class="jobpop__bottom__button button--primary"
-                :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" />
-            <LargeButton v-if="jobType === 'applied'" label="Cancel" class="jobpop__bottom__button button--secondary"
+            <div class="jobpop__bottom__buttons">
+                <LargeButton v-if="jobType !== 'applied'" label="Save" class="jobpop__bottom__button button--tertiary half-width-button"
+                    :endpoint="`/crewJobInt/${job.id}/save`" :postData="{}" />
+                <LargeButton v-if="jobType === 'schedule'" label="Apply" class="jobpop__bottom__button button--primary half-width-button"
+                    :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" />
+            </div>
+            <LargeButton v-if="jobType === 'applied'" label="Cancel" class="jobpop__bottom__button button--secondary full-width-button"
                 :endpoint="`/crewJobInt/${job.id}/cancel`" :postData="{}" />
         </div>
     </div>
@@ -195,10 +197,24 @@ p {
 /* BOTTOM */
 .jobpop__bottom {
     display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.jobpop__bottom__buttons {
+    display: flex;
     gap: 24px;
 }
 
 .jobpop__bottom__button {
-    width: 50%;
+    width: 100%;
+}
+
+.full-width-button {
+    width: 100%;
+}
+
+.half-width-button {
+    width: calc(50% - 12px); /* Subtracting gap width */
 }
 </style>
