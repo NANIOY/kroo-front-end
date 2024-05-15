@@ -33,11 +33,11 @@ const fetchJobs = async () => {
         const businessDetailsResponses = await Promise.all(businessDetailsPromises);
 
         jobs.value = offeredJobs.map((job, index) => {
-            const businessDetails = businessDetailsResponses[index]?.data?.business?.businessInfo || {};
+            const businessResponse = businessDetailsResponses[index].data;
             return {
                 ...job,
-                businessImage: businessDetails.logo || '',
-                businessName: businessDetails.companyName || 'Unknown Company',
+                businessImage: businessResponse.data.business.businessInfo.logo,
+                businessName: businessResponse.data.business.businessInfo.companyName,
                 city: job.location.city,
                 country: job.location.country,
                 wage: job.wage,
