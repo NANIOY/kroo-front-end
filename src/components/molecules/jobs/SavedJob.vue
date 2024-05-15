@@ -90,7 +90,7 @@ onMounted(fetchJobs);
             <NormalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
                 :hasLabel="true" label="Unsave" iconName="" />
             <NormalButton id="normalButton__details" class="button--primary" :hasIcon="false" :hasLabel="true"
-                label="Details" iconName="" />
+                label="Details" iconName="" :hasRequest="false"/>
         </div>
     </div>
 </template>

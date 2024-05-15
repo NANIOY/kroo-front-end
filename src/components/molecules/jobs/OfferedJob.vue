@@ -62,7 +62,7 @@ import { IconoirProvider, Calendar } from '@iconoir/vue';
                 <div id="offered__job__bottom__buttons">
                     <NormalButton id="normalButton__details"
                         class="button--tertiary offered__job__bottom__buttons_details" :hasIcon="false" :hasLabel="true"
-                        label="Details" iconName="" />
+                        label="Details" iconName="" :hasRequest="false"/>
                     <NormalButton id="normalButton__accept" class="button--primary offered__job__bottom__buttons_accept"
                         :hasIcon="false" :hasLabel="true" label="Accept" iconName="" />
                 </div>
