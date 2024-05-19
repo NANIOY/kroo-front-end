@@ -3,16 +3,15 @@
 </script>
 
 <template>
-    <div class="active-crew surface-tertiary radius-xs">
-      <div class="active-crew__top">
-        <p>Crew Member Name</p>
-        <p>Role</p>
+    <div class="add-new-job-card surface-tertiary radius-xs">
+      <div class="add-new-job-card__content">
+        <p>Add a new job here...</p>
       </div>
     </div>
   </template>
   
   <style scoped>
-  .active-crew {
+  .add-new-job-card {
     display: flex;
     flex-direction: column;
     width: 360px;
@@ -21,10 +20,12 @@
     gap: 12px;
   }
   
-  .active-crew__top {
+  .add-new-job-card__content {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    height: 100px;
+    border: 2px dashed #ccc;
   }
   </style>
   

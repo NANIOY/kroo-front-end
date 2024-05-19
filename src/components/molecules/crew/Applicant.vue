@@ -3,16 +3,17 @@
 </script>
 
 <template>
-    <div class="active-crew surface-tertiary radius-xs">
-      <div class="active-crew__top">
-        <p>Crew Member Name</p>
-        <p>Role</p>
+    <div class="applicant surface-tertiary radius-xs">
+      <div class="applicant__top">
+        <p>Applicant Name</p>
+        <p>Applied for Job Title</p>
+        <p>Applied Date</p>
       </div>
     </div>
   </template>
   
   <style scoped>
-  .active-crew {
+  .applicant {
     display: flex;
     flex-direction: column;
     width: 360px;
@@ -21,7 +22,7 @@
     gap: 12px;
   }
   
-  .active-crew__top {
+  .applicant__top {
     display: flex;
     justify-content: space-between;
     align-items: center;
