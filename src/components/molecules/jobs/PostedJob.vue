@@ -4,6 +4,53 @@ import { IconoirProvider, User } from '@iconoir/vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import setupAxios from '../../../setupAxios';
 
+const jobs = ref([]);
+const axiosInstance = setupAxios();
+
+const fetchBusinessId = async () => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+    const userId = sessionStorage.getItem('userId');
+
+    if (!token || !userId) {
+        console.error('Authentication token or user ID is missing');
+        return null;
+    }
+
+    try {
+        const userResponse = await axiosInstance.get(`/user/${userId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const businessId = userResponse.data.data.user.businessData;
+        return businessId;
+    } catch (error) {
+        console.error('Failed to fetch user data:', error);
+        return null;
+    }
+};
+
+const fetchJobs = async (businessId) => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+    if (!token) {
+        console.error('Authentication token is missing');
+        return;
+    }
+
+    try {
+        const response = await axiosInstance.get(`/bussJob/${businessId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        jobs.value = response.data.linkedJobs;
+    } catch (error) {
+        console.error('Failed to fetch jobs:', error);
+    }
+};
+
+onMounted(async () => {
+    const businessId = await fetchBusinessId();
+    if (businessId) {
+        await fetchJobs(businessId);
+    }
+});
 </script>
 
 <template>
@@ -13,20 +60,20 @@ import setupAxios from '../../../setupAxios';
         'height': '20',
         'stroke-width': '1.8'
     }">
-        <div id="posted__job" class="surface-tertiary radius-xs">
+        <div v-for="job in jobs" :key="job._id" id="posted__job" class="surface-tertiary radius-xs">
             <div id="posted__job__top">
                 <div id="posted__job__top__left">
                     <div id="posted__job__top__left__title">
-                        <p class="text-bold-l">Title</p>
+                        <p class="text-bold-l">{{ job.title }}</p>
                     </div>
                     <div id="posted__job__top__left__function">
-                        <p class="text-reg-s">Function</p>
+                        <p class="text-reg-s">{{ job.jobFunction }}</p>
                     </div>
                 </div>
 
                 <div id="posted__job__top__right">
                     <div id="posted__job__top__right__count">
-                        <p>0</p>
+                        <p>{{ job.applications.length }}</p>
                     </div>
                     <div id="posted__job__top__right__applicants">
                         <User />
@@ -37,18 +84,18 @@ import setupAxios from '../../../setupAxios';
             <div id="posted__job__info">
                 <div id="posted__job__info__date">
                     <div id="posted__job__info__date__day">
-                        <p>date</p>
+                        <p>{{ new Date(job.date).getDate() }}</p>
                     </div>
                     <div id="posted__job__info__date__month">
-                        <p class="text-reg-s">month</p>
+                        <p class="text-reg-s">{{ new Date(job.date).toLocaleString('default', { month: 'long' }) }}</p>
                     </div>
                 </div>
                 <div id="posted__job__info__place">
                     <div id="posted__job__info__place__city">
-                        <p class="text-reg-normal">city</p>
+                        <p class="text-reg-normal">{{ job.location.city }}</p>
                     </div>
                     <div id="posted__job__info__place__country">
-                        <p class="text-reg-s">country</p>
+                        <p class="text-reg-s">{{ job.location.country }}</p>
                     </div>
                 </div>
             </div>
