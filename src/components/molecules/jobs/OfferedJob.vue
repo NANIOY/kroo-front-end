@@ -70,9 +70,9 @@ onMounted(fetchJobs);
 <template>
     <IconoirProvider :icon-props="{
         'color': 'var(--black)',
-        'width': '16',
-        'height': '16',
-        'stroke-width': '1.5'
+        'width': '20',
+        'height': '20',
+        'stroke-width': '1.8'
     }">
         <div v-for="job in jobs" :key="job._id" id="offered__job" class="surface-tertiary radius-xs">
             <div id="offered__job__top">
@@ -106,7 +106,7 @@ onMounted(fetchJobs);
                         <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }}</p>
                     </div>
                     <div id="offered__job__info__date__month">
-                        <p>{{ getFormattedDate(job.date, { month: 'long' }) }}</p>
+                        <p class="text-reg-s">{{ getFormattedDate(job.date, { month: 'long' }) }}</p>
                     </div>
                 </div>
                 <div id="offered__job__info__place">
