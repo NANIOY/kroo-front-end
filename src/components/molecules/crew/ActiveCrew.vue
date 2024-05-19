@@ -19,11 +19,11 @@ const props = defineProps({
         </div>
 
         <div id="activeCrew__info">
-            <div class="activeCrew__info__left">
-                <p class="text-reg-normal">{{ crewMember.role }}</p>
-            </div>
             <div id="activeCrew__info__right">
                 <p>{{ crewMember.jobTitle }}</p>
+            </div>
+            <div class="activeCrew__info__left">
+                <p class="text-reg-normal">{{ crewMember.role }}</p>
             </div>
         </div>
     </div>
@@ -37,7 +37,7 @@ p {
 
 .activeCrew {
     flex-direction: column;
-    width: 360px;
+    width: 100%;
     padding: 20px;
     box-sizing: border-box;
     gap: 12px;
