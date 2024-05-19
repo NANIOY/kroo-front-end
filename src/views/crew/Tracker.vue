@@ -1,20 +1,56 @@
 <script setup>
+import { ref, onMounted } from 'vue';
 import AppliedJob from '../../components/molecules/jobs/AppliedJob.vue';
 import OfferedJob from '../../components/molecules/jobs/OfferedJob.vue';
 import OngoingJob from '../../components/molecules/jobs/OngoingJob.vue';
 import SavedJob from '../../components/molecules/jobs/SavedJob.vue';
+import setupAxios from '../../setupAxios';
 
-let jobCounts = {
-  applied: 4,
-  offered: 9,
-  ongoing: 8,
-  saved: 10
+const jobCounts = ref({
+  ongoing: 0,
+  saved: 0,
+  applied: 0,
+  offered: 0
+});
+
+const axiosInstance = setupAxios();
+
+const fetchJobCounts = async () => {
+  const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+  if (!token) {
+    console.error('Authentication token is missing');
+    return;
+  }
+
+  try {
+    const appliedResponse = await axiosInstance.get('/crewJobInt/applications', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    jobCounts.value.applied = appliedResponse.data.applications.length;
+
+    const offeredResponse = await axiosInstance.get('/crewJobInt/offers', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    jobCounts.value.offered = offeredResponse.data.offeredJobs.length;
+
+    const savedResponse = await axiosInstance.get('/crewJobInt/saved', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    jobCounts.value.saved = savedResponse.data.savedJobs.length;
+
+    // const ongoingResponse = await axiosInstance.get('/crewJobInt/ongoing', {
+    //   headers: { 'Authorization': `Bearer ${token}` }
+    // });
+    // jobCounts.value.ongoing = ongoingResponse.data.ongoingJobs.length;
+  } catch (error) {
+    console.error('Failed to fetch job counts:', error);
+  }
 };
 
+onMounted(fetchJobCounts);
 </script>
 
 <template>
-
   <div id="tracker">
 
     <div class="tracker__container">
@@ -42,7 +78,6 @@ let jobCounts = {
       </div>
     </div>
 
-
     <div class="tracker__container">
       <h6>OFFERED &#8722; {{ jobCounts.offered }}</h6>
 
@@ -51,7 +86,6 @@ let jobCounts = {
       </div>
     </div>
   </div>
-
 </template>
 
 <style scoped>
