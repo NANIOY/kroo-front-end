@@ -19,10 +19,10 @@ const props = defineProps({
         </div>
 
         <div id="applicant__info">
-            <div id="applicant__info__month">
-                <p class="text-reg-s">Applied on</p>
+            <div class="applicant__info__left">
+                <p class="text-reg-normal">Job title</p>
             </div>
-            <div id="applicant__info__day">
+            <div id="applicant__info__right">
                 <p>27/09</p>
             </div>
         </div>
@@ -72,11 +72,10 @@ p {
 
 /* INFO */
 #applicant__info {
-    align-items: center;
+    align-items: flex-start;
     margin-top: 4px;
-    gap: 8px;
+    justify-content: space-between;
     color: var(--neutral-70);
-
 }
 
 /* BOTTOM */
