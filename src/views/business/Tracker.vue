@@ -4,6 +4,7 @@ import PostedJob from '../../components/molecules/jobs/PostedJob.vue';
 import Applicant from '../../components/molecules/crew/Applicant.vue';
 import ActiveCrew from '../../components/molecules/crew/ActiveCrew.vue';
 import NormalButton from '../../components/atoms/buttons/NormalButton.vue';
+import CreateJobModal from '../../components/molecules/popups/CreateJob.vue';
 
 const applicants = ref([
     {
@@ -34,15 +35,32 @@ const activeCrew = ref([
         jobTitle: 'Job title',
     },
 ]);
+
+const isModalVisible = ref(false);
+
+const openModal = () => {
+    isModalVisible.value = true;
+};
+
+const closeModal = () => {
+    isModalVisible.value = false;
+};
+
+const handleCreateJob = (jobData) => {
+    console.log('Job created:', jobData);
+    closeModal();
+};
 </script>
 
 <template>
+    <CreateJobModal :isVisible="isModalVisible" @close="closeModal" @submit="handleCreateJob" />
+
     <div id="tracker">
         <div class="tracker__container">
             <div class="tracker__container__top">
                 <h6>POSTED JOBS</h6>
                 <NormalButton label="Create Job" class="button--secondary" id="addButton" :hasIcon="true"
-                    iconName="Plus" :hasLabel="true" :hasRequest="false" />
+                    iconName="Plus" :hasLabel="true" :hasRequest="false" @click="openModal" />
             </div>
             <div class="tracker__container__column">
                 <PostedJob />
@@ -106,7 +124,7 @@ const activeCrew = ref([
     display: flex;
     flex-direction: column;
     gap: 16px;
-    max-height: 768px;
+    max-height: 744px;
     overflow-y: auto;
 }
 
