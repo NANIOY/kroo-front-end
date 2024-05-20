@@ -1,12 +1,12 @@
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref, defineProps, defineEmits, onMounted } from 'vue';
 import InputField from '../../atoms/inputs/InputField.vue';
 import MultiDropdown from '../../atoms/inputs/MultiDropdown.vue';
 import Dropdown from '../../atoms/inputs/DropDown.vue';
 import UploadFile from '../../atoms/inputs/UploadFile.vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
-import AuthButton from '../../atoms/buttons/AuthButton.vue';
 import Overlay from './Overlay.vue';
+import setupAxios from '../../../setupAxios';
 
 const props = defineProps({
     isVisible: {
@@ -17,7 +17,7 @@ const props = defineProps({
 
 const emits = defineEmits(['close', 'submit']);
 
-const form = ref({
+const postData = ref({
     title: '',
     description: '',
     wage: '',
@@ -143,13 +143,60 @@ const productionTypes = [
 
 const unionStatuses = ['Union', 'Non-Union'];
 
-const closeModal = () => {
-    emits('close');
+const axiosInstance = setupAxios();
+
+const fetchBusinessId = async () => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+    const userId = sessionStorage.getItem('userId');
+
+    if (!token || !userId) {
+        console.error('Authentication token or user ID is missing');
+        return null;
+    }
+
+    try {
+        const userResponse = await axiosInstance.get(`/user/${userId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const businessId = userResponse.data.data.user.businessData;
+        return businessId;
+    } catch (error) {
+        console.error('Failed to fetch user data:', error);
+        return null;
+    }
 };
 
-const createJob = () => {
-    emits('submit', form.value);
-    closeModal();
+const createJob = async () => {
+    const businessId = await fetchBusinessId();
+    if (!businessId) {
+        console.error('Business ID is missing');
+        return;
+    }
+
+    const jobData = { ...postData.value, businessId };
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+
+    if (!token) {
+        console.error('Authentication token is missing');
+        return;
+    }
+
+    console.log('Posting job data:', JSON.stringify(jobData, null, 2));
+
+    try {
+        const response = await axiosInstance.post('/bussJob', jobData, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        console.log('Job created successfully:', response.data);
+        emits('submit', postData.value);
+        closeModal();
+    } catch (error) {
+        console.error('Failed to create job:', error);
+    }
+};
+
+const closeModal = () => {
+    emits('close');
 };
 </script>
 
@@ -158,38 +205,40 @@ const createJob = () => {
         <div class="modal" @click.stop>
             <h2>Create new job</h2>
             <form class="modal__form" @submit.prevent="createJob">
-                <InputField v-model="form.title" :hasLabel="true" label="Title" placeholder="Enter a job title" />
-                <Dropdown v-model="form.jobFunction" class="modal__dropdown" :hasLabel="true" label="Job Function"
+                <InputField v-model="postData.title" :hasLabel="true" label="Title" placeholder="Enter a job title" />
+                <Dropdown v-model="postData.jobFunction" class="modal__dropdown" :hasLabel="true" label="Job Function"
                     :options="functionOptions" />
-                <InputField v-model="form.description" :hasLabel="true" label="Description"
+                <InputField v-model="postData.description" :hasLabel="true" label="Description"
                     placeholder="Enter a brief description" />
                 <div class="modal__multi">
-                    <InputField v-model="form.wage" :hasLabel="true" label="Wage (€/hr)" type="number"
+                    <InputField v-model="postData.wage" :hasLabel="true" label="Wage (€/hr)" type="number"
                         placeholder="Enter a wage" />
-                    <MultiDropdown v-model="form.skills" :hasLabel="true" label="Skills" :options="skillsOptions" />
+                    <MultiDropdown v-model="postData.skills" :hasLabel="true" label="Skills" :options="skillsOptions" />
                 </div>
                 <div class="modal__multi">
-                    <InputField v-model="form.date" :hasLabel="true" label="Date" type="date"
+                    <InputField v-model="postData.date" :hasLabel="true" label="Date" type="date"
                         placeholder="Select date" />
-                    <InputField v-model="form.time" :hasLabel="true" label="Time" type="time"
+                    <InputField v-model="postData.time" :hasLabel="true" label="Time" type="time"
                         placeholder="Select time" />
                 </div>
                 <div class="modal__multi">
-                    <InputField v-model="form.location.city" :hasLabel="true" label="City" placeholder="Enter city" />
-                    <InputField v-model="form.location.address" :hasLabel="true" label="Address"
+                    <InputField v-model="postData.location.city" :hasLabel="true" label="City"
+                        placeholder="Enter city" />
+                    <InputField v-model="postData.location.address" :hasLabel="true" label="Address"
                         placeholder="Enter address" />
                 </div>
                 <div class="modal__multi">
-                    <Dropdown class="modal__dropdown" v-model="form.production_type" :hasLabel="true"
+                    <Dropdown class="modal__dropdown" v-model="postData.production_type" :hasLabel="true"
                         label="Production Type" :options="productionTypes" placeholder="Select type" />
-                    <Dropdown class="modal__dropdown" v-model="form.union_status" :hasLabel="true" label="Union Status"
-                        :options="unionStatuses" placeholder="Select union status" />
+                    <Dropdown class="modal__dropdown" v-model="postData.union_status" :hasLabel="true"
+                        label="Union Status" :options="unionStatuses" placeholder="Select union status" />
                 </div>
-                <UploadFile v-model="form.attachments" :hasLabel="true" label="Attachments" placeholder="Upload file" />
+                <UploadFile v-model="postData.attachments" :hasLabel="true" label="Attachments"
+                    placeholder="Upload file" />
 
                 <div class="modal__buttons">
                     <LargeButton label="Cancel" class="button--secondary modal__buttons__button" @click="closeModal" />
-                    <AuthButton label="Create" class="button--primary modal__buttons__button" type="submit" />
+                    <LargeButton label="Create" class="button--primary modal__buttons__button" type="submit" />
                 </div>
             </form>
         </div>

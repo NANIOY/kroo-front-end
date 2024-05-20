@@ -1,8 +1,9 @@
 <script setup>
-import { ref, computed, defineProps, watch, onMounted } from 'vue';
+import { ref, computed, defineProps, defineEmits, watch, onMounted } from 'vue';
 import { NavArrowDown, User, Search, Mail, Attachment, Eye, EyeClosed } from '@iconoir/vue';
 
 const props = defineProps({
+  modelValue: String,
   label: String,
   hasLabel: {
     type: Boolean,
@@ -38,8 +39,10 @@ const props = defineProps({
   group: String
 });
 
+const emit = defineEmits(['update:modelValue']);
+
 const inputType = ref(props.isPassword ? 'password' : 'text');
-const inputValue = ref('');
+const inputValue = ref(props.modelValue);
 
 onMounted(() => {
   if (props.localStorageKey && props.group) {
@@ -65,6 +68,7 @@ watch(inputValue, (newVal) => {
   if (props.localStorageKey && props.group) {
     localStorage.setItem(`${props.group}-${props.localStorageKey}`, newVal);
   }
+  emit('update:modelValue', newVal);
 });
 
 </script>
