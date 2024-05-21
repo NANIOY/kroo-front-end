@@ -36,7 +36,6 @@ const selectedJob = ref(null);
 const fetchJobSuggestions = async () => {
   try {
     const response = await axiosInstance.get('/crewjob/jobs');
-    console.log('Jobs response:', response); // Debugging line
     fetchedJobs.value = response.data.data.jobs.map(job => ({
       ...job,
       id: job._id
@@ -46,7 +45,6 @@ const fetchJobSuggestions = async () => {
     await Promise.all(fetchedJobs.value.map(async (job) => {
       try {
         const businessResponse = await axiosInstance.get(`/business/${job.businessId}`);
-        console.log('Business response:', businessResponse); // Debugging line
         job.employer = {
           name: businessResponse.data.data.business.businessInfo.companyName,
           image: businessResponse.data.data.business.businessInfo.logo

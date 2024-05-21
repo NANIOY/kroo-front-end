@@ -48,6 +48,9 @@ import Test from './views/Test.vue';
 
 function loadComponentForRole(crewComponent, businessComponent) {
     const role = sessionStorage.getItem('role');
+    console.log('Role:', role); // Debugging line
+    const component = role === 'business' ? businessComponent : crewComponent;
+    console.log('Loading component:', component); // Debugging line
     return role === 'business' ? businessComponent : crewComponent;
 }
 
@@ -69,15 +72,15 @@ const routes = [
     { path: '/register/business/step-4', component: RegisterBusinessStep4 },
     { path: '/register/business/step-5', component: RegisterBusinessStep5 },
 
-    { path: '/calendar', component: () => loadComponentForRole(CrewCalendar, BusinessCalendar) },
-    { path: '/dashboard', component: () => loadComponentForRole(CrewDashboard, BusinessDashboard) },
-    { path: '/help', component: () => loadComponentForRole(CrewHelp), BusinessHelp },
-    { path: '/profile', component: () => loadComponentForRole(CrewProfile, BusinessProfile) },
-    { path: '/search', component: () => loadComponentForRole(CrewSearch, BusinessSearch) },
-    { path: '/settings', component: () => loadComponentForRole(CrewSettings, BusinessSettings) },
-    { path: '/tools', component: () => loadComponentForRole(CrewTools, BusinessTools) },
-    { path: '/tracker', component: () => loadComponentForRole(CrewTracker, BusinessTracker) },
-    { path: '/upgrade', component: () => loadComponentForRole(CrewUpgrade, BusinessUpgrade) },
+    { path: '/calendar', component: () => loadComponentForRole('Calendar', 'Calendar') },
+    { path: '/dashboard', component: () => loadComponentForRole('Dashboard', 'Dashboard') },
+    { path: '/help', component: () => loadComponentForRole('Help', 'Help') },
+    { path: '/profile', component: () => loadComponentForRole('Profile', 'Profile') },
+    { path: '/search', component: () => loadComponentForRole('Search', 'Search') },
+    { path: '/settings', component: () => loadComponentForRole('Settings', 'Settings') },
+    { path: '/tools', component: () => loadComponentForRole('Tools', 'Tools') },
+    { path: '/tracker', component: () => loadComponentForRole('Tracker', 'Tracker') },
+    { path: '/upgrade', component: () => loadComponentForRole('Upgrade', 'Upgrade') },
     { path: '/team', component: BusinessTeam },
     
     { path: '/test', component: Test }, // REMOVE FROM PRODUCTION
