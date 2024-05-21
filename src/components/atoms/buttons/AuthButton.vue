@@ -48,6 +48,10 @@ export default {
                 const response = await axiosInstance.post(props.endpoint, props.postData);
                 console.log('Response:', response);
 
+                if (!response.data || !response.data.data) {
+                    throw new Error("Invalid response structure");
+                }
+
                 // extract userId from response data based on endpoint
                 let userId;
                 let role;
@@ -66,7 +70,6 @@ export default {
                 sessionStorage.setItem('userId', userId);
                 sessionStorage.setItem('role', role);
 
-                // if redirect prop is provided, redirect to that route
                 if (props.redirect) {
                     router.push(props.redirect);
                 }
