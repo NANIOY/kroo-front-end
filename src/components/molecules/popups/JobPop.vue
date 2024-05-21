@@ -36,7 +36,7 @@ const formatDateTime = (dateTimeString) => {
             </div>
             <div class="jobpop__top__details">
                 <p class="jobpop__top__details__desc text-reg-normal">{{ job.description }}</p>
-                <p class="jobpop__top__details__rate text-bold-normal">€ {{ (job.wage / 100).toFixed(2) }}/hr</p>
+                <p class="jobpop__top__details__rate text-bold-normal">€ {{ (job.wage).toFixed(2) }}/hr</p>
                 <p class="jobpop__top__details__time text-bold-normal">{{ formatDateTime(job.date) }}</p>
                 <div class="jobpop__top__details__tags">
                     <Tag class="jobpop__top__details__tags__tag" v-for="(skill, index) in job.skills" :key="index"
