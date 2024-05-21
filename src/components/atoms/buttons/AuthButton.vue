@@ -44,7 +44,8 @@ export default {
 
         const handleClick = async () => {
             try {
-                // make POST request to endpoint with postData using axios instance
+                console.log('Post data:', props.postData);
+
                 const response = await axiosInstance.post(props.endpoint, props.postData);
                 console.log('Response:', response);
 
@@ -52,7 +53,6 @@ export default {
                     throw new Error("Invalid response structure");
                 }
 
-                // extract userId from response data based on endpoint
                 let userId;
                 let role;
                 if (props.isRegistration) {
@@ -63,10 +63,8 @@ export default {
                     role = response.data.data.activeRole;
                 }
 
-                // log response data
                 console.log('Response data:', response.data);
 
-                // store userId in sessionStorage
                 sessionStorage.setItem('userId', userId);
                 sessionStorage.setItem('role', role);
 
@@ -74,7 +72,6 @@ export default {
                     router.push(props.redirect);
                 }
 
-                // check if button is for registration
                 if (props.isRegistration) {
                     await loginAfterRegistration({
                         email: props.postData.email,
@@ -91,6 +88,11 @@ export default {
             try {
                 const loginResponse = await axiosInstance.post('/auth/login', registrationData);
                 console.log('Login response:', loginResponse);
+
+                if (!loginResponse.data || !loginResponse.data.data) {
+                    throw new Error("Invalid login response structure");
+                }
+
                 sessionStorage.setItem('role', loginResponse.data.data.activeRole);
 
                 if (props.redirect) {
