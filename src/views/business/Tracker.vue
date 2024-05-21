@@ -9,31 +9,19 @@ import CreateJobModal from '../../components/molecules/popups/CreateJob.vue';
 const applicants = ref([
     {
         name: 'John Doe',
-        image: 'https://res.cloudinary.com/dqzaz6d2o/image/upload/v1715265202/user-images/jji0f5zxxzaop7kkihn7.png',
+        image: 'https://images.unsplash.com/photo-1540569014015-19a7be504e3a?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         jobTitle: 'Lighting Technician',
         applicationDate: '2024-07-01T00:00:00.000Z',
-    },
-    {
-        name: 'Jane Smith',
-        image: 'https://res.cloudinary.com/dqzaz6d2o/image/upload/v1715265202/user-images/jji0f5zxxzaop7kkihn7.png',
-        jobTitle: 'Sound Engineer',
-        applicationDate: '2024-07-02T00:00:00.000Z',
-    },
+    }
 ]);
 
 const activeCrew = ref([
     {
-        name: 'John Doe',
-        image: 'https://res.cloudinary.com/dqzaz6d2o/image/upload/v1715265202/user-images/jji0f5zxxzaop7kkihn7.png',
-        role: 'Lighting Technician',
+        name: 'Jane Doe',
+        image: 'https://images.unsplash.com/photo-1618508035424-73ad1a15006c?q=80&w=2565&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        role: 'Sound Technician',
         jobTitle: 'Job title',
-    },
-    {
-        name: 'Jane Smith',
-        image: 'https://res.cloudinary.com/dqzaz6d2o/image/upload/v1715265202/user-images/jji0f5zxxzaop7kkihn7.png',
-        role: 'Sound Engineer',
-        jobTitle: 'Job title',
-    },
+    }
 ]);
 
 const isModalVisible = ref(false);
