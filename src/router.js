@@ -48,10 +48,10 @@ import Test from './views/Test.vue';
 
 function loadComponentForRole(crewComponent, businessComponent) {
     const role = sessionStorage.getItem('role');
-    console.log('Role:', role); // Debugging line
-    const component = role === 'business' ? businessComponent : crewComponent;
-    console.log('Loading component:', component); // Debugging line
-    return role === 'business' ? businessComponent : crewComponent;
+    if (role === 'business') {
+        return import(`./views/business/${businessComponent}.vue`);
+    }
+    return import(`./views/crew/${crewComponent}.vue`);
 }
 
 const routes = [
