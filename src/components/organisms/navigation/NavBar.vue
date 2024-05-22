@@ -13,7 +13,7 @@ const toggleActiveLabel = (iconName) => {
 <template>
   <div id="navbar">
     <div id="navbar__contents">
-      <a id="navbar_contents__logo" href="http://kroo.site/" target="_blank">
+      <a id="navbar_contents__logo" href="https://app.kroo.site/#/dashboard" target="_blank">
         <img src="../../../assets/logomark-color.webp" alt="Logo" width="40" height="40" />
       </a>
       <div id="navbar_contents--items">
