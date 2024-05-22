@@ -93,7 +93,7 @@ function getWeekStartDate(date) {
         <div class="container__bot">
             <div v-for="(day, index) in weekDays" :key="index" class="container__bot__days">
                 <div class="container__bot__days__abbr text-bold-normal text-secondary">{{ day.abbr }}</div>
-                <div :class="['container__bot__days__number', { 'active-day': day.isActive }]">
+                <div :class="['container__bot__days__number text-reg-s', { 'active-day': day.isActive }]">
                     {{ day.number }}
                 </div>
             </div>
@@ -109,6 +109,7 @@ function getWeekStartDate(date) {
 .container__bot,
 .container__bot__days {
     display: flex;
+    
 }
 
 .container {
