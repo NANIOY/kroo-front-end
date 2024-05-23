@@ -63,16 +63,16 @@ console.log(iconToUse); // Ensure the correct icon is being resolved
 <template>
     <div :class="['alert', typeClasses[props.type]]" :style="{ height: alertHeight }">
         <div :class="['color-bar', typeClasses[props.type]]"></div>
-        <span class="icon">
-            <component :is="iconToUse" />
-        </span>
+        <div class="icon-label-wrapper">
+            <span class="icon">
+                <component :is="iconToUse" />
+            </span>
+            <strong v-if="props.label" class="label">{{ props.label }}</strong>
+        </div>
         <div class="content">
-            <div class="header">
-                <strong v-if="props.label">{{ props.label }}</strong>
-                <span class="close">&times;</span>
-            </div>
             <p v-if="props.text" class="text-content">{{ props.text }}</p>
         </div>
+        <span class="close">&times;</span>
     </div>
 </template>
 
@@ -82,11 +82,12 @@ console.log(iconToUse); // Ensure the correct icon is being resolved
     margin: 1em 0;
     border-radius: 4px;
     display: flex;
-    align-items: flex-start; /* Align items to the start to stack text properly */
+    align-items: flex-start;
     background-color: var(--neutral-80);
     width: 608px;
     position: relative;
     box-sizing: border-box;
+    flex-direction: column; 
 }
 
 .color-bar {
@@ -99,31 +100,40 @@ console.log(iconToUse); // Ensure the correct icon is being resolved
     border-bottom-left-radius: 4px;
 }
 
+.icon-label-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 0.5em;
+    margin-left: 16px;
+}
+
 .icon {
-    margin-right: 1em;
-    margin-left: 30px;
+    margin-right: 0.5em;
     font-size: 1.5em;
     display: flex;
-    align-items: center; /* Align icon to center of line */
+    align-items: center;
+    padding-left: 0.2em;
+}
+
+.label {
+    color: var(--white); 
 }
 
 .content {
-    flex-grow: 1;
-    padding-left: 1em;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%; /* Ensure header takes full width */
+    padding-left: 0.3em;
+    width: 100%;
+    margin-left: 16px;
 }
 
 .close {
     cursor: pointer;
     font-size: 1.2em;
-    margin-left: 1em;
+    margin-left: auto;
     color: var(--neutral-40);
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
 }
 
 .alert-good .color-bar {
@@ -164,6 +174,7 @@ console.log(iconToUse); // Ensure the correct icon is being resolved
 
 .text-content {
     color: var(--neutral-40);
-    margin-top: 0.5em; /* Add space between label and text */
+    margin-top: 0px;
+    margin-bottom: 16px;
 }
 </style>
