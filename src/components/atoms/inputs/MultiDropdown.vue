@@ -1,92 +1,93 @@
 <script setup>
+import { ref, onMounted, onBeforeUnmount, defineEmits } from 'vue';
 import { NavArrowDown } from '@iconoir/vue';
-import { defineProps, ref, onMounted, onBeforeUnmount } from 'vue';
 
 const props = defineProps({
-    hasLabel: {
-        type: Boolean,
-        default: false
-    },
-    label: {
-        type: String,
-        default: 'Select an option'
-    },
-    placeholder: {
-        type: String,
-        default: 'Select an option'
-    },
-    options: {
-        type: Array,
-        default: () => []
-    },
-    group: String,
-    localStorageKey: {
-        type: String,
-        default: ''
-    }
+  modelValue: Array,
+  hasLabel: {
+    type: Boolean,
+    default: false
+  },
+  label: {
+    type: String,
+    default: 'Select an option'
+  },
+  placeholder: {
+    type: String,
+    default: 'Select an option'
+  },
+  options: {
+    type: Array,
+    default: () => []
+  },
+  group: String,
+  localStorageKey: {
+    type: String,
+    default: ''
+  }
 });
 
+const emit = defineEmits(['update:modelValue']);
+
 let isOpen = ref(false);
-let selectedOptions = ref([]);
+let selectedOptions = ref(props.modelValue || []);
 const inputId = 'multidrop__container__box-' + Math.random().toString(36).substring(2, 15);
 let dropdownContainer = ref(null);
 
 const toggleDropdown = () => {
-    isOpen.value = !isOpen.value;
+  isOpen.value = !isOpen.value;
 };
 
 const selectOption = (option) => {
-    if (!selectedOptions.value.includes(option)) {
-        selectedOptions.value.push(option);
-    } else {
-        selectedOptions.value = selectedOptions.value.filter(item => item !== option);
-    }
+  if (!selectedOptions.value.includes(option)) {
+    selectedOptions.value.push(option);
+  } else {
+    selectedOptions.value = selectedOptions.value.filter(item => item !== option);
+  }
 
+  if (props.localStorageKey && props.group) {
     const sectionData = JSON.parse(localStorage.getItem('postData')) || {};
     sectionData[props.group] = sectionData[props.group] || {};
     sectionData[props.group][props.localStorageKey] = selectedOptions.value;
     localStorage.setItem('postData', JSON.stringify(sectionData));
+  }
+
+  emit('update:modelValue', selectedOptions.value);
 };
 
 const closeDropdownOnClickOutside = (event) => {
-    if (dropdownContainer.value && !dropdownContainer.value.contains(event.target)) {
-        isOpen.value = false;
-    }
+  if (dropdownContainer.value && !dropdownContainer.value.contains(event.target)) {
+    isOpen.value = false;
+  }
 };
 
 onMounted(() => {
-    document.addEventListener('click', closeDropdownOnClickOutside);
+  document.addEventListener('click', closeDropdownOnClickOutside);
 });
 
 onBeforeUnmount(() => {
-    document.removeEventListener('click', closeDropdownOnClickOutside);
+  document.removeEventListener('click', closeDropdownOnClickOutside);
 });
-
-if (localStorage.getItem(props.localStorageKey)) {
-    const data = JSON.parse(localStorage.getItem(props.localStorageKey));
-    selectedOptions.value = Array.isArray(data) ? data : [];
-}
 </script>
 
 <template>
-    <div class="multidrop" ref="dropdownContainer">
-        <label v-if="hasLabel" class="text-reg-normal" :for="inputId">{{ label }}</label>
-        <div class="multidrop__container text-reg-normal">
-            <div class="multidrop__container__box" @click="toggleDropdown" :class="{ 'open': isOpen }">
-                <span v-if="selectedOptions.length === 0" class="multidrop__container__box__placeholder text-reg-l">{{
-                    placeholder }}</span>
-                <span v-else class="multidrop__container__box__selected">
-                    {{ selectedOptions.join(', ') }}
-                </span>
-                <NavArrowDown :class="{ 'multidrop__container__box__icon': isOpen }" />
-            </div>
-            <ul v-if="isOpen" class="multidrop__container__items text-reg-normal" @click.stop>
-                <li v-for="option in options" :key="option" @click="selectOption(option)">
-                    <span :class="{ 'selected': selectedOptions.includes(option) }">{{ option }}</span>
-                </li>
-            </ul>
-        </div>
+  <div class="multidrop" ref="dropdownContainer">
+    <label v-if="hasLabel" class="text-reg-normal" :for="inputId">{{ label }}</label>
+    <div class="multidrop__container text-reg-normal">
+      <div class="multidrop__container__box" @click="toggleDropdown" :class="{ 'open': isOpen }">
+        <span v-if="selectedOptions.length === 0" class="multidrop__container__box__placeholder text-reg-l">{{ placeholder }}</span>
+        <span v-else class="multidrop__container__box__selected text-reg-l">
+          {{ selectedOptions.join(', ') }}
+        </span>
+        <NavArrowDown :class="{ 'multidrop__container__box__icon': isOpen }" />
+      </div>
+      <ul v-if="isOpen" class="multidrop__container__items text-reg-normal" @click.stop>
+        <li v-for="option in options" :key="option" @click="selectOption(option)">
+          <span :class="{ 'selected': selectedOptions.includes(option) }">{{ option }}</span>
+        </li>
+      </ul>
     </div>
+  </div>
 </template>
 
 <style scoped>

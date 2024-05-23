@@ -3,6 +3,7 @@ import { ref, onMounted, onUnmounted, defineEmits } from 'vue';
 import { NavArrowDown } from '@iconoir/vue';
 
 const props = defineProps({
+  modelValue: String,
   hasLabel: {
     type: Boolean,
     default: false
@@ -26,30 +27,31 @@ const props = defineProps({
   group: String
 });
 
+const emit = defineEmits(['update:modelValue']);
+
 const isOpen = ref(false);
-const selectedOption = ref(props.placeholder);
+const selectedOption = ref(props.modelValue || props.placeholder);
 const inputId = 'container__dropdown__box-' + Math.random().toString(36).substring(2, 15);
 let dropdownContainer = ref(null);
 const optionSelected = ref(false);
-
-const emit = defineEmits(['optionSelected']);
 
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
 
 const selectOption = (option) => {
-  console.log('Selected option:', option);
   selectedOption.value = option;
   isOpen.value = false;
   optionSelected.value = true;
 
-  const sectionData = JSON.parse(localStorage.getItem('postData')) || {};
-  sectionData[props.group] = sectionData[props.group] || {};
-  sectionData[props.group][props.localStorageKey] = option;
-  localStorage.setItem('postData', JSON.stringify(sectionData));
+  if (props.localStorageKey && props.group) {
+    const sectionData = JSON.parse(localStorage.getItem('postData')) || {};
+    sectionData[props.group] = sectionData[props.group] || {};
+    sectionData[props.group][props.localStorageKey] = option;
+    localStorage.setItem('postData', JSON.stringify(sectionData));
+  }
 
-  emit('optionSelected', option);
+  emit('update:modelValue', option);
 };
 
 const closeDropdownOnClickOutside = (event) => {
