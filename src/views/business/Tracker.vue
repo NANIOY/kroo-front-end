@@ -6,24 +6,6 @@ import ActiveCrew from '../../components/molecules/crew/ActiveCrew.vue';
 import NormalButton from '../../components/atoms/buttons/NormalButton.vue';
 import CreateJobModal from '../../components/molecules/popups/CreateJob.vue';
 
-const applicants = ref([
-    {
-        name: 'John Doe',
-        image: 'https://images.unsplash.com/photo-1540569014015-19a7be504e3a?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        jobTitle: 'Lighting Technician',
-        applicationDate: '2024-07-01T00:00:00.000Z',
-    }
-]);
-
-const activeCrew = ref([
-    {
-        name: 'Jane Doe',
-        image: 'https://images.unsplash.com/photo-1618508035424-73ad1a15006c?q=80&w=2565&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        role: 'Sound Technician',
-        jobTitle: 'Job title',
-    }
-]);
-
 const isModalVisible = ref(false);
 
 const openModal = () => {
@@ -62,14 +44,14 @@ const handleCreateJob = (jobData) => {
                     iconName="Search" :hasLabel="true" :hasRequest="false" redirect="/search" />
             </div>
             <div class="tracker__container__column">
-                <Applicant v-for="applicant in applicants" :key="applicant.name" :applicant="applicant" />
+                <Applicant />
             </div>
         </div>
 
         <div class="tracker__container tracker__container--last">
             <h6>ACTIVE CREW</h6>
             <div class="tracker__container__column">
-                <ActiveCrew v-for="crewMember in activeCrew" :key="crewMember.name" :crewMember="crewMember" />
+                <ActiveCrew />
             </div>
         </div>
     </div>

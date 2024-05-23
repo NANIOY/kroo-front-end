@@ -158,6 +158,10 @@ p {
     color: var(--neutral-70);
 }
 
+#applicant__info__right p {
+    text-align: right;
+}
+
 /* BOTTOM */
 .applicant__bot {
     align-items: center;
