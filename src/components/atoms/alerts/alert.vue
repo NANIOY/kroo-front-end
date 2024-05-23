@@ -31,7 +31,7 @@ const typeClasses = {
 };
 
 // Compute the height of the alert based on whether it has text or not
-const alertHeight = computed(() => props.text ? 'auto' : '48px');
+const alertHeight = computed(() => props.text ? '115px' : '48px');
 
 let iconToUse;
 
@@ -65,11 +65,11 @@ if (props.icon) {
                 <component :is="iconToUse" />
             </span>
             <span v-if="props.label" class="label">{{ props.label }}</span>
+            <span class="close" @click="close">&times;</span>
         </div>
         <div class="content">
             <p v-if="props.text" class="text-content">{{ props.text }}</p>
         </div>
-        <span class="close">&times;</span>
     </div>
 </template>
 
@@ -132,9 +132,8 @@ if (props.icon) {
     font-size: 1.2em;
     margin-left: auto;
     color: var(--neutral-40);
-    position: absolute;
-    top: 0.5em;
-    right: 0.5em;
+    align-self: flex-start; 
+    margin-right: 16px;
 }
 
 .alert-good .color-bar {
