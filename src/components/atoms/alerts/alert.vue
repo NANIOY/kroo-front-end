@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps, computed } from 'vue';
-import { infoCircle, warningCircle, checkCircle, helpCircle } from '@iconoir/vue';
+import * as iconoirIcons from '@iconoir/vue';
 
 // Define props
 const props = defineProps({
@@ -30,24 +30,42 @@ const typeClasses = {
     info: 'alert-info'
 };
 
-const typeIcons = {
-    good: checkCircle,
-    bad: infoCircle,
-    warning: warningCircle,
-    info: helpCircle
-};
-
-// Compute the icon to use, prioritizing the custom icon if provided
-const iconToUse = computed(() => props.icon || typeIcons[props.type]);
-
 // Compute the height of the alert based on whether it has text or not
 const alertHeight = computed(() => props.text ? '115px' : '48px');
+
+let iconToUse;
+
+if (props.icon) {
+    iconToUse = props.icon;
+} else {
+    switch (props.type) {
+        case 'good':
+            iconToUse = iconoirIcons.InfoCircle;
+            break;
+        case 'bad':
+            iconToUse = iconoirIcons.WarningCircle;
+            break;
+        case 'warning':
+            iconToUse = iconoirIcons.CheckCircle;
+            break;
+        case 'info':
+            iconToUse = iconoirIcons.HelpCircle;
+            break;
+        default:
+            iconToUse = iconoirIcons.HelpCircle;
+    }
+}
+
+console.log(iconToUse); // Ensure the correct icon is being resolved
+
 </script>
 
 <template>
     <div :class="['alert', typeClasses[props.type]]" :style="{ height: alertHeight }">
         <div :class="['color-bar', typeClasses[props.type]]"></div>
-        <span class="icon">{{ iconToUse }}</span>
+        <span class="icon">
+            <component :is="iconToUse" />
+        </span>
         <div class="content">
             <div class="header">
                 <strong v-if="props.label">{{ props.label }}</strong>
@@ -68,7 +86,7 @@ const alertHeight = computed(() => props.text ? '115px' : '48px');
     background-color: var(--neutral-80);
     width: 608px;
     position: relative;
-    box-sizing: border-box; 
+    box-sizing: border-box;
 }
 
 .color-bar {
@@ -89,7 +107,7 @@ const alertHeight = computed(() => props.text ? '115px' : '48px');
 
 .content {
     flex-grow: 1;
-    padding-left: 1em; 
+    padding-left: 1em;
 }
 
 .header {
