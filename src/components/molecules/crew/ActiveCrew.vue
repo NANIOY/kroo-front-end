@@ -13,7 +13,7 @@ const props = defineProps({
 <template>
     <div class="activeCrew surface-tertiary radius-xs">
         <div class="activeCrew__top">
-            <img :src="crewMember.image || 'https://res.cloudinary.com/dqzaz6d2o/image/upload/v1715265202/user-images/jji0f5zxxzaop7kkihn7.png'"
+            <img :src="crewMember.image || 'https://via.placeholder.com/64'"
                 class="activeCrew__top__image" alt="Crew image" />
             <h4 class="activeCrew__top__name">{{ crewMember.name }}</h4>
         </div>
@@ -61,6 +61,7 @@ p {
     width: 64px;
     height: 64px;
     border-radius: 4px;
+    object-fit: cover;
 }
 
 /* INFO */
