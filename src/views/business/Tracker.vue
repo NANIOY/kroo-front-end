@@ -59,7 +59,7 @@ const handleCreateJob = (jobData) => {
             <div class="tracker__container__top">
                 <h6>WHO APPLIED</h6>
                 <NormalButton label="Search for crew" class="button--tertiary" id="addButton" :hasIcon="true"
-                    iconName="Search" :hasLabel="true" :hasRequest="false" />
+                    iconName="Search" :hasLabel="true" :hasRequest="false" redirect="/search" />
             </div>
             <div class="tracker__container__column">
                 <Applicant v-for="applicant in applicants" :key="applicant.name" :applicant="applicant" />
