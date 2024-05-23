@@ -31,7 +31,7 @@ const typeClasses = {
 };
 
 // Compute the height of the alert based on whether it has text or not
-const alertHeight = computed(() => props.text ? '115px' : '48px');
+const alertHeight = computed(() => props.text ? 'auto' : '48px');
 
 let iconToUse;
 
@@ -40,13 +40,13 @@ if (props.icon) {
 } else {
     switch (props.type) {
         case 'good':
-            iconToUse = iconoirIcons.InfoCircle;
+            iconToUse = iconoirIcons.CheckCircle;
             break;
         case 'bad':
             iconToUse = iconoirIcons.WarningCircle;
             break;
         case 'warning':
-            iconToUse = iconoirIcons.CheckCircle;
+            iconToUse = iconoirIcons.WarningCircle;
             break;
         case 'info':
             iconToUse = iconoirIcons.HelpCircle;
@@ -82,7 +82,7 @@ console.log(iconToUse); // Ensure the correct icon is being resolved
     margin: 1em 0;
     border-radius: 4px;
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* Align items to the start to stack text properly */
     background-color: var(--neutral-80);
     width: 608px;
     position: relative;
@@ -103,6 +103,8 @@ console.log(iconToUse); // Ensure the correct icon is being resolved
     margin-right: 1em;
     margin-left: 30px;
     font-size: 1.5em;
+    display: flex;
+    align-items: center; /* Align icon to center of line */
 }
 
 .content {
@@ -114,13 +116,13 @@ console.log(iconToUse); // Ensure the correct icon is being resolved
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%; /* Ensure header takes full width */
 }
 
 .close {
     cursor: pointer;
     font-size: 1.2em;
     margin-left: 1em;
-    margin-right: 16px;
     color: var(--neutral-40);
 }
 
@@ -162,5 +164,6 @@ console.log(iconToUse); // Ensure the correct icon is being resolved
 
 .text-content {
     color: var(--neutral-40);
+    margin-top: 0.5em; /* Add space between label and text */
 }
 </style>
