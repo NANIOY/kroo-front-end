@@ -56,8 +56,6 @@ if (props.icon) {
     }
 }
 
-console.log(iconToUse); // Ensure the correct icon is being resolved
-
 </script>
 
 <template>
@@ -87,7 +85,7 @@ console.log(iconToUse); // Ensure the correct icon is being resolved
     width: 608px;
     position: relative;
     box-sizing: border-box;
-    flex-direction: column; 
+    flex-direction: column;
 }
 
 .color-bar {
@@ -117,7 +115,7 @@ console.log(iconToUse); // Ensure the correct icon is being resolved
 }
 
 .label {
-    color: var(--white); 
+    color: var(--white);
 }
 
 .content {
