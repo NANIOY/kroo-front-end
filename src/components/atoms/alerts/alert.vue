@@ -71,11 +71,13 @@ const alertHeight = computed(() => props.text ? '115px' : '48px');
 }
 
 .color-bar {
-    width: 20px;
+    width: 8px;
     height: 100%;
     position: absolute;
     left: 0;
     top: 0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
 }
 
 .icon {
@@ -99,6 +101,7 @@ const alertHeight = computed(() => props.text ? '115px' : '48px');
     cursor: pointer;
     font-size: 1.2em;
     margin-left: 1em;
+    margin-right: 16px;
     color: var(--neutral-40);
 }
 
