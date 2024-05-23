@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps, computed } from 'vue';
+import { infoCircle, warningCircle, checkCircle, helpCircle } from '@iconoir/vue';
 
 // Define props
 const props = defineProps({
@@ -30,10 +31,10 @@ const typeClasses = {
 };
 
 const typeIcons = {
-    good: '✔️',
-    bad: '❌',
-    warning: '⚠️',
-    info: 'ℹ️'
+    good: checkCircle,
+    bad: infoCircle,
+    warning: warningCircle,
+    info: helpCircle
 };
 
 // Compute the icon to use, prioritizing the custom icon if provided
