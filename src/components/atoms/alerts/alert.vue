@@ -55,7 +55,6 @@ if (props.icon) {
             iconToUse = iconoirIcons.HelpCircle;
     }
 }
-
 </script>
 
 <template>
@@ -65,7 +64,7 @@ if (props.icon) {
             <span class="icon">
                 <component :is="iconToUse" />
             </span>
-            <strong v-if="props.label" class="label">{{ props.label }}</strong>
+            <span v-if="props.label" class="label">{{ props.label }}</span>
         </div>
         <div class="content">
             <p v-if="props.text" class="text-content">{{ props.text }}</p>
@@ -108,7 +107,6 @@ if (props.icon) {
 
 .icon {
     margin-right: 0.5em;
-    font-size: 1.5em;
     display: flex;
     align-items: center;
     padding-left: 0.2em;
@@ -116,12 +114,14 @@ if (props.icon) {
 
 .label {
     color: var(--white);
+    font-family: var(--font-button);
 }
 
 .content {
     padding-left: 0.3em;
     width: 100%;
     margin-left: 16px;
+    font-family: var(--font-body);
 }
 
 .close {
