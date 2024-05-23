@@ -38,10 +38,13 @@ const typeIcons = {
 
 // Compute the icon to use, prioritizing the custom icon if provided
 const iconToUse = computed(() => props.icon || typeIcons[props.type]);
+
+// Compute the height of the alert based on whether it has text or not
+const alertHeight = computed(() => props.text ? '115px' : '48px');
 </script>
 
 <template>
-    <div :class="['alert', typeClasses[props.type]]">
+    <div :class="['alert', typeClasses[props.type]]" :style="{ height: alertHeight }">
         <div :class="['color-bar', typeClasses[props.type]]"></div>
         <span class="icon">{{ iconToUse }}</span>
         <div class="content">
@@ -61,9 +64,10 @@ const iconToUse = computed(() => props.icon || typeIcons[props.type]);
     border-radius: 4px;
     display: flex;
     align-items: center;
-    background-color: var(--neutral-50);
+    background-color: var(--neutral-80);
     width: 608px;
     position: relative;
+    box-sizing: border-box; 
 }
 
 .color-bar {
@@ -99,7 +103,7 @@ const iconToUse = computed(() => props.icon || typeIcons[props.type]);
 }
 
 .alert-good .color-bar {
-    background-color: var( --positive);
+    background-color: var(--positive);
 }
 
 .alert-bad .color-bar {
@@ -107,7 +111,7 @@ const iconToUse = computed(() => props.icon || typeIcons[props.type]);
 }
 
 .alert-warning .color-bar {
-    background-color: var( --notice);
+    background-color: var(--notice);
 }
 
 .alert-info .color-bar {
@@ -115,7 +119,7 @@ const iconToUse = computed(() => props.icon || typeIcons[props.type]);
 }
 
 .alert-good {
-    color: var( --positive);
+    color: var(--positive);
 }
 
 .alert-bad {
@@ -123,11 +127,11 @@ const iconToUse = computed(() => props.icon || typeIcons[props.type]);
 }
 
 .alert-warning {
-    color: var( --notice);
+    color: var(--notice);
 }
 
 .alert-info {
-    color:var(--info);
+    color: var(--info);
 }
 
 .header strong {
