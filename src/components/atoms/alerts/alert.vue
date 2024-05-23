@@ -115,6 +115,9 @@ if (props.icon) {
 .label {
     color: var(--white);
     font-family: var(--font-button);
+    display: inline-flex;
+    align-items: center; 
+    line-height: 1.5;
 }
 
 .content {
