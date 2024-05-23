@@ -63,7 +63,7 @@ const fetchApplicants = async () => {
             return {
                 ...application,
                 user,
-                applicationId: application._id || application.applicationId // Ensure the application ID is assigned correctly
+                applicationId: application._id || application.applicationId
             };
         });
 
@@ -105,8 +105,9 @@ onMounted(() => {
         </div>
 
         <div class="applicant__bot">
-            <NormalButton label="Reject" class="applicant__bot__button button--tertiary" :endpoint="``" :postData="{}"
-                @click.stop />
+            <NormalButton label="Reject" class="applicant__bot__button button--tertiary"
+                :endpoint="`/bussJobInt/applications/${applicant.applicationId}/reject`"
+                :postData="{ status: 'rejected' }" @click.stop />
             <NormalButton label="Accept" class="applicant__bot__button button--primary"
                 :endpoint="`/bussJobInt/applications/${applicant.applicationId}/accept`"
                 :postData="{ status: 'accepted' }" @click.stop />
