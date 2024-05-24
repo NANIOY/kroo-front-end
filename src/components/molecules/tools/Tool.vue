@@ -2,31 +2,42 @@
 import Toggle from '../../atoms/selectors/Toggle.vue';
 import Tag from '../../atoms/items/Tag.vue';
 
-// Define a mapping between tool names and their configurations
 const toolConfigurations = {
     'Microsoft Teams': {
         title: 'Microsoft Teams',
         text: 'Microsoft Teams is the ultimate messaging app for your organization — a workspace for real-time collaboration and communication.',
         iconUrl: '../../../../public/assets/tools/Microsoft-Teams-logo.webp',
-        tagText: 'COMMUNICATION'
+        tagText: 'COMMUNICATION',
+        borderColor: '#4A52BD',
+        backgroundColor: 'rgba(74, 82, 189, 0.15)',
+        shadowColor: '#4A52BD'
     },
     'Google Drive': {
         title: 'Google Drive',
         text: 'Google Drive is a cloud-based storage service that enables users to store and access files online.',
         iconUrl: '../../../../public/assets/tools/Google-Drive-logo.webp',
-        tagText: 'FILE STORAGE'
+        tagText: 'FILE STORAGE',
+        borderColor: '#3BA55D',
+        backgroundColor: 'rgba(59, 165, 93, 0.15)',
+        shadowColor: '#3BA55D'
     },
     'Microsoft OneDrive': {
         title: 'Microsoft OneDrive',
         text: 'Easily store, access, and discover your individual and shared work files in Microsoft 365, including Microsoft Teams, from all your devices.',
         iconUrl: '../../../../public/assets/tools/Microsoft-OneDrive-logo.webp',
-        tagText: 'FILE STORAGE'
+        tagText: 'FILE STORAGE',
+        borderColor: '#FEBD0C',
+        backgroundColor: 'rgba(254, 189, 12, 0.15)',
+        shadowColor: '#FEBD0C'
     },
     'Zoom': {
         title: 'Zoom',
         text: 'Empower your employees, teams, and customers to work better together and get more done.',
         iconUrl: '../../../../public/assets/tools/Zoom-logo.webp',
-        tagText: 'COMMUNICATION'
+        tagText: 'COMMUNICATION',
+        borderColor: '#D43900',
+        backgroundColor: 'rgba(212, 57, 0, 0.15)',
+        shadowColor: '#D43900'
     }
 };
 
@@ -50,8 +61,17 @@ export default {
             tagText: ''
         };
     },
+    computed: {
+        iconContainerStyle() {
+            const toolConfig = toolConfigurations[this.toolName];
+            return {
+                border: `0.6px solid ${toolConfig.borderColor}`,
+                background: toolConfig.backgroundColor,
+                boxShadow: `0px 0px 4.8px 0.6px ${toolConfig.shadowColor}`
+            };
+        }
+    },
     created() {
-        // Set the properties of the Tool component based on the provided tool name
         const toolConfig = toolConfigurations[this.toolName];
         if (toolConfig) {
             this.title = toolConfig.title;
@@ -71,7 +91,7 @@ export default {
 <template>
     <div class="tool-container radius-xs">
         <div class="icon-and-tag-container">
-            <div class="icon-container radius-full">
+            <div :style="iconContainerStyle" class="icon-container radius-full">
                 <img :src="iconUrl" alt="Tool Icon" class="tool-icon" />
             </div>
             <div class="tag-container button--disabled radius-xxs">
@@ -112,9 +132,6 @@ export default {
     width: 34px;
     height: 34px;
     flex-shrink: 0;
-    border: 0.6px solid #4A52BD;
-    background: rgba(74, 82, 189, 0.15);
-    box-shadow: 0px 0px 4.8px 0.6px #4A52BD;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -135,11 +152,11 @@ export default {
 }
 
 .content {
-    display: flex; 
-    flex-direction: column; 
-    align-items: flex-start; 
-    gap: 8px; 
-    align-self: stretch; 
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
     height: 100px;
 }
 
