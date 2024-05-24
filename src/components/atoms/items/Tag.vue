@@ -23,7 +23,7 @@ const props = defineProps({
     display: inline-flex;
     align-items: center;
     height: 20px;
-    padding: 6px 8px;
+    padding: 2px 8px;
     line-height: 1;
     border-radius: 2px;
     background-color: var(--neutral-70);
@@ -36,6 +36,7 @@ const props = defineProps({
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-top: 2.6px;
 }
 
 .tag--colored {
