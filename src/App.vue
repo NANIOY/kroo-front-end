@@ -8,9 +8,11 @@ import NavbarLogo from './components/organisms/navigation/NavbarLogo.vue';
 
 const route = useRoute();
 const isDashboardRoute = ref(route.path === '/dashboard');
+const isUserProfileRoute = ref(/^\/user\/[^/]+$/.test(route.path));
 
 watchEffect(() => {
   isDashboardRoute.value = route.path === '/dashboard';
+  isUserProfileRoute.value = /^\/user\/[^/]+$/.test(route.path);
 });
 </script>
 
@@ -23,9 +25,9 @@ watchEffect(() => {
       v-if="['/login', '/register', '/register/crew', '/register/crew/step-1', '/register/crew/step-2', '/register/crew/step-3', '/register/crew/step-4', '/register/crew/step-5', '/register/business', '/register/business/step-1', '/register/business/step-2', '/register/business/step-3', '/register/business/step-4', '/register/business/step-5', '/forgot-password'].includes(route.path)" />
     <div class="router">
       <TopNav
-        v-if="!['/login', '/register', '/register/crew', '/register/crew/step-1', '/register/crew/step-2', '/register/crew/step-3', '/register/crew/step-4', '/register/crew/step-5', '/register/business', '/register/business/step-1', '/register/business/step-2', '/register/business/step-3', '/register/business/step-4', '/register/business/step-5', '/forgot-password', '/dashboard', '/profile'].includes(route.path)"
+        v-if="!['/login', '/register', '/register/crew', '/register/crew/step-1', '/register/crew/step-2', '/register/crew/step-3', '/register/crew/step-4', '/register/crew/step-5', '/register/business', '/register/business/step-1', '/register/business/step-2', '/register/business/step-3', '/register/business/step-4', '/register/business/step-5', '/forgot-password', '/dashboard', '/profile'].includes(route.path) && !isUserProfileRoute"
         :userId="userId" :func="func" :profileImage="profileImage" />
-      <TopNavDash v-if="['/dashboard'].includes(route.path)" :userId="userId" :func="func"
+      <TopNavDash v-if="isDashboardRoute" :userId="userId" :func="func"
         :profileImage="profileImage" />
       <router-view></router-view>
     </div>

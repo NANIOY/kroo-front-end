@@ -1,29 +1,12 @@
 <script setup>
-import { defineProps, ref, onMounted } from 'vue';
-import setupAxios from '../../../setupAxios.js';
+import { defineProps } from 'vue';
 
 const props = defineProps({
+    profileImage: {
+        type: String,
+        default: 'https://via.placeholder.com/150'
+    },
     showBadge: Boolean
-});
-
-const axiosInstance = setupAxios();
-const userId = sessionStorage.getItem('userId');
-const profileImage = ref('');
-
-onMounted(async () => {
-    if (userId) {
-        try {
-            const userResponse = await axiosInstance.get(`/user/${userId}`);
-            const crewDataId = userResponse.data.data.user.crewData._id;
-
-            if (crewDataId) {
-                const crewResponse = await axiosInstance.get(`/crew/${crewDataId}`);
-                profileImage.value = crewResponse.data.data.basicInfo.profileImage;
-            }
-        } catch (error) {
-            console.error('Error fetching profile image:', error);
-        }
-    }
 });
 </script>
 

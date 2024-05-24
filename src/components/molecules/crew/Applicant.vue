@@ -5,7 +5,6 @@ import setupAxios from '../../../setupAxios';
 
 const applicants = ref([]);
 const loading = ref(true);
-
 const axiosInstance = setupAxios();
 
 const fetchBusinessId = async () => {
@@ -22,7 +21,6 @@ const fetchBusinessId = async () => {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const businessId = userResponse.data.data.user.businessData;
-        console.log(`Fetched Business ID: ${businessId}`);
         return businessId;
     } catch (error) {
         console.error('Failed to fetch user data:', error);
@@ -45,30 +43,23 @@ const fetchApplicants = async () => {
     }
 
     try {
-        console.log(`Fetching applications for Business ID: ${businessId}`);
         const response = await axiosInstance.get(`/bussJobInt/${businessId}/applications`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const applications = response.data.applications;
-        console.log('Fetched Applications:', applications);
 
         const applicantPromises = applications.map(async (application) => {
-            console.log(`Fetching user data for application ID: ${application._id || application.applicationId}, User ID: ${application.userId}`);
             const userResponse = await axiosInstance.get(`/user/${application.userId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            const user = userResponse.data.data.user;
-            console.log(`Fetched User Data for User ID: ${application.userId}`, user);
 
             return {
                 ...application,
-                user,
-                applicationId: application._id || application.applicationId
+                user: userResponse.data.data.user
             };
         });
 
         applicants.value = await Promise.all(applicantPromises);
-        console.log('Applicants:', applicants.value);
     } catch (error) {
         console.error('Failed to fetch applications:', error);
     } finally {
@@ -81,6 +72,17 @@ const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
+const rejectApplicant = async (applicationId, index) => {
+    try {
+        const response = await axiosInstance.post(`/bussJobInt/applications/${applicationId}/reject`, { status: 'rejected' });
+        if (response.status === 200) {
+            applicants.value.splice(index, 1);
+        }
+    } catch (error) {
+        console.error('Failed to reject applicant:', error);
+    }
+};
+
 onMounted(() => {
     fetchApplicants();
 });
@@ -88,7 +90,7 @@ onMounted(() => {
 
 <template>
     <div v-if="loading" class="loading">Loading...</div>
-    <div v-for="applicant in applicants" :key="applicant.applicationId" class="applicant surface-tertiary radius-xs">
+    <div v-for="(applicant, index) in applicants" :key="applicant.userId" class="applicant surface-tertiary radius-xs">
         <div class="applicant__top">
             <img :src="applicant.user.crewData?.basicInfo?.profileImage || 'https://via.placeholder.com/64'"
                 class="applicant__top__image" alt="Crew image" />
@@ -106,8 +108,7 @@ onMounted(() => {
 
         <div class="applicant__bot">
             <NormalButton label="Reject" class="applicant__bot__button button--tertiary"
-                :endpoint="`/bussJobInt/applications/${applicant.applicationId}/reject`"
-                :postData="{ status: 'rejected' }" @click.stop />
+                @click.stop="rejectApplicant(applicant.applicationId, index)" />
             <NormalButton label="Accept" class="applicant__bot__button button--primary"
                 :endpoint="`/bussJobInt/applications/${applicant.applicationId}/accept`"
                 :postData="{ status: 'accepted' }" @click.stop />
@@ -127,6 +128,12 @@ p {
     padding: 20px;
     box-sizing: border-box;
     gap: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.applicant:hover {
+    filter: brightness(92%);
 }
 
 .applicant,

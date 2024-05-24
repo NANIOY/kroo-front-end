@@ -1,15 +1,29 @@
 <script setup>
-import { ref } from 'vue'
-import Tabs from '../../molecules/profile/Tabs.vue'
-import Portfolio from '../../molecules/profile/Portfolio.vue'
-import About from '../../molecules/profile/About.vue'
-import Activity from '../../molecules/profile/Activity.vue'
+import { defineProps, ref, watch } from 'vue';
+import Tabs from '../../molecules/profile/Tabs.vue';
+import Portfolio from '../../molecules/profile/Portfolio.vue';
+import About from '../../molecules/profile/About.vue';
+import Activity from '../../molecules/profile/Activity.vue';
+
+const props = defineProps({
+    user: {
+        type: Object,
+        required: true
+    }
+});
 
 const activeTab = ref('About');
 
 const handleTabChange = (newTab) => {
     activeTab.value = newTab;
+    console.log(`Active tab changed to: ${newTab}`);
 };
+
+console.log('ProfileRight user:', props.user);
+
+watch(activeTab, (newTab) => {
+    console.log(`Tab changed to: ${newTab}`);
+});
 </script>
 
 <template>
@@ -17,9 +31,9 @@ const handleTabChange = (newTab) => {
         <Tabs @update:activeTab="handleTabChange" />
         <div class="profileright__content">
             <div class="profileright__content__inner">
-                <Portfolio v-if="activeTab === 'Portfolio'" />
-                <About v-if="activeTab === 'About'" />
-                <Activity v-if="activeTab === 'Activity'" />
+                <Portfolio v-if="activeTab === 'Portfolio'" :user="user" />
+                <About v-if="activeTab === 'About'" :user="user" />
+                <Activity v-if="activeTab === 'Activity'" :user="user" />
             </div>
         </div>
     </div>

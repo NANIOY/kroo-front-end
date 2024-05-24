@@ -18,6 +18,7 @@ onMounted(async () => {
     try {
         const response = await axiosInstance.get(`/user/profile/${userUrl}`);
         user.value = response.data;
+        console.log('UserProfile fetched user:', user.value);
     } catch (err) {
         error.value = err.response?.data?.message || 'Error fetching user profile';
     } finally {
@@ -27,38 +28,15 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="userprofile">
-        <div v-if="loading">Loading...</div>
-        <div v-else-if="error">{{ error }}</div>
-        <div v-else>
-            <h1>{{ user.username }}</h1>
-            <img :src="user.crewData?.basicInfo?.profileImage || 'https://via.placeholder.com/150'"
-                alt="Profile Image" />
-            <p>Email: {{ user.email }}</p>
-            <ProfileLeft :user="user" />
-            <ProfileRight :user="user" />
-        </div>
+    <div class="profile">
+        <ProfileLeft :user="user" />
+        <ProfileRight :user="user" />
     </div>
 </template>
 
-
 <style scoped>
-.userprofile {
+.profile {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.userprofile h1 {
-    font-size: 2em;
-}
-
-.userprofile img {
-    max-width: 150px;
-    border-radius: 50%;
-}
-
-.userprofile p {
-    font-size: 1.2em;
+    gap: 80px;
 }
 </style>

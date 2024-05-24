@@ -54,7 +54,8 @@ const fetchCrewSuggestions = async () => {
                 name: member.username,
                 perc: '85', // HARD CODED
                 jobtitle: 'Job title', // HARD CODED
-                functions: crewData.basicInfo.functions
+                functions: crewData.basicInfo.functions,
+                userUrl: member.userUrl
             };
         }));
     } catch (error) {
@@ -73,6 +74,10 @@ const openJobPop = (job) => {
 
 const closeJobPop = () => {
     selectedJob.value = null;
+};
+
+const navigateToProfile = (userUrl) => {
+    window.open(`/#/user/${userUrl}`, '_blank');
 };
 
 </script>
@@ -106,7 +111,8 @@ const closeJobPop = () => {
                         label="Search more" iconName="NavArrowRight" iconPosition="right" />
                 </div>
                 <div class="dashboard__left__block--sug__jobs">
-                    <CrewSug v-for="crew in crewSuggestions" :key="crew.name" v-bind="crew" />
+                    <CrewSug v-for="crew in crewSuggestions" :key="crew.name" v-bind="crew"
+                        @navigateToProfile="navigateToProfile" />
                 </div>
             </div>
         </div>
