@@ -1,78 +1,43 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted } from 'vue';
 import SearchCrew from '../../components/molecules/crew/SearchCrew.vue';
 import SearchCrewFilter from '../../components/molecules/filter/SearchCrewFilter.vue';
-import NormalButton from '../../components/atoms/buttons/NormalButton.vue';
-import TransparentButton from '../../components/atoms/buttons/TransparentButton.vue';
 import setupAxios from '../../setupAxios';
 
 const axiosInstance = setupAxios();
 
-const fetchedCrew = ref([]);
-const currentPage = ref(1);
-const crewPerPage = 12;
-
-const paginatedCrew = computed(() => {
-    const startIndex = (currentPage.value - 1) * crewPerPage;
-    const endIndex = startIndex + crewPerPage;
-    return fetchedCrew.value.slice(startIndex, endIndex);
-});
-
-const totalPages = computed(() => Math.ceil(fetchedCrew.value.length / crewPerPage));
-
-const visiblePages = computed(() => {
-    const pages = [];
-    let startPage = currentPage.value - 3;
-    let endPage = currentPage.value + 3;
-    if (startPage < 1) {
-        startPage = 1;
-        endPage = Math.min(totalPages.value, 7);
-    }
-    if (endPage > totalPages.value) {
-        endPage = totalPages.value;
-        startPage = Math.max(1, endPage - 6);
-    }
-    for (let page = startPage; page <= endPage; page++) {
-        pages.push(page);
-    }
-    return pages;
-});
+const crewMembers = ref([]);
+const loading = ref(true);
+const allCrewLoaded = ref(false);
 
 const fetchCrewData = async () => {
     try {
         const { data } = await axiosInstance.get('/user');
-        const crewMembers = data.data.users.filter(user => user.crewData);
-        fetchedCrew.value = await Promise.all(crewMembers.map(async member => {
+        const crewMembersData = data.data.users.filter(user => user.crewData);
+
+        if (crewMembersData.length === 0) {
+            allCrewLoaded.value = true;
+        }
+
+        const crewData = await Promise.all(crewMembersData.map(async member => {
             const crewResponse = await axiosInstance.get(`/crew/${member.crewData}`);
-            const crewData = crewResponse.data.data;
+            const crewDetails = crewResponse.data.data;
             return {
-                img: crewData.basicInfo.profileImage,
+                img: crewDetails.basicInfo.profileImage,
                 name: member.username,
-                city: crewData.profileDetails.city,
-                country: crewData.profileDetails.country,
-                functions: crewData.basicInfo.functions,
+                city: crewDetails.profileDetails.city,
+                country: crewDetails.profileDetails.country,
+                functions: crewDetails.basicInfo.functions,
                 userUrl: member.userUrl
             };
         }));
+
+        crewMembers.value = crewData;
     } catch (error) {
         console.error('Error fetching crew data:', error);
+    } finally {
+        loading.value = false;
     }
-};
-
-const previousPage = () => {
-    if (currentPage.value > 1) {
-        currentPage.value--;
-    }
-};
-
-const nextPage = () => {
-    if (currentPage.value < totalPages.value) {
-        currentPage.value++;
-    }
-};
-
-const goToPage = (page) => {
-    currentPage.value = page;
 };
 
 const navigateToProfile = (userUrl) => {
@@ -89,40 +54,15 @@ onMounted(() => {
         <SearchCrewFilter />
 
         <div class="crew-container">
-            <div class="viewcontainer__crews">
-                <SearchCrew v-for="crew in paginatedCrew" :key="crew.name" :img="crew.img" :name="crew.name"
-                    :city="crew.city" :country="crew.country" :functions="crew.functions" :userUrl="crew.userUrl"
-                    @navigateToProfile="navigateToProfile" />
-            </div>
-
-            <div class="pagination">
-                <NormalButton @click="previousPage" :disabled="currentPage === 1" iconName="NavArrowLeft"
-                    class="pagination__button pagination__button--arrow button--tertiary" />
-                <template v-for="(page, index) in visiblePages" :key="index">
-                    <template v-if="index === 0">
-                        <TransparentButton @click="goToPage(1)" :class="{ active: 1 === currentPage }" :label="1"
-                            class="pagination__button" />
-                    </template>
-                    <template v-if="index === 1 && page !== 2">
-                        <span class="pagination__ellipsis">...</span>
-                    </template>
-                    <template v-if="index !== 0 && index !== visiblePages.length - 1">
-                        <TransparentButton @click="goToPage(page)" :class="{ active: page === currentPage }"
-                            :label="page" class="pagination__button" />
-                    </template>
-                    <template v-if="index === visiblePages.length - 1">
-                        <span class="pagination__ellipsis">...</span>
-                    </template>
-                    <template v-if="index === visiblePages.length - 1">
-                        <TransparentButton @click="goToPage(totalPages)" :class="{ active: totalPages === currentPage }"
-                            :label="totalPages" class="pagination__button" />
-                    </template>
-                </template>
-                <NormalButton @click="nextPage" :disabled="currentPage === totalPages" iconName="NavArrowRight"
-                    class="pagination__button pagination__button--arrow button--tertiary" />
+            <div v-if="loading" class="loading">Loading...</div>
+            <div v-else>
+                <div class="viewcontainer__crews">
+                    <SearchCrew v-for="crew in crewMembers" :key="crew.name" :img="crew.img" :name="crew.name"
+                        :city="crew.city" :country="crew.country" :functions="crew.functions" :userUrl="crew.userUrl"
+                        @navigateToProfile="navigateToProfile" />
+                </div>
             </div>
         </div>
-
     </div>
 </template>
 
