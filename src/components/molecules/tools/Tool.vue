@@ -7,25 +7,25 @@ const toolConfigurations = {
     'Microsoft Teams': {
         title: 'Microsoft Teams',
         text: 'Microsoft Teams is the ultimate messaging app for your organization — a workspace for real-time collaboration and communication.',
-        iconUrl: '/assets/microsoft-teams-icon.png',
+        iconUrl: '../../../../public/assets/tools/Microsoft-Teams-logo.webp',
         tagText: 'COMMUNICATION'
     },
     'Google Drive': {
         title: 'Google Drive',
         text: 'Google Drive is a cloud-based storage service that enables users to store and access files online.',
-        iconUrl: '/assets/google-drive-icon.png',
+        iconUrl: '../../../../public/assets/tools/Google-Drive-logo.webp',
         tagText: 'FILE STORAGE'
     },
     'Microsoft OneDrive': {
         title: 'Microsoft OneDrive',
         text: 'Easily store, access, and discover your individual and shared work files in Microsoft 365, including Microsoft Teams, from all your devices.',
-        iconUrl: '/assets/microsoft-onedrive-icon.png',
+        iconUrl: '../../../../public/assets/tools/Microsoft-OneDrive-logo.webp',
         tagText: 'FILE STORAGE'
     },
     'Zoom': {
         title: 'Zoom',
         text: 'Empower your employees, teams, and customers to work better together and get more done.',
-        iconUrl: '/assets/zoom-icon.png',
+        iconUrl: '../../../../public/assets/tools/Zoom-logo.webp',
         tagText: 'COMMUNICATION'
     }
 };
@@ -72,15 +72,15 @@ export default {
     <div class="tool-container radius-xs">
         <div class="icon-and-tag-container">
             <div class="icon-container radius-full">
-                <div class="tool-icon"></div>
+                <img :src="iconUrl" alt="Tool Icon" class="tool-icon" />
             </div>
-            <div class="tag-container .button--disabled radius-xxs ">
+            <div class="tag-container button--disabled radius-xxs">
                 <tag type="default">{{ tagText }}</tag>
             </div>
         </div>
         <div class="content">
-            <h2 class="custom-title .text-primary">{{ title }}</h2>
-            <p class="custom-text .text-secondary">{{ text }}</p>
+            <h2 class="custom-title text-primary">{{ title }}</h2>
+            <p class="custom-text text-secondary">{{ text }}</p>
         </div>
         <div class="toggle-container">
             <toggle :isDisabled="false" @toggle="toggleVisibility"></toggle>
@@ -90,8 +90,8 @@ export default {
 
 <style scoped>
 .tool-container {
-    width: 400px;
-    height: 290px;
+    width: 365px;
+    height: 250px;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
@@ -124,7 +124,6 @@ export default {
     width: 18px;
     height: 18px;
     flex-shrink: 0;
-    background: url('../../../../public/assets/paymentMethod/Bancontact.webp') lightgray -6.667px -6.429px / 171.429% 171.429% no-repeat;
 }
 
 .tag-container {
