@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref, onMounted } from 'vue';
+import { defineProps, defineEmits, ref, onMounted } from 'vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import Tag from '../../atoms/items/Tag.vue';
 
@@ -9,7 +9,10 @@ const props = defineProps({
     city: String,
     country: String,
     functions: Array,
+    userUrl: String,
 });
+
+const emit = defineEmits(['navigateToProfile']);
 
 const loading = ref(true);
 
@@ -18,13 +21,17 @@ onMounted(() => {
         loading.value = false;
     }, 500);
 });
+
+const navigateToProfile = () => {
+    emit('navigateToProfile', props.userUrl);
+};
 </script>
 
 <template>
     <!-- Skeleton loading -->
     <div v-if="loading" class="container skeleton"></div>
 
-    <div v-else class="container">
+    <div v-else class="container" @click="navigateToProfile">
         <div class="container__info">
             <div class="container__top">
                 <img :src="img" class="container__top__image" alt="Crew image" />
@@ -33,20 +40,17 @@ onMounted(() => {
 
             <div class="container__mid">
                 <div class="container__mid__tags">
-                    <Tag v-for="func in functions" :key="func" type="colored" class="container__mid__tags__tag">{{ func
-                        }}</Tag>
+                    <Tag v-for="func in functions" :key="func" type="colored" class="container__mid__tags__tag">{{ func }}</Tag>
                 </div>
                 <div class="container__mid__location">
                     <span class="container__mid__location__city text-reg-l">{{ city }}</span>
-                    <span class="container__mid__location__country text-reg-normal">{{ country
-                        }}</span>
+                    <span class="container__mid__location__country text-reg-normal">{{ country }}</span>
                 </div>
             </div>
         </div>
 
         <div class="container__bot">
-            <NormalButton label="Details" class="container__bot__button button--primary"
-                :endpoint="`/crewJobInt/${id}/apply`" :postData="{}" @click.stop />
+            <NormalButton label="Details" class="container__bot__button button--primary" @click="navigateToProfile" />
         </div>
     </div>
 </template>
