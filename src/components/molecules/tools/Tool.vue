@@ -145,7 +145,7 @@ export default {
     width: 18px;
     height: 18px;
     flex-shrink: 0;
-    object-fit:scale-down;
+    object-fit: scale-down;
 }
 
 .tag-container {
@@ -168,7 +168,7 @@ export default {
     width: 100%;
     line-height: 1.4em;
     margin-bottom: 0;
-    margin-top:-10px;
+    margin-top: -10px;
 }
 
 .custom-text {
