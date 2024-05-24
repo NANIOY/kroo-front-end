@@ -79,8 +79,8 @@ export default {
             </div>
         </div>
         <div class="content">
-            <h2 class="custom-title text-primary">{{ title }}</h2>
-            <p class="custom-text text-secondary">{{ text }}</p>
+            <p class="custom-title text-bold-l">{{ title }}</p>
+            <p class="custom-text text-reg-normal">{{ text }}</p>
         </div>
         <div class="toggle-container">
             <toggle :isDisabled="false" @toggle="toggleVisibility"></toggle>
@@ -124,6 +124,7 @@ export default {
     width: 18px;
     height: 18px;
     flex-shrink: 0;
+    object-fit: cover;
 }
 
 .tag-container {
@@ -135,17 +136,24 @@ export default {
 }
 
 .content {
+    display: flex; /* New layout for content */
+    flex-direction: column; /* Arrange children vertically */
+    align-items: flex-start; /* Align items to the start */
+    gap: 8px; /* Gap between title and text */
+    align-self: stretch; /* Stretch to fill available space */
     margin-top: 20px;
 }
 
 .custom-title {
     width: 100%;
     line-height: 1.4em;
+    margin-bottom: 0px;
 }
 
 .custom-text {
     width: 100%;
     line-height: 1.4em;
+    margin-top: 0px;
 }
 
 .toggle-container {
