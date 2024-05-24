@@ -15,6 +15,7 @@ onMounted(async () => {
   try {
     const response = await axiosInstance.get(`/user/${userId}`);
     user.value = response.data.data.user;
+    console.log('Profile fetched user:', user.value);
   } catch (err) {
     error.value = err.response?.data?.message || 'Error fetching user profile';
   } finally {
@@ -25,12 +26,8 @@ onMounted(async () => {
 
 <template>
   <div class="profile">
-    <div v-if="loading">Loading...</div>
-    <div v-else-if="error">{{ error }}</div>
-    <div v-else>
-      <ProfileLeft :user="user" />
-      <ProfileRight :user="user" />
-    </div>
+    <ProfileLeft :user="user" />
+    <ProfileRight :user="user" />
   </div>
 </template>
 
