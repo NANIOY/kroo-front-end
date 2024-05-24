@@ -1,5 +1,7 @@
 <script setup>
-import { defineProps, ref, onMounted } from 'vue';
+import { defineProps, ref, onMounted, defineEmits } from 'vue';
+
+const emits = defineEmits(['jobClick']);
 
 const props = defineProps({
     job: Object,
@@ -26,9 +28,6 @@ const formatMonth = (dateString) => {
     return monthNames[date.getMonth()];
 };
 
-// emit jobClick event when job is clicked
-const emits = defineEmits(['jobClick']);
-
 // open job popup when job is clicked
 const openJobPop = () => {
     emits('jobClick', props.job);
@@ -47,23 +46,19 @@ const openJobPop = () => {
             </div>
 
             <div class="container__mid">
-                <h4 class="container__mid__title">{{ job.title }}</h4>
+                <h4 class="container__mid__title">Function</h4>
                 <div class="container__mid__data">
                     <div class="container__mid__data__date">
                         <span class="container__mid__data__date__day text-reg-l">{{ formatDate(job.date) }}</span>
-                        <span class="container__mid__data__date__month text-reg-normal">{{ formatMonth(job.date)
-                            }}</span>
+                        <span class="container__mid__data__date__month text-reg-normal">{{ formatMonth(job.date) }}</span>
                     </div>
                     <div class="container__mid__data__location">
                         <span class="container__mid__data__location__city text-reg-l">{{ job.location.city }}</span>
-                        <span class="container__mid__data__location__country text-reg-normal">{{ job.location.country
-                            }}</span>
+                        <span class="container__mid__data__location__country text-reg-normal">{{ job.location.country }}</span>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Removed buttons from here -->
     </div>
 </template>
 
@@ -163,25 +158,5 @@ const openJobPop = () => {
 
 .container__mid__data__location {
     text-align: right;
-}
-
-/* BOTTOM */
-.container__bot {
-    align-items: center;
-    gap: 24px;
-}
-
-.container__bot__buttons {
-    flex: 1;
-    gap: 16px;
-}
-
-.container__bot__buttons__save {
-    outline: 2px solid var(--blurple);
-}
-
-.container__bot__buttons__save,
-.container__bot__buttons__apply {
-    width: 50%;
 }
 </style>
