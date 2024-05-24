@@ -68,6 +68,7 @@ watchEffect(() => {
 .profileinfo__container__info__text__skilldesc {
     display: flex;
     align-items: center;
+    width: 100%;
 }
 
 
