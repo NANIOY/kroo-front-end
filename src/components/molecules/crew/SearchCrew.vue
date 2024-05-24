@@ -51,7 +51,7 @@ const navigateToProfile = () => {
         </div>
 
         <div class="container__bot">
-            <NormalButton label="Details" class="container__bot__button button--primary" @click="navigateToProfile" />
+            <NormalButton label="Details" class="container__bot__button button--primary" />
         </div>
     </div>
 </template>
