@@ -145,7 +145,7 @@ export default {
     width: 18px;
     height: 18px;
     flex-shrink: 0;
-    object-fit: cover;
+    object-fit:scale-down;
 }
 
 .tag-container {
