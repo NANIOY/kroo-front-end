@@ -42,12 +42,12 @@ const formatMonth = (dateString) => {
                 <h4 class="container__mid__title">Function</h4>
                 <div class="container__mid__data">
                     <div class="container__mid__data__date">
-                        <span class="container__mid__data__date__day text-reg-l">{{ formatDate(job.date) }}</span>
-                        <span class="container__mid__data__date__month text-reg-normal">{{ formatMonth(job.date) }}</span>
+                        <span class="container__mid__data__date__day text-reg-s">{{ formatDate(job.date) }}</span>
+                        <span class="container__mid__data__date__month text-reg-xs">{{ formatMonth(job.date) }}</span>
                     </div>
                     <div class="container__mid__data__location">
-                        <span class="container__mid__data__location__city text-reg-l">{{ job.location.city }}</span>
-                        <span class="container__mid__data__location__country text-reg-normal">{{ job.location.country }}</span>
+                        <span class="container__mid__data__location__city text-reg-s">{{ job.location.city }}</span>
+                        <span class="container__mid__data__location__country text-reg-xs">{{ job.location.country }}</span>
                     </div>
                 </div>
             </div>
@@ -99,8 +99,8 @@ const formatMonth = (dateString) => {
 }
 
 .container {
-    width: 448px;
-    height: 282px;
+    width: 273.5px;
+    height: 176px;
     background-color: var(--neutral-20);
     color: var(--black);
     border-radius: 4px;
@@ -132,7 +132,7 @@ const formatMonth = (dateString) => {
 
 /* MIDDLE */
 .container__mid {
-    gap: 16px;
+    gap: 12px;
 }
 
 .container__mid__title {
@@ -145,7 +145,7 @@ const formatMonth = (dateString) => {
     text-overflow: ellipsis;
     white-space: normal;
     align-items: center;
-    height: 64px;
+    height: 47px;
     word-break: break-word;
 }
 
