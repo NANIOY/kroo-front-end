@@ -76,8 +76,8 @@ const closeJobPop = () => {
     selectedJob.value = null;
 };
 
-const handleNavigateToProfile = (userUrl) => {
-    router.push(`/user/${userUrl}`);
+const navigateToProfile = (userUrl) => {
+    window.open(`/#/user/${userUrl}`, '_blank');
 };
 
 </script>
@@ -112,7 +112,7 @@ const handleNavigateToProfile = (userUrl) => {
                 </div>
                 <div class="dashboard__left__block--sug__jobs">
                     <CrewSug v-for="crew in crewSuggestions" :key="crew.name" v-bind="crew"
-                        @navigateToProfile="handleNavigateToProfile" />
+                        @navigateToProfile="navigateToProfile" />
                 </div>
             </div>
         </div>
