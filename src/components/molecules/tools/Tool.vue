@@ -47,8 +47,10 @@ export default {
             <!-- Text with class "custom-text" -->
             <p class="custom-text">{{ text }}</p>
         </div>
-        <!-- Replace the toggle button with the toggle component -->
-        <toggle :isDisabled="false" @toggle="toggleVisibility"></toggle>
+        <!-- Toggle component -->
+        <div class="toggle-container">
+            <toggle :isDisabled="false" @toggle="toggleVisibility"></toggle>
+        </div>
     </div>
 </template>
 
@@ -117,5 +119,11 @@ export default {
     width: 360px;
     color: var(--color-text-text-secondary, #333);
     line-height: 1.4em;
+}
+
+.toggle-container {
+    display: flex;
+    align-items: center;
+    margin-left: auto; 
 }
 </style>
