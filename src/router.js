@@ -5,6 +5,9 @@ import Login from './views/Login.vue';
 import Register from './views/Register.vue';
 import ForgotPassword from './views/ForgotPassword.vue';
 
+// USER PROFILE
+import Profile from './views/UserProfile.vue';
+
 // REGISTER CREW
 import RegisterCrewStep1 from './views/registerCrew/RegisterCrewStep1.vue';
 import RegisterCrewStep2 from './views/registerCrew/RegisterCrewStep2.vue';
@@ -45,6 +48,7 @@ import BusinessTeam from './views/business/Team.vue';
 
 // REMOVE FROM PRODUCTION
 import Test from './views/Test.vue';
+import UserProfile from './views/UserProfile.vue';
 
 function loadComponentForRole(crewComponent, businessComponent) {
     const role = sessionStorage.getItem('role');
@@ -58,6 +62,8 @@ const routes = [
     { path: '/login', component: Login },
     { path: '/register', component: Register },
     { path: '/forgot-password', component: ForgotPassword },
+
+    { path: '/user/:userUrl', component: UserProfile, props: true},
 
     { path: '/register/crew/step-1', component: RegisterCrewStep1 },
     { path: '/register/crew/step-2', component: RegisterCrewStep2 },
@@ -93,7 +99,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const sessionToken = sessionStorage.getItem('sessionToken');
-    const secret = '&1te7W]%0N@0(3C=LNh[Z&;{1nhFr4Znk9N=egN}4U@0o$zCCg';
+    const secret = 'process.env.JWT_SECRET';
     if (to.path === '/login' || to.path === '/register' || to.path === '/forgot-password') {
         next();
     } else if (!sessionToken) {
