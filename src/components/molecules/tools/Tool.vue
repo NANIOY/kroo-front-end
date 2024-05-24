@@ -6,38 +6,42 @@ const toolConfigurations = {
     'Microsoft Teams': {
         title: 'Microsoft Teams',
         text: 'Microsoft Teams is the ultimate messaging app for your organization — a workspace for real-time collaboration and communication.',
-        iconUrl: '../../../../public/assets/tools/Microsoft-Teams-logo.webp',
+        iconUrl: '/assets/tools/Microsoft-Teams-logo.webp',
         tagText: 'COMMUNICATION',
         borderColor: '#4A52BD',
         backgroundColor: 'rgba(74, 82, 189, 0.15)',
-        shadowColor: '#4A52BD'
+        borderRadius: '5999.4px',
+        boxShadow: '0px 0px 4.8px 0.6px #4A52BD',
     },
     'Google Drive': {
         title: 'Google Drive',
         text: 'Google Drive is a cloud-based storage service that enables users to store and access files online.',
-        iconUrl: '../../../../public/assets/tools/Google-Drive-logo.webp',
+        iconUrl: '/assets/tools/Google-Drive-logo.webp',
         tagText: 'FILE STORAGE',
-        borderColor: '#3BA55D',
-        backgroundColor: 'rgba(59, 165, 93, 0.15)',
-        shadowColor: '#3BA55D'
+        borderColor: '#1DA362',
+        backgroundColor: 'rgba(29, 163, 98, 0.15)',
+        borderRadius: '5999.4px',
+        boxShadow: '0px 0px 4.8px 0.6px #1DA362'
     },
     'Microsoft OneDrive': {
         title: 'Microsoft OneDrive',
         text: 'Easily store, access, and discover your individual and shared work files in Microsoft 365, including Microsoft Teams, from all your devices.',
-        iconUrl: '../../../../public/assets/tools/Microsoft-OneDrive-logo.webp',
+        iconUrl: '/assets/tools/Microsoft-OneDrive-logo.webp',
         tagText: 'FILE STORAGE',
-        borderColor: '#FEBD0C',
-        backgroundColor: 'rgba(254, 189, 12, 0.15)',
-        shadowColor: '#FEBD0C'
+        borderColor: '#0078D4',
+        backgroundColor: 'rgba(0, 120, 212, 0.15)',
+        borderRadius: '5999.4px',
+        boxShadow: '0px 0px 4.8px 0.6px #0078D4'
     },
     'Zoom': {
         title: 'Zoom',
         text: 'Empower your employees, teams, and customers to work better together and get more done.',
-        iconUrl: '../../../../public/assets/tools/Zoom-logo.webp',
+        iconUrl: '/assets/tools/Zoom-logo.webp',
         tagText: 'COMMUNICATION',
-        borderColor: '#D43900',
-        backgroundColor: 'rgba(212, 57, 0, 0.15)',
-        shadowColor: '#D43900'
+        borderColor: '#2196F3',
+        backgroundColor: 'rgba(33, 150, 243, 0.15)',
+        borderRadius: '5999.4px',
+        boxShadow: '0px 0px 4.8px 0.6px #2196F3'
     }
 };
 
@@ -67,7 +71,7 @@ export default {
             return {
                 border: `0.6px solid ${toolConfig.borderColor}`,
                 background: toolConfig.backgroundColor,
-                boxShadow: `0px 0px 4.8px 0.6px ${toolConfig.shadowColor}`
+                boxShadow: toolConfig.boxShadow
             };
         }
     },
