@@ -34,7 +34,7 @@ const formatMonth = (dateString) => {
     <div v-else class="container">
         <div class="container__info">
             <div class="container__top" v-if="job.employer">
-                <img :src="job.employer.image" class="container__top__image" alt="Employer's Logo" />
+                <img :src="job.employer.image" class="container__top__image radius-full" alt="Employer's Logo" />
                 <span class="container__top__name text-reg-s">{{ job.employer.name }}</span>
             </div>
 
@@ -127,7 +127,6 @@ const formatMonth = (dateString) => {
 .container__top__image {
     width: 28px;
     height: 28px;
-    border-radius: 50%;
 }
 
 /* MIDDLE */
@@ -144,9 +143,11 @@ const formatMonth = (dateString) => {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
-    align-items: center;
     height: 47px;
     word-break: break-word;
+    align-items: flex-end;
+    align-content: flex-end;
+    -webkit-box-align: end;
 }
 
 .container__mid__data__location {
