@@ -6,27 +6,27 @@ import Tag from '../../atoms/items/Tag.vue';
 const toolConfigurations = {
     'Microsoft Teams': {
         title: 'Microsoft Teams',
-        text: 'Microsoft Teams is a collaboration platform that allows...',
+        text: 'Microsoft Teams is the ultimate messaging app for your organization — a workspace for real-time collaboration and communication.',
         iconUrl: '/assets/microsoft-teams-icon.png',
-        tagText: 'Microsoft Teams'
+        tagText: 'COMMUNICATION'
     },
     'Google Drive': {
         title: 'Google Drive',
-        text: 'Google Drive is a cloud storage and file synchronization service...',
+        text: 'Google Drive is a cloud-based storage service that enables users to store and access files online.',
         iconUrl: '/assets/google-drive-icon.png',
-        tagText: 'Google Drive'
+        tagText: 'FILE STORAGE'
     },
     'Microsoft OneDrive': {
         title: 'Microsoft OneDrive',
-        text: 'OneDrive is a file hosting service and synchronization service...',
+        text: 'Easily store, access, and discover your individual and shared work files in Microsoft 365, including Microsoft Teams, from all your devices.',
         iconUrl: '/assets/microsoft-onedrive-icon.png',
-        tagText: 'Microsoft OneDrive'
+        tagText: 'FILE STORAGE'
     },
     'Zoom': {
         title: 'Zoom',
-        text: 'Zoom Video Communications is a remote conferencing service...',
+        text: 'Empower your employees, teams, and customers to work better together and get more done.',
         iconUrl: '/assets/zoom-icon.png',
-        tagText: 'Zoom'
+        tagText: 'COMMUNICATION'
     }
 };
 
@@ -38,7 +38,7 @@ export default {
     props: {
         toolName: {
             type: String,
-            default: 'Custom Tag' // Default tool name
+            default: 'Custom Tag'
         }
     },
     data() {
@@ -74,18 +74,14 @@ export default {
             <div class="icon-container radius-full">
                 <div class="tool-icon"></div>
             </div>
-            <!-- Tag component -->
             <div class="tag-container .button--disabled radius-xxs ">
-                <tag type="default">{{ toolName }}</tag>
+                <tag type="default">{{ tagText }}</tag>
             </div>
         </div>
         <div class="content">
-            <!-- Title with class "custom-title" -->
             <h2 class="custom-title .text-primary">{{ title }}</h2>
-            <!-- Text with class "custom-text" -->
             <p class="custom-text .text-secondary">{{ text }}</p>
         </div>
-        <!-- Toggle component -->
         <div class="toggle-container">
             <toggle :isDisabled="false" @toggle="toggleVisibility"></toggle>
         </div>
