@@ -111,7 +111,8 @@ const handleNavigateToProfile = (userUrl) => {
                         label="Search more" iconName="NavArrowRight" iconPosition="right" />
                 </div>
                 <div class="dashboard__left__block--sug__jobs">
-                    <CrewSug v-for="crew in crewSuggestions" :key="crew.name" v-bind="crew" @navigateToProfile="handleNavigateToProfile" />
+                    <CrewSug v-for="crew in crewSuggestions" :key="crew.name" v-bind="crew"
+                        @navigateToProfile="handleNavigateToProfile" />
                 </div>
             </div>
         </div>
