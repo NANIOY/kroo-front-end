@@ -136,12 +136,11 @@ export default {
 }
 
 .content {
-    display: flex; /* New layout for content */
-    flex-direction: column; /* Arrange children vertically */
-    align-items: flex-start; /* Align items to the start */
-    gap: 8px; /* Gap between title and text */
-    align-self: stretch; /* Stretch to fill available space */
-    margin-top: 20px;
+    display: flex; 
+    flex-direction: column; 
+    align-items: flex-start; 
+    gap: 8px; 
+    align-self: stretch; 
 }
 
 .custom-title {
