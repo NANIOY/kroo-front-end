@@ -1,7 +1,5 @@
 <script setup>
-import { defineProps, ref, onMounted, defineEmits } from 'vue';
-
-const emits = defineEmits(['jobClick']);
+import { defineProps, ref, onMounted } from 'vue';
 
 const props = defineProps({
     job: Object,
@@ -27,18 +25,13 @@ const formatMonth = (dateString) => {
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     return monthNames[date.getMonth()];
 };
-
-// open job popup when job is clicked
-const openJobPop = () => {
-    emits('jobClick', props.job);
-};
 </script>
 
 <template>
     <!-- Skeleton loading -->
     <div v-if="loading" class="container skeleton"></div>
 
-    <div v-else class="container" @click="openJobPop">
+    <div v-else class="container">
         <div class="container__info">
             <div class="container__top" v-if="job.employer">
                 <img :src="job.employer.image" class="container__top__image" alt="Employer's Logo" />
