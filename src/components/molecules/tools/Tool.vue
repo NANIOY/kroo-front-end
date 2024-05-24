@@ -140,18 +140,19 @@ export default {
     align-items: flex-start; 
     gap: 8px; 
     align-self: stretch; 
+    height: 100px;
 }
 
 .custom-title {
     width: 100%;
     line-height: 1.4em;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .custom-text {
     width: 100%;
     line-height: 1.4em;
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 .toggle-container {
