@@ -2,12 +2,10 @@
 import { ref, onMounted } from 'vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import setupAxios from '../../../setupAxios';
-import { useRouter } from 'vue-router';
 
 const applicants = ref([]);
 const loading = ref(true);
 const axiosInstance = setupAxios();
-const router = useRouter();
 
 const fetchBusinessId = async () => {
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
@@ -74,8 +72,15 @@ const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
-const navigateToProfile = (userUrl) => {
-    router.push(`/user/${userUrl}`);
+const rejectApplicant = async (applicationId, index) => {
+    try {
+        const response = await axiosInstance.post(`/bussJobInt/applications/${applicationId}/reject`, { status: 'rejected' });
+        if (response.status === 200) {
+            applicants.value.splice(index, 1);
+        }
+    } catch (error) {
+        console.error('Failed to reject applicant:', error);
+    }
 };
 
 onMounted(() => {
@@ -85,8 +90,7 @@ onMounted(() => {
 
 <template>
     <div v-if="loading" class="loading">Loading...</div>
-    <div v-for="applicant in applicants" :key="applicant.userId" class="applicant surface-tertiary radius-xs"
-        @click="navigateToProfile(applicant.user.userUrl)">
+    <div v-for="(applicant, index) in applicants" :key="applicant.userId" class="applicant surface-tertiary radius-xs">
         <div class="applicant__top">
             <img :src="applicant.user.crewData?.basicInfo?.profileImage || 'https://via.placeholder.com/64'"
                 class="applicant__top__image" alt="Crew image" />
@@ -104,8 +108,7 @@ onMounted(() => {
 
         <div class="applicant__bot">
             <NormalButton label="Reject" class="applicant__bot__button button--tertiary"
-                :endpoint="`/bussJobInt/applications/${applicant.applicationId}/reject`"
-                :postData="{ status: 'rejected' }" @click.stop />
+                @click.stop="rejectApplicant(applicant.applicationId, index)" />
             <NormalButton label="Accept" class="applicant__bot__button button--primary"
                 :endpoint="`/bussJobInt/applications/${applicant.applicationId}/accept`"
                 :postData="{ status: 'accepted' }" @click.stop />
