@@ -1,7 +1,34 @@
 <script>
-// Import the toggle component
 import Toggle from '../../atoms/selectors/Toggle.vue';
 import Tag from '../../atoms/items/Tag.vue';
+
+// Define a mapping between tool names and their configurations
+const toolConfigurations = {
+    'Microsoft Teams': {
+        title: 'Microsoft Teams',
+        text: 'Microsoft Teams is a collaboration platform that allows...',
+        iconUrl: '/assets/microsoft-teams-icon.png',
+        tagText: 'Microsoft Teams'
+    },
+    'Google Drive': {
+        title: 'Google Drive',
+        text: 'Google Drive is a cloud storage and file synchronization service...',
+        iconUrl: '/assets/google-drive-icon.png',
+        tagText: 'Google Drive'
+    },
+    'Microsoft OneDrive': {
+        title: 'Microsoft OneDrive',
+        text: 'OneDrive is a file hosting service and synchronization service...',
+        iconUrl: '/assets/microsoft-onedrive-icon.png',
+        tagText: 'Microsoft OneDrive'
+    },
+    'Zoom': {
+        title: 'Zoom',
+        text: 'Zoom Video Communications is a remote conferencing service...',
+        iconUrl: '/assets/zoom-icon.png',
+        tagText: 'Zoom'
+    }
+};
 
 export default {
     components: {
@@ -9,17 +36,29 @@ export default {
         Tag
     },
     props: {
-        tagText: {
+        toolName: {
             type: String,
-            default: 'Custom Tag'
+            default: 'Custom Tag' // Default tool name
         }
     },
     data() {
         return {
             isVisible: true,
-            title: 'Title',
-            text: 'Text'
+            title: '',
+            text: '',
+            iconUrl: '',
+            tagText: ''
         };
+    },
+    created() {
+        // Set the properties of the Tool component based on the provided tool name
+        const toolConfig = toolConfigurations[this.toolName];
+        if (toolConfig) {
+            this.title = toolConfig.title;
+            this.text = toolConfig.text;
+            this.iconUrl = toolConfig.iconUrl;
+            this.tagText = toolConfig.tagText;
+        }
     },
     methods: {
         toggleVisibility() {
@@ -33,12 +72,11 @@ export default {
     <div class="tool-container radius-xs">
         <div class="icon-and-tag-container">
             <div class="icon-container radius-full">
-                <!-- Circle for image with the specified dimensions and style -->
-                <div class="circle"></div>
+                <div class="tool-icon"></div>
             </div>
             <!-- Tag component -->
             <div class="tag-container .button--disabled radius-xxs ">
-                <tag type="default">{{ tagText }}</tag>
+                <tag type="default">{{ toolName }}</tag>
             </div>
         </div>
         <div class="content">
@@ -86,7 +124,7 @@ export default {
     justify-content: center;
 }
 
-.circle {
+.tool-icon {
     width: 18px;
     height: 18px;
     flex-shrink: 0;
