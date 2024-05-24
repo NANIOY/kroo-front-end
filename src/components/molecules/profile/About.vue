@@ -1,39 +1,41 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import setupAxios from '../../../setupAxios';
+import { defineProps, ref, watchEffect } from 'vue';
 
-const axiosInstance = setupAxios();
-const userId = sessionStorage.getItem('userId');
+const props = defineProps({
+    user: {
+        type: Object,
+        required: true
+    }
+});
+
 const crewData = ref(null);
 
-onMounted(async () => {
-    if (userId) {
-        try {
-            const userResponse = await axiosInstance.get(`/user/${userId}`);
-            const crewDataId = userResponse.data.data.user.crewData._id;
-
-            if (crewDataId) {
-                const crewResponse = await axiosInstance.get(`/crew/${crewDataId}`);
-                crewData.value = crewResponse.data.data;
-            }
-        } catch (error) {
-            console.error('Error fetching crew data:', error);
-        }
+watchEffect(() => {
+    if (props.user && props.user.crewData) {
+        crewData.value = props.user.crewData;
+        console.log('About received crewData:', crewData.value);
     }
 });
 </script>
 
 <template>
     <div v-if="crewData">
-        <p>{{ crewData.profileDetails.bio }}</p>
-        <h3>{{ crewData.profileDetails.age }}</h3>
+        <p>{{ crewData.profileDetails?.bio }}</p>
+        <h3>{{ crewData.profileDetails?.age }}</h3>
         <ul>
-            <li v-for="language in crewData.profileDetails.languages" :key="language">{{ language }}</li>
+            <li v-for="language in crewData.profileDetails?.languages" :key="language">{{ language }}</li>
         </ul>
-        <h3>{{ crewData.profileDetails.location }}</h3>
-        <h3>{{ crewData.profileDetails.workRadius }} km</h3>
-        <a :href="crewData.careerDetails.certificationsLicenses" target="_blank">View Certifications</a>
-        <p>{{ crewData.careerDetails.unionStatus }}</p>
+        <h3>{{ crewData.profileDetails?.city }}</h3>
+        <h3>{{ crewData.profileDetails?.workRadius }} km</h3>
+        <ul>
+            <li v-for="certification in crewData.careerDetails?.certificationsLicenses" :key="certification">
+                {{ certification }}
+            </li>
+        </ul>
+        <p>{{ crewData.careerDetails?.unionStatus }}</p>
+    </div>
+    <div v-else>
+        <p>No crew data available</p>
     </div>
 </template>
 

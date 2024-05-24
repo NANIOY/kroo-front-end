@@ -3,43 +3,15 @@ import SearchJob from '../../components/molecules/jobs/SearchJob.vue';
 import JobPop from '../../components/molecules/popups/JobPop.vue';
 import Overlay from '../../components/molecules/popups/Overlay.vue';
 import SearchFilter from '../../components/molecules/filter/SearchFilter.vue';
-import TransparentButton from '../../components/atoms/buttons/TransparentButton.vue';
-import NormalButton from '../../components/atoms/buttons/NormalButton.vue';
-import { ref, onMounted, computed } from 'vue';
-import setupAxios from '../../setupAxios'
+import { ref, onMounted } from 'vue';
+import setupAxios from '../../setupAxios';
 
 const axiosInstance = setupAxios();
 
 const fetchedJobs = ref([]);
 const selectedJob = ref(null);
-const currentPage = ref(1);
-const jobsPerPage = 12;
-
-const paginatedJobs = computed(() => {
-  const startIndex = (currentPage.value - 1) * jobsPerPage;
-  const endIndex = startIndex + jobsPerPage;
-  return fetchedJobs.value.slice(startIndex, endIndex);
-});
-
-const totalPages = computed(() => Math.ceil(fetchedJobs.value.length / jobsPerPage));
-
-const visiblePages = computed(() => {
-  const pages = [];
-  let startPage = currentPage.value - 3;
-  let endPage = currentPage.value + 3;
-  if (startPage < 1) {
-    startPage = 1;
-    endPage = Math.min(totalPages.value, 7);
-  }
-  if (endPage > totalPages.value) {
-    endPage = totalPages.value;
-    startPage = Math.max(1, endPage - 6);
-  }
-  for (let page = startPage; page <= endPage; page++) {
-    pages.push(page);
-  }
-  return pages;
-});
+const loading = ref(true);
+const allJobsLoaded = ref(false);
 
 // fetch all jobs
 const fetchJobs = async () => {
@@ -63,22 +35,13 @@ const fetchJobs = async () => {
       }
     }));
 
-    // batch processing for location data
-    const batchSize = 9;
-    for (let i = 0; i < fetchedJobs.value.length; i += batchSize) {
-      const batchJobs = fetchedJobs.value.slice(i, i + batchSize);
-
-      // fetch location data for each job based on city name
-      await Promise.all(batchJobs.map(async (job) => {
-        try {
-          job.location;
-        } catch (error) {
-          console.error('Error fetching location data:', error);
-        }
-      }));
+    if (fetchedJobs.value.length === 0) {
+      allJobsLoaded.value = true;
     }
   } catch (error) {
     console.error('Error fetching jobs:', error);
+  } finally {
+    loading.value = false;
   }
 };
 
@@ -92,22 +55,6 @@ const closeJobPop = () => {
   selectedJob.value = null;
 };
 
-const previousPage = () => {
-  if (currentPage.value > 1) {
-    currentPage.value--;
-  }
-};
-
-const nextPage = () => {
-  if (currentPage.value < totalPages.value) {
-    currentPage.value++;
-  }
-};
-
-const goToPage = (page) => {
-  currentPage.value = page;
-};
-
 onMounted(() => {
   fetchJobs();
 });
@@ -118,35 +65,12 @@ onMounted(() => {
     <SearchFilter />
 
     <div class="jobs-container">
-      <div class="viewcontainer__jobs">
-        <SearchJob v-for="job in paginatedJobs" :key="job._id" :job="job" @jobClick="openJobPop" />
-      </div>
-
-      <div class="pagination">
-        <NormalButton @click="previousPage" :disabled="currentPage === 1" iconName="NavArrowLeft" :hasRequest="false"
-          class="pagination__button pagination__button--arrow button--tertiary" />
-        <template v-for="(page, index) in visiblePages" :key="index">
-          <template v-if="index === 0">
-            <TransparentButton @click="goToPage(1)" :class="{ active: 1 === currentPage }" :label="1"
-              class="pagination__button" />
-          </template>
-          <template v-if="index === 1 && page !== 2">
-            <span class="pagination__ellipsis">...</span>
-          </template>
-          <template v-if="index !== 0 && index !== visiblePages.length - 1">
-            <TransparentButton @click="goToPage(page)" :class="{ active: page === currentPage }" :label="page"
-              class="pagination__button" />
-          </template>
-          <template v-if="index === visiblePages.length - 1">
-            <span class="pagination__ellipsis">...</span>
-          </template>
-          <template v-if="index === visiblePages.length - 1">
-            <TransparentButton @click="goToPage(totalPages)" :class="{ active: totalPages === currentPage }"
-              :label="totalPages" class="pagination__button" />
-          </template>
-        </template>
-        <NormalButton @click="nextPage" :disabled="currentPage === totalPages" iconName="NavArrowRight"
-          :hasRequest="false" class="pagination__button pagination__button--arrow button--tertiary" />
+      <div v-if="loading" class="loading">Loading...</div>
+      <div v-else>
+        <div class="viewcontainer__jobs">
+          <SearchJob v-for="job in fetchedJobs" :key="job._id" :job="job" @jobClick="openJobPop" />
+        </div>
+        <div v-if="allJobsLoaded || fetchedJobs.length === 0" class="end">No more jobs to display</div>
       </div>
     </div>
 
