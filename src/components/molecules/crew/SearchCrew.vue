@@ -133,6 +133,7 @@ const navigateToProfile = () => {
     width: 64px;
     height: 64px;
     border-radius: 4px;
+    object-fit: cover;
 }
 
 /* MIDDLE */

@@ -229,6 +229,7 @@ img {
   height: 56px;
   margin-right: 16px;
   border-radius: 4px;
+  object-fit: cover;
 }
 
 #navbarTop_right_account_info {
