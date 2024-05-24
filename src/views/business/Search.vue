@@ -1,6 +1,5 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { useRouter } from 'vue-router';
 import SearchCrew from '../../components/molecules/crew/SearchCrew.vue';
 import SearchCrewFilter from '../../components/molecules/filter/SearchCrewFilter.vue';
 import NormalButton from '../../components/atoms/buttons/NormalButton.vue';
@@ -8,7 +7,6 @@ import TransparentButton from '../../components/atoms/buttons/TransparentButton.
 import setupAxios from '../../setupAxios';
 
 const axiosInstance = setupAxios();
-const router = useRouter();
 
 const fetchedCrew = ref([]);
 const currentPage = ref(1);
@@ -53,7 +51,7 @@ const fetchCrewData = async () => {
                 city: crewData.profileDetails.city,
                 country: crewData.profileDetails.country,
                 functions: crewData.basicInfo.functions,
-                userUrl: member.userUrl // Add userUrl for navigation
+                userUrl: member.userUrl
             };
         }));
     } catch (error) {
@@ -77,8 +75,8 @@ const goToPage = (page) => {
     currentPage.value = page;
 };
 
-const handleNavigateToProfile = (userUrl) => {
-    router.push(`/user/${userUrl}`);
+const navigateToProfile = (userUrl) => {
+    window.open(`/#/user/${userUrl}`, '_blank');
 };
 
 onMounted(() => {
@@ -92,8 +90,9 @@ onMounted(() => {
 
         <div class="crew-container">
             <div class="viewcontainer__crews">
-                <SearchCrew v-for="crew in paginatedCrew" :key="crew.name" v-bind="crew"
-                    @navigateToProfile="handleNavigateToProfile" />
+                <SearchCrew v-for="crew in paginatedCrew" :key="crew.name" :img="crew.img" :name="crew.name"
+                    :city="crew.city" :country="crew.country" :functions="crew.functions" :userUrl="crew.userUrl"
+                    @navigateToProfile="navigateToProfile" />
             </div>
 
             <div class="pagination">

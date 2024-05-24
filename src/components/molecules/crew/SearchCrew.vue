@@ -40,7 +40,8 @@ const navigateToProfile = () => {
 
             <div class="container__mid">
                 <div class="container__mid__tags">
-                    <Tag v-for="func in functions" :key="func" type="colored" class="container__mid__tags__tag">{{ func }}</Tag>
+                    <Tag v-for="func in functions" :key="func" type="colored" class="container__mid__tags__tag">{{ func
+                        }}</Tag>
                 </div>
                 <div class="container__mid__location">
                     <span class="container__mid__location__city text-reg-l">{{ city }}</span>
