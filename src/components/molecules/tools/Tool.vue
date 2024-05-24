@@ -40,13 +40,16 @@
 
   <style scoped>
   .tool-container {
+    width: 400px;
+    height: 289px;
+    flex-shrink: 0;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+    border-radius: var(--radius-radius-XS, 4px);
+    background: var(--neutral-20);
   }
   
   .icon-container {
@@ -64,4 +67,5 @@
   .content {
     margin-left: 20px; /* Adjust spacing as needed */
   }
-  </style>  
+  </style>
+  
