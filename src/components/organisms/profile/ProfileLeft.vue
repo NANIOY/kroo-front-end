@@ -1,10 +1,18 @@
 <script setup>
+import { defineProps } from 'vue';
 import ProfileInfo from '../../molecules/profile/ProfileInfo.vue';
+
+const props = defineProps({
+    user: {
+        type: Object,
+        required: true
+    }
+});
 </script>
 
 <template>
     <div class="profileleft">
-        <ProfileInfo />
+        <ProfileInfo :user="user" />
     </div>
 </template>
 
