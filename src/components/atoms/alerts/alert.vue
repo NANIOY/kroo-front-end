@@ -75,7 +75,8 @@ if (props.icon) {
 
 <style scoped>
 .alert {
-    padding: 1em;
+    padding: 16px;
+    padding-left: 24px; /* Ensure there's extra padding on the left to account for the color bar */
     margin: 1em 0;
     border-radius: 4px;
     display: flex;
@@ -85,11 +86,12 @@ if (props.icon) {
     position: relative;
     box-sizing: border-box;
     flex-direction: column;
+    text-align: left; /* Ensure text is left-aligned */
 }
 
 .color-bar {
     width: 8px;
-    height: 100%;
+    height: 100%; /* Full height of the alert */
     position: absolute;
     left: 0;
     top: 0;
@@ -102,7 +104,6 @@ if (props.icon) {
     align-items: center;
     width: 100%;
     margin-bottom: 0.5em;
-    margin-left: 16px;
 }
 
 .icon {
@@ -110,20 +111,21 @@ if (props.icon) {
     display: flex;
     align-items: center;
     padding-left: 0.2em;
+    margin-bottom: 0.3em;
 }
 
 .label {
     color: var(--white);
     font-family: var(--font-button);
     display: inline-flex;
-    align-items: center; 
-    line-height: 1.5;
+    align-items: center;
+    line-height: 0.9;
+    margin-bottom: 3px;
 }
 
 .content {
     padding-left: 0.3em;
     width: 100%;
-    margin-left: 16px;
     font-family: var(--font-body);
 }
 
@@ -132,8 +134,7 @@ if (props.icon) {
     font-size: 1.2em;
     margin-left: auto;
     color: var(--neutral-40);
-    align-self: flex-start; 
-    margin-right: 16px;
+    align-self: flex-start;
 }
 
 .alert-good .color-bar {
@@ -174,7 +175,7 @@ if (props.icon) {
 
 .text-content {
     color: var(--neutral-40);
-    margin-top: 0px;
+    margin-top: 0;
     margin-bottom: 16px;
 }
 </style>
