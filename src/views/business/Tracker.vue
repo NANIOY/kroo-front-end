@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import PostedJob from '../../components/molecules/jobs/PostedJob.vue';
 import Applicant from '../../components/molecules/crew/Applicant.vue';
 import ActiveCrew from '../../components/molecules/crew/ActiveCrew.vue';
@@ -7,6 +8,7 @@ import NormalButton from '../../components/atoms/buttons/NormalButton.vue';
 import CreateJobModal from '../../components/molecules/popups/CreateJob.vue';
 
 const isModalVisible = ref(false);
+const router = useRouter();
 
 const openModal = () => {
     isModalVisible.value = true;
@@ -19,6 +21,10 @@ const closeModal = () => {
 const handleCreateJob = (jobData) => {
     console.log('Job created:', jobData);
     closeModal();
+};
+
+const navigateToProfile = (userUrl) => {
+    window.open(`/#/user/${userUrl}`, '_blank');
 };
 </script>
 
@@ -44,7 +50,7 @@ const handleCreateJob = (jobData) => {
                     iconName="Search" :hasLabel="true" :hasRequest="false" redirect="/search" />
             </div>
             <div class="tracker__container__column">
-                <Applicant />
+                <Applicant @navigateToProfile="navigateToProfile" />
             </div>
         </div>
 

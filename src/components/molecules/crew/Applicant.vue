@@ -2,11 +2,12 @@
 import { ref, onMounted } from 'vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import setupAxios from '../../../setupAxios';
+import { useRouter } from 'vue-router';
 
 const applicants = ref([]);
 const loading = ref(true);
-
 const axiosInstance = setupAxios();
+const router = useRouter();
 
 const fetchBusinessId = async () => {
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
@@ -22,7 +23,6 @@ const fetchBusinessId = async () => {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const businessId = userResponse.data.data.user.businessData;
-        console.log(`Fetched Business ID: ${businessId}`);
         return businessId;
     } catch (error) {
         console.error('Failed to fetch user data:', error);
@@ -45,30 +45,23 @@ const fetchApplicants = async () => {
     }
 
     try {
-        console.log(`Fetching applications for Business ID: ${businessId}`);
         const response = await axiosInstance.get(`/bussJobInt/${businessId}/applications`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const applications = response.data.applications;
-        console.log('Fetched Applications:', applications);
 
         const applicantPromises = applications.map(async (application) => {
-            console.log(`Fetching user data for application ID: ${application._id || application.applicationId}, User ID: ${application.userId}`);
             const userResponse = await axiosInstance.get(`/user/${application.userId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            const user = userResponse.data.data.user;
-            console.log(`Fetched User Data for User ID: ${application.userId}`, user);
 
             return {
                 ...application,
-                user,
-                applicationId: application._id || application.applicationId
+                user: userResponse.data.data.user
             };
         });
 
         applicants.value = await Promise.all(applicantPromises);
-        console.log('Applicants:', applicants.value);
     } catch (error) {
         console.error('Failed to fetch applications:', error);
     } finally {
@@ -81,6 +74,10 @@ const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
+const navigateToProfile = (userUrl) => {
+    router.push(`/user/${userUrl}`);
+};
+
 onMounted(() => {
     fetchApplicants();
 });
@@ -88,7 +85,8 @@ onMounted(() => {
 
 <template>
     <div v-if="loading" class="loading">Loading...</div>
-    <div v-for="applicant in applicants" :key="applicant.applicationId" class="applicant surface-tertiary radius-xs">
+    <div v-for="applicant in applicants" :key="applicant.userId" class="applicant surface-tertiary radius-xs"
+        @click="navigateToProfile(applicant.user.userUrl)">
         <div class="applicant__top">
             <img :src="applicant.user.crewData?.basicInfo?.profileImage || 'https://via.placeholder.com/64'"
                 class="applicant__top__image" alt="Crew image" />
@@ -127,6 +125,12 @@ p {
     padding: 20px;
     box-sizing: border-box;
     gap: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.applicant:hover {
+    filter: brightness(92%);
 }
 
 .applicant,
