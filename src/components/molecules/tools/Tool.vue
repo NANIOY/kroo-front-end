@@ -131,7 +131,6 @@ export default {
     display: flex;
     align-items: center;
     height: 20px;
-    padding: 6px 8px;
     box-sizing: border-box;
 }
 
