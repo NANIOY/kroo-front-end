@@ -1,13 +1,59 @@
 <script setup>
 import NavbarLabel from '../../atoms/items/NavbarLabel.vue';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
 const activeLabel = ref(null);
 const currentRole = ref(sessionStorage.getItem('role') || 'crew');
+const route = useRoute();
 
 const toggleActiveLabel = (iconName) => {
-  activeLabel.value = activeLabel.value === iconName ? null : iconName;
+  activeLabel.value = iconName;
 };
+
+watch(route, (newRoute) => {
+  updateActiveLabel(newRoute.path);
+});
+
+const updateActiveLabel = (path) => {
+  switch (path) {
+    case '/dashboard':
+      activeLabel.value = 'ReportColumns';
+      break;
+    case '/calendar':
+      activeLabel.value = 'Calendar';
+      break;
+    case '/search':
+      activeLabel.value = 'Search';
+      break;
+    case '/tracker':
+      activeLabel.value = 'Bookmark';
+      break;
+    case '/tools':
+      activeLabel.value = 'Tools';
+      break;
+    case '/profile':
+      activeLabel.value = 'User';
+      break;
+    case '/notifications':
+      activeLabel.value = 'Bell';
+      break;
+    case '/settings':
+      activeLabel.value = 'Settings';
+      break;
+    case '/help':
+      activeLabel.value = 'HelpCircle';
+      break;
+    case '/team':
+      activeLabel.value = 'Community';
+      break;
+    default:
+      activeLabel.value = null;
+      break;
+  }
+};
+
+updateActiveLabel(route.path);
 </script>
 
 <template>
@@ -28,8 +74,8 @@ const toggleActiveLabel = (iconName) => {
             :isActive="activeLabel === 'Bookmark'" @toggleActive="toggleActiveLabel" />
           <NavbarLabel iconName="Tools" label="Tools" :hasLabel="false" :darkMode="true"
             :isActive="activeLabel === 'Tools'" @toggleActive="toggleActiveLabel" />
-          <NavbarLabel v-if="currentRole === 'business'" iconName="Community" label="Community" :hasLabel="false" :darkMode="true"
-            :isActive="activeLabel === 'Community'" @toggleActive="toggleActiveLabel" />
+          <NavbarLabel v-if="currentRole === 'business'" iconName="Community" label="Community" :hasLabel="false"
+            :darkMode="true" :isActive="activeLabel === 'Community'" @toggleActive="toggleActiveLabel" />
         </div>
         <div id="navbar_contents--items_account">
           <NavbarLabel iconName="User" label="Profile" :hasLabel="false" :darkMode="true"
