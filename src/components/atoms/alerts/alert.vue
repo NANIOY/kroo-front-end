@@ -58,7 +58,7 @@ if (props.icon) {
 </script>
 
 <template>
-    <div :class="['alert', typeClasses[props.type]]" :style="{ height: alertHeight }">
+    <div :class="['alert', typeClasses[props.type], { 'has-text': props.text }]" :style="{ height: alertHeight }">
         <div :class="['color-bar', typeClasses[props.type]]"></div>
         <div class="icon-label-wrapper">
             <span class="icon">
@@ -80,13 +80,13 @@ if (props.icon) {
     margin: 1em 0;
     border-radius: 4px;
     display: flex;
-    align-items: flex-start;
+    align-items: center; /* Center content vertically when no text */
     background-color: var(--neutral-80);
     width: 608px;
     position: relative;
     box-sizing: border-box;
     flex-direction: column;
-    text-align: left; /* Ensure text is left-aligned */
+    text-align: left;
 }
 
 .color-bar {
@@ -103,7 +103,8 @@ if (props.icon) {
     display: flex;
     align-items: center;
     width: 100%;
-    margin-bottom: 0.5em;
+    justify-content: center; /* Center the icon-label-wrapper */
+    top: 5px;
 }
 
 .icon {
@@ -111,7 +112,6 @@ if (props.icon) {
     display: flex;
     align-items: center;
     padding-left: 0.2em;
-    margin-bottom: 0.3em;
 }
 
 .label {
@@ -119,8 +119,6 @@ if (props.icon) {
     font-family: var(--font-button);
     display: inline-flex;
     align-items: center;
-    line-height: 0.9;
-    margin-bottom: 3px;
 }
 
 .content {
@@ -177,5 +175,18 @@ if (props.icon) {
     color: var(--neutral-40);
     margin-top: 0;
     margin-bottom: 16px;
+}
+
+/* Styles for when the alert has text */
+.has-text {
+    align-items: flex-start; /* Align items to the start when text is present */
+}
+
+.has-text .icon, .has-text .label, .has-text .close {
+    margin-bottom: 0.5em;
+}
+
+.has-text .close {
+    align-self: flex-end; /* Align close button to the right */
 }
 </style>
