@@ -7,8 +7,11 @@ const props = defineProps({
     name: String,
     perc: String,
     jobtitle: String,
-    functions: Array
+    functions: Array,
+    userUrl: String
 });
+
+const emit = defineEmits(['navigateToProfile']);
 
 const loading = ref(true);
 
@@ -18,13 +21,16 @@ onMounted(() => {
     }, 200);
 });
 
+const navigateToProfile = () => {
+    emit('navigateToProfile', props.userUrl);
+};
 </script>
 
 <template>
     <!-- Skeleton loading -->
     <div v-if="loading" class="crewSug skeleton"></div>
 
-    <div v-else class="crewSug">
+    <div v-else class="crewSug" @click="navigateToProfile">
         <div class="crewSug__top">
             <div class="crewSug__top__img">
                 <img :src="img" class="crewSug__top__img__pfp" alt="Crew image" width="56" height="56">
@@ -43,7 +49,6 @@ onMounted(() => {
         </div>
     </div>
 </template>
-
 
 <style scoped>
 /* GENERAL */
