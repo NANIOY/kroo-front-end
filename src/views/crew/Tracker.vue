@@ -5,7 +5,6 @@ import OfferedJob from '../../components/molecules/jobs/OfferedJob.vue';
 import OngoingJob from '../../components/molecules/jobs/OngoingJob.vue';
 import SavedJob from '../../components/molecules/jobs/SavedJob.vue';
 import setupAxios from '../../setupAxios';
-import { useRouter } from 'vue-router';
 
 const jobCounts = ref({
   ongoing: 0,
@@ -14,8 +13,7 @@ const jobCounts = ref({
   offered: 0
 });
 
-const router = useRouter();
-const axiosInstance = setupAxios(router);
+const axiosInstance = setupAxios();
 
 const fetchJobCounts = async () => {
   const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
