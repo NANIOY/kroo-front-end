@@ -123,4 +123,10 @@ img {
 #normalButton__details {
     flex: 1;
 }
+
+#applied__job__top__business img {
+    object-fit: cover;
+    height: 24px;
+    width: 24px;
+}
 </style>
