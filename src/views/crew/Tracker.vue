@@ -5,6 +5,7 @@ import OfferedJob from '../../components/molecules/jobs/OfferedJob.vue';
 import OngoingJob from '../../components/molecules/jobs/OngoingJob.vue';
 import SavedJob from '../../components/molecules/jobs/SavedJob.vue';
 import setupAxios from '../../setupAxios';
+import { useRouter } from 'vue-router';
 
 const jobCounts = ref({
   ongoing: 0,
@@ -13,7 +14,8 @@ const jobCounts = ref({
   offered: 0
 });
 
-const axiosInstance = setupAxios();
+const router = useRouter();
+const axiosInstance = setupAxios(router);
 
 const fetchJobCounts = async () => {
   const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
@@ -38,6 +40,7 @@ const fetchJobCounts = async () => {
     });
     jobCounts.value.saved = savedResponse.data.savedJobs.length;
 
+    // Uncomment if you need ongoing jobs count
     // const ongoingResponse = await axiosInstance.get('/crewJobInt/ongoing', {
     //   headers: { 'Authorization': `Bearer ${token}` }
     // });
@@ -52,19 +55,15 @@ onMounted(fetchJobCounts);
 
 <template>
   <div id="tracker">
-
     <div class="tracker__container">
       <h6>SAVED &#8722; {{ jobCounts.saved }}</h6>
-
       <div class="tracker__container__column">
         <SavedJob />
       </div>
-
     </div>
 
     <div class="tracker__container">
       <h6>APPLIED &#8722; {{ jobCounts.applied }}</h6>
-
       <div class="tracker__container__column">
         <AppliedJob />
       </div>
@@ -72,7 +71,6 @@ onMounted(fetchJobCounts);
 
     <div class="tracker__container">
       <h6>ONGOING &#8722; {{ jobCounts.ongoing }}</h6>
-
       <div class="tracker__container__column">
         <OngoingJob />
       </div>
@@ -80,7 +78,6 @@ onMounted(fetchJobCounts);
 
     <div class="tracker__container">
       <h6>OFFERED &#8722; {{ jobCounts.offered }}</h6>
-
       <div class="tracker__container__column">
         <OfferedJob />
       </div>
