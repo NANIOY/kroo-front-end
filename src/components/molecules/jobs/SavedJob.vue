@@ -152,4 +152,10 @@ img {
 #normalButton__details {
     flex: 1;
 }
+
+#saved__job__top__business__image img{
+    object-fit: cover;
+    height: 24px;
+    width: 24px;
+}
 </style>
