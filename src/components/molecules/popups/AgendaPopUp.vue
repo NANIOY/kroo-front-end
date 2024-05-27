@@ -65,7 +65,7 @@ const updateSelectedDate = (date) => {
                     <InputField placeholder="Aa" :hasLabel="true" label="Title" />
                 </div>
                 <div class="datepicker-container">
-                    <DatePicker :modelValue="selectedDate" @update:modelValue="updateSelectedDate" :hasLabel="true"/>
+                    <DatePicker :modelValue="selectedDate" @update:modelValue="updateSelectedDate" :hasLabel="true" label="Date"/>
                 </div>
                 <div>
                     <InputField placeholder="Ae" :hasLabel="true" label="Location" />
