@@ -1,10 +1,10 @@
 <script setup>
 import { defineProps, ref } from 'vue';
-import NormalButton from '../../components/atoms/buttons/NormalButton.vue';
-import LargeButton from '../../components/atoms/buttons/LargeButton.vue';
-import TransparentButton from '../../components/atoms/buttons/TransparentButton.vue';
-import InputField from '../../components/atoms/inputs/InputField.vue';
-import Dropdown from '../../components/atoms/inputs/DropDown.vue';
+import NormalButton from '../../atoms/buttons/NormalButton.vue';
+import LargeButton from '../../atoms/buttons/LargeButton.vue';
+import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
+import InputField from '../../atoms/inputs/InputField.vue';
+import Dropdown from '../../atoms/inputs/DropDown.vue';
 
 const props = defineProps({
     button1LabelNormal: String,
