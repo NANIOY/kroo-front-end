@@ -7,23 +7,23 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
-const selectedDate = ref(props.modelValue || new Date().toISOString().split('T')[0]); // Default to today's date in YYYY-MM-DD format
+const selectedDate = ref(props.modelValue || ''); // Initialize to empty string
 
 const selectDate = (event) => {
     selectedDate.value = event.target.value;
     emit('update:modelValue', selectedDate.value);
 };
-
 </script>
+
 <template>
     <div class="datepicker">
         <input class="datepicker__input radius-xs text-reg-l" type="date" v-model="selectedDate" @change="selectDate" />
+        <span v-if="!selectedDate" class="placeholder">Select a date</span>
     </div>
 </template>
+
 <style scoped>
 .datepicker {
-    display: flex;
-    align-items: center;
     position: relative;
 }
 
@@ -44,7 +44,12 @@ const selectDate = (event) => {
     outline: none;
 }
 
-.datepicker__input::placeholder {
+.placeholder {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 12px;
     color: var(--neutral-30);
+    pointer-events: none;
 }
 </style>
