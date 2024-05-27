@@ -34,6 +34,14 @@ const closeModal = () => {
 
 // Define options for the Priority dropdown
 const priorityOptions = ['Low Priority', 'Medium Priority', 'High Priority'];
+
+// Define modelValue for the DatePicker
+const selectedDate = ref('');
+
+// Event handler for updating the selected date
+const updateSelectedDate = (date) => {
+    selectedDate.value = date;
+};
 </script>
 
 <template>
@@ -57,13 +65,13 @@ const priorityOptions = ['Low Priority', 'Medium Priority', 'High Priority'];
                     <InputField placeholder="Aa" :hasLabel="true" label="Title" />
                 </div>
                 <div class="datepicker-container">
-                    <DatePicker modelValue="selectedDate" />
+                    <DatePicker :modelValue="selectedDate" @update:modelValue="updateSelectedDate" :hasLabel="true"/>
                 </div>
                 <div>
                     <InputField placeholder="Ae" :hasLabel="true" label="Location" />
                 </div>
                 <div class="dropdown-container">
-                    <Dropdown label="Priority" :options="priorityOptions" />
+                    <Dropdown label="Priority" :options="priorityOptions" :hasLabel="true" />
                 </div>
                 <div>
                     <InputField placeholder="Aa" :hasLabel="true" label="Description" />
