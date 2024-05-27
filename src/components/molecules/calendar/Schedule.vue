@@ -1,9 +1,11 @@
+<!-- Schedule.vue -->
 <script setup>
 import { ref, onMounted } from 'vue';
 import setupAxios from '../../../setupAxios';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 import CalendarCard from './CalendarCard.vue';
+import AgendaPopUp from '../popups/AgendaPopUp.vue'; 
 
 // VARIABLES
 const axiosInstance = setupAxios(null);
@@ -12,6 +14,7 @@ const currentDate = ref(new Date());
 const formattedDate = ref('');
 const weekDays = ref([]);
 const calendarEvents = ref([]);
+const isPopupVisible = ref(false); // State variable for popup visibility
 
 // LIFECYCLE HOOKS
 onMounted(() => {
@@ -44,7 +47,6 @@ async function fetchCalendarEvents() {
     console.error('Failed to fetch calendar events:', error);
   }
 }
-
 
 function updateCurrentTimePosition() {
   currentTimePosition.value = calculateTimeIndicatorPosition();
@@ -131,6 +133,13 @@ function getStartOfWeek(date) {
   return startOfWeek;
 }
 
+function openPopup() {
+  isPopupVisible.value = true;
+}
+
+function closePopup() {
+  isPopupVisible.value = false;
+}
 </script>
 
 <template>
@@ -139,14 +148,12 @@ function getStartOfWeek(date) {
       <div class="schedule__top__left">
         <NormalButton label="Today" class="schedule__top__left__today button--primary" @click="goToToday" />
         <div class="schedule__top__left__arrows">
-          <TransparentButton iconName="NavArrowLeft" class="schedule__top__left__arrows__arrow no-label"
-            @click="previousWeek" />
-          <TransparentButton iconName="NavArrowRight" class="schedule__top__left__arrows__arrow no-label"
-            @click="nextWeek" />
+          <TransparentButton iconName="NavArrowLeft" class="schedule__top__left__arrows__arrow no-label" @click="previousWeek" />
+          <TransparentButton iconName="NavArrowRight" class="schedule__top__left__arrows__arrow no-label" @click="nextWeek" />
         </div>
         <h5 class="schedule__top__left__date">{{ formattedDate }}</h5>
       </div>
-      <NormalButton iconName="Plus" label="Add card" class="schedule__top__add button--secondary" />
+      <NormalButton iconName="Plus" label="Add card" class="schedule__top__add button--secondary" @click="openPopup" />
     </div>
 
     <div class="schedule__calendar">
@@ -166,13 +173,10 @@ function getStartOfWeek(date) {
           <template v-for="day in 7" :key="day">
             <div class="schedule__column">
               <div class="schedule__column__blocks">
-                <div class="schedule__column__blocks__block" v-for="hour in 24" :key="hour"
-                  :class="{ weekend: day > 5 }"></div>
+                <div class="schedule__column__blocks__block" v-for="hour in 24" :key="hour" :class="{ weekend: day > 5 }"></div>
                 <template v-for="(event, index) in calendarEvents" :key="index">
-                  <div v-if="isEventInCurrentWeek(event) && event.date.getDay() === day - 1"
-                    :style="getCardPosition(event)" class="schedule__calendar__card">
-                    <CalendarCard :emoji="event.emoji" :label="event.label" :startTime="event.startTime"
-                      :endTime="event.endTime" :date="event.date" :type="event.type" />
+                  <div v-if="isEventInCurrentWeek(event) && event.date.getDay() === day - 1" :style="getCardPosition(event)" class="schedule__calendar__card">
+                    <CalendarCard :emoji="event.emoji" :label="event.label" :startTime="event.startTime" :endTime="event.endTime" :date="event.date" :type="event.type" />
                   </div>
                 </template>
               </div>
@@ -183,6 +187,7 @@ function getStartOfWeek(date) {
         </div>
       </div>
     </div>
+    <AgendaPopUp :isVisible="isPopupVisible" @close="closePopup" /> 
 </template>
 
 <style scoped>
