@@ -18,7 +18,6 @@ const selectDate = (event) => {
 <template>
     <div class="datepicker">
         <input class="datepicker__input radius-xs text-reg-l" type="date" v-model="selectedDate" @change="selectDate" />
-        <span v-if="!selectedDate" class="placeholder">Select a date</span>
     </div>
 </template>
 
