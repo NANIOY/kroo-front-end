@@ -17,7 +17,7 @@ const selectDate = (event) => {
 </script>
 <template>
     <div class="datepicker">
-        <input type="date" v-model="selectedDate" @change="selectDate" />
+        <input class="datepicker__input" type="date" v-model="selectedDate" @change="selectDate" />
     </div>
 </template>
 <style scoped>
@@ -27,7 +27,7 @@ const selectDate = (event) => {
     position: relative;
 }
 
-.datepicker input {
+.datepicker__input {
     box-sizing: border-box;
     padding-top: 2px;
     font-size: 20px;
@@ -39,12 +39,12 @@ const selectDate = (event) => {
     transition: border-color 0.3s ease;
 }
 
-.datepicker input:focus {
+.datepicker__input:focus {
     border-color: var(--blurple-50);
     outline: none;
 }
 
-.datepicker input::placeholder {
+.datepicker__input::placeholder {
     color: var(--neutral-30);
 }
 </style>
