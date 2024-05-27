@@ -29,6 +29,16 @@ const revertButton2Color = () => {
 const closeModal = () => {
     emits('close');
 };
+
+// Define static text for labels and placeholders
+const Label1 = "Title";
+const Placeholder1 = "Aa";
+const Label2 = "Label 2";
+const Placeholder2 = "Placeholder for Input 2";
+const Label3 = "Label 3";
+const Placeholder3 = "Placeholder for Input 3";
+const DropdownLabel1 = "Date";
+const DropdownLabel2 = "Dropdown Label 2";
 </script>
 
 <template>
@@ -36,10 +46,10 @@ const closeModal = () => {
         <div class="modal" @click.stop>
             <div class="button-icon-container">
                 <div class="button-left">
-                    <NormalButton :label="props.button1LabelNormal"
+                    <NormalButton label="Personal"
                         :class="{ 'button--secondary': !isButton2Secondary, 'button--tertiary': isButton2Secondary }"
                         @click="revertButton2Color" />
-                    <NormalButton :label="props.button2LabelNormal"
+                    <NormalButton label="Professional"
                         :class="{ 'button--secondary': isButton2Secondary, 'button--tertiary': !isButton2Secondary }"
                         @click="toggleButton2Color" />
                 </div>
@@ -49,24 +59,24 @@ const closeModal = () => {
             </div>
             <div class="input-dropdown-container">
                 <div>
-                    <label>{{ props.input1Label }}</label>
-                    <InputField :label="props.input1Label" :placeholder="props.input1Placeholder" />
+                    <label>{{ Label1 }}</label>
+                    <InputField :placeholder="Placeholder1" />
                 </div>
                 <div class="dropdown-container">
-                    <label>{{ props.dropdown1Label }}</label>
-                    <Dropdown :label="props.dropdown1Label" :options="props.dropdown1Options" />
+                    <label>{{ DropdownLabel1 }}</label>
+                    <Dropdown :label="DropdownLabel1" />
                 </div>
                 <div>
-                    <label>{{ props.input2Label }}</label>
-                    <InputField :label="props.input2Label" :placeholder="props.input2Placeholder" />
+                    <label>{{ Label2 }}</label>
+                    <InputField :placeholder="Placeholder2" />
                 </div>
                 <div class="dropdown-container">
-                    <label>{{ props.dropdown2Label }}</label>
-                    <Dropdown :label="props.dropdown2Label" :options="props.dropdown2Options" />
+                    <label>{{ DropdownLabel2 }}</label>
+                    <Dropdown :label="DropdownLabel2" />
                 </div>
                 <div>
-                    <label>{{ props.input3Label }}</label>
-                    <InputField :label="props.input3Label" :placeholder="props.input3Placeholder" />
+                    <label>{{ Label3 }}</label>
+                    <InputField :placeholder="Placeholder3" />
                 </div>
             </div>
             <div class="large-button-container">
