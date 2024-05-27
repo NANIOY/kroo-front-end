@@ -33,12 +33,12 @@ const closeModal = () => {
 // Define static text for labels and placeholders
 const Label1 = "Title";
 const Placeholder1 = "Aa";
-const Label2 = "Label 2";
-const Placeholder2 = "Placeholder for Input 2";
-const Label3 = "Label 3";
-const Placeholder3 = "Placeholder for Input 3";
+const Label2 = "Location";
+const Placeholder2 = "Aa";
+const Label3 = "Description";
+const Placeholder3 = "Aa";
 const DropdownLabel1 = "Date";
-const DropdownLabel2 = "Dropdown Label 2";
+const DropdownLabel2 = "Priority";
 </script>
 
 <template>
@@ -80,7 +80,7 @@ const DropdownLabel2 = "Dropdown Label 2";
                 </div>
             </div>
             <div class="large-button-container">
-                <LargeButton :label="props.button1LabelLarge" class="button--primary" />
+                <LargeButton label="Add" class="button--primary" />
             </div>
         </div>
     </Overlay>
