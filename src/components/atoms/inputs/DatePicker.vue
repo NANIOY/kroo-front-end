@@ -17,11 +17,13 @@ const selectDate = (event) => {
 </script>
 
 <template>
-    <li class="container__datepicker">
-        <input type="date" v-model="selectedDate" @change="selectDate" @click.stop />
-    </li>
+    <div class="datepicker">
+        <input type="date" v-model="selectedDate" @change="selectDate" />
+    </div>
 </template>
 
 <style scoped>
-/* Styles go here */
+.datepicker {
+  /* Add your styles for the datepicker here */
+}
 </style>
