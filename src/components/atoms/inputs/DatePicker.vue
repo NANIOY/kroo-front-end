@@ -37,6 +37,8 @@ const selectDate = (event) => {
     background-color: transparent;
     border-radius: 4px;
     transition: border-color 0.3s ease;
+    padding-left: 12px;
+  padding-right: 12px;
 }
 
 .datepicker__input:focus {
