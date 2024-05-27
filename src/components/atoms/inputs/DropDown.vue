@@ -36,7 +36,7 @@ const emit = defineEmits(['update:modelValue']);
 const isOpen = ref(false);
 const selectedOption = ref(props.modelValue || props.placeholder);
 const isDatepickerOpen = ref(false);
-const selectedDate = ref(new Date().toISOString().split('T')[0]); // Default to today's date in YYYY-MM-DD format
+const selectedDate = ref(props.modelValue || new Date().toISOString().split('T')[0]); // Default to today's date in YYYY-MM-DD format
 const inputId = 'container__dropdown__box-' + Math.random().toString(36).substring(2, 15);
 let dropdownContainer = ref(null);
 const optionSelected = ref(false);
@@ -71,8 +71,6 @@ const selectOption = (option) => {
 const selectDate = (event) => {
   selectedDate.value = event.target.value;
   selectedOption.value = selectedDate.value;
-  isDatepickerOpen.value = false;
-  isOpen.value = false;
   optionSelected.value = true;
   emit('update:modelValue', selectedDate.value);
 };
@@ -99,7 +97,16 @@ onUnmounted(() => {
     <label v-if="props.hasLabel" class="text-reg-normal" :for="inputId">{{ props.label }}</label>
     <div class="container__dropdown text-reg-normal">
       <div class="container__dropdown__box" @click="toggleDropdown" :class="{ 'open': isOpen }">
-        <span :class="['placeholder', { 'placeholder-black': optionSelected }]">{{ selectedOption }}</span>
+        <span v-if="!isOpen || !props.showDatepicker" :class="['placeholder', { 'placeholder-black': optionSelected }]">{{ selectedOption }}</span>
+        <input
+          v-if="isOpen && props.showDatepicker"
+          type="text"
+          :value="selectedOption"
+          @focus="isDatepickerOpen = true"
+          @click.stop
+          @input="event => selectDate(event)"
+          @change="event => selectDate(event)"
+        />
         <NavArrowDown :class="{ 'container__dropdown__box__icon': isOpen }" />
       </div>
       <ul v-if="isOpen" class="container__dropdown__items" @click.stop>
@@ -107,9 +114,9 @@ onUnmounted(() => {
         <li v-else v-for="option in props.options" :key="option" @click="selectOption(option)">
           {{ option }}
         </li>
-        <li v-if="props.showDatepicker" @click="toggleDatepicker">Pick a date</li>
+        <li v-if="props.showDatepicker" @click.stop="toggleDatepicker">Pick a date</li>
         <li v-if="isDatepickerOpen" class="container__datepicker">
-          <input type="date" v-model="selectedDate" @change="selectDate" />
+          <input type="date" v-model="selectedDate" @change="selectDate" @click.stop />
         </li>
       </ul>
     </div>
