@@ -39,6 +39,9 @@ const Label3 = "Description";
 const Placeholder3 = "Aa";
 const DropdownLabel1 = "Date";
 const DropdownLabel2 = "Priority";
+
+// Define options for the Priority dropdown
+const priorityOptions = ['Low Priority', 'Medium Priority', 'High Priority'];
 </script>
 
 <template>
@@ -72,7 +75,7 @@ const DropdownLabel2 = "Priority";
                 </div>
                 <div class="dropdown-container">
                     <label>{{ DropdownLabel2 }}</label>
-                    <Dropdown :label="DropdownLabel2" />
+                    <Dropdown :label="DropdownLabel2" :options="priorityOptions" />
                 </div>
                 <div>
                     <label>{{ Label3 }}</label>
