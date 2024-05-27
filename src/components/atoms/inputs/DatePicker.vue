@@ -15,15 +15,36 @@ const selectDate = (event) => {
 };
 
 </script>
-
 <template>
     <div class="datepicker">
         <input type="date" v-model="selectedDate" @change="selectDate" />
     </div>
 </template>
-
 <style scoped>
 .datepicker {
-  /* Add your styles for the datepicker here */
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.datepicker input {
+  box-sizing: border-box;
+  padding-top: 2px;
+  font-size: 20px;
+  height: 48px;
+  width: 100%;
+  border: 2px solid var(--black);
+  background-color: transparent;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+.datepicker input:focus {
+  border-color: var(--blurple-50);
+  outline: none;
+}
+
+.datepicker input::placeholder {
+  color: var(--neutral-30);
 }
 </style>
