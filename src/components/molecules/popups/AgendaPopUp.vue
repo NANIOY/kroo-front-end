@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, defineEmits, onMounted } from 'vue';
+import { ref, defineProps, defineEmits } from 'vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
@@ -13,6 +13,7 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    iconName: String, // Define iconName prop
 });
 
 const emits = defineEmits(['close', 'submit']);
@@ -31,16 +32,6 @@ const closeModal = () => {
     emits('close');
 };
 
-// Define static text for labels and placeholders
-const Label1 = "Title";
-const Placeholder1 = "Aa";
-const Label2 = "Location";
-const Placeholder2 = "Aa";
-const Label3 = "Description";
-const Placeholder3 = "Aa";
-const DropdownLabel1 = "Date";
-const DropdownLabel2 = "Priority";
-
 // Define options for the Priority dropdown
 const priorityOptions = ['Low Priority', 'Medium Priority', 'High Priority'];
 </script>
@@ -58,29 +49,24 @@ const priorityOptions = ['Low Priority', 'Medium Priority', 'High Priority'];
                         @click="toggleButton2Color" />
                 </div>
                 <div class="icon-container">
-                    <TransparentButton :iconName="props.iconName" :hasLabel="false" :hasIcon="true" />
+                    <TransparentButton :iconName="iconName" :hasLabel="false" :hasIcon="true" />
                 </div>
             </div>
             <div class="input-dropdown-container">
                 <div>
-                    <label>{{ Label1 }}</label>
-                    <InputField :placeholder="Placeholder1" />
+                    <InputField placeholder="Aa" :hasLabel="true" label="Title" />
                 </div>
                 <div class="datepicker-container">
-                    <label>{{ DropdownLabel1 }}</label>
-                    <DatePicker :modelValue="selectedDate" />
+                    <DatePicker modelValue="selectedDate" />
                 </div>
                 <div>
-                    <label>{{ Label2 }}</label>
-                    <InputField :placeholder="Placeholder2" />
+                    <InputField placeholder="Ae" :hasLabel="true" label="Location" />
                 </div>
                 <div class="dropdown-container">
-                    <label>{{ DropdownLabel2 }}</label>
-                    <Dropdown :label="DropdownLabel2" :options="priorityOptions" />
+                    <Dropdown label="Priority" :options="priorityOptions" />
                 </div>
                 <div>
-                    <label>{{ Label3 }}</label>
-                    <InputField :placeholder="Placeholder3" />
+                    <InputField placeholder="Aa" :hasLabel="true" label="Description" />
                 </div>
             </div>
             <div class="large-button-container">
@@ -145,7 +131,8 @@ const priorityOptions = ['Low Priority', 'Medium Priority', 'High Priority'];
     margin-top: 32px;
 }
 
+.button--secondary,
 .button--tertiary {
-    outline: 2px solid var(--black);
+    padding: 0px 12px;
 }
 </style>
