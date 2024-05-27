@@ -3,6 +3,14 @@ import { ref, defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
     modelValue: String,
+    hasLabel: {
+        type: Boolean,
+        default: false
+    },
+    label: {
+        type: String,
+        default: 'Select a date'
+    }
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -17,6 +25,7 @@ const selectDate = (event) => {
 
 <template>
     <div class="datepicker">
+        <label v-if="props.hasLabel" class="datepicker__label">{{ props.label }}</label>
         <input class="datepicker__input radius-xs text-reg-l" type="date" v-model="selectedDate" @change="selectDate" />
     </div>
 </template>
@@ -41,6 +50,12 @@ const selectDate = (event) => {
 .datepicker__input:focus {
     border-color: var(--blurple-50);
     outline: none;
+}
+
+.datepicker__label {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--black);
 }
 
 .placeholder {
