@@ -6,6 +6,7 @@ import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 import InputField from '../../atoms/inputs/InputField.vue';
 import Dropdown from '../../atoms/inputs/DropDown.vue';
 import Overlay from './Overlay.vue';
+import DatePicker from '../../atoms/inputs/DatePicker';
 
 const props = defineProps({
     isVisible: {
@@ -65,9 +66,9 @@ const priorityOptions = ['Low Priority', 'Medium Priority', 'High Priority'];
                     <label>{{ Label1 }}</label>
                     <InputField :placeholder="Placeholder1" />
                 </div>
-                <div class="dropdown-container">
+                <div class="datepicker-container">
                     <label>{{ DropdownLabel1 }}</label>
-                    <Dropdown :label="DropdownLabel1" />
+                    <DatePicker :modelValue="selectedDate" />
                 </div>
                 <div>
                     <label>{{ Label2 }}</label>
