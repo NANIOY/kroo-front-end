@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, defineEmits, defineProps } from 'vue';
+import { ref, onMounted, onUnmounted, defineEmits } from 'vue';
 import { NavArrowDown } from '@iconoir/vue';
 
 const props = defineProps({
@@ -24,38 +24,24 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  group: String,
-  showDatepicker: {
-    type: Boolean,
-    default: false
-  }
+  group: String
 });
 
 const emit = defineEmits(['update:modelValue']);
 
 const isOpen = ref(false);
 const selectedOption = ref(props.modelValue || props.placeholder);
-const isDatepickerOpen = ref(false);
-const selectedDate = ref(props.modelValue || new Date().toISOString().split('T')[0]); // Default to today's date in YYYY-MM-DD format
 const inputId = 'container__dropdown__box-' + Math.random().toString(36).substring(2, 15);
 let dropdownContainer = ref(null);
 const optionSelected = ref(false);
 
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
-  if (!isOpen.value) {
-    isDatepickerOpen.value = false;
-  }
-};
-
-const toggleDatepicker = () => {
-  isDatepickerOpen.value = !isDatepickerOpen.value;
 };
 
 const selectOption = (option) => {
   selectedOption.value = option;
   isOpen.value = false;
-  isDatepickerOpen.value = false;
   optionSelected.value = true;
 
   if (props.localStorageKey && props.group) {
@@ -68,17 +54,9 @@ const selectOption = (option) => {
   emit('update:modelValue', option);
 };
 
-const selectDate = (event) => {
-  selectedDate.value = event.target.value;
-  selectedOption.value = selectedDate.value;
-  optionSelected.value = true;
-  emit('update:modelValue', selectedDate.value);
-};
-
 const closeDropdownOnClickOutside = (event) => {
   if (dropdownContainer.value && !dropdownContainer.value.contains(event.target)) {
     isOpen.value = false;
-    isDatepickerOpen.value = false;
   }
 };
 
@@ -97,26 +75,13 @@ onUnmounted(() => {
     <label v-if="props.hasLabel" class="text-reg-normal" :for="inputId">{{ props.label }}</label>
     <div class="container__dropdown text-reg-normal">
       <div class="container__dropdown__box" @click="toggleDropdown" :class="{ 'open': isOpen }">
-        <span v-if="!isOpen || !props.showDatepicker" :class="['placeholder', { 'placeholder-black': optionSelected }]">{{ selectedOption }}</span>
-        <input
-          v-if="isOpen && props.showDatepicker"
-          type="text"
-          :value="selectedOption"
-          @focus="isDatepickerOpen = true"
-          @click.stop
-          @input="event => selectDate(event)"
-          @change="event => selectDate(event)"
-        />
+        <span :class="['placeholder', { 'placeholder-black': optionSelected }]">{{ selectedOption }}</span>
         <NavArrowDown :class="{ 'container__dropdown__box__icon': isOpen }" />
       </div>
       <ul v-if="isOpen" class="container__dropdown__items" @click.stop>
         <li v-if="props.options.length === 0" class="placeholder">{{ props.placeholder }}</li>
         <li v-else v-for="option in props.options" :key="option" @click="selectOption(option)">
           {{ option }}
-        </li>
-        <li v-if="props.showDatepicker" @click.stop="toggleDatepicker">Pick a date</li>
-        <li v-if="isDatepickerOpen" class="container__datepicker">
-          <input type="date" v-model="selectedDate" @change="selectDate" @click.stop />
         </li>
       </ul>
     </div>
@@ -162,17 +127,25 @@ label {
 
 .container__dropdown__items {
   position: absolute;
+  display: none;
   width: 100%;
   background-color: var(--white);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   list-style-type: none;
-  padding: 4px 0;
+  padding: 4px 0 0 0;
   margin-top: 0;
-  max-height: 200px;
-  overflow-y: auto;
+  max-height: 0;
+  overflow: hidden;
+  cursor: pointer;
   z-index: 990;
   transition: 0.3s;
+}
+
+.container__dropdown__box.open+.container__dropdown__items {
+  display: block;
+  overflow-y: auto;
+  animation: dropdownAnimation 0.2s forwards;
 }
 
 .container__dropdown__items li:hover {
@@ -213,10 +186,13 @@ label {
   color: var(--black);
 }
 
-.container__datepicker {
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
-  background-color: var(--white);
+@keyframes dropdownAnimation {
+  from {
+    max-height: 0;
+  }
+
+  to {
+    max-height: 200px;
+  }
 }
 </style>
