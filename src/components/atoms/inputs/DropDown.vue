@@ -24,7 +24,11 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  group: String
+  group: String,
+  showDatepicker: {
+    type: Boolean,
+    default: false
+  }
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -103,7 +107,7 @@ onUnmounted(() => {
         <li v-else v-for="option in props.options" :key="option" @click="selectOption(option)">
           {{ option }}
         </li>
-        <li @click="toggleDatepicker">Pick a date</li>
+        <li v-if="props.showDatepicker" @click="toggleDatepicker">Pick a date</li>
         <li v-if="isDatepickerOpen" class="container__datepicker">
           <input type="date" v-model="selectedDate" @change="selectDate" />
         </li>
