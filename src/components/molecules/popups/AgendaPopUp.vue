@@ -126,7 +126,7 @@ const priorityOptions = ['Low Priority', 'Medium Priority', 'High Priority'];
     display: flex;
     flex-direction: column;
     gap: 12px;
-    margin-top: 32px;
+    margin-top: 24px;
 }
 
 .icon {
@@ -141,7 +141,7 @@ const priorityOptions = ['Low Priority', 'Medium Priority', 'High Priority'];
 .large-button-container {
     display: flex;
     justify-content: center;
-    margin-top: 48px;
+    margin-top: 32px;
 }
 
 .button--tertiary {
