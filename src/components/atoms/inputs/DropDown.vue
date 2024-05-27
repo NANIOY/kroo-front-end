@@ -104,10 +104,10 @@ onUnmounted(() => {
           {{ option }}
         </li>
         <li @click="toggleDatepicker">Pick a date</li>
+        <li v-if="isDatepickerOpen" class="container__datepicker">
+          <input type="date" v-model="selectedDate" @change="selectDate" />
+        </li>
       </ul>
-    </div>
-    <div class="container__datepicker" v-if="isDatepickerOpen">
-      <input type="date" v-model="selectedDate" @change="selectDate" />
     </div>
   </div>
 </template>
@@ -203,14 +203,9 @@ label {
 }
 
 .container__datepicker {
-  position: absolute;
-  top: calc(100% + 5px);
-  left: 0;
   width: 100%;
-  z-index: 999;
-  background-color: var(--white);
-  border: 2px solid var(--black);
-  border-radius: 4px;
   padding: 8px;
+  box-sizing: border-box;
+  background-color: var(--white);
 }
 </style>
