@@ -17,7 +17,7 @@ function setFilter(filter) {
 }
 
 const allFilters = computed(() => {
-  const filters = [ "Agenda service", "Communication", "File storage", "Presentation", "Spreadsheets", "Workplace"];
+  const filters = ["Agenda service", "Communication", "File storage", "Presentation", "Spreadsheets", "Workplace"];
   return filters;
 });
 
@@ -35,7 +35,8 @@ const filteredTools = computed(() => {
   <div>
     <div class="toolbar">
       <ButtonsNormal label="All" class="button--primary" @click="setFilter('All')" />
-      <ButtonsNormal v-for="filter in allFilters" :key="filter" :label="filter" class="button--tertiary" @click="setFilter(filter)" />
+      <ButtonsNormal v-for="filter in allFilters" :key="filter" :label="filter" class="button--tertiary"
+        @click="setFilter(filter)" />
     </div>
     <div class="tools-container">
       <Tool v-for="tool in filteredTools" :key="tool.toolName" :toolName="tool.toolName" />
