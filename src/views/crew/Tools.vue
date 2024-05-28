@@ -1,24 +1,45 @@
 <script setup>
 import Tool from '../../components/molecules/tools/Tool.vue';
 import ButtonsNormal from '../../components/atoms/buttons/NormalButton.vue';
+
+import { ref, computed } from 'vue';
+
+const tools = [
+  { toolName: "Microsoft Teams", tagText: "COMMUNICATION" },
+  { toolName: "Google Drive", tagText: "FILE STORAGE" },
+  { toolName: "Microsoft OneDrive", tagText: "FILE STORAGE" },
+  { toolName: "Zoom", tagText: "COMMUNICATION" }
+];
+
+const selectedFilter = ref("All");
+
+function setFilter(filter) {
+  selectedFilter.value = filter;
+}
+
+const filteredTools = computed(() => {
+  if (selectedFilter.value === "All") {
+    return tools;
+  } else {
+    const filter = selectedFilter.value.toLowerCase();
+    return tools.filter(tool => tool.tagText.toLowerCase() === filter);
+  }
+});
 </script>
 
 <template>
   <div>
     <div class="toolbar">
-      <ButtonsNormal label="All" class="button--primary" />
-      <ButtonsNormal label="Agenda service" class="button--tertiary" />
-      <ButtonsNormal label="Communication" class="button--tertiary" />
-      <ButtonsNormal label="File storage" class="button--tertiary" />
-      <ButtonsNormal label="Presentation" class="button--tertiary" />
-      <ButtonsNormal label="Spreadsheets" class="button--tertiary" />
-      <ButtonsNormal label="Workplace" class="button--tertiary" />
+      <ButtonsNormal label="All" class="button--primary" @click="setFilter('All')" />
+      <ButtonsNormal label="Agenda service" class="button--tertiary" @click="setFilter('Agenda service')" />
+      <ButtonsNormal label="Communication" class="button--tertiary" @click="setFilter('Communication')" />
+      <ButtonsNormal label="File storage" class="button--tertiary" @click="setFilter('File storage')" />
+      <ButtonsNormal label="Presentation" class="button--tertiary" @click="setFilter('Presentation')" />
+      <ButtonsNormal label="Spreadsheets" class="button--tertiary" @click="setFilter('Spreadsheets')" />
+      <ButtonsNormal label="Workplace" class="button--tertiary" @click="setFilter('Workplace')" />
     </div>
     <div class="tools-container">
-      <Tool toolName="Microsoft Teams" />
-      <Tool toolName="Google Drive" />
-      <Tool toolName="Microsoft OneDrive" />
-      <Tool toolName="Zoom" />
+      <Tool v-for="tool in filteredTools" :key="tool.toolName" :toolName="tool.toolName" />
     </div>
   </div>
 </template>
