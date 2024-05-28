@@ -150,6 +150,17 @@ const createBusiness = () => {
   router.push(route);
 };
 
+const logout = async () => {
+  try {
+    await axiosInstance.post('/auth/logout');
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href = '../../../../views/Login.vue';
+  } catch (error) {
+    console.error('Logout failed:', error);
+  }
+};
+
 onMounted(() => {
   document.addEventListener('click', closeDropdown);
   fetchUserData();
@@ -183,6 +194,7 @@ onUnmounted(() => {
         <p v-if="hasBusiness && currentRole !== 'business'" @click="switchToBusiness">Switch to Business Profile</p>
         <p v-if="!hasBusiness" @click="createBusiness">Create Business Profile</p>
         <p v-if="currentRole !== 'crew'" @click="switchToCrew">Switch to Crew Profile</p>
+        <p @click="logout">Logout</p>
       </div>
     </div>
   </div>
