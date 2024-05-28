@@ -56,7 +56,7 @@ const toolConfigurations = {
     'Microsoft Outlook': {
         title: 'Microsoft Outlook',
         text: 'Email and calendar, together in one place. Send, receive, and manage your email.',
-        iconUrl: '/assets/tools/Microsoft-Outlook-logo.webp',
+        iconUrl: '/public/assets/tools/Microsoft-Outlook-logo.webp',
         tagText: 'AGENDA SERVICE',
         borderColor: '#1490DF',
         backgroundColor: 'rgba(20, 144, 223, 0.15)',
