@@ -3,6 +3,16 @@ import Toggle from '../../atoms/selectors/Toggle.vue';
 import Tag from '../../atoms/items/Tag.vue';
 
 const toolConfigurations = {
+    'Discord': {
+        title: 'Discord',
+        text: 'Discord is the easiest way to talk over voice, video, and text. Talk, chat, hang out, and stay close with your friends and communities.',
+        iconUrl: '/assets/tools/Discord-logo.webp',
+        tagText: 'COMMUNICATION',
+        borderColor: '#5765EC',
+        backgroundColor: 'rgba(87, 101, 236, 0.15)',
+        borderRadius: '5999.4px',
+        boxShadow: '0px 0px 4.8px 0.6px #5765EC'
+    },
     'Microsoft Teams': {
         title: 'Microsoft Teams',
         text: 'Microsoft Teams is the ultimate messaging app for your organization — a workspace for real-time collaboration and communication.',
@@ -12,6 +22,16 @@ const toolConfigurations = {
         backgroundColor: 'rgba(74, 82, 189, 0.15)',
         borderRadius: '5999.4px',
         boxShadow: '0px 0px 4.8px 0.6px #4A52BD',
+    },
+    'Slack': {
+        title: 'Slack',
+        text: 'Slack is a new way to communicate with your team. It\'s faster, better organized, and more secure than email.',
+        iconUrl: '/assets/tools/Slack-logo.webp',
+        tagText: 'COMMUNICATION',
+        borderColor: '#E01E5A',
+        backgroundColor: 'rgba(224, 30, 90, 0.15)',
+        borderRadius: '5999.4px',
+        boxShadow: '0px 0px 4.8px 0.6px #E01E5A'
     },
     'Google Drive': {
         title: 'Google Drive',
@@ -23,15 +43,25 @@ const toolConfigurations = {
         borderRadius: '5999.4px',
         boxShadow: '0px 0px 4.8px 0.6px #1DA362'
     },
-    'Microsoft OneDrive': {
-        title: 'Microsoft OneDrive',
-        text: 'Easily store, access, and discover your individual and shared work files in Microsoft 365, including Microsoft Teams, from all your devices.',
-        iconUrl: '/assets/tools/Microsoft-OneDrive-logo.webp',
-        tagText: 'FILE STORAGE',
-        borderColor: '#0078D4',
-        backgroundColor: 'rgba(0, 120, 212, 0.15)',
+    'Notion': {
+        title: 'Notion',
+        text: 'A new tool that blends your everyday work apps into one. It\'s the all-in-one workspace for you and your team.',
+        iconUrl: '/assets/tools/Notion-logo.webp',
+        tagText: 'WORKPLACE',
+        borderColor: '#000000',
+        backgroundColor: 'rgba(0, 0, 0, 0.15)',
         borderRadius: '5999.4px',
-        boxShadow: '0px 0px 4.8px 0.6px #0078D4'
+        boxShadow: '0px 0px 4.8px 0.6px #000000'
+    },
+    'Microsoft Outlook': {
+        title: 'Microsoft Outlook',
+        text: 'Email and calendar, together in one place. Send, receive, and manage your email.',
+        iconUrl: '/assets/tools/Microsoft-Outlook-logo.webp',
+        tagText: 'AGENDA SERVICE',
+        borderColor: '#1490DF',
+        backgroundColor: 'rgba(20, 144, 223, 0.15)',
+        borderRadius: '5999.4px',
+        boxShadow: '0px 0px 4.8px 0.6px #28A8EA'
     },
     'Zoom': {
         title: 'Zoom',
@@ -42,7 +72,27 @@ const toolConfigurations = {
         backgroundColor: 'rgba(33, 150, 243, 0.15)',
         borderRadius: '5999.4px',
         boxShadow: '0px 0px 4.8px 0.6px #2196F3'
-    }
+    },
+    'Microsoft OneDrive': {
+        title: 'Microsoft OneDrive',
+        text: 'Easily store, access, and discover your individual and shared work files in Microsoft 365, including Microsoft Teams, from all your devices.',
+        iconUrl: '/assets/tools/Microsoft-OneDrive-logo.webp',
+        tagText: 'FILE STORAGE',
+        borderColor: '#0078D4',
+        backgroundColor: 'rgba(0, 120, 212, 0.15)',
+        borderRadius: '5999.4px',
+        boxShadow: '0px 0px 4.8px 0.6px #0078D4'
+    },
+    'Trello': {
+        title: 'Trello',
+        text: 'Trello brings all your tasks, teammates, and tools together. Keep everything in the same place —even if your team isn’t.',
+        iconUrl: '/assets/tools/Trello-logo.webp',
+        tagText: 'WORKSPACE',
+        borderColor: '#156EE9',
+        backgroundColor: 'rgba(21, 110, 233, 0.15)',
+        borderRadius: '5999.4px',
+        boxShadow: '0px 0px 4.8px 0.6px #156EE9'
+    },
 };
 
 export default {
