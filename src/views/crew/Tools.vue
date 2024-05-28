@@ -4,10 +4,15 @@ import Tool from '../../components/molecules/tools/Tool.vue';
 import ButtonsNormal from '../../components/atoms/buttons/NormalButton.vue';
 
 const tools = [
+  { toolName: "Discord", tags: ["COMMUNICATION"] },
   { toolName: "Microsoft Teams", tags: ["COMMUNICATION"] },
+  { toolName: "Slack", tags: ["COMMUNICATION", "WORKPLACE"] },
   { toolName: "Google Drive", tags: ["FILE STORAGE", "WORKPLACE"] },
+  { toolName: "Notion", tags: ["WORKPLACE"] },
+  { toolName: "Microsoft Outlook", tags: ["AGENDA SERVICE"] },
+  { toolName: "Zoom", tags: ["COMMUNICATION"] },
   { toolName: "Microsoft OneDrive", tags: ["FILE STORAGE", "WORKPLACE"] },
-  { toolName: "Zoom", tags: ["COMMUNICATION"] }
+  { toolName: "Trello", tags: ["WORKSPACE"] },
 ];
 
 const selectedFilter = ref("All");
