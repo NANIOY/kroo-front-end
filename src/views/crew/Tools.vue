@@ -49,6 +49,7 @@ const filteredTools = computed(() => {
   display: inline-flex;
   align-items: flex-start;
   gap: 16px;
+  margin-top: -24px;
   margin-bottom: 24px;
 }
 
