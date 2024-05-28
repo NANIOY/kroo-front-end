@@ -6,13 +6,13 @@ import ButtonsNormal from '../../components/atoms/buttons/NormalButton.vue';
 <template>
   <div>
     <div class="toolbar">
-      <ButtonsNormal label="Button 1" />
-      <ButtonsNormal label="Button 2" />
-      <ButtonsNormal label="Button 3" />
-      <ButtonsNormal label="Button 4" />
-      <ButtonsNormal label="Button 5" />
-      <ButtonsNormal label="Button 6" />
-      <ButtonsNormal label="Button 7" />
+      <ButtonsNormal label="All" />
+      <ButtonsNormal label="Agenda service" />
+      <ButtonsNormal label="Communication" />
+      <ButtonsNormal label="File storage" />
+      <ButtonsNormal label="Presentation" />
+      <ButtonsNormal label="Spreadsheets" />
+      <ButtonsNormal label="Workplace" />
     </div>
     <div class="tools-container">
       <Tool toolName="Microsoft Teams" />
