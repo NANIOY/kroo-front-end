@@ -1,14 +1,13 @@
 <script setup>
+import { ref, computed } from 'vue';
 import Tool from '../../components/molecules/tools/Tool.vue';
 import ButtonsNormal from '../../components/atoms/buttons/NormalButton.vue';
 
-import { ref, computed } from 'vue';
-
 const tools = [
-  { toolName: "Microsoft Teams", tagText: "COMMUNICATION" },
-  { toolName: "Google Drive", tagText: "FILE STORAGE" },
-  { toolName: "Microsoft OneDrive", tagText: "FILE STORAGE" },
-  { toolName: "Zoom", tagText: "COMMUNICATION" }
+  { toolName: "Microsoft Teams", tags: ["COMMUNICATION"] },
+  { toolName: "Google Drive", tags: ["FILE STORAGE", "WORKPLACE"] },
+  { toolName: "Microsoft OneDrive", tags: ["FILE STORAGE"] },
+  { toolName: "Zoom", tags: ["COMMUNICATION"] }
 ];
 
 const selectedFilter = ref("All");
@@ -17,12 +16,17 @@ function setFilter(filter) {
   selectedFilter.value = filter;
 }
 
+const allFilters = computed(() => {
+  const filters = [ "Agenda service", "Communication", "File storage", "Presentation", "Spreadsheets", "Workplace"];
+  return filters;
+});
+
 const filteredTools = computed(() => {
   if (selectedFilter.value === "All") {
     return tools;
   } else {
     const filter = selectedFilter.value.toLowerCase();
-    return tools.filter(tool => tool.tagText.toLowerCase() === filter);
+    return tools.filter(tool => tool.tags.map(tag => tag.toLowerCase()).includes(filter));
   }
 });
 </script>
@@ -31,12 +35,7 @@ const filteredTools = computed(() => {
   <div>
     <div class="toolbar">
       <ButtonsNormal label="All" class="button--primary" @click="setFilter('All')" />
-      <ButtonsNormal label="Agenda service" class="button--tertiary" @click="setFilter('Agenda service')" />
-      <ButtonsNormal label="Communication" class="button--tertiary" @click="setFilter('Communication')" />
-      <ButtonsNormal label="File storage" class="button--tertiary" @click="setFilter('File storage')" />
-      <ButtonsNormal label="Presentation" class="button--tertiary" @click="setFilter('Presentation')" />
-      <ButtonsNormal label="Spreadsheets" class="button--tertiary" @click="setFilter('Spreadsheets')" />
-      <ButtonsNormal label="Workplace" class="button--tertiary" @click="setFilter('Workplace')" />
+      <ButtonsNormal v-for="filter in allFilters" :key="filter" :label="filter" class="button--tertiary" @click="setFilter(filter)" />
     </div>
     <div class="tools-container">
       <Tool v-for="tool in filteredTools" :key="tool.toolName" :toolName="tool.toolName" />
