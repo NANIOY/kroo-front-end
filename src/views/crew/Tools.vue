@@ -6,7 +6,7 @@ import ButtonsNormal from '../../components/atoms/buttons/NormalButton.vue';
 const tools = [
   { toolName: "Microsoft Teams", tags: ["COMMUNICATION"] },
   { toolName: "Google Drive", tags: ["FILE STORAGE", "WORKPLACE"] },
-  { toolName: "Microsoft OneDrive", tags: ["FILE STORAGE"] },
+  { toolName: "Microsoft OneDrive", tags: ["FILE STORAGE", "WORKPLACE"] },
   { toolName: "Zoom", tags: ["COMMUNICATION"] }
 ];
 
