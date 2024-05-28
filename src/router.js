@@ -91,7 +91,6 @@ const routes = [
     
     { path: '/test', component: Test }, // REMOVE FROM PRODUCTION
 
-    // Add the catch-all route at the end to redirect to the dashboard
     { path: '/:pathMatch(.*)*', redirect: '/dashboard' },
 ];
 
