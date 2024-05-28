@@ -207,7 +207,8 @@ onUnmounted(() => {
             {{ currentRole === 'business' ? businessName : func }}
           </p>
         </div>
-        <TransparentButton class="no-label navbarTop_right_account__button" iconName="NavArrowDown" @click="toggleDropdown"/>
+        <TransparentButton class="no-label navbarTop_right_account__button" iconName="NavArrowDown"
+          @click="toggleDropdown" />
       </div>
       <div v-if="showDropdown" class="navbarTop_right__dropdown text-reg-normal">
         <p v-if="hasBusiness && currentRole !== 'business'" @click="switchToBusiness">Switch to Business Profile</p>
