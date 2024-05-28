@@ -6,7 +6,7 @@ import ButtonsNormal from '../../components/atoms/buttons/NormalButton.vue';
 const tools = [
   { toolName: "Discord", tags: ["COMMUNICATION"] },
   { toolName: "Microsoft Teams", tags: ["COMMUNICATION"] },
-  { toolName: "Slack", tags: ["COMMUNICATION", "WORKPLACE"] },
+  { toolName: "Slack", tags: ["COMMUNICATION"] },
   { toolName: "Google Drive", tags: ["FILE STORAGE", "WORKPLACE"] },
   { toolName: "Notion", tags: ["WORKPLACE"] },
   { toolName: "Microsoft Outlook", tags: ["AGENDA SERVICE"] },
@@ -65,6 +65,7 @@ const filteredTools = computed(() => {
   align-content: center;
   gap: 24px 30px;
   flex-wrap: wrap;
+  margin-bottom: 24px;
 }
 
 .normalButton {
