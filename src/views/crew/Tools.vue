@@ -22,7 +22,7 @@ function setFilter(filter) {
 }
 
 const allFilters = computed(() => {
-  const filters = ["Agenda service", "Communication", "File storage", "Presentation", "Spreadsheets", "Workplace"];
+  const filters = ["All", "Agenda service", "Communication", "File storage", "Presentation", "Spreadsheets", "Workplace"];
   return filters;
 });
 
@@ -34,13 +34,16 @@ const filteredTools = computed(() => {
     return tools.filter(tool => tool.tags.map(tag => tag.toLowerCase()).includes(filter));
   }
 });
+
+const buttonStyle = (filter) => {
+  return selectedFilter.value === filter ? 'button--primary' : 'button--tertiary';
+};
 </script>
 
 <template>
   <div>
     <div class="toolbar">
-      <ButtonsNormal label="All" class="button--primary" @click="setFilter('All')" />
-      <ButtonsNormal v-for="filter in allFilters" :key="filter" :label="filter" class="button--tertiary"
+      <ButtonsNormal v-for="filter in allFilters" :key="filter" :label="filter" :class="buttonStyle(filter)"
         @click="setFilter(filter)" />
     </div>
     <div class="tools-container">
