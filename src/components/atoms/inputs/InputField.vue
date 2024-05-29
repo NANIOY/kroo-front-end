@@ -36,10 +36,14 @@ const props = defineProps({
     default: '100%'
   },
   localStorageKey: String,
-  group: String
+  group: String,
+  hasSearchFunction: {
+    type: Boolean,
+    default: false
+  }
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'search']);
 
 const inputType = ref(props.isPassword ? 'password' : 'text');
 const inputValue = ref(props.modelValue);
@@ -69,8 +73,10 @@ watch(inputValue, (newVal) => {
     localStorage.setItem(`${props.group}-${props.localStorageKey}`, newVal);
   }
   emit('update:modelValue', newVal);
+  if (props.hasSearchFunction) {
+    emit('search', newVal);
+  }
 });
-
 </script>
 
 <template>

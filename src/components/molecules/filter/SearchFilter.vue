@@ -2,13 +2,16 @@
 import DropFilter from './DropFilter.vue';
 import InputField from '../../atoms/inputs/InputField.vue';
 import Dropdown from '../../atoms/inputs/DropDown.vue';
+import { defineEmits } from 'vue';
 
-// Define configurations for each component
+// Emit the search event to the parent
+const emit = defineEmits(['search']);
+
 const timeConfig = {
   title: 'Time',
   numberOfCheckboxes: 4,
   hasMore: false,
-  checkboxLabels: ['Only show when I"m available', 'Morning', 'Evening', 'Night']
+  checkboxLabels: ['Only show when I\'m available', 'Morning', 'Evening', 'Night']
 };
 
 const distanceConfig = {
@@ -34,12 +37,12 @@ const productionTypeConfig = {
   title: 'Production Type',
   numberOfCheckboxes: 3,
   hasMore: true,
-  checkboxLabels: [' Feature film', 'Television', 'Commercial']
+  checkboxLabels: ['Feature film', 'Television', 'Commercial']
 };
 
 const searchDropdownConfig = {
   label: ' ',
-  placeholder: 'Sort by',
+  placeholder: 'Sort by'
 };
 
 const searchInputConfig = {
@@ -47,14 +50,17 @@ const searchInputConfig = {
   placeholder: 'Placeholder',
   width: '272px'
 };
+
+const handleSearch = (value) => {
+  emit('search', value);
+};
 </script>
 
 <template>
   <div class="searchfilter">
-
     <div class="searchfilter__inputs">
       <InputField :label="searchInputConfig.label" :placeholder="searchInputConfig.placeholder" :hasIconLeft="true"
-        iconLeftName="Search" class="searchfilter__input__field" />
+        iconLeftName="Search" class="searchfilter__input__field" hasSearchFunction="true" @search="handleSearch" />
       <Dropdown :label="searchDropdownConfig.label" :placeholder="searchDropdownConfig.placeholder"
         :options="searchDropdownConfig.options" class="searchfilter__input__dropdown" />
     </div>

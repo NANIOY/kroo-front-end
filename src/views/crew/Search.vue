@@ -3,7 +3,7 @@ import SearchJob from '../../components/molecules/jobs/SearchJob.vue';
 import JobPop from '../../components/molecules/popups/JobPop.vue';
 import Overlay from '../../components/molecules/popups/Overlay.vue';
 import SearchFilter from '../../components/molecules/filter/SearchFilter.vue';
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import setupAxios from '../../setupAxios';
 
 const axiosInstance = setupAxios();
@@ -12,8 +12,8 @@ const fetchedJobs = ref([]);
 const selectedJob = ref(null);
 const loading = ref(true);
 const allJobsLoaded = ref(false);
+const searchTerm = ref('');
 
-// fetch all jobs
 const fetchJobs = async () => {
   try {
     const response = await axiosInstance.get('/crewjob/jobs');
@@ -22,7 +22,6 @@ const fetchJobs = async () => {
       id: job._id
     }));
 
-    // fetch employer details for each job based on businessId
     await Promise.all(fetchedJobs.value.map(async (job) => {
       try {
         const businessResponse = await axiosInstance.get(`/business/${job.businessId}`);
@@ -45,14 +44,20 @@ const fetchJobs = async () => {
   }
 };
 
-// open job popup when job is clicked
 const openJobPop = (job) => {
   selectedJob.value = job;
 };
 
-// close job popup
 const closeJobPop = () => {
   selectedJob.value = null;
+};
+
+const filteredJobs = computed(() => {
+  return fetchedJobs.value.filter(job => job.title.toLowerCase().includes(searchTerm.value.toLowerCase()));
+});
+
+const handleSearch = (value) => {
+  searchTerm.value = value;
 };
 
 onMounted(() => {
@@ -62,15 +67,15 @@ onMounted(() => {
 
 <template>
   <div class="viewcontainer">
-    <SearchFilter />
+    <SearchFilter @search="handleSearch" />
 
     <div class="jobs-container">
       <div v-if="loading" class="loading">Loading...</div>
       <div v-else>
         <div class="viewcontainer__jobs">
-          <SearchJob v-for="job in fetchedJobs" :key="job._id" :job="job" @jobClick="openJobPop" />
+          <SearchJob v-for="job in filteredJobs" :key="job._id" :job="job" @jobClick="openJobPop" />
         </div>
-        <div v-if="allJobsLoaded || fetchedJobs.length === 0" class="end">No more jobs to display</div>
+        <div v-if="allJobsLoaded || filteredJobs.length === 0" class="end">No more jobs to display</div>
       </div>
     </div>
 
@@ -99,7 +104,6 @@ onMounted(() => {
   margin-bottom: 48px;
 }
 
-/* PAGINATION */
 .pagination {
   display: flex;
   justify-content: center;
