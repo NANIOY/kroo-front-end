@@ -8,8 +8,25 @@ const searchInputConfig = {
 </script>
 
 <template>
-    <InputField :label="searchInputConfig.label" :placeholder="searchInputConfig.placeholder" :hasIconLeft="true"
-        iconLeftName="Search" class="searchfilter__input__field" />
+  <div class="container">
+    <InputField 
+      :label="searchInputConfig.label" 
+      :placeholder="searchInputConfig.placeholder" 
+      :hasIconLeft="true"
+      iconLeftName="Search" 
+      class="searchfilter__input__field" 
+    />
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.container {
+  display: flex;
+  width: 192px;
+  height: 344px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  flex-shrink: 0;
+}
+</style>
