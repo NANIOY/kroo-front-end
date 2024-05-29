@@ -89,7 +89,10 @@ onMounted(() => {
 .viewcontainer {
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
+  gap: 40px;
 }
+
 
 .jobs-container {
   display: flex;
