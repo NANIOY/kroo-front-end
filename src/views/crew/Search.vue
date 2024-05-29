@@ -73,7 +73,7 @@ onMounted(() => {
       <div v-if="loading" class="loading">Loading...</div>
       <div v-else>
         <div class="viewcontainer__jobs">
-          <SearchJob v-for="job in filteredJobs" :key="job._id" :job="job" @jobClick="openJobPop" />
+          <SearchJob v-for="job in filteredJobs" :key="job.id" :job="job" @jobClick="openJobPop" />
         </div>
         <div v-if="allJobsLoaded || filteredJobs.length === 0" class="end">No more jobs to display</div>
       </div>
@@ -95,7 +95,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  margin-left: 16px;/
+  margin-left: 16px;
 }
 
 .viewcontainer__jobs {
@@ -106,12 +106,7 @@ onMounted(() => {
   margin-bottom: 48px;
 }
 
-.loading {
-  text-align: center;
-  font-size: 18px;
-  margin-top: 20px;
-}
-
+.loading,
 .end {
   text-align: center;
   font-size: 18px;
