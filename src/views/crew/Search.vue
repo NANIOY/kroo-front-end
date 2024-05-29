@@ -94,14 +94,28 @@ onMounted(() => {
 .jobs-container {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
+  margin-left: 16px;/
 }
 
 .viewcontainer__jobs {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 24px;
   margin-bottom: 48px;
+}
+
+.loading {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+.end {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
 }
 
 .pagination {
