@@ -9,6 +9,14 @@ const props = defineProps({
     user: {
         type: Object,
         required: true
+    },
+    currentUser: {
+        type: Object,
+        required: true
+    },
+    isCurrentUserProfile: {
+        type: Boolean,
+        required: true
     }
 });
 
@@ -19,8 +27,6 @@ const handleTabChange = (newTab) => {
     console.log(`Active tab changed to: ${newTab}`);
 };
 
-console.log('ProfileRight user:', props.user);
-
 watch(activeTab, (newTab) => {
     console.log(`Tab changed to: ${newTab}`);
 });
@@ -28,12 +34,13 @@ watch(activeTab, (newTab) => {
 
 <template>
     <div class="profileright">
-        <Tabs @update:activeTab="handleTabChange" />
+        <Tabs :currentUser="props.currentUser" :isCurrentUserProfile="props.isCurrentUserProfile"
+            @update:activeTab="handleTabChange" />
         <div class="profileright__content">
             <div class="profileright__content__inner">
-                <Portfolio v-if="activeTab === 'Portfolio'" :user="user" />
-                <About v-if="activeTab === 'About'" :user="user" />
-                <Activity v-if="activeTab === 'Activity'" :user="user" />
+                <Portfolio v-if="activeTab === 'Portfolio'" :user="props.user" />
+                <About v-if="activeTab === 'About'" :user="props.user" />
+                <Activity v-if="activeTab === 'Activity'" :user="props.user" />
             </div>
         </div>
     </div>
