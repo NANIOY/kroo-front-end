@@ -77,7 +77,8 @@ const closeJobPop = () => {
 };
 
 const navigateToProfile = (userUrl) => {
-    window.open(`/#/user/${userUrl}`, '_blank');
+    const userId = userUrl.split('/').pop();
+    window.open(`/#/user/${userId}`, '_blank');
 };
 
 </script>
