@@ -1,24 +1,51 @@
 <script setup>
-import { ref, defineEmits } from 'vue';
-import Tab from '../../atoms/profile/Tab.vue'
-import NormalButton from '../../atoms/buttons/NormalButton.vue'
+import { ref, defineProps, defineEmits, watch } from 'vue';
+import Tab from '../../atoms/profile/Tab.vue';
+import NormalButton from '../../atoms/buttons/NormalButton.vue';
 
-const activeTab = ref('About');
+const props = defineProps({
+  currentUser: {
+    type: Object,
+    required: true
+  },
+  isCurrentUserProfile: {
+    type: Boolean,
+    required: true
+  }
+});
+
 const emits = defineEmits(['update:activeTab']);
 
-const changeTab = (newTab) => {
-  activeTab.value = newTab;
-  emits('update:activeTab', newTab);
+const tabs = ['About', 'Portfolio', 'Activity'];
+const activeTabIndex = ref(0);
+
+const setActiveTab = (index) => {
+  activeTabIndex.value = index;
+  emits('update:activeTab', tabs[index]);
 };
+
+const cycleTab = (direction) => {
+  const newIndex = direction === 'next' ? activeTabIndex.value + 1 : activeTabIndex.value - 1;
+  activeTabIndex.value = (newIndex + tabs.length) % tabs.length;
+  emits('update:activeTab', tabs[activeTabIndex.value]);
+};
+
+watch(activeTabIndex, (newIndex) => {
+  emits('update:activeTab', tabs[newIndex]);
+});
 </script>
 
 <template>
   <div class="tabcontainer">
     <div class="tabcontainer__tabs">
-      <Tab v-for="tab in ['About', 'Portfolio', 'Activity']" :key="tab" :label="tab" :isActive="activeTab === tab"
-        @tabSelected="changeTab" />
+      <Tab v-for="(tab, index) in tabs" :key="tab" :label="tab" :isActive="index === activeTabIndex"
+        @tabSelected="setActiveTab(index)" />
     </div>
-    <NormalButton class="button--secondary tabcontainer__button" label="Edit" iconName="EditPencil" :hasRequest=false redirect="/settings"/>
+    <!-- Show edit button only if the logged-in user is viewing their own profile -->
+    <template v-if="isCurrentUserProfile">
+      <NormalButton class="button--secondary tabcontainer__button" label="Edit" iconName="EditPencil"
+        :hasRequest="false" redirect="/settings" />
+    </template>
   </div>
 </template>
 
