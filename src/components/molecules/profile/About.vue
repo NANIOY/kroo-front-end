@@ -20,8 +20,10 @@ watchEffect(() => {
 
 <template>
     <div v-if="crewData">
-        <p>{{ crewData.profileDetails?.bio }}</p>
-        <h3>{{ crewData.profileDetails?.age }}</h3>
+        <div class="about__bio surface-tertiary radius-s">
+            <p>Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum.</p>
+        </div>
+        
         <ul>
             <li v-for="language in crewData.profileDetails?.languages" :key="language">{{ language }}</li>
         </ul>
@@ -39,4 +41,13 @@ watchEffect(() => {
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+.about__bio {
+    margin-bottom: 1rem;
+    max-width: 794px;
+    max-height: 350px;
+    padding: 24px 32px;
+}
+
+</style>
