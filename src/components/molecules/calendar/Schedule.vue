@@ -1,11 +1,10 @@
-<!-- Schedule.vue -->
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import setupAxios from '../../../setupAxios';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 import CalendarCard from './CalendarCard.vue';
-import AgendaPopUp from '../popups/AgendaPopUp.vue'; 
+import AgendaPopUp from '../popups/AgendaPopUp.vue';
 
 // VARIABLES
 const axiosInstance = setupAxios(null);
@@ -15,6 +14,12 @@ const formattedDate = ref('');
 const weekDays = ref([]);
 const calendarEvents = ref([]);
 const isPopupVisible = ref(false); // State variable for popup visibility
+
+const currentDay = computed(() => {
+  const today = new Date();
+  const dayOfWeek = today.getDay(); // Sunday is 0, Monday is 1, and so on.
+  return dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Adjust to start the week on Monday, so Monday is 0 and Sunday is 6.
+});
 
 // LIFECYCLE HOOKS
 onMounted(() => {
@@ -39,7 +44,7 @@ async function fetchCalendarEvents() {
         startTime: startTime,
         endTime: endTime,
         emoji: '📅',
-        label: event.summary || 'No Title', 
+        label: event.summary || 'No Title',
         type: 'personal'
       };
     });
@@ -148,8 +153,10 @@ function closePopup() {
       <div class="schedule__top__left">
         <NormalButton label="Today" class="schedule__top__left__today button--primary" @click="goToToday" />
         <div class="schedule__top__left__arrows">
-          <TransparentButton iconName="NavArrowLeft" class="schedule__top__left__arrows__arrow no-label" @click="previousWeek" />
-          <TransparentButton iconName="NavArrowRight" class="schedule__top__left__arrows__arrow no-label" @click="nextWeek" />
+          <TransparentButton iconName="NavArrowLeft" class="schedule__top__left__arrows__arrow no-label"
+            @click="previousWeek" />
+          <TransparentButton iconName="NavArrowRight" class="schedule__top__left__arrows__arrow no-label"
+            @click="nextWeek" />
         </div>
         <h5 class="schedule__top__left__date">{{ formattedDate }}</h5>
       </div>
@@ -158,7 +165,8 @@ function closePopup() {
 
     <div class="schedule__calendar">
       <div class="schedule__days text-reg-s">
-        <div class="schedule__days__abbr" v-for="(day, index) in weekDays" :key="index">
+        <div class="schedule__days__abbr" v-for="(day, index) in weekDays" :key="index"
+          :class="{ 'current-day': index === currentDay }">
           {{ day.abbr }} {{ day.number }}
         </div>
       </div>
@@ -173,21 +181,25 @@ function closePopup() {
           <template v-for="day in 7" :key="day">
             <div class="schedule__column">
               <div class="schedule__column__blocks">
-                <div class="schedule__column__blocks__block" v-for="hour in 24" :key="hour" :class="{ weekend: day > 5 }"></div>
+                <div class="schedule__column__blocks__block" v-for="hour in 24" :key="hour"
+                  :class="{ weekend: day > 5 }"></div>
                 <template v-for="(event, index) in calendarEvents" :key="index">
-                  <div v-if="isEventInCurrentWeek(event) && event.date.getDay() === day - 1" :style="getCardPosition(event)" class="schedule__calendar__card">
-                    <CalendarCard :emoji="event.emoji" :label="event.label" :startTime="event.startTime" :endTime="event.endTime" :date="event.date" :type="event.type" />
+                  <div v-if="isEventInCurrentWeek(event) && event.date.getDay() === day - 1"
+                    :style="getCardPosition(event)" class="schedule__calendar__card">
+                    <CalendarCard :emoji="event.emoji" :label="event.label" :startTime="event.startTime"
+                      :endTime="event.endTime" :type="event.type" />
                   </div>
                 </template>
               </div>
             </div>
           </template>
 
-          <div class="time-indicator" :style="{ top: currentTimePosition }"></div>
+          <div class="schedule__calendar__time-indicator" :style="{ top: currentTimePosition }"></div>
         </div>
       </div>
+
+      <AgendaPopUp v-if="isPopupVisible" @close="closePopup" />
     </div>
-    <AgendaPopUp :isVisible="isPopupVisible" @close="closePopup" /> 
 </template>
 
 <style scoped>
@@ -255,6 +267,11 @@ h5 {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.current-day {
+  font-weight: bolder;
+  color: var(--blurple);
 }
 
 /* HOURS */
