@@ -1,16 +1,16 @@
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
 import PostedJob from '../../components/molecules/jobs/PostedJob.vue';
 import Applicant from '../../components/molecules/crew/Applicant.vue';
 import ActiveCrew from '../../components/molecules/crew/ActiveCrew.vue';
 import NormalButton from '../../components/atoms/buttons/NormalButton.vue';
 import CreateJobModal from '../../components/molecules/popups/CreateJob.vue';
+import setupAxios from '../../setupAxios';
 
 const isModalVisible = ref(false);
 const activeCrewMembers = ref([]);
-const applicants = ref([]);
-const router = useRouter();
+
+const axiosInstance = setupAxios();
 
 const openModal = () => {
     isModalVisible.value = true;
@@ -31,8 +31,63 @@ const navigateToProfile = (userUrl) => {
 
 const addActiveCrewMember = (member) => {
     activeCrewMembers.value.push(member);
-    applicants.value = applicants.value.filter(applicant => applicant.jobTitle !== member.jobTitle);
 };
+
+const fetchBusinessId = async () => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+    const userId = sessionStorage.getItem('userId');
+
+    if (!token || !userId) {
+        console.error('Authentication token or user ID is missing');
+        return null;
+    }
+
+    try {
+        const userResponse = await axiosInstance.get(`/user/${userId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const businessId = userResponse.data.data.user.businessData;
+        return businessId;
+    } catch (error) {
+        console.error('Failed to fetch user data:', error);
+        return null;
+    }
+};
+
+const fetchActiveCrewMembers = async () => {
+    const businessId = await fetchBusinessId();
+    if (!businessId) {
+        console.error('Business ID is missing');
+        return;
+    }
+
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+
+    if (!token) {
+        console.error('Authentication token is missing');
+        return;
+    }
+
+    try {
+        console.log(`Fetching active crew members for Business ID: ${businessId}`);
+        const response = await axiosInstance.get(`/bussJobInt/${businessId}/activecrew`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const activeCrew = response.data.activeCrewMembers;
+        console.log('Fetched Active Crew Members:', activeCrew);
+
+        activeCrewMembers.value = activeCrew;
+        console.log('Active Crew Members:', activeCrewMembers.value);
+    } catch (error) {
+        console.error('Failed to fetch active crew members:', error);
+    }
+};
+
+onMounted(() => {
+    fetchActiveCrewMembers();
+});
+
+
 </script>
 
 <template>
@@ -57,7 +112,8 @@ const addActiveCrewMember = (member) => {
                     iconName="Search" :hasLabel="true" :hasRequest="false" redirect="/search" />
             </div>
             <div class="tracker__container__column">
-                <Applicant @navigateToProfile="navigateToProfile" @accepted="addActiveCrewMember" :applicants="applicants" />
+                <Applicant @navigateToProfile="navigateToProfile" @accepted="addActiveCrewMember"
+                    @fetchActiveCrewMembers="fetchActiveCrewMembers" />
             </div>
         </div>
 

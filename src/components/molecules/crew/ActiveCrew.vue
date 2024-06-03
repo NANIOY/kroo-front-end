@@ -73,9 +73,13 @@ const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
-watch(() => props.members, (newMembers) => {
-    activeCrewMembers.value = newMembers;
-});
+watch(
+    () => props.members,
+    (newMembers) => {
+        activeCrewMembers.value = newMembers;
+    },
+    { immediate: true }
+);
 
 onMounted(() => {
     fetchActiveCrewMembers();

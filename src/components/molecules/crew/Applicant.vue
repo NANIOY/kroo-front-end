@@ -4,13 +4,6 @@ import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import setupAxios from '../../../setupAxios';
 import Tag from '../../atoms/items/Tag.vue';
 
-const props = defineProps({
-    applicants: {
-        type: Array,
-        default: () => []
-    }
-});
-
 const applicants = ref([]);
 const loading = ref(true);
 const axiosInstance = setupAxios();
@@ -107,6 +100,7 @@ const acceptApplicant = async (application, index) => {
             });
             applicants.value = applicants.value.filter(app => app.jobTitle !== application.jobTitle);
         }
+        emit('fetchActiveCrewMembers');
     } catch (error) {
         console.error('Failed to accept applicant:', error);
     }
