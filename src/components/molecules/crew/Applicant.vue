@@ -84,6 +84,17 @@ const rejectApplicant = async (applicationId, index) => {
     }
 };
 
+const acceptApplicant = async (applicationId) => {
+    try {
+        const response = await axiosInstance.post(`/bussJobInt/applications/${applicationId}/accept`, { status: 'accepted' });
+        if (response.status === 200) {
+            fetchApplicants();
+        }
+    } catch (error) {
+        console.error('Failed to accept applicant:', error);
+    }
+};
+
 onMounted(() => {
     fetchApplicants();
 });
@@ -111,8 +122,7 @@ onMounted(() => {
             <NormalButton label="Reject" class="applicant__bot__button button--tertiary"
                 @click.stop="rejectApplicant(applicant.applicationId, index)" />
             <NormalButton label="Accept" class="applicant__bot__button button--primary"
-                :endpoint="`/bussJobInt/applications/${applicant.applicationId}/accept`"
-                :postData="{ status: 'accepted' }" @click.stop />
+                @click.stop="acceptApplicant(applicant.applicationId)" />
         </div>
     </div>
 </template>
