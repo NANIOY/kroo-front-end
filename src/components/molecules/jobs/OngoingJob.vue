@@ -32,7 +32,6 @@ const fetchJobs = async () => {
             const businessResponse = businessDetailsResponses[index];
             if (businessResponse && businessResponse.data && businessResponse.data.data) {
                 const businessInfo = businessResponse.data.data.business.businessInfo;
-                console.log('Business info:', businessInfo);
 
                 if (businessInfo) {
                     return {
