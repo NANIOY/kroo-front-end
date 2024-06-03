@@ -4,6 +4,7 @@ import PostedJob from '../../components/molecules/jobs/PostedJob.vue';
 import Applicant from '../../components/molecules/crew/Applicant.vue';
 import ActiveCrew from '../../components/molecules/crew/ActiveCrew.vue';
 import NormalButton from '../../components/atoms/buttons/NormalButton.vue';
+import LargeButton from '../../components/atoms/buttons/LargeButton.vue';
 import CreateJobModal from '../../components/molecules/popups/CreateJob.vue';
 import setupAxios from '../../setupAxios';
 
@@ -149,7 +150,8 @@ onMounted(() => {
                     iconName="Plus" :hasLabel="true" :hasRequest="false" @click="openModal" />
             </div>
             <div class="tracker__container__column">
-                <PostedJob />
+                <PostedJob v-if="jobCounts.posted > 0" />
+                <div v-else class="placeholder text-reg-l">No jobs posted.</div>
             </div>
         </div>
 
@@ -160,15 +162,18 @@ onMounted(() => {
                     iconName="Search" :hasLabel="true" :hasRequest="false" redirect="/search" />
             </div>
             <div class="tracker__container__column">
-                <Applicant @navigateToProfile="navigateToProfile" @accepted="updateCountsOnAccept"
-                    @rejected="updateCountsOnReject" @fetchActiveCrewMembers="fetchActiveCrewMembers" />
+                <Applicant v-if="jobCounts.applied > 0" @navigateToProfile="navigateToProfile"
+                    @accepted="updateCountsOnAccept" @rejected="updateCountsOnReject"
+                    @fetchActiveCrewMembers="fetchActiveCrewMembers" />
+                <div v-else class="placeholder text-reg-l">No applicants available.</div>
             </div>
         </div>
 
         <div class="tracker__container tracker__container--last">
             <h6>ACTIVE CREW &#8722; {{ jobCounts.active }}</h6>
             <div class="tracker__container__column">
-                <ActiveCrew :members="activeCrewMembers" />
+                <ActiveCrew v-if="activeCrewMembers.length > 0" :members="activeCrewMembers" />
+                <div v-else class="placeholder text-reg-l">No active crew members available.</div>
             </div>
         </div>
     </div>
@@ -222,5 +227,11 @@ onMounted(() => {
 .tracker__container__column {
     -ms-overflow-style: none;
     scrollbar-width: none;
+}
+
+.placeholder {
+    text-align: center;
+    color: var(--neutral-70);
+    margin-top: 20px;
 }
 </style>
