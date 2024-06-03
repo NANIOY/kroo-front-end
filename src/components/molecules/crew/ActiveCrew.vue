@@ -72,18 +72,18 @@ onMounted(() => {
 
 <template>
     <div v-if="loading" class="loading">Loading...</div>
-    <div v-for="crew in activeCrewMembers" :key="crew.crewMember._id" class="activeCrew surface-tertiary radius-xs">
+    <div v-for="crew in activeCrewMembers" :key="crew.userId" class="activeCrew surface-tertiary radius-xs">
         <div class="activeCrew__top">
-            <img :src="crew.crewMember.profileImage" class="activeCrew__top__image" alt="Crew image" />
-            <h4 class="activeCrew__top__name">{{ crew.crewMember.username }}</h4>
+            <img :src="crew.profileImage || 'https://via.placeholder.com/64'" class="activeCrew__top__image" alt="Crew image" />
+            <h4 class="activeCrew__top__name">{{ crew.username }}</h4>
         </div>
 
         <div id="activeCrew__info">
             <div class="activeCrew__info__left">
-                <p class="text-reg-normal">{{ crew.job.title }}</p>
+                <p class="text-reg-normal">{{ crew.jobTitle }}</p>
             </div>
             <div id="activeCrew__info__right">
-                <p class="text-reg-normal">{{ formatDate(crew.job.date) }}</p>
+                <p class="text-reg-normal">{{ formatDate(crew.date) }}</p>
             </div>
         </div>
     </div>
