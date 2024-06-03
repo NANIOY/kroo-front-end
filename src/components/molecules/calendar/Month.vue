@@ -1,40 +1,40 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch, defineEmits } from 'vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
+
+const emit = defineEmits(['day-clicked']);
 
 const currentDate = ref(new Date());
 const options = { month: 'long', year: 'numeric' };
 const formattedDate = ref(getFormattedDate(currentDate.value));
 const weeks = ref(getMonthWeeks(currentDate.value));
+const selectedDay = ref(null);  // State to keep track of the selected day
 
-// format date as month and year
+watch(selectedDay, (newVal) => {
+    if (newVal) {
+        console.log("Selected day:", newVal);
+    }
+});
+
 function getFormattedDate(date) {
     const monthYear = date.toLocaleDateString('en-GB', options);
     return `${monthYear.substr(0, monthYear.lastIndexOf(' '))}, ${monthYear.substr(monthYear.lastIndexOf(' ') + 1)}`;
 }
 
-// get the weeks of the month
 function getMonthWeeks(date) {
     const weeks = [];
-    // get first and last day of month
     const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
     const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     const numDaysInMonth = lastDayOfMonth.getDate();
     let currentWeek = [];
-
-    // get the first day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
     const firstDayOfWeek = firstDayOfMonth.getDay();
-
-    // calculate the number of days from the previous month that need to be displayed
     const numDaysFromPrevMonth = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
 
-    // push empty days for days before the first day of the month
     for (let i = 0; i < numDaysFromPrevMonth; i++) {
-        const prevDay = new Date(firstDayOfMonth.getTime() - (numDaysFromPrevMonth - i) * 24 * 60 * 60 * 1000); // calculate the previous day
+        const prevDay = new Date(firstDayOfMonth.getTime() - (numDaysFromPrevMonth - i) * 24 * 60 * 60 * 1000);
         currentWeek.push({ abbr: prevDay.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2), number: prevDay.getDate(), isPrevMonth: true });
     }
 
-    // iterate through the days of the month
     for (let i = 1; i <= numDaysInMonth; i++) {
         const day = new Date(date.getFullYear(), date.getMonth(), i);
         currentWeek.push({
@@ -44,7 +44,6 @@ function getMonthWeeks(date) {
             isWeekend: day.getDay() === 0 || day.getDay() === 6
         });
 
-        // check if it's the last day of the week or the last day of the month
         if (day.getDay() === 0 || i === numDaysInMonth) {
             weeks.push(currentWeek);
             currentWeek = [];
@@ -53,28 +52,24 @@ function getMonthWeeks(date) {
     return weeks;
 }
 
-// go to next month
 function nextMonth() {
     const nextDate = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() + 1, 1);
     currentDate.value = nextDate;
     updateMonth();
 }
 
-// go to previous month
 function previousMonth() {
     const prevDate = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() - 1, 1);
     currentDate.value = prevDate;
     updateMonth();
 }
 
-// update month
 function updateMonth() {
     formattedDate.value = getFormattedDate(currentDate.value);
     weeks.value = getMonthWeeks(currentDate.value);
     markActiveDay();
 }
 
-// mark active day based on current date
 function markActiveDay() {
     const today = new Date();
     weeks.value.forEach(week => {
@@ -83,6 +78,14 @@ function markActiveDay() {
             day.isActive = dayDate.toDateString() === today.toDateString();
         });
     });
+}
+
+function handleDayClick(day) {
+    if (!day.isPrevMonth) {
+        const clickedDate = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth(), day.number);
+        selectedDay.value = clickedDate;
+        emit('day-clicked', clickedDate);
+    }
 }
 </script>
 
@@ -106,7 +109,8 @@ function markActiveDay() {
             <div class="calendar__bot__numbers text-reg-normal">
                 <template v-for="(week) in weeks">
                     <div v-for="(day, dayIndex) in week" :key="dayIndex" class="calendar__bot__numbers__number"
-                        :class="['day', { 'active-day': day.isActive, 'prev-month-day': day.isPrevMonth, 'weekend-day': day.isWeekend }]">
+                        :class="['day', { 'active-day': day.isActive, 'prev-month-day': day.isPrevMonth, 'weekend-day': day.isWeekend, 'selected-day': selectedDay && selectedDay.getDate() === day.number && !day.isPrevMonth }]"
+                        @click="handleDayClick(day)">
                         {{ day.number }}
                     </div>
                 </template>
@@ -182,6 +186,12 @@ h5 {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+}
+
+.selected-day {
+    border: 2px solid var(--blurple);
+    border-radius: 100%;
 }
 
 .active-day {
