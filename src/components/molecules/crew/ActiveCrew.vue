@@ -1,7 +1,16 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch, defineEmits } from 'vue';
 import setupAxios from '../../../setupAxios';
 import Tag from '../../atoms/items/Tag.vue'
+
+const props = defineProps({
+    members: {
+        type: Array,
+        default: () => []
+    }
+});
+
+const emit = defineEmits(['navigateToProfile']);
 
 const activeCrewMembers = ref([]);
 const loading = ref(true);
@@ -22,7 +31,6 @@ const fetchBusinessId = async () => {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const businessId = userResponse.data.data.user.businessData;
-        console.log(`Fetched Business ID: ${businessId}`);
         return businessId;
     } catch (error) {
         console.error('Failed to fetch user data:', error);
@@ -52,8 +60,19 @@ const fetchActiveCrewMembers = async () => {
         const activeCrew = response.data.activeCrewMembers;
         console.log('Fetched Active Crew Members:', activeCrew);
 
-        activeCrewMembers.value = activeCrew;
-        console.log('Active Crew Members:', activeCrewMembers.value);
+        const crewDetailsPromises = activeCrew.map(async (crew) => {
+            const userResponse = await axiosInstance.get(`/user/${crew.userId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const user = userResponse.data.data.user;
+            return {
+                ...crew,
+                userUrl: user.userUrl
+            };
+        });
+
+        activeCrewMembers.value = await Promise.all(crewDetailsPromises);
+        console.log('Active Crew Members with userUrl:', activeCrewMembers.value);
     } catch (error) {
         console.error('Failed to fetch active crew members:', error);
     } finally {
@@ -66,6 +85,18 @@ const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
+const navigateToProfile = (userUrl) => {
+    emit('navigateToProfile', userUrl);
+};
+
+watch(
+    () => props.members,
+    (newMembers) => {
+        activeCrewMembers.value = newMembers;
+    },
+    { immediate: true }
+);
+
 onMounted(() => {
     fetchActiveCrewMembers();
 });
@@ -73,7 +104,8 @@ onMounted(() => {
 
 <template>
     <div v-if="loading" class="loading">Loading...</div>
-    <div v-for="crew in activeCrewMembers" :key="crew.userId" class="activeCrew surface-tertiary radius-xs">
+    <div v-for="crew in activeCrewMembers" :key="crew.userId" class="activeCrew surface-tertiary radius-xs"
+        @click="navigateToProfile(crew.userUrl)">
         <div class="activeCrew__top">
             <img :src="crew.profileImage || 'https://placehold.co/64x64'" class="activeCrew__top__image"
                 alt="Crew image" />

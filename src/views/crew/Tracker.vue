@@ -38,11 +38,10 @@ const fetchJobCounts = async () => {
     });
     jobCounts.value.saved = savedResponse.data.savedJobs.length;
 
-    // Uncomment if you need ongoing jobs count
-    // const ongoingResponse = await axiosInstance.get('/crewJobInt/ongoing', {
-    //   headers: { 'Authorization': `Bearer ${token}` }
-    // });
-    // jobCounts.value.ongoing = ongoingResponse.data.ongoingJobs.length;
+    const activeJobsResponse = await axiosInstance.get('/crewJob/activejobs', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    jobCounts.value.ongoing = activeJobsResponse.data.activeJobs.length;
   } catch (error) {
     console.error('Failed to fetch job counts:', error);
   }
