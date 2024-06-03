@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import setupAxios from '../../../setupAxios';
+import Tag from '../../atoms/items/Tag.vue'
 
 const activeCrewMembers = ref([]);
 const loading = ref(true);
@@ -81,7 +82,7 @@ onMounted(() => {
 
         <div id="activeCrew__info">
             <div class="activeCrew__info__left">
-                <p class="text-reg-normal">{{ crew.jobFunction }}</p>
+                <Tag>{{ crew.jobFunction }}</Tag>
             </div>
             <div id="activeCrew__info__right">
                 <p class="text-reg-normal">{{ formatDate(crew.date) }}</p>

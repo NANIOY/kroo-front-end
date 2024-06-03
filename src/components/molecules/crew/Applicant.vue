@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import setupAxios from '../../../setupAxios';
+import Tag from '../../atoms/items/Tag.vue';
 
 const applicants = ref([]);
 const loading = ref(true);
@@ -99,7 +100,7 @@ onMounted(() => {
 
         <div id="applicant__info">
             <div class="applicant__info__left">
-                <p class="text-reg-normal">{{ applicant.jobTitle }}</p>
+                <Tag>{{ applicant.jobTitle }}</Tag>
             </div>
             <div id="applicant__info__right">
                 <p>{{ formatDate(applicant.Date) }}</p>
