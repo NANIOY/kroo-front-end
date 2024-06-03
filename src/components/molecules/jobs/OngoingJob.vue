@@ -1,48 +1,98 @@
 <script setup>
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
+import { onMounted, ref } from 'vue';
+import setupAxios from '../../../setupAxios';
+
+const jobs = ref([]);
+const axiosInstance = setupAxios();
+
+const fetchJobs = async () => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+    if (!token) {
+        console.error('Authentication token is missing');
+        return;
+    }
+
+    try {
+        const activeJobsResponse = await axiosInstance.get(`/crewJob/activejobs`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        const activeJobs = activeJobsResponse.data.activeJobs;
+
+        const businessDetailsPromises = activeJobs.map(job =>
+            axiosInstance.get(`/business/${job.businessId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+        );
+
+        const businessDetailsResponses = await Promise.all(businessDetailsPromises);
+
+        jobs.value = activeJobs.map((job, index) => {
+            const businessResponse = businessDetailsResponses[index];
+            if (businessResponse && businessResponse.data && businessResponse.data.data) {
+                const businessInfo = businessResponse.data.data.business.businessInfo;
+                console.log('Business info:', businessInfo);
+
+                if (businessInfo) {
+                    return {
+                        ...job,
+                        businessImage: businessInfo.logo || 'https://placehold.co/56x56',
+                        companyName: businessInfo.companyName || 'Unknown Company',
+                    };
+                }
+            }
+        });
+
+    } catch (error) {
+        console.error('Failed to fetch active jobs or business details:', error);
+    }
+};
+
+onMounted(fetchJobs);
 </script>
 
 <template>
-    <div id="ongoing__job" class="surface-tertiary radius-xs">
-        <div id="ongoing__job__top">
-            <div id="ongoing__job__top__business">
-                <div>
-                    <img class="radius-full" src="https://placehold.co/56x56" alt="">
-                </div>
-                <div id="ongoing__job__top__business__name">
-                    <p>name</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="ongoing__job__jobTitle">
-            <p class="text-bold-l">job title</p>
-        </div>
-
-        <div id="ongoing__job__info">
-            <div id="ongoing__job__info__date">
-                <div id="ongoing__job__info__date__day">
-                    <p>day</p>
-                </div>
-                <div id="ongoing__job__info__date__month">
-                    <p>month</p>
+    <div>
+        <div v-for="job in jobs" :key="job._id" id="ongoing__job" class="surface-tertiary radius-xs">
+            <div id="ongoing__job__top">
+                <div id="ongoing__job__top__business">
+                    <div>
+                        <img class="radius-full" :src="job.businessImage || 'https://placehold.co/56x56'"
+                            alt="Business Logo">
+                    </div>
+                    <div id="ongoing__job__top__business__name">
+                        <p>{{ job.companyName || 'Unknown Company' }}</p>
+                    </div>
                 </div>
             </div>
-            <div id="ongoing__job__info__place">
-                <div id="ongoing__job__info__place__city">
-                    <p class="text-reg-normal">city</p>
+
+            <div id="ongoing__job__jobTitle">
+                <p class="text-bold-l">{{ job.title }}</p>
+            </div>
+
+            <div id="ongoing__job__info">
+                <div id="ongoing__job__info__date">
+                    <div id="saved__job__info__date__day">
+                        <p>{{ new Date(job.date).toLocaleDateString() }}</p>
+                    </div>
                 </div>
-                <div id="ongoing__job__info__place__country">
-                    <p class="text-reg-s">country</p>
+                <div id="ongoing__job__info__place">
+                    <div id="ongoing__job__info__place__city">
+                        <p class="text-reg-normal">{{ job.location.city }}</p>
+                    </div>
+                    <div id="ongoing__job__info__place__country">
+                        <p class="text-reg-s">{{ job.location.country }}</p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div id="ongoing__job__buttons">
-            <NormalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
-                :hasLabel="true" label="Cancel" iconName="" :hasRequest="false" />
-            <NormalButton id="normalButton__details" class="button--primary" :hasIcon="false" :hasLabel="true"
-                label="Details" iconName="" :hasRequest="false" />
+            <div id="ongoing__job__buttons">
+                <NormalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
+                    :hasLabel="true" label="Cancel" iconName="" :hasRequest="false" />
+                <NormalButton id="normalButton__details" class="button--primary" :hasIcon="false" :hasLabel="true"
+                    label="Details" iconName="" :hasRequest="false" />
+            </div>
         </div>
     </div>
 </template>
