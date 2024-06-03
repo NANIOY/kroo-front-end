@@ -4,7 +4,6 @@ import PostedJob from '../../components/molecules/jobs/PostedJob.vue';
 import Applicant from '../../components/molecules/crew/Applicant.vue';
 import ActiveCrew from '../../components/molecules/crew/ActiveCrew.vue';
 import NormalButton from '../../components/atoms/buttons/NormalButton.vue';
-import LargeButton from '../../components/atoms/buttons/LargeButton.vue';
 import CreateJobModal from '../../components/molecules/popups/CreateJob.vue';
 import setupAxios from '../../setupAxios';
 
@@ -27,7 +26,6 @@ const closeModal = () => {
 };
 
 const handleCreateJob = (jobData) => {
-    console.log('Job created:', jobData);
     closeModal();
 };
 
@@ -104,15 +102,11 @@ const fetchActiveCrewMembers = async () => {
     }
 
     try {
-        console.log(`Fetching active crew members for Business ID: ${businessId}`);
         const response = await axiosInstance.get(`/bussJobInt/${businessId}/activecrew`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const activeCrew = response.data.activeCrewMembers;
-        console.log('Fetched Active Crew Members:', activeCrew);
-
         activeCrewMembers.value = activeCrew;
-        console.log('Active Crew Members:', activeCrewMembers.value);
     } catch (error) {
         console.error('Failed to fetch active crew members:', error);
     }
@@ -172,7 +166,8 @@ onMounted(() => {
         <div class="tracker__container tracker__container--last">
             <h6>ACTIVE CREW &#8722; {{ jobCounts.active }}</h6>
             <div class="tracker__container__column">
-                <ActiveCrew v-if="activeCrewMembers.length > 0" :members="activeCrewMembers" />
+                <ActiveCrew v-if="activeCrewMembers.length > 0" @navigateToProfile="navigateToProfile"
+                    :members="activeCrewMembers" />
                 <div v-else class="placeholder text-reg-l">No active crew members available.</div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, defineEmits } from 'vue';
 import setupAxios from '../../../setupAxios';
 import Tag from '../../atoms/items/Tag.vue'
 
@@ -29,7 +29,6 @@ const fetchBusinessId = async () => {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const businessId = userResponse.data.data.user.businessData;
-        console.log(`Fetched Business ID: ${businessId}`);
         return businessId;
     } catch (error) {
         console.error('Failed to fetch user data:', error);
@@ -52,15 +51,12 @@ const fetchActiveCrewMembers = async () => {
     }
 
     try {
-        console.log(`Fetching active crew members for Business ID: ${businessId}`);
         const response = await axiosInstance.get(`/bussJobInt/${businessId}/activecrew`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const activeCrew = response.data.activeCrewMembers;
-        console.log('Fetched Active Crew Members:', activeCrew);
 
         activeCrewMembers.value = activeCrew;
-        console.log('Active Crew Members:', activeCrewMembers.value);
     } catch (error) {
         console.error('Failed to fetch active crew members:', error);
     } finally {
