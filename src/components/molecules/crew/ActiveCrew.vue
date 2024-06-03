@@ -74,7 +74,7 @@ onMounted(() => {
     <div v-if="loading" class="loading">Loading...</div>
     <div v-for="crew in activeCrewMembers" :key="crew.userId" class="activeCrew surface-tertiary radius-xs">
         <div class="activeCrew__top">
-            <img :src="crew.profileImage || 'https://via.placeholder.com/64'" class="activeCrew__top__image"
+            <img :src="crew.profileImage || 'https://placehold.co/64x64'" class="activeCrew__top__image"
                 alt="Crew image" />
             <h4 class="activeCrew__top__name">{{ crew.username }}</h4>
         </div>
@@ -102,6 +102,12 @@ p {
     padding: 20px;
     box-sizing: border-box;
     gap: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.activeCrew:hover {
+    filter: brightness(92%);
 }
 
 .activeCrew,

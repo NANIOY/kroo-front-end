@@ -121,6 +121,12 @@ p {
     padding: 20px;
     box-sizing: border-box;
     gap: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#posted__job:hover {
+    filter: brightness(92%);
 }
 
 /* TOP */
