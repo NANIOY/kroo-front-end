@@ -8,6 +8,8 @@ import NormalButton from '../../components/atoms/buttons/NormalButton.vue';
 import CreateJobModal from '../../components/molecules/popups/CreateJob.vue';
 
 const isModalVisible = ref(false);
+const activeCrewMembers = ref([]);
+const applicants = ref([]);
 const router = useRouter();
 
 const openModal = () => {
@@ -25,6 +27,11 @@ const handleCreateJob = (jobData) => {
 
 const navigateToProfile = (userUrl) => {
     window.open(`/#/user/${userUrl}`, '_blank');
+};
+
+const addActiveCrewMember = (member) => {
+    activeCrewMembers.value.push(member);
+    applicants.value = applicants.value.filter(applicant => applicant.jobTitle !== member.jobTitle);
 };
 </script>
 
@@ -50,14 +57,14 @@ const navigateToProfile = (userUrl) => {
                     iconName="Search" :hasLabel="true" :hasRequest="false" redirect="/search" />
             </div>
             <div class="tracker__container__column">
-                <Applicant @navigateToProfile="navigateToProfile" />
+                <Applicant @navigateToProfile="navigateToProfile" @accepted="addActiveCrewMember" :applicants="applicants" />
             </div>
         </div>
 
         <div class="tracker__container tracker__container--last">
             <h6>ACTIVE CREW</h6>
             <div class="tracker__container__column">
-                <ActiveCrew />
+                <ActiveCrew :members="activeCrewMembers" />
             </div>
         </div>
     </div>

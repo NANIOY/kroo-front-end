@@ -1,7 +1,14 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import setupAxios from '../../../setupAxios';
 import Tag from '../../atoms/items/Tag.vue'
+
+const props = defineProps({
+    members: {
+        type: Array,
+        default: () => []
+    }
+});
 
 const activeCrewMembers = ref([]);
 const loading = ref(true);
@@ -65,6 +72,10 @@ const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
 };
+
+watch(() => props.members, (newMembers) => {
+    activeCrewMembers.value = newMembers;
+});
 
 onMounted(() => {
     fetchActiveCrewMembers();

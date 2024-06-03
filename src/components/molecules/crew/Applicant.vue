@@ -4,9 +4,18 @@ import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import setupAxios from '../../../setupAxios';
 import Tag from '../../atoms/items/Tag.vue';
 
+const props = defineProps({
+    applicants: {
+        type: Array,
+        default: () => []
+    }
+});
+
 const applicants = ref([]);
 const loading = ref(true);
 const axiosInstance = setupAxios();
+
+const emit = defineEmits(['accepted']);
 
 const fetchBusinessId = async () => {
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
@@ -84,11 +93,19 @@ const rejectApplicant = async (applicationId, index) => {
     }
 };
 
-const acceptApplicant = async (applicationId) => {
+const acceptApplicant = async (application, index) => {
     try {
-        const response = await axiosInstance.post(`/bussJobInt/applications/${applicationId}/accept`, { status: 'accepted' });
+        const response = await axiosInstance.post(`/bussJobInt/applications/${application.applicationId}/accept`, { status: 'accepted' });
         if (response.status === 200) {
-            fetchApplicants();
+            emit('accepted', {
+                userId: application.user._id,
+                username: application.user.username,
+                jobTitle: application.jobTitle,
+                jobFunction: application.jobFunction,
+                date: application.date,
+                profileImage: application.user.crewData?.basicInfo?.profileImage
+            });
+            applicants.value = applicants.value.filter(app => app.jobTitle !== application.jobTitle);
         }
     } catch (error) {
         console.error('Failed to accept applicant:', error);
@@ -122,7 +139,7 @@ onMounted(() => {
             <NormalButton label="Reject" class="applicant__bot__button button--tertiary"
                 @click.stop="rejectApplicant(applicant.applicationId, index)" />
             <NormalButton label="Accept" class="applicant__bot__button button--primary"
-                @click.stop="acceptApplicant(applicant.applicationId)" />
+                @click.stop="acceptApplicant(applicant, index)" />
         </div>
     </div>
 </template>
