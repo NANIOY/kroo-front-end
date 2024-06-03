@@ -9,6 +9,11 @@ import setupAxios from '../../setupAxios';
 
 const isModalVisible = ref(false);
 const activeCrewMembers = ref([]);
+const jobCounts = ref({
+    posted: 0,
+    applied: 0,
+    active: 0
+});
 
 const axiosInstance = setupAxios();
 
@@ -54,6 +59,35 @@ const fetchBusinessId = async () => {
     }
 };
 
+const fetchJobCounts = async (businessId) => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+    if (!token) {
+        console.error('Authentication token is missing');
+        return;
+    }
+
+    try {
+        const postedResponse = await axiosInstance.get(`/bussJob/${businessId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        jobCounts.value.posted = postedResponse.data.linkedJobs.length;
+
+        const appliedResponse = await axiosInstance.get(`/bussJobInt/${businessId}/applications`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        jobCounts.value.applied = appliedResponse.data.applications.length;
+
+        const activeResponse = await axiosInstance.get(`/bussJobInt/${businessId}/activecrew`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        jobCounts.value.active = activeResponse.data.activeCrewMembers.length;
+
+
+    } catch (error) {
+        console.error('Failed to fetch job counts:', error);
+    }
+};
+
 const fetchActiveCrewMembers = async () => {
     const businessId = await fetchBusinessId();
     if (!businessId) {
@@ -85,9 +119,12 @@ const fetchActiveCrewMembers = async () => {
 
 onMounted(() => {
     fetchActiveCrewMembers();
+    fetchBusinessId().then((businessId) => {
+        if (businessId) {
+            fetchJobCounts(businessId);
+        }
+    });
 });
-
-
 </script>
 
 <template>
@@ -96,7 +133,7 @@ onMounted(() => {
     <div id="tracker">
         <div class="tracker__container">
             <div class="tracker__container__top">
-                <h6>POSTED JOBS</h6>
+                <h6>POSTED JOBS &#8722; {{ jobCounts.posted }}</h6>
                 <NormalButton label="Create Job" class="button--secondary" id="addButton" :hasIcon="true"
                     iconName="Plus" :hasLabel="true" :hasRequest="false" @click="openModal" />
             </div>
@@ -107,7 +144,7 @@ onMounted(() => {
 
         <div class="tracker__container">
             <div class="tracker__container__top">
-                <h6>WHO APPLIED</h6>
+                <h6>WHO APPLIED &#8722; {{ jobCounts.applied }}</h6>
                 <NormalButton label="Search for crew" class="button--tertiary" id="addButton" :hasIcon="true"
                     iconName="Search" :hasLabel="true" :hasRequest="false" redirect="/search" />
             </div>
@@ -118,7 +155,7 @@ onMounted(() => {
         </div>
 
         <div class="tracker__container tracker__container--last">
-            <h6>ACTIVE CREW</h6>
+            <h6>ACTIVE CREW &#8722; {{ jobCounts.active }}</h6>
             <div class="tracker__container__column">
                 <ActiveCrew :members="activeCrewMembers" />
             </div>
