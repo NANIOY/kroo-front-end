@@ -117,6 +117,17 @@ const fetchActiveCrewMembers = async () => {
     }
 };
 
+const updateCountsOnAccept = (member) => {
+    jobCounts.value.posted--;
+    jobCounts.value.applied--;
+    jobCounts.value.active++;
+    addActiveCrewMember(member);
+};
+
+const updateCountsOnReject = () => {
+    jobCounts.value.applied--;
+};
+
 onMounted(() => {
     fetchActiveCrewMembers();
     fetchBusinessId().then((businessId) => {
@@ -149,8 +160,8 @@ onMounted(() => {
                     iconName="Search" :hasLabel="true" :hasRequest="false" redirect="/search" />
             </div>
             <div class="tracker__container__column">
-                <Applicant @navigateToProfile="navigateToProfile" @accepted="addActiveCrewMember"
-                    @fetchActiveCrewMembers="fetchActiveCrewMembers" />
+                <Applicant @navigateToProfile="navigateToProfile" @accepted="updateCountsOnAccept"
+                    @rejected="updateCountsOnReject" @fetchActiveCrewMembers="fetchActiveCrewMembers" />
             </div>
         </div>
 

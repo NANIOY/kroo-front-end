@@ -8,7 +8,7 @@ const applicants = ref([]);
 const loading = ref(true);
 const axiosInstance = setupAxios();
 
-const emit = defineEmits(['accepted']);
+const emit = defineEmits(['accepted', 'rejected', 'fetchActiveCrewMembers']);
 
 const fetchBusinessId = async () => {
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
@@ -80,6 +80,7 @@ const rejectApplicant = async (applicationId, index) => {
         const response = await axiosInstance.post(`/bussJobInt/applications/${applicationId}/reject`, { status: 'rejected' });
         if (response.status === 200) {
             applicants.value.splice(index, 1);
+            emit('rejected');
         }
     } catch (error) {
         console.error('Failed to reject applicant:', error);
