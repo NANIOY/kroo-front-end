@@ -190,7 +190,7 @@ h5 {
 }
 
 .selected-day {
-    border: 2px solid var(--blurple);
+    outline: 2px solid var(--blurple);
     border-radius: 100%;
 }
 
