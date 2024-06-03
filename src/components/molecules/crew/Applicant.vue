@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, defineEmits } from 'vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import setupAxios from '../../../setupAxios';
 import Tag from '../../atoms/items/Tag.vue';
@@ -8,7 +8,7 @@ const applicants = ref([]);
 const loading = ref(true);
 const axiosInstance = setupAxios();
 
-const emit = defineEmits(['accepted', 'rejected', 'fetchActiveCrewMembers']);
+const emit = defineEmits(['accepted', 'rejected', 'fetchActiveCrewMembers', 'navigateToProfile']);
 
 const fetchBusinessId = async () => {
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
@@ -107,6 +107,10 @@ const acceptApplicant = async (application, index) => {
     }
 };
 
+const navigateToProfile = (userUrl) => {
+    emit('navigateToProfile', userUrl);
+};
+
 onMounted(() => {
     fetchApplicants();
 });
@@ -114,13 +118,13 @@ onMounted(() => {
 
 <template>
     <div v-if="loading" class="loading">Loading...</div>
-    <div v-for="(applicant, index) in applicants" :key="applicant.userId" class="applicant surface-tertiary radius-xs">
+    <div v-for="(applicant, index) in applicants" :key="applicant.userId" class="applicant surface-tertiary radius-xs"
+        @click="navigateToProfile(applicant.user.userUrl)">
         <div class="applicant__top">
             <img :src="applicant.user.crewData?.basicInfo?.profileImage || 'https://via.placeholder.com/64'"
                 class="applicant__top__image" alt="Crew image" />
             <h4 class="applicant__top__name">{{ applicant.user.username }}</h4>
         </div>
-
         <div id="applicant__info">
             <div class="applicant__info__left">
                 <Tag>{{ applicant.jobTitle }}</Tag>
@@ -129,7 +133,6 @@ onMounted(() => {
                 <p>{{ formatDate(applicant.Date) }}</p>
             </div>
         </div>
-
         <div class="applicant__bot">
             <NormalButton label="Reject" class="applicant__bot__button button--tertiary"
                 @click.stop="rejectApplicant(applicant.applicationId, index)" />

@@ -10,6 +10,8 @@ const props = defineProps({
     }
 });
 
+const emit = defineEmits(['navigateToProfile']);
+
 const activeCrewMembers = ref([]);
 const loading = ref(true);
 
@@ -51,12 +53,26 @@ const fetchActiveCrewMembers = async () => {
     }
 
     try {
+        console.log(`Fetching active crew members for Business ID: ${businessId}`);
         const response = await axiosInstance.get(`/bussJobInt/${businessId}/activecrew`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const activeCrew = response.data.activeCrewMembers;
+        console.log('Fetched Active Crew Members:', activeCrew);
 
-        activeCrewMembers.value = activeCrew;
+        const crewDetailsPromises = activeCrew.map(async (crew) => {
+            const userResponse = await axiosInstance.get(`/user/${crew.userId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const user = userResponse.data.data.user;
+            return {
+                ...crew,
+                userUrl: user.userUrl
+            };
+        });
+
+        activeCrewMembers.value = await Promise.all(crewDetailsPromises);
+        console.log('Active Crew Members with userUrl:', activeCrewMembers.value);
     } catch (error) {
         console.error('Failed to fetch active crew members:', error);
     } finally {
@@ -67,6 +83,10 @@ const fetchActiveCrewMembers = async () => {
 const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
+};
+
+const navigateToProfile = (userUrl) => {
+    emit('navigateToProfile', userUrl);
 };
 
 watch(
@@ -84,7 +104,8 @@ onMounted(() => {
 
 <template>
     <div v-if="loading" class="loading">Loading...</div>
-    <div v-for="crew in activeCrewMembers" :key="crew.userId" class="activeCrew surface-tertiary radius-xs">
+    <div v-for="crew in activeCrewMembers" :key="crew.userId" class="activeCrew surface-tertiary radius-xs"
+        @click="navigateToProfile(crew.userUrl)">
         <div class="activeCrew__top">
             <img :src="crew.profileImage || 'https://placehold.co/64x64'" class="activeCrew__top__image"
                 alt="Crew image" />

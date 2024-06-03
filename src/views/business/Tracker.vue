@@ -166,8 +166,8 @@ onMounted(() => {
         <div class="tracker__container tracker__container--last">
             <h6>ACTIVE CREW &#8722; {{ jobCounts.active }}</h6>
             <div class="tracker__container__column">
-                <ActiveCrew v-if="activeCrewMembers.length > 0" @navigateToProfile="navigateToProfile"
-                    :members="activeCrewMembers" />
+                <ActiveCrew v-if="activeCrewMembers.length > 0" :members="activeCrewMembers"
+                    @navigateToProfile="navigateToProfile" />
                 <div v-else class="placeholder text-reg-l">No active crew members available.</div>
             </div>
         </div>
