@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, defineEmits } from 'vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import setupAxios from '../../../setupAxios';
 import Tag from '../../atoms/items/Tag.vue';
@@ -7,6 +7,8 @@ import Tag from '../../atoms/items/Tag.vue';
 const applicants = ref([]);
 const loading = ref(true);
 const axiosInstance = setupAxios();
+
+const emit = defineEmits(['accepted', 'rejected', 'fetchActiveCrewMembers', 'navigateToProfile']);
 
 const fetchBusinessId = async () => {
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
@@ -78,10 +80,35 @@ const rejectApplicant = async (applicationId, index) => {
         const response = await axiosInstance.post(`/bussJobInt/applications/${applicationId}/reject`, { status: 'rejected' });
         if (response.status === 200) {
             applicants.value.splice(index, 1);
+            emit('rejected');
         }
     } catch (error) {
         console.error('Failed to reject applicant:', error);
     }
+};
+
+const acceptApplicant = async (application, index) => {
+    try {
+        const response = await axiosInstance.post(`/bussJobInt/applications/${application.applicationId}/accept`, { status: 'accepted' });
+        if (response.status === 200) {
+            emit('accepted', {
+                userId: application.user._id,
+                username: application.user.username,
+                jobTitle: application.jobTitle,
+                jobFunction: application.jobFunction,
+                date: application.date,
+                profileImage: application.user.crewData?.basicInfo?.profileImage
+            });
+            applicants.value = applicants.value.filter(app => app.jobTitle !== application.jobTitle);
+        }
+        emit('fetchActiveCrewMembers');
+    } catch (error) {
+        console.error('Failed to accept applicant:', error);
+    }
+};
+
+const navigateToProfile = (userUrl) => {
+    emit('navigateToProfile', userUrl);
 };
 
 onMounted(() => {
@@ -91,13 +118,13 @@ onMounted(() => {
 
 <template>
     <div v-if="loading" class="loading">Loading...</div>
-    <div v-for="(applicant, index) in applicants" :key="applicant.userId" class="applicant surface-tertiary radius-xs">
+    <div v-for="(applicant, index) in applicants" :key="applicant.userId" class="applicant surface-tertiary radius-xs"
+        @click="navigateToProfile(applicant.user.userUrl)">
         <div class="applicant__top">
             <img :src="applicant.user.crewData?.basicInfo?.profileImage || 'https://via.placeholder.com/64'"
                 class="applicant__top__image" alt="Crew image" />
             <h4 class="applicant__top__name">{{ applicant.user.username }}</h4>
         </div>
-
         <div id="applicant__info">
             <div class="applicant__info__left">
                 <Tag>{{ applicant.jobTitle }}</Tag>
@@ -106,13 +133,11 @@ onMounted(() => {
                 <p>{{ formatDate(applicant.Date) }}</p>
             </div>
         </div>
-
         <div class="applicant__bot">
             <NormalButton label="Reject" class="applicant__bot__button button--tertiary"
                 @click.stop="rejectApplicant(applicant.applicationId, index)" />
             <NormalButton label="Accept" class="applicant__bot__button button--primary"
-                :endpoint="`/bussJobInt/applications/${applicant.applicationId}/accept`"
-                :postData="{ status: 'accepted' }" @click.stop />
+                @click.stop="acceptApplicant(applicant, index)" />
         </div>
     </div>
 </template>
