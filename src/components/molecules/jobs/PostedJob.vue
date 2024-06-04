@@ -1,10 +1,11 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, defineEmits } from 'vue';
 import { IconoirProvider, User } from '@iconoir/vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import setupAxios from '../../../setupAxios';
 
 const jobs = ref([]);
+const emit = defineEmits(['jobClick']);
 const axiosInstance = setupAxios();
 
 const fetchBusinessId = async () => {
@@ -45,6 +46,10 @@ const fetchJobs = async (businessId) => {
     }
 };
 
+const handleJobClick = (job) => {
+    emit('jobClick', job);
+};
+
 onMounted(async () => {
     const businessId = await fetchBusinessId();
     if (businessId) {
@@ -60,7 +65,8 @@ onMounted(async () => {
         'height': '20',
         'stroke-width': '1.8'
     }">
-        <div v-for="job in jobs" :key="job._id" id="posted__job" class="surface-tertiary radius-xs">
+        <div v-for="job in jobs" :key="job._id" id="posted__job" class="surface-tertiary radius-xs"
+            @click="handleJobClick(job)">
             <div id="posted__job__top">
                 <div id="posted__job__top__left">
                     <div id="posted__job__top__left__title">
@@ -102,7 +108,7 @@ onMounted(async () => {
 
             <div id="posted__job__buttons">
                 <NormalButton id="normalButton__details" class="button--primary" :hasIcon="false" :hasLabel="true"
-                    label="Details" :hasRequest="false" />
+                    label="Details" :hasRequest="false" @click.stop="handleJobClick(job)" />
             </div>
         </div>
     </IconoirProvider>

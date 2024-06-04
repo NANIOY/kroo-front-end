@@ -9,38 +9,38 @@ const props = defineProps({
     },
     label: {
         type: String,
-        default: 'Select a date'
+        default: 'Select a time'
     }
 });
 
 const emit = defineEmits(['update:modelValue']);
 
-const selectedDate = ref(props.modelValue || '');
+const selectedTime = ref(props.modelValue || '');
 
-const selectDate = (event) => {
-    selectedDate.value = event.target.value;
-    emit('update:modelValue', selectedDate.value);
+const selectTime = (event) => {
+    selectedTime.value = event.target.value;
+    emit('update:modelValue', selectedTime.value);
 };
 
 watch(() => props.modelValue, (newValue) => {
-    selectedDate.value = newValue;
+    selectedTime.value = newValue;
 });
 </script>
 
 <template>
-    <div class="datepicker">
-        <label v-if="hasLabel" class="datepicker__label">{{ label }}</label>
-        <input class="datepicker__input radius-xs text-reg-l" type="date" v-model="selectedDate" @change="selectDate"
-            :class="{ 'filled': selectedDate }" placeholder=" " />
+    <div class="timepicker">
+        <label v-if="hasLabel" class="timepicker__label">{{ label }}</label>
+        <input class="timepicker__input radius-xs text-reg-l" type="time" v-model="selectedTime" @change="selectTime"
+            :class="{ 'filled': selectedTime }" placeholder=" " />
     </div>
 </template>
 
 <style scoped>
-.datepicker {
+.timepicker {
     position: relative;
 }
 
-.datepicker__input {
+.timepicker__input {
     box-sizing: border-box;
     padding-top: 2px;
     height: 48px;
@@ -53,20 +53,20 @@ watch(() => props.modelValue, (newValue) => {
     color: var(--neutral-30);
 }
 
-.datepicker__input::placeholder {
+.timepicker__input::placeholder {
     color: var(--neutral-30);
 }
 
-.datepicker__input:focus {
+.timepicker__input:focus {
     border-color: var(--blurple-50);
     outline: none;
 }
 
-.datepicker__input.filled {
+.timepicker__input.filled {
     color: var(--black);
 }
 
-.datepicker__label {
+.timepicker__label {
     display: block;
     margin-bottom: 4px;
     color: var(--black);

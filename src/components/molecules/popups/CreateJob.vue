@@ -1,38 +1,59 @@
 <script setup>
-import { ref, defineProps, defineEmits, onMounted } from 'vue';
+import { reactive, defineProps, defineEmits, watch } from 'vue';
 import InputField from '../../atoms/inputs/InputField.vue';
 import MultiDropdown from '../../atoms/inputs/MultiDropdown.vue';
 import Dropdown from '../../atoms/inputs/DropDown.vue';
 import UploadFile from '../../atoms/inputs/UploadFile.vue';
+import DatePicker from '../../atoms/inputs/DatePicker.vue';
+import TimePicker from '../../atoms/inputs/TimePicker.vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
+import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import Overlay from './Overlay.vue';
 import setupAxios from '../../../setupAxios';
+import axios from 'axios';
 
 const props = defineProps({
     isVisible: {
         type: Boolean,
         default: false,
     },
-});
-
-const emits = defineEmits(['close', 'submit']);
-
-const postData = ref({
-    title: '',
-    description: '',
-    wage: '',
-    date: '',
-    time: '',
-    skills: [],
-    jobFunction: '',
-    location: {
-        city: '',
-        address: ''
+    postData: {
+        type: Object,
+        default: () => ({
+            title: '',
+            description: '',
+            wage: '',
+            date: '',
+            time: '',
+            skills: [],
+            jobFunction: '',
+            location: {
+                city: '',
+                address: '',
+                country: ''
+            },
+            production_type: '',
+            union_status: '',
+            attachments: []
+        })
     },
-    production_type: '',
-    union_status: '',
-    attachments: []
+    type: {
+        type: String,
+        default: 'create' // 'create' or 'edit'
+    },
+    jobId: {
+        type: String,
+        default: ''
+    }
 });
+
+const emits = defineEmits(['close', 'submit', 'delete']);
+
+const localPostData = reactive(JSON.parse(JSON.stringify(props.postData)));
+
+watch(() => props.postData, (newPostData) => {
+    Object.assign(localPostData, JSON.parse(JSON.stringify(newPostData)));
+}, { deep: true });
 
 const functionOptions = [
     '3D Modeling',
@@ -173,7 +194,24 @@ const createJob = async () => {
         return;
     }
 
-    const jobData = { ...postData.value, businessId };
+    if (!localPostData.location.country && localPostData.location.city) {
+        try {
+            const apiUrl = `https://nominatim.openstreetmap.org/search?format=json&city=${encodeURIComponent(localPostData.location.city)}&addressdetails=1`;
+            const response = await axios.get(apiUrl, {
+                headers: { 'Accept-Language': 'en' }
+            });
+            if (response.data && response.data.length > 0) {
+                localPostData.location.country = response.data[0].address.country;
+            } else {
+                throw new Error('Unable to fetch country for the provided city.');
+            }
+        } catch (error) {
+            console.error('Error fetching country:', error.message);
+            return;
+        }
+    }
+
+    const jobData = { ...localPostData, businessId };
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
 
     if (!token) {
@@ -188,10 +226,68 @@ const createJob = async () => {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         console.log('Job created successfully:', response.data);
-        emits('submit', postData.value);
+        emits('submit', localPostData);
         closeModal();
     } catch (error) {
         console.error('Failed to create job:', error);
+    }
+};
+
+const updateJob = async () => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+
+    if (!token) {
+        console.error('Authentication token is missing');
+        return;
+    }
+
+    console.log('Updating job data:', JSON.stringify(localPostData, null, 2));
+
+    try {
+        const response = await axiosInstance.put(`/bussJob/${props.jobId}`, localPostData, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        console.log('Job updated successfully:', response.data);
+        emits('submit', localPostData);
+        closeModal();
+    } catch (error) {
+        console.error('Failed to update job:', error);
+    }
+};
+
+const deleteJob = async () => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+
+    if (!token) {
+        console.error('Authentication token is missing');
+        return;
+    }
+
+    try {
+        const businessId = await fetchBusinessId();
+
+        if (!businessId) {
+            console.error('Business ID is missing');
+            return;
+        }
+
+        const response = await axiosInstance.delete(`/bussJob/${props.jobId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        console.log('Job deleted successfully:', response.data);
+        emits('delete', props.jobId);
+        closeModal();
+    } catch (error) {
+        console.error('Failed to delete job:', error);
+    }
+};
+
+const handleSubmit = () => {
+    console.log('Submitting job data:', JSON.stringify(localPostData, null, 2));
+    if (props.type === 'create') {
+        createJob();
+    } else {
+        updateJob();
     }
 };
 
@@ -203,42 +299,49 @@ const closeModal = () => {
 <template>
     <Overlay class="modal__overlay" v-if="isVisible" @overlayClick="closeModal">
         <div class="modal" @click.stop>
-            <h2>Create new job</h2>
-            <form class="modal__form" @submit.prevent="createJob">
-                <InputField v-model="postData.title" :hasLabel="true" label="Title" placeholder="Enter a job title" />
-                <Dropdown v-model="postData.jobFunction" class="modal__dropdown" :hasLabel="true" label="Job Function"
-                    :options="functionOptions" />
-                <InputField v-model="postData.description" :hasLabel="true" label="Description"
+            <div class="modal__top">
+                <h2>{{ props.type === 'create' ? 'Create new job' : 'Edit job' }}</h2>
+                <NormalButton v-if="props.type === 'update'" label="Delete"
+                    class="button--danger modal__buttons__button" :hasRequest=false @click="deleteJob" />
+            </div>
+            <form class="modal__form" @submit.prevent="handleSubmit">
+                <InputField v-model="localPostData.title" :hasLabel="true" label="Title"
+                    placeholder="Enter a job title" />
+                <Dropdown v-model="localPostData.jobFunction" class="modal__dropdown" :hasLabel="true"
+                    label="Job Function" :options="functionOptions" />
+                <InputField v-model="localPostData.description" :hasLabel="true" label="Description"
                     placeholder="Enter a brief description" />
-                <div class="modal__multi">
-                    <InputField v-model="postData.wage" :hasLabel="true" label="Wage (€/hr)" type="number"
+                <div class="modal__multi modal__multi--wageskills">
+                    <InputField v-model="localPostData.wage" :hasLabel="true" label="Wage (€/hr)" type="number"
                         placeholder="Enter a wage" />
-                    <MultiDropdown v-model="postData.skills" :hasLabel="true" label="Skills" :options="skillsOptions" />
+                    <MultiDropdown v-model="localPostData.skills" :hasLabel="true" label="Skills"
+                        :options="skillsOptions" />
                 </div>
-                <div class="modal__multi">
-                    <InputField v-model="postData.date" :hasLabel="true" label="Date" type="date"
+                <div class="modal__multi modal__multi--datetime">
+                    <DatePicker v-model="localPostData.date" :hasLabel="true" label="Date" type="date"
                         placeholder="Select date" />
-                    <InputField v-model="postData.time" :hasLabel="true" label="Time" type="time"
+                    <TimePicker v-model="localPostData.time" :hasLabel="true" label="Time" type="time"
                         placeholder="Select time" />
                 </div>
                 <div class="modal__multi">
-                    <InputField v-model="postData.location.city" :hasLabel="true" label="City"
+                    <InputField v-model="localPostData.location.city" :hasLabel="true" label="City"
                         placeholder="Enter city" />
-                    <InputField v-model="postData.location.address" :hasLabel="true" label="Address"
+                    <InputField v-model="localPostData.location.address" :hasLabel="true" label="Address"
                         placeholder="Enter address" />
                 </div>
                 <div class="modal__multi">
-                    <Dropdown class="modal__dropdown" v-model="postData.production_type" :hasLabel="true"
+                    <Dropdown class="modal__dropdown" v-model="localPostData.production_type" :hasLabel="true"
                         label="Production Type" :options="productionTypes" placeholder="Select type" />
-                    <Dropdown class="modal__dropdown" v-model="postData.union_status" :hasLabel="true"
+                    <Dropdown class="modal__dropdown" v-model="localPostData.union_status" :hasLabel="true"
                         label="Union Status" :options="unionStatuses" placeholder="Select union status" />
                 </div>
-                <UploadFile v-model="postData.attachments" :hasLabel="true" label="Attachments"
+                <UploadFile v-model="localPostData.attachments" :hasLabel="true" label="Attachments"
                     placeholder="Upload file" />
 
                 <div class="modal__buttons">
+                    <LargeButton :label="props.type === 'create' ? 'Create' : 'Update'"
+                        class="button--primary modal__buttons__button" type="submit" />
                     <LargeButton label="Cancel" class="button--secondary modal__buttons__button" @click="closeModal" />
-                    <LargeButton label="Create" class="button--primary modal__buttons__button" type="submit" />
                 </div>
             </form>
         </div>
@@ -263,6 +366,24 @@ const closeModal = () => {
     gap: 16px;
 }
 
+.modal__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.modal__top> :nth-child(2) {
+    width: 128px;
+    background-color: var(--warning);
+    color: var(--white);
+    transition: 0.3s;
+}
+
+.modal__top> :nth-child(2):hover {
+    filter: brightness(92%);
+}
+
 .modal__form {
     display: flex;
     flex-direction: column;
@@ -277,6 +398,19 @@ const closeModal = () => {
     display: flex;
     gap: 16px;
     justify-content: space-between;
+}
+
+.modal__multi--wageskills> :nth-child(1) {
+    width: 104px;
+}
+
+.modal__multi--wageskills> :nth-child(2) {
+    width: calc(100% - 104px - 16px);
+}
+
+.modal__multi--datetime> :nth-child(1),
+.modal__multi--datetime> :nth-child(2) {
+    width: 100%;
 }
 
 /* BUTTONS */
