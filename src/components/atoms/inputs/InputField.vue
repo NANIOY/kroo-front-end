@@ -46,7 +46,14 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'search']);
 
 const inputType = ref(props.isPassword ? 'password' : 'text');
-const inputValue = ref(props.modelValue);
+const inputValue = computed({
+  get() {
+    return props.modelValue;
+  },
+  set(value) {
+    emit('update:modelValue', value);
+  }
+});
 
 onMounted(() => {
   if (props.localStorageKey && props.group) {
