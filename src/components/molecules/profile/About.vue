@@ -1,6 +1,7 @@
 <script setup>
 import { defineProps, ref, watchEffect } from 'vue';
 import Tag from '../../atoms/items/Tag.vue';
+import { IconoirProvider, Attachment } from '@iconoir/vue';
 
 const props = defineProps({
     user: {
@@ -22,7 +23,14 @@ watchEffect(() => {
 </script>
 
 <template>
-    
+    <IconoirProvider
+    :icon-props="{
+      'color': 'var(--black)',
+      'stroke-width': 1.5,
+      'width': '16px',
+      'height': '16px',
+    }"
+    >
     <div v-if="crewData">
         <div class="about-top">
             <div class="about__bio surface-tertiary radius-s">
@@ -36,32 +44,48 @@ watchEffect(() => {
             </div>
         </div>
 
-    <div class="about__education surface-tertiary radius-s">
-        <div class="about__educations">
-            <div>
-                <div class="about__education__wrapper">
-                    <div class="about__education__wrapper-info">
-                        <p class="education__year">2024</p>
-                        <p>-</p>
-                        <p class="text-bold-normal education__school">Thomas More Mechelen</p>
+    <div class="about-bottom">
+        <div class="about__education surface-tertiary radius-s">
+            <div class="about__educations">
+                <div>
+                    <div class="about__education__wrapper">
+                        <div class="about__education__wrapper-info">
+                            <p class="education__year">2024</p>
+                            <p>-</p>
+                            <p class="text-bold-normal education__school">Thomas More Mechelen</p>
+                        </div>
+                        <div class="about__education__wrapper-education">
+                            <p class="text-reg-s education__course">Digital Experience Design</p>
+                        </div>
                     </div>
-                    <div class="about__education__wrapper-education">
-                        <p class="text-reg-s education__course">Digital Experience Design</p>
+                </div>
+                <div>
+                    <div class="about__education__wrapper">
+                        <div class="about__education__wrapper-info">
+                            <p class="education__year">2020</p>
+                            <p>-</p>
+                            <p class="text-bold-normal education__school">AP hogeschool</p>
+                        </div>
+                        <div class="about__education__wrapper-education">
+                            <p class="text-reg-s education__course">Toegepaste journalistiek</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div>
-                <div class="about__education__wrapper">
-                    <div class="about__education__wrapper-info">
-                        <p class="education__year">2020</p>
-                        <p>-</p>
-                        <p class="text-bold-normal education__school">AP hogeschool</p>
-                    </div>
-                    <div class="about__education__wrapper-education">
-                        <p class="text-reg-s education__course">Toegepaste journalistiek</p>
-                    </div>
-                </div>
-            </div>
+        </div>
+
+        <div class="about__certifications surface-tertiary radius-s">
+            <ul class="about__certifications__wrapper">
+                <li class="certification">
+                    <a href="#" class="certificaton-link"><Attachment class="attachment-icon" />Certification 1</a>
+                </li>
+                <li class="certification">
+                    <a href="#" class="certificaton-link"><Attachment class="attachment-icon"/>Certification 2</a>
+                </li>
+                <li class="certification">
+                    <a href="#" class="certificaton-link"><Attachment class="attachment-icon"/>Certification 3</a>
+                </li>
+            </ul>
         </div>
     </div>
         
@@ -81,6 +105,7 @@ watchEffect(() => {
     <div v-else>
         <p>No crew data available</p>
     </div>
+</IconoirProvider>
 </template>
 
 <style scoped>
@@ -89,7 +114,7 @@ p {
     margin: 0;
 }
 
-.about__bio, .about__education, .about__skills {
+.about__bio, .about__education, .about__skills, .about__certifications {
     padding: 32px;
 }
 
@@ -147,6 +172,35 @@ p {
 
 .skill {
     width: fit-content;
+}
+
+/* certifications */
+
+.about__certifications {
+    max-width: fit-content;
+}
+
+.certification {
+    list-style-type: none;
+}
+
+.certification a, .attachment-icon {
+    color: var(--black);
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.certification a:hover, .attachment-icon:hover {
+    color: var(--neutral-50);
+}
+
+.certification a:active{
+    color: var(--blurple-30);
+}
+
+.about__certifications__wrapper {
+    padding: 0;
+    margin: 0;
 }
 
 </style>
