@@ -13,14 +13,12 @@ const props = defineProps({
 
 const name = ref('');
 const functions = ref([]);
-const skills = ref([]);
 const description = ref('');
 
 watchEffect(() => {
     if (props.user) {
         name.value = props.user.username;
         functions.value = props.user.crewData?.basicInfo.functions || [];
-        skills.value = props.user.crewData?.profileDetails.skills || [];
         description.value = props.user.crewData?.profileDetails.tagline || '';
     }
 });
@@ -40,13 +38,7 @@ watchEffect(() => {
                             v-for="(func, index) in functions" :key="index" type="colored">{{ func }}</Tag>
                     </div>
 
-                    <div class="profileinfo__container__info__text__skilldesc">
-                        <div>
-                            <span v-for="skill in skills" :key="skill"
-                                class="profileinfo__container__info__text__skilldesc__skill text-reg-s">
-                                {{ skill }}
-                            </span>
-                        </div>
+                    <div>
                         <p class="text-reg-normal">
                             {{ description }}
                         </p>
@@ -108,15 +100,4 @@ watchEffect(() => {
     justify-content: center;
 }
 
-/* SKILLS + DESCRIPTION */
-.profileinfo__container__info__text__skilldesc {
-    align-items: center;
-    text-align: center;
-}
-
-.profileinfo__container__info__text__skilldesc__skill:not(:last-child)::after {
-    content: "|";
-    margin: 0 8px;
-    color: var(--neutral-40);
-}
 </style>
