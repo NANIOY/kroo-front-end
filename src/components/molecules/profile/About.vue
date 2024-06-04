@@ -116,6 +116,7 @@ p {
 
 .about__bio, .about__education, .about__skills, .about__certifications {
     padding: 32px;
+    margin-bottom: 1rem;
 }
 
 /* about top */
@@ -128,7 +129,6 @@ p {
 /* bio */ 
 
 .about__bio {
-    margin-bottom: 1rem;
     max-width: 794px;
     max-height: 350px;
 }
