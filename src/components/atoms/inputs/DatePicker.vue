@@ -15,7 +15,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
-const selectedDate = ref(props.modelValue || ''); // Initialize to empty string
+const selectedDate = ref(props.modelValue || '');
 
 const selectDate = (event) => {
     selectedDate.value = event.target.value;
@@ -57,14 +57,5 @@ const selectDate = (event) => {
     display: block;
     margin-bottom: 4px;
     color: var(--black);
-}
-
-.placeholder {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 12px;
-    color: var(--neutral-30);
-    pointer-events: none;
 }
 </style>

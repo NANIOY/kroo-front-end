@@ -4,6 +4,8 @@ import InputField from '../../atoms/inputs/InputField.vue';
 import MultiDropdown from '../../atoms/inputs/MultiDropdown.vue';
 import Dropdown from '../../atoms/inputs/DropDown.vue';
 import UploadFile from '../../atoms/inputs/UploadFile.vue';
+import DatePicker from '../../atoms/inputs/DatePicker.vue';
+import TimePicker from '../../atoms/inputs/TimePicker.vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
 import Overlay from './Overlay.vue';
 import setupAxios from '../../../setupAxios';
@@ -227,10 +229,10 @@ const closeModal = () => {
                         placeholder="Enter a wage" />
                     <MultiDropdown v-model="localPostData.skills" :hasLabel="true" label="Skills" :options="skillsOptions" />
                 </div>
-                <div class="modal__multi">
-                    <InputField v-model="localPostData.date" :hasLabel="true" label="Date" type="date"
+                <div class="modal__multi modal__multi--datetime">
+                    <DatePicker v-model="localPostData.date" :hasLabel="true" label="Date" type="date"
                         placeholder="Select date" />
-                    <InputField v-model="localPostData.time" :hasLabel="true" label="Time" type="time"
+                    <TimePicker v-model="localPostData.time" :hasLabel="true" label="Time" type="time"
                         placeholder="Select time" />
                 </div>
                 <div class="modal__multi">
@@ -290,6 +292,11 @@ const closeModal = () => {
     display: flex;
     gap: 16px;
     justify-content: space-between;
+}
+
+.modal__multi--datetime > :nth-child(1),
+.modal__multi--datetime > :nth-child(2) {
+    width: 100%;
 }
 
 /* BUTTONS */
