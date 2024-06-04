@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, defineEmits, watch, onMounted } from 'vue';
+import { reactive, defineProps, defineEmits, watch } from 'vue';
 import InputField from '../../atoms/inputs/InputField.vue';
 import MultiDropdown from '../../atoms/inputs/MultiDropdown.vue';
 import Dropdown from '../../atoms/inputs/DropDown.vue';
@@ -10,6 +10,7 @@ import LargeButton from '../../atoms/buttons/LargeButton.vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import Overlay from './Overlay.vue';
 import setupAxios from '../../../setupAxios';
+import axios from 'axios';
 
 const props = defineProps({
     isVisible: {
@@ -28,7 +29,8 @@ const props = defineProps({
             jobFunction: '',
             location: {
                 city: '',
-                address: ''
+                address: '',
+                country: ''
             },
             production_type: '',
             union_status: '',
@@ -47,10 +49,10 @@ const props = defineProps({
 
 const emits = defineEmits(['close', 'submit', 'delete']);
 
-const localPostData = ref({ ...props.postData })
+const localPostData = reactive(JSON.parse(JSON.stringify(props.postData)));
 
 watch(() => props.postData, (newPostData) => {
-    localPostData.value = { ...newPostData };
+    Object.assign(localPostData, JSON.parse(JSON.stringify(newPostData)));
 }, { deep: true });
 
 const functionOptions = [
@@ -192,7 +194,24 @@ const createJob = async () => {
         return;
     }
 
-    const jobData = { ...localPostData.value, businessId };
+    if (!localPostData.location.country && localPostData.location.city) {
+        try {
+            const apiUrl = `https://nominatim.openstreetmap.org/search?format=json&city=${encodeURIComponent(localPostData.location.city)}&addressdetails=1`;
+            const response = await axios.get(apiUrl, {
+                headers: { 'Accept-Language': 'en' }
+            });
+            if (response.data && response.data.length > 0) {
+                localPostData.location.country = response.data[0].address.country;
+            } else {
+                throw new Error('Unable to fetch country for the provided city.');
+            }
+        } catch (error) {
+            console.error('Error fetching country:', error.message);
+            return;
+        }
+    }
+
+    const jobData = { ...localPostData, businessId };
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
 
     if (!token) {
@@ -207,7 +226,7 @@ const createJob = async () => {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         console.log('Job created successfully:', response.data);
-        emits('submit', localPostData.value);
+        emits('submit', localPostData);
         closeModal();
     } catch (error) {
         console.error('Failed to create job:', error);
@@ -222,14 +241,14 @@ const updateJob = async () => {
         return;
     }
 
-    console.log('Updating job data:', JSON.stringify(localPostData.value, null, 2));
+    console.log('Updating job data:', JSON.stringify(localPostData, null, 2));
 
     try {
-        const response = await axiosInstance.put(`/bussJob/${props.jobId}`, localPostData.value, {
+        const response = await axiosInstance.put(`/bussJob/${props.jobId}`, localPostData, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         console.log('Job updated successfully:', response.data);
-        emits('submit', localPostData.value);
+        emits('submit', localPostData);
         closeModal();
     } catch (error) {
         console.error('Failed to update job:', error);
@@ -257,6 +276,7 @@ const deleteJob = async () => {
 };
 
 const handleSubmit = () => {
+    console.log('Submitting job data:', JSON.stringify(localPostData, null, 2));
     if (props.type === 'create') {
         createJob();
     } else {
@@ -274,8 +294,8 @@ const closeModal = () => {
         <div class="modal" @click.stop>
             <div class="modal__top">
                 <h2>{{ props.type === 'create' ? 'Create new job' : 'Edit job' }}</h2>
-                <NormalButton v-if="props.type === 'update'" label="Delete" class="button--danger modal__buttons__button"
-                    @click="deleteJob" />
+                <NormalButton v-if="props.type === 'update'" label="Delete"
+                    class="button--danger modal__buttons__button" @click="deleteJob" />
             </div>
             <form class="modal__form" @submit.prevent="handleSubmit">
                 <InputField v-model="localPostData.title" :hasLabel="true" label="Title"
@@ -320,7 +340,6 @@ const closeModal = () => {
         </div>
     </Overlay>
 </template>
-
 
 <style scoped>
 .modal {
