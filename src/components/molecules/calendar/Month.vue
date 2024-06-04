@@ -12,7 +12,9 @@ const selectedDay = ref(null);  // State to keep track of the selected day
 
 watch(selectedDay, (newVal) => {
     if (newVal) {
+        const weekRange = getWeekRange(newVal);
         console.log("Selected day:", newVal);
+        console.log("Week of:", weekRange.start.toDateString(), "to", weekRange.end.toDateString());
     }
 });
 
@@ -86,6 +88,14 @@ function handleDayClick(day) {
         selectedDay.value = clickedDate;
         emit('day-clicked', clickedDate);
     }
+}
+
+function getWeekRange(date) {
+    const startOfWeek = new Date(date);
+    startOfWeek.setDate(date.getDate() - date.getDay() + 1);
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    return { start: startOfWeek, end: endOfWeek };
 }
 </script>
 
