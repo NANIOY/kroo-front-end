@@ -7,6 +7,7 @@ import UploadFile from '../../atoms/inputs/UploadFile.vue';
 import DatePicker from '../../atoms/inputs/DatePicker.vue';
 import TimePicker from '../../atoms/inputs/TimePicker.vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
+import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import Overlay from './Overlay.vue';
 import setupAxios from '../../../setupAxios';
 
@@ -33,20 +34,24 @@ const props = defineProps({
             union_status: '',
             attachments: []
         })
+    },
+    type: {
+        type: String,
+        default: 'create' // 'create' or 'edit'
+    },
+    jobId: {
+        type: String,
+        default: ''
     }
 });
 
-const emits = defineEmits(['close', 'submit']);
+const emits = defineEmits(['close', 'submit', 'delete']);
 
-const localPostData = ref(JSON.parse(JSON.stringify(props.postData)));
+const localPostData = ref({ ...props.postData })
 
-watch(
-    () => props.postData,
-    (newPostData) => {
-        localPostData.value = JSON.parse(JSON.stringify(newPostData));
-    },
-    { deep: true, immediate: true }
-);
+watch(() => props.postData, (newPostData) => {
+    localPostData.value = { ...newPostData };
+}, { deep: true });
 
 const functionOptions = [
     '3D Modeling',
@@ -209,6 +214,56 @@ const createJob = async () => {
     }
 };
 
+const updateJob = async () => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+
+    if (!token) {
+        console.error('Authentication token is missing');
+        return;
+    }
+
+    console.log('Updating job data:', JSON.stringify(localPostData.value, null, 2));
+
+    try {
+        const response = await axiosInstance.put(`/bussJob/${props.jobId}`, localPostData.value, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        console.log('Job updated successfully:', response.data);
+        emits('submit', localPostData.value);
+        closeModal();
+    } catch (error) {
+        console.error('Failed to update job:', error);
+    }
+};
+
+const deleteJob = async () => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+
+    if (!token) {
+        console.error('Authentication token is missing');
+        return;
+    }
+
+    try {
+        const response = await axiosInstance.delete(`/bussJob/${props.jobId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        console.log('Job deleted successfully:', response.data);
+        emits('delete', props.jobId);
+        closeModal();
+    } catch (error) {
+        console.error('Failed to delete job:', error);
+    }
+};
+
+const handleSubmit = () => {
+    if (props.type === 'create') {
+        createJob();
+    } else {
+        updateJob();
+    }
+};
+
 const closeModal = () => {
     emits('close');
 };
@@ -217,8 +272,12 @@ const closeModal = () => {
 <template>
     <Overlay class="modal__overlay" v-if="isVisible" @overlayClick="closeModal">
         <div class="modal" @click.stop>
-            <h2>Create new job</h2>
-            <form class="modal__form" @submit.prevent="createJob">
+            <div class="modal__top">
+                <h2>{{ props.type === 'create' ? 'Create new job' : 'Edit job' }}</h2>
+                <NormalButton v-if="props.type === 'update'" label="Delete" class="button--danger modal__buttons__button"
+                    @click="deleteJob" />
+            </div>
+            <form class="modal__form" @submit.prevent="handleSubmit">
                 <InputField v-model="localPostData.title" :hasLabel="true" label="Title"
                     placeholder="Enter a job title" />
                 <Dropdown v-model="localPostData.jobFunction" class="modal__dropdown" :hasLabel="true"
@@ -253,8 +312,9 @@ const closeModal = () => {
                     placeholder="Upload file" />
 
                 <div class="modal__buttons">
+                    <LargeButton :label="props.type === 'create' ? 'Create' : 'Update'"
+                        class="button--primary modal__buttons__button" type="submit" />
                     <LargeButton label="Cancel" class="button--secondary modal__buttons__button" @click="closeModal" />
-                    <LargeButton label="Create" class="button--primary modal__buttons__button" type="submit" />
                 </div>
             </form>
         </div>
@@ -278,6 +338,24 @@ const closeModal = () => {
     transform: translateY(-50%);
     right: 64px;
     gap: 16px;
+}
+
+.modal__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.modal__top> :nth-child(2) {
+    width: 128px;
+    background-color: var(--warning);
+    color: var(--white);
+    transition: 0.3s;
+}
+
+.modal__top> :nth-child(2):hover {
+    filter: brightness(92%);
 }
 
 .modal__form {

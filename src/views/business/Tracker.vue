@@ -26,6 +26,8 @@ const selectedJob = ref({
     attachments: []
 });
 
+const createJobModalType = ref('create');
+
 const jobCounts = ref({
     posted: 0,
     applied: 0,
@@ -39,6 +41,7 @@ const axiosInstance = setupAxios();
 const openModal = (job = null) => {
     if (job) {
         selectedJob.value = { ...job };
+        createJobModalType.value = 'update';
     } else {
         selectedJob.value = {
             title: '',
@@ -56,16 +59,21 @@ const openModal = (job = null) => {
             union_status: '',
             attachments: []
         };
+        createJobModalType.value = 'create';
     }
     isModalVisible.value = true;
 };
 
 const closeModal = () => {
     isModalVisible.value = false;
-    selectedJob.value = null;
 };
 
 const handleCreateJob = (jobData) => {
+    closeModal();
+};
+
+const handleDeleteJob = (jobId) => {
+    console.log(`Job with ID ${jobId} deleted`);
     closeModal();
 };
 
@@ -121,7 +129,6 @@ const fetchJobCounts = async (businessId) => {
         });
         jobCounts.value.active = activeResponse.data.activeCrewMembers.length;
 
-
     } catch (error) {
         console.error('Failed to fetch job counts:', error);
     }
@@ -163,8 +170,26 @@ const updateCountsOnReject = () => {
     jobCounts.value.applied--;
 };
 
-const handleJobClick = (job) => {
-    openModal(job);
+const handleJobClick = async (job) => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+    const businessId = await fetchBusinessId();
+
+    if (!token || !businessId) {
+        console.error('Authentication token or business ID is missing');
+        return;
+    }
+
+    try {
+        const jobDetails = await axiosInstance.get(`/bussJob/${businessId}/${job._id}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        selectedJob.value = jobDetails.data.job;
+        createJobModalType.value = 'update';
+        isModalVisible.value = true;
+    } catch (error) {
+        console.error('Failed to fetch job details:', error);
+    }
 };
 
 onMounted(() => {
@@ -178,7 +203,8 @@ onMounted(() => {
 </script>
 
 <template>
-    <CreateJobModal :isVisible="isModalVisible" :postData="selectedJob" @close="closeModal" @submit="handleCreateJob" />
+    <CreateJobModal :isVisible="isModalVisible" :postData="selectedJob" :type="createJobModalType" @close="closeModal"
+        @submit="handleCreateJob" @delete="handleDeleteJob" />
 
     <div id="tracker">
         <div class="tracker__container">
