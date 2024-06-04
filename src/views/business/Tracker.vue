@@ -203,8 +203,8 @@ onMounted(() => {
 </script>
 
 <template>
-    <CreateJobModal :isVisible="isModalVisible" :postData="selectedJob" :type="createJobModalType" @close="closeModal"
-        @submit="handleCreateJob" @delete="handleDeleteJob" />
+    <CreateJobModal :isVisible="isModalVisible" :postData="selectedJob" :type="createJobModalType"
+        :jobId="selectedJob._id" @close="closeModal" @submit="handleCreateJob" @delete="handleDeleteJob" />
 
     <div id="tracker">
         <div class="tracker__container">

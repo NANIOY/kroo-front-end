@@ -264,6 +264,13 @@ const deleteJob = async () => {
     }
 
     try {
+        const businessId = await fetchBusinessId();
+
+        if (!businessId) {
+            console.error('Business ID is missing');
+            return;
+        }
+
         const response = await axiosInstance.delete(`/bussJob/${props.jobId}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -295,7 +302,7 @@ const closeModal = () => {
             <div class="modal__top">
                 <h2>{{ props.type === 'create' ? 'Create new job' : 'Edit job' }}</h2>
                 <NormalButton v-if="props.type === 'update'" label="Delete"
-                    class="button--danger modal__buttons__button" @click="deleteJob" />
+                    class="button--danger modal__buttons__button" :hasRequest=false @click="deleteJob" />
             </div>
             <form class="modal__form" @submit.prevent="handleSubmit">
                 <InputField v-model="localPostData.title" :hasLabel="true" label="Title"
