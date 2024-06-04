@@ -219,15 +219,17 @@ const closeModal = () => {
         <div class="modal" @click.stop>
             <h2>Create new job</h2>
             <form class="modal__form" @submit.prevent="createJob">
-                <InputField v-model="localPostData.title" :hasLabel="true" label="Title" placeholder="Enter a job title" />
-                <Dropdown v-model="localPostData.jobFunction" class="modal__dropdown" :hasLabel="true" label="Job Function"
-                    :options="functionOptions" />
+                <InputField v-model="localPostData.title" :hasLabel="true" label="Title"
+                    placeholder="Enter a job title" />
+                <Dropdown v-model="localPostData.jobFunction" class="modal__dropdown" :hasLabel="true"
+                    label="Job Function" :options="functionOptions" />
                 <InputField v-model="localPostData.description" :hasLabel="true" label="Description"
                     placeholder="Enter a brief description" />
-                <div class="modal__multi">
+                <div class="modal__multi modal__multi--wageskills">
                     <InputField v-model="localPostData.wage" :hasLabel="true" label="Wage (€/hr)" type="number"
                         placeholder="Enter a wage" />
-                    <MultiDropdown v-model="localPostData.skills" :hasLabel="true" label="Skills" :options="skillsOptions" />
+                    <MultiDropdown v-model="localPostData.skills" :hasLabel="true" label="Skills"
+                        :options="skillsOptions" />
                 </div>
                 <div class="modal__multi modal__multi--datetime">
                     <DatePicker v-model="localPostData.date" :hasLabel="true" label="Date" type="date"
@@ -294,8 +296,16 @@ const closeModal = () => {
     justify-content: space-between;
 }
 
-.modal__multi--datetime > :nth-child(1),
-.modal__multi--datetime > :nth-child(2) {
+.modal__multi--wageskills> :nth-child(1) {
+    width: 104px;
+}
+
+.modal__multi--wageskills> :nth-child(2) {
+    width: calc(100% - 104px - 16px);
+}
+
+.modal__multi--datetime> :nth-child(1),
+.modal__multi--datetime> :nth-child(2) {
     width: 100%;
 }
 
