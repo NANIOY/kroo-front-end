@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import setupAxios from '../../../setupAxios';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
@@ -27,6 +27,9 @@ onMounted(() => {
   updateCurrentTimePosition();
   updateWeek();
 });
+
+// Watch for changes to currentDate to update the week days and formatted date
+watch(currentDate, updateWeek);
 
 async function fetchCalendarEvents() {
   const userId = sessionStorage.getItem('userId');
@@ -94,19 +97,20 @@ function nextWeek() {
   const nextDate = new Date(currentDate.value.getTime());
   nextDate.setDate(nextDate.getDate() + 7);
   currentDate.value = nextDate;
-  updateWeek();
 }
 
 function previousWeek() {
   const prevDate = new Date(currentDate.value.getTime());
   prevDate.setDate(prevDate.getDate() - 7);
   currentDate.value = prevDate;
-  updateWeek();
 }
 
 function goToToday() {
   currentDate.value = new Date();
-  updateWeek();
+}
+
+function handleDayClicked({ date, weekRange }) {
+  currentDate.value = weekRange.start;
 }
 
 function getCardPosition(event) {

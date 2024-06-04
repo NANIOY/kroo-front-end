@@ -8,13 +8,13 @@ const currentDate = ref(new Date());
 const options = { month: 'long', year: 'numeric' };
 const formattedDate = ref(getFormattedDate(currentDate.value));
 const weeks = ref(getMonthWeeks(currentDate.value));
-const selectedDay = ref(null);  // State to keep track of the selected day
+const selectedDay = ref(null);
 
 watch(selectedDay, (newVal) => {
     if (newVal) {
         const weekRange = getWeekRange(newVal);
-        console.log("Selected day:", newVal);
-        console.log("Week of:", weekRange.start.toDateString(), "to", weekRange.end.toDateString());
+        console.log("Selected day:", newVal, "Week:", weekRange);
+        emit('day-clicked', { date: newVal, weekRange });
     }
 });
 
@@ -86,16 +86,21 @@ function handleDayClick(day) {
     if (!day.isPrevMonth) {
         const clickedDate = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth(), day.number);
         selectedDay.value = clickedDate;
-        emit('day-clicked', clickedDate);
+        const weekRange = getWeekRange(clickedDate);
+        emit('day-clicked', { date: clickedDate, weekRange });
     }
 }
 
 function getWeekRange(date) {
-    const startOfWeek = new Date(date);
-    startOfWeek.setDate(date.getDate() - date.getDay() + 1);
-    const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6);
-    return { start: startOfWeek, end: endOfWeek };
+    const firstDayOfWeek = new Date(date);
+    const lastDayOfWeek = new Date(date);
+    const dayOfWeek = date.getDay();
+    firstDayOfWeek.setDate(date.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1));
+    lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 6);
+    return {
+        start: firstDayOfWeek,
+        end: lastDayOfWeek
+    };
 }
 </script>
 
