@@ -8,21 +8,61 @@ import CreateJobModal from '../../components/molecules/popups/CreateJob.vue';
 import setupAxios from '../../setupAxios';
 
 const isModalVisible = ref(false);
-const activeCrewMembers = ref([]);
+
+const selectedJob = ref({
+    title: '',
+    description: '',
+    wage: '',
+    date: '',
+    time: '',
+    skills: [],
+    jobFunction: '',
+    location: {
+        city: '',
+        address: ''
+    },
+    production_type: '',
+    union_status: '',
+    attachments: []
+});
+
 const jobCounts = ref({
     posted: 0,
     applied: 0,
     active: 0
 });
 
+const activeCrewMembers = ref([]);
+
 const axiosInstance = setupAxios();
 
-const openModal = () => {
+const openModal = (job = null) => {
+    if (job) {
+        selectedJob.value = { ...job };
+    } else {
+        selectedJob.value = {
+            title: '',
+            description: '',
+            wage: '',
+            date: '',
+            time: '',
+            skills: [],
+            jobFunction: '',
+            location: {
+                city: '',
+                address: ''
+            },
+            production_type: '',
+            union_status: '',
+            attachments: []
+        };
+    }
     isModalVisible.value = true;
 };
 
 const closeModal = () => {
     isModalVisible.value = false;
+    selectedJob.value = null;
 };
 
 const handleCreateJob = (jobData) => {
@@ -123,6 +163,10 @@ const updateCountsOnReject = () => {
     jobCounts.value.applied--;
 };
 
+const handleJobClick = (job) => {
+    openModal(job);
+};
+
 onMounted(() => {
     fetchActiveCrewMembers();
     fetchBusinessId().then((businessId) => {
@@ -134,17 +178,17 @@ onMounted(() => {
 </script>
 
 <template>
-    <CreateJobModal :isVisible="isModalVisible" @close="closeModal" @submit="handleCreateJob" />
+    <CreateJobModal :isVisible="isModalVisible" :postData="selectedJob" @close="closeModal" @submit="handleCreateJob" />
 
     <div id="tracker">
         <div class="tracker__container">
             <div class="tracker__container__top">
                 <h6>POSTED JOBS &#8722; {{ jobCounts.posted }}</h6>
                 <NormalButton label="Create Job" class="button--secondary" id="addButton" :hasIcon="true"
-                    iconName="Plus" :hasLabel="true" :hasRequest="false" @click="openModal" />
+                    iconName="Plus" :hasLabel="true" :hasRequest="false" @click="() => openModal()" />
             </div>
             <div class="tracker__container__column">
-                <PostedJob v-if="jobCounts.posted > 0" />
+                <PostedJob v-if="jobCounts.posted > 0" @jobClick="handleJobClick" />
                 <div v-else class="placeholder text-reg-l">No jobs posted.</div>
             </div>
         </div>

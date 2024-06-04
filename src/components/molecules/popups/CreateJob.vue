@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, defineEmits, onMounted } from 'vue';
+import { ref, defineProps, defineEmits, watch, onMounted } from 'vue';
 import InputField from '../../atoms/inputs/InputField.vue';
 import MultiDropdown from '../../atoms/inputs/MultiDropdown.vue';
 import Dropdown from '../../atoms/inputs/DropDown.vue';
@@ -13,26 +13,38 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    postData: {
+        type: Object,
+        default: () => ({
+            title: '',
+            description: '',
+            wage: '',
+            date: '',
+            time: '',
+            skills: [],
+            jobFunction: '',
+            location: {
+                city: '',
+                address: ''
+            },
+            production_type: '',
+            union_status: '',
+            attachments: []
+        })
+    }
 });
 
 const emits = defineEmits(['close', 'submit']);
 
-const postData = ref({
-    title: '',
-    description: '',
-    wage: '',
-    date: '',
-    time: '',
-    skills: [],
-    jobFunction: '',
-    location: {
-        city: '',
-        address: ''
+const localPostData = ref(JSON.parse(JSON.stringify(props.postData)));
+
+watch(
+    () => props.postData,
+    (newPostData) => {
+        localPostData.value = JSON.parse(JSON.stringify(newPostData));
     },
-    production_type: '',
-    union_status: '',
-    attachments: []
-});
+    { deep: true, immediate: true }
+);
 
 const functionOptions = [
     '3D Modeling',
@@ -173,7 +185,7 @@ const createJob = async () => {
         return;
     }
 
-    const jobData = { ...postData.value, businessId };
+    const jobData = { ...localPostData.value, businessId };
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
 
     if (!token) {
@@ -188,7 +200,7 @@ const createJob = async () => {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         console.log('Job created successfully:', response.data);
-        emits('submit', postData.value);
+        emits('submit', localPostData.value);
         closeModal();
     } catch (error) {
         console.error('Failed to create job:', error);
@@ -205,35 +217,35 @@ const closeModal = () => {
         <div class="modal" @click.stop>
             <h2>Create new job</h2>
             <form class="modal__form" @submit.prevent="createJob">
-                <InputField v-model="postData.title" :hasLabel="true" label="Title" placeholder="Enter a job title" />
-                <Dropdown v-model="postData.jobFunction" class="modal__dropdown" :hasLabel="true" label="Job Function"
+                <InputField v-model="localPostData.title" :hasLabel="true" label="Title" placeholder="Enter a job title" />
+                <Dropdown v-model="localPostData.jobFunction" class="modal__dropdown" :hasLabel="true" label="Job Function"
                     :options="functionOptions" />
-                <InputField v-model="postData.description" :hasLabel="true" label="Description"
+                <InputField v-model="localPostData.description" :hasLabel="true" label="Description"
                     placeholder="Enter a brief description" />
                 <div class="modal__multi">
-                    <InputField v-model="postData.wage" :hasLabel="true" label="Wage (€/hr)" type="number"
+                    <InputField v-model="localPostData.wage" :hasLabel="true" label="Wage (€/hr)" type="number"
                         placeholder="Enter a wage" />
-                    <MultiDropdown v-model="postData.skills" :hasLabel="true" label="Skills" :options="skillsOptions" />
+                    <MultiDropdown v-model="localPostData.skills" :hasLabel="true" label="Skills" :options="skillsOptions" />
                 </div>
                 <div class="modal__multi">
-                    <InputField v-model="postData.date" :hasLabel="true" label="Date" type="date"
+                    <InputField v-model="localPostData.date" :hasLabel="true" label="Date" type="date"
                         placeholder="Select date" />
-                    <InputField v-model="postData.time" :hasLabel="true" label="Time" type="time"
+                    <InputField v-model="localPostData.time" :hasLabel="true" label="Time" type="time"
                         placeholder="Select time" />
                 </div>
                 <div class="modal__multi">
-                    <InputField v-model="postData.location.city" :hasLabel="true" label="City"
+                    <InputField v-model="localPostData.location.city" :hasLabel="true" label="City"
                         placeholder="Enter city" />
-                    <InputField v-model="postData.location.address" :hasLabel="true" label="Address"
+                    <InputField v-model="localPostData.location.address" :hasLabel="true" label="Address"
                         placeholder="Enter address" />
                 </div>
                 <div class="modal__multi">
-                    <Dropdown class="modal__dropdown" v-model="postData.production_type" :hasLabel="true"
+                    <Dropdown class="modal__dropdown" v-model="localPostData.production_type" :hasLabel="true"
                         label="Production Type" :options="productionTypes" placeholder="Select type" />
-                    <Dropdown class="modal__dropdown" v-model="postData.union_status" :hasLabel="true"
+                    <Dropdown class="modal__dropdown" v-model="localPostData.union_status" :hasLabel="true"
                         label="Union Status" :options="unionStatuses" placeholder="Select union status" />
                 </div>
-                <UploadFile v-model="postData.attachments" :hasLabel="true" label="Attachments"
+                <UploadFile v-model="localPostData.attachments" :hasLabel="true" label="Attachments"
                     placeholder="Upload file" />
 
                 <div class="modal__buttons">
@@ -244,6 +256,7 @@ const closeModal = () => {
         </div>
     </Overlay>
 </template>
+
 
 <style scoped>
 .modal {
