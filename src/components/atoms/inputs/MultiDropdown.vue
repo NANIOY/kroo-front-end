@@ -30,7 +30,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 let isOpen = ref(false);
-let selectedOptions = ref(props.modelValue || []);
+let selectedOptions = ref([...props.modelValue]);
 const inputId = 'multidrop__container__box-' + Math.random().toString(36).substring(2, 15);
 let dropdownContainer = ref(null);
 
@@ -39,10 +39,11 @@ const toggleDropdown = () => {
 };
 
 const selectOption = (option) => {
-  if (!selectedOptions.value.includes(option)) {
+  const optionIndex = selectedOptions.value.indexOf(option);
+  if (optionIndex === -1) {
     selectedOptions.value.push(option);
   } else {
-    selectedOptions.value = selectedOptions.value.filter(item => item !== option);
+    selectedOptions.value.splice(optionIndex, 1);
   }
 
   if (props.localStorageKey && props.group) {
@@ -52,7 +53,7 @@ const selectOption = (option) => {
     localStorage.setItem('postData', JSON.stringify(sectionData));
   }
 
-  emit('update:modelValue', selectedOptions.value);
+  emit('update:modelValue', [...selectedOptions.value]);
 };
 
 const closeDropdownOnClickOutside = (event) => {
