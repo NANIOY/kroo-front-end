@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps, ref, watchEffect } from 'vue';
+import Tag from '../../atoms/items/Tag.vue';
 
 const props = defineProps({
     user: {
@@ -9,19 +10,30 @@ const props = defineProps({
 });
 
 const crewData = ref(null);
+const skills = ref([]);
 
 watchEffect(() => {
     if (props.user && props.user.crewData) {
         crewData.value = props.user.crewData;
+        skills.value = props.user.crewData?.profileDetails.skills || [];
         console.log('About received crewData:', crewData.value);
     }
 });
 </script>
 
 <template>
+    
     <div v-if="crewData">
-        <div class="about__bio surface-tertiary radius-s">
-            <p>Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum.</p>
+        <div class="about-top">
+            <div class="about__bio surface-tertiary radius-s">
+                <p>Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum.</p>
+            </div>
+
+            <div class="about__skills surface-tertiary radius-s">
+                <Tag v-for="skill in skills" :key="skill" class="skill">
+                    {{ skill }}
+                </Tag>
+            </div>
         </div>
 
     <div class="about__education surface-tertiary radius-s">
@@ -77,19 +89,28 @@ p {
     margin: 0;
 }
 
+.about__bio, .about__education, .about__skills {
+    padding: 32px;
+}
+
+/* about top */
+
+.about-top {
+    display: flex;
+    gap: 32px;
+}
+
 /* bio */ 
 
 .about__bio {
     margin-bottom: 1rem;
     max-width: 794px;
     max-height: 350px;
-    padding: 32px;
 }
 
 /* education */ 
 
 .about__education {
-    padding: 32px;
     max-width: 396px;
 }
 
@@ -112,6 +133,20 @@ p {
 
 .education__course {
     color: var(--neutral-80);
+}
+
+/* skills */
+
+.about__skills {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    height: fit-content;
+}
+
+.skill {
+    width: fit-content;
 }
 
 </style>
