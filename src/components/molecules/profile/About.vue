@@ -25,33 +25,32 @@ watchEffect(() => {
         </div>
 
     <div class="about__education surface-tertiary radius-s">
-        
-            <div class="about__educations">
-                <div>
-                    <div class="about__education__wrapper">
-                        <div class="about__education__wrapper-info">
-                            <p class="education__year">2024</p>
-                            <p>-</p>
-                            <p class="text-bold-normal education__school">Thomas More Mechelen</p>
-                        </div>
-                        <div class="about__education__wrapper-education">
-                            <p class="text-reg-s education__course">Digital Experience Design</p>
-                        </div>
+        <div class="about__educations">
+            <div>
+                <div class="about__education__wrapper">
+                    <div class="about__education__wrapper-info">
+                        <p class="education__year">2024</p>
+                        <p>-</p>
+                        <p class="text-bold-normal education__school">Thomas More Mechelen</p>
                     </div>
-                </div>
-                <div>
-                    <div class="about__education__wrapper">
-                        <div class="about__education__wrapper-info">
-                            <p class="education__year">2020</p>
-                            <p>-</p>
-                            <p class="text-bold-normal education__school">AP hogeschool</p>
-                        </div>
-                        <div class="about__education__wrapper-education">
-                            <p class="text-reg-s education__course">Toegepaste journalistiek</p>
-                        </div>
+                    <div class="about__education__wrapper-education">
+                        <p class="text-reg-s education__course">Digital Experience Design</p>
                     </div>
                 </div>
             </div>
+            <div>
+                <div class="about__education__wrapper">
+                    <div class="about__education__wrapper-info">
+                        <p class="education__year">2020</p>
+                        <p>-</p>
+                        <p class="text-bold-normal education__school">AP hogeschool</p>
+                    </div>
+                    <div class="about__education__wrapper-education">
+                        <p class="text-reg-s education__course">Toegepaste journalistiek</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
         
         
