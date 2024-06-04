@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref, defineProps, defineEmits, watch } from 'vue';
 
 const props = defineProps({
     modelValue: String,
@@ -21,12 +21,17 @@ const selectTime = (event) => {
     selectedTime.value = event.target.value;
     emit('update:modelValue', selectedTime.value);
 };
+
+watch(() => props.modelValue, (newValue) => {
+    selectedTime.value = newValue;
+});
 </script>
 
 <template>
     <div class="timepicker">
-        <label v-if="props.hasLabel" class="timepicker__label">{{ props.label }}</label>
-        <input class="timepicker__input radius-xs text-reg-l" type="time" v-model="selectedTime" @change="selectTime" />
+        <label v-if="hasLabel" class="timepicker__label">{{ label }}</label>
+        <input class="timepicker__input radius-xs text-reg-l" type="time" v-model="selectedTime" @change="selectTime"
+            :class="{ 'filled': selectedTime }" placeholder=" " />
     </div>
 </template>
 
@@ -42,15 +47,23 @@ const selectTime = (event) => {
     width: 100%;
     border: 2px solid var(--black);
     background-color: transparent;
-    transition: border-color 0.3s ease;
+    transition: 0.3s;
     padding-left: 12px;
     padding-right: 12px;
+    color: var(--neutral-30);
+}
+
+.timepicker__input::placeholder {
     color: var(--neutral-30);
 }
 
 .timepicker__input:focus {
     border-color: var(--blurple-50);
     outline: none;
+}
+
+.timepicker__input.filled {
+    color: var(--black);
 }
 
 .timepicker__label {

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref, defineProps, defineEmits, watch } from 'vue';
 
 const props = defineProps({
     modelValue: String,
@@ -21,12 +21,17 @@ const selectDate = (event) => {
     selectedDate.value = event.target.value;
     emit('update:modelValue', selectedDate.value);
 };
+
+watch(() => props.modelValue, (newValue) => {
+    selectedDate.value = newValue;
+});
 </script>
 
 <template>
     <div class="datepicker">
-        <label v-if="props.hasLabel" class="datepicker__label">{{ props.label }}</label>
-        <input class="datepicker__input radius-xs text-reg-l" type="date" v-model="selectedDate" @change="selectDate" />
+        <label v-if="hasLabel" class="datepicker__label">{{ label }}</label>
+        <input class="datepicker__input radius-xs text-reg-l" type="date" v-model="selectedDate" @change="selectDate"
+            :class="{ 'filled': selectedDate }" placeholder=" " />
     </div>
 </template>
 
@@ -42,15 +47,23 @@ const selectDate = (event) => {
     width: 100%;
     border: 2px solid var(--black);
     background-color: transparent;
-    transition: border-color 0.3s ease;
+    transition: 0.3s;
     padding-left: 12px;
     padding-right: 12px;
+    color: var(--neutral-30);
+}
+
+.datepicker__input::placeholder {
     color: var(--neutral-30);
 }
 
 .datepicker__input:focus {
     border-color: var(--blurple-50);
     outline: none;
+}
+
+.datepicker__input.filled {
+    color: var(--black);
 }
 
 .datepicker__label {
