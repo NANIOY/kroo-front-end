@@ -37,10 +37,17 @@ watchEffect(() => {
                 <p>Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum.</p>
             </div>
 
-            <div class="about__skills surface-tertiary radius-s">
-                <Tag v-for="skill in skills" :key="skill" class="skill">
+            <div class="about__tags surface-tertiary radius-s">
+                <div class="about-tags-skills">
+                    <Tag v-for="skill in skills" :key="skill" class="skill">
                     {{ skill }}
-                </Tag>
+                    </Tag>
+                </div>
+                <div class="about-tags-languages">
+                    <Tag v-for="language in crewData.profileDetails?.languages" :key="language" class="skill tag--transparent">
+                    {{ language }}
+                    </Tag>
+                </div>
             </div>
         </div>
 
@@ -87,12 +94,22 @@ watchEffect(() => {
                 </li>
             </ul>
         </div>
+
+        <div class="about__licenses surface-tertiary radius-s">
+            <ul class="about__licenses__wrapper">
+                <li class="licenses">
+                    <a href="#" class="licenses-link"><Attachment class="attachment-icon" />License 1</a>
+                </li>
+                <li class="licenses">
+                    <a href="#" class="licenses-link"><Attachment class="attachment-icon"/>License 2</a>
+                </li>
+                <li class="licenses">
+                    <a href="#" class="licenses-link"><Attachment class="attachment-icon"/>License 3</a>
+                </li>
+            </ul>
+        </div>
     </div>
-        
-        
-        <ul>
-            <li v-for="language in crewData.profileDetails?.languages" :key="language">{{ language }}</li>
-        </ul>
+
         <h3>{{ crewData.profileDetails?.city }}</h3>
         <h3>{{ crewData.profileDetails?.workRadius }} km</h3>
         <ul>
@@ -100,7 +117,6 @@ watchEffect(() => {
                 {{ certification }}
             </li>
         </ul>
-        <p>{{ crewData.careerDetails?.unionStatus }}</p>
     </div>
     <div v-else>
         <p>No crew data available</p>
@@ -114,7 +130,7 @@ p {
     margin: 0;
 }
 
-.about__bio, .about__education, .about__skills, .about__certifications {
+.about__bio, .about__education, .about__tags, .about__certifications, .about__licenses {
     padding: 32px;
     margin-bottom: 1rem;
 }
@@ -160,9 +176,9 @@ p {
     color: var(--neutral-80);
 }
 
-/* skills */
+/* skills & languages */
 
-.about__skills {
+.about__tags {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -174,31 +190,37 @@ p {
     width: fit-content;
 }
 
-/* certifications */
+.about-tags-skills, .about-tags-languages {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
 
-.about__certifications {
+/* certifications & licenses */
+
+.about__certifications, .about__licenses {
     max-width: fit-content;
 }
 
-.certification {
+.certification, .licenses {
     list-style-type: none;
 }
 
-.certification a, .attachment-icon {
+.certification a, .attachment-icon, .licenses a {
     color: var(--black);
     text-decoration: none;
     transition: 0.3s;
 }
 
-.certification a:hover, .attachment-icon:hover {
+.certification a:hover, .attachment-icon:hover, .licenses a:hover{
     color: var(--neutral-50);
 }
 
-.certification a:active{
+.certification a:active, .attachment-icon:active, .licenses a:active {
     color: var(--blurple-30);
 }
 
-.about__certifications__wrapper {
+.about__certifications__wrapper, .about__licenses__wrapper {
     padding: 0;
     margin: 0;
 }
