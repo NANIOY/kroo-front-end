@@ -33,9 +33,23 @@ onMounted(async () => {
     }
 });
 
-const handleUpdateAgendaService = (agendaService) => {
+const handleUpdateAgendaService = async (agendaService) => {
     console.log('Agenda service selected:', agendaService);
     localStorage.setItem('agendaService', agendaService);
+
+    if (agendaService === 'Google Calendar') {
+        try {
+            const userId = sessionStorage.getItem('userId');
+            if (!userId) {
+                throw new Error('User ID not found in session storage');
+            }
+            const response = await axiosInstance.get(`/calendar/google/auth?userId=${userId}`);
+            const authUrl = response.data.authUrl;
+            window.location.href = authUrl;
+        } catch (error) {
+            console.error('Error redirecting to Google authorization:', error);
+        }
+    }
 };
 </script>
 

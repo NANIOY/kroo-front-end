@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, defineEmits } from 'vue';
+import { ref, onMounted, onUnmounted, defineEmits, defineProps } from 'vue';
 import { NavArrowDown } from '@iconoir/vue';
 
 const props = defineProps({
@@ -27,7 +27,7 @@ const props = defineProps({
   group: String
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'optionSelected']);
 
 const isOpen = ref(false);
 const selectedOption = ref(props.modelValue || props.placeholder);
@@ -52,6 +52,7 @@ const selectOption = (option) => {
   }
 
   emit('update:modelValue', option);
+  emit('optionSelected', option);
 };
 
 const closeDropdownOnClickOutside = (event) => {

@@ -2,7 +2,6 @@
 import { ref, defineProps, defineEmits } from 'vue';
 import FormHeader from '../../molecules/login/FormHeader.vue';
 import setupAxios from '../../../setupAxios';
-import { useRouter } from 'vue-router';
 
 // INPUTS
 import InputField from '../../atoms/inputs/InputField.vue';
@@ -75,6 +74,7 @@ const props = defineProps({
     hasLargeButton: Boolean,
     hasAuthButton: Boolean,
     hasLocalStorageButton: Boolean,
+
     paymentMethodCombo: Boolean,
     dropBillCombo: Boolean,
 
@@ -134,8 +134,13 @@ const handleOptionSelected = async (option) => {
     const userId = sessionStorage.getItem('userId');
 
     if (option === 'Google Calendar' && userId) {
-        const authUrl = `${axiosInstance.defaults.baseURL}/calendar/google?userId=${userId}`;
-        window.location.href = authUrl;
+        try {
+            const response = await axiosInstance.get(`/calendar/google?userId=${userId}`);
+            const authUrl = response.data.authUrl;
+            window.location.href = authUrl;
+        } catch (error) {
+            console.error('Error redirecting to Google authorization:', error);
+        }
     } else {
         console.error('User ID not found in session storage');
     }
