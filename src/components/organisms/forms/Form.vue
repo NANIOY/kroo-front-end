@@ -134,13 +134,8 @@ const handleOptionSelected = async (option) => {
     const userId = sessionStorage.getItem('userId');
 
     if (option === 'Google Calendar' && userId) {
-        try {
-            const response = await axiosInstance.get(`/calendar/google?userId=${userId}`);
-            const authUrl = response.data.authUrl;
-            window.location.href = authUrl;
-        } catch (error) {
-            console.error('Error redirecting to Google authorization:', error);
-        }
+        const authUrl = `${axiosInstance.defaults.baseURL}/calendar/google?userId=${userId}`;
+        window.location.href = authUrl;
     } else {
         console.error('User ID not found in session storage');
     }
