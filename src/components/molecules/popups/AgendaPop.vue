@@ -25,16 +25,19 @@ const description = ref('');
 const selectedDate = ref('');
 const startTime = ref('');
 const endTime = ref('');
+const eventType = ref('');
 const priorityOptions = ['Low Priority', 'Medium Priority', 'High Priority'];
-const selectedPriority = ref(priorityOptions[0]);
+// const selectedPriority = ref(priorityOptions[0]);
 
 const axiosInstance = setupAxios();
 
-const toggleButton2Color = () => {
+const toggleButton2Color = (type) => {
+    eventType.value = type;
     isButton2Secondary.value = !isButton2Secondary.value;
 };
 
-const revertButton2Color = () => {
+const revertButton2Color = (type) => {
+    eventType.value = type;
     isButton2Secondary.value = !isButton2Secondary.value;
 };
 
@@ -62,7 +65,8 @@ const handleSubmit = async () => {
         startDateTime: startDateTime.toISOString(),
         endDateTime: endDateTime.toISOString(),
         timeZone: 'America/Los_Angeles',
-        userId
+        userId,
+        type: eventType.value
     };
 
     console.log('Sending event:', event);
@@ -82,10 +86,10 @@ const handleSubmit = async () => {
             <div class="modal__buttons">
                 <NormalButton label="Personal" :hasRequest=false
                     :class="{ 'button--secondary': !isButton2Secondary, 'button--tertiary': isButton2Secondary }"
-                    @click="revertButton2Color" />
+                    @click="() => toggleButton2Color('personal')" />
                 <NormalButton label="Professional" :hasRequest=false
                     :class="{ 'button--secondary': isButton2Secondary, 'button--tertiary': !isButton2Secondary }"
-                    @click="toggleButton2Color" />
+                    @click="() => toggleButton2Color('job')" />
             </div>
             <div class="modal__inputs">
                 <InputField v-model="title" placeholder="Aa" :hasLabel="true" label="Title" />
@@ -101,7 +105,6 @@ const handleSubmit = async () => {
         </div>
     </Overlay>
 </template>
-
 
 <style scoped>
 .modal {
