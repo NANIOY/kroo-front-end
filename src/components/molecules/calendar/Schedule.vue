@@ -4,7 +4,7 @@ import setupAxios from '../../../setupAxios';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 import CalendarCard from './CalendarCard.vue';
-import AgendaPopUp from '../popups/AgendaPopUp.vue';
+import AgendaPop from '../popups/AgendaPop.vue';
 
 // VARIABLES
 const props = defineProps({
@@ -174,7 +174,8 @@ function isToday(date) {
         </div>
         <h5 class="schedule__top__left__date">{{ formattedDate }}</h5>
       </div>
-      <NormalButton iconName="Plus" label="Add card" class="schedule__top__add button--secondary" @click="openPopup" />
+      <NormalButton iconName="Plus" label="Add card" class="schedule__top__add button--secondary" :hasRequest=false
+        @click="openPopup" />
     </div>
 
     <div class="schedule__calendar">
@@ -212,7 +213,7 @@ function isToday(date) {
         </div>
       </div>
 
-      <AgendaPopUp v-if="isPopupVisible" @close="closePopup" />
+      <AgendaPop :isVisible="isPopupVisible" @close="closePopup" />
     </div>
 </template>
 
@@ -329,7 +330,7 @@ h5 {
 }
 
 /* TIME INDICATOR */
-.schedule__calendar__time-indicator{
+.schedule__calendar__time-indicator {
   position: absolute;
   left: 56px;
   width: calc(100% - 56px);
