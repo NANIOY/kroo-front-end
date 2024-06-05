@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, ref, watchEffect } from 'vue';
 import Tag from '../../atoms/items/Tag.vue';
-import { IconoirProvider, Attachment } from '@iconoir/vue';
+import IconLabel from '../../atoms/items/IconLabel.vue';
 
 const props = defineProps({
     user: {
@@ -23,14 +23,6 @@ watchEffect(() => {
 </script>
 
 <template>
-    <IconoirProvider
-    :icon-props="{
-      'color': 'var(--black)',
-      'stroke-width': 1.5,
-      'width': '16px',
-      'height': '16px',
-    }"
-    >
     <div v-if="crewData">
         <div class="about-top">
             <div class="about__bio surface-tertiary radius-s">
@@ -84,27 +76,27 @@ watchEffect(() => {
         <div class="about__certifications surface-tertiary radius-s">
             <ul class="about__certifications__wrapper">
                 <li class="certification">
-                    <a href="#" class="certificaton-link"><Attachment class="attachment-icon" />Certification 1</a>
+                    <IconLabel :iconName="'Attachment'" label="certification 1" size="small" :isLink="true" :href="'#'" />
                 </li>
                 <li class="certification">
-                    <a href="#" class="certificaton-link"><Attachment class="attachment-icon"/>Certification 2</a>
+                    <IconLabel :iconName="'Attachment'" label="certification 2" size="small" :isLink="true" :href="'#'" />
                 </li>
                 <li class="certification">
-                    <a href="#" class="certificaton-link"><Attachment class="attachment-icon"/>Certification 3</a>
+                    <IconLabel :iconName="'Attachment'" label="certification 3" size="small" :isLink="true" :href="'#'" />
                 </li>
             </ul>
         </div>
 
         <div class="about__licenses surface-tertiary radius-s">
             <ul class="about__licenses__wrapper">
-                <li class="licenses">
-                    <a href="#" class="licenses-link"><Attachment class="attachment-icon" />License 1</a>
+                <li class="certification">
+                    <IconLabel :iconName="'Attachment'" label="license 1" size="small" :isLink="true" :href="'#'" />
                 </li>
-                <li class="licenses">
-                    <a href="#" class="licenses-link"><Attachment class="attachment-icon"/>License 2</a>
+                <li class="certification">
+                    <IconLabel :iconName="'Attachment'" label="license 2" size="small" :isLink="true" :href="'#'" />
                 </li>
-                <li class="licenses">
-                    <a href="#" class="licenses-link"><Attachment class="attachment-icon"/>License 3</a>
+                <li class="certification">
+                    <IconLabel :iconName="'Attachment'" label="license 3" size="small" :isLink="true" :href="'#'" />
                 </li>
             </ul>
         </div>
@@ -121,7 +113,6 @@ watchEffect(() => {
     <div v-else>
         <p>No crew data available</p>
     </div>
-</IconoirProvider>
 </template>
 
 <style scoped>
@@ -210,14 +201,6 @@ p {
     color: var(--black);
     text-decoration: none;
     transition: 0.3s;
-}
-
-.certification a:hover, .attachment-icon:hover, .licenses a:hover{
-    color: var(--neutral-50);
-}
-
-.certification a:active, .attachment-icon:active, .licenses a:active {
-    color: var(--blurple-30);
 }
 
 .about__certifications__wrapper, .about__licenses__wrapper {
