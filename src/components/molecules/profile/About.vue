@@ -24,18 +24,18 @@ watchEffect(() => {
 
 <template>
     <div v-if="crewData">
-        <div class="about-top">
-            <div class="about__bio surface-tertiary radius-s">
+        <div class="about__top">
+            <div class="about__top__bio surface-tertiary radius-s">
                 <p>Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum.</p>
             </div>
 
-            <div class="about__tags surface-tertiary radius-s">
-                <div class="about-tags-skills">
-                    <Tag v-for="skill in skills" :key="skill" class="skill">
+            <div class="about__top__tags surface-tertiary radius-s">
+                <div class="about__top__tags__skills">
+                    <Tag v-for="skill in skills" :key="skill" class="skill tag">
                     {{ skill }}
                     </Tag>
                 </div>
-                <div class="about-tags-languages">
+                <div class="about__top__tags__languages">
                     <Tag v-for="language in crewData.profileDetails?.languages" :key="language" class="skill tag--transparent">
                     {{ language }}
                     </Tag>
@@ -43,30 +43,30 @@ watchEffect(() => {
             </div>
         </div>
 
-    <div class="about-bottom">
-        <div class="about-bottom-edu-train">
-            <div class="about__education surface-tertiary radius-s">
-                <div class="about__educations">
+    <div class="about__bottom">
+        <div class="about__bottom__top">
+            <div class="about__bottom__educations surface-tertiary radius-s">
+                <div class="about__bottom__education__container">
                     <div>
-                        <div class="about__education__wrapper">
-                            <div class="about__education__wrapper-info">
+                        <div class="about__bottom__education__wrapper">
+                            <div class="about__bottom__education__wrapper__info">
                                 <p class="education__year">2024</p>
                                 <p>-</p>
                                 <p class="text-bold-normal education__school">Thomas More Mechelen</p>
                             </div>
-                            <div class="about__education__wrapper-education">
+                            <div>
                                 <p class="text-reg-s education__course">Digital Experience Design</p>
                             </div>
                         </div>
                     </div>
                     <div>
                         <div class="about__education__wrapper">
-                            <div class="about__education__wrapper-info">
+                            <div class="about__bottom__education__wrapper__info">
                                 <p class="education__year">2020</p>
                                 <p>-</p>
                                 <p class="text-bold-normal education__school">AP hogeschool</p>
                             </div>
-                            <div class="about__education__wrapper-education">
+                            <div>
                                 <p class="text-reg-s education__course">Toegepaste journalistiek</p>
                             </div>
                         </div>
@@ -74,28 +74,28 @@ watchEffect(() => {
                 </div>
             </div>
 
-            <div class="about__training surface-tertiary radius-s">
-                <div class="about__trainings">
+            <div class="about__bottom__trainings surface-tertiary radius-s">
+                <div class="about__bottom__training__container">
                     <div>
-                        <div class="about__training__wrapper">
-                            <div class="about__training__wrapper-info">
+                        <div class="about__bottom__training__wrapper">
+                            <div class="about__bottom__training__wrapper__info">
                                 <p class="training__year">2018</p>
                                 <p>-</p>
                                 <p class="text-bold-normal training__school">Syntra</p>
                             </div>
-                            <div class="about__training__wrapper-education">
+                            <div>
                                 <p class="text-reg-s training__course">Training: how to be a good actor</p>
                             </div>
                         </div>
                     </div>
                     <div>
-                        <div class="about__training__wrapper">
-                            <div class="about__training__wrapper-info">
+                        <div class="about__bottom__training__wrapper">
+                            <div class="about__bottom__training__wrapper__info">
                                 <p class="training__year">2017</p>
                                 <p>-</p>
                                 <p class="text-bold-normal training__school">Syntra</p>
                             </div>
-                            <div class="about__training__wrapper-education">
+                            <div>
                                 <p class="text-reg-s training__course">Training: make-up artist</p>
                             </div>
                         </div>
@@ -104,9 +104,9 @@ watchEffect(() => {
             </div>
         </div>
 
-        <div class="about-bottom-cert-licen">
-            <div class="about__certifications surface-tertiary radius-s">
-                <ul class="about__certifications__wrapper">
+        <div class="about__bottom__bottom">
+            <div class="about__bottom__certifications surface-tertiary radius-s">
+                <ul class="about__bottom__certifications__wrapper">
                     <li class="certification">
                         <IconLabel :iconName="'Attachment'" label="certification 1" size="small" :isLink="true" :href="'#'" />
                     </li>
@@ -119,8 +119,8 @@ watchEffect(() => {
                 </ul>
             </div>
 
-            <div class="about__licenses surface-tertiary radius-s">
-                <ul class="about__licenses__wrapper">
+            <div class="about__bottom__licenses surface-tertiary radius-s">
+                <ul class="about__bottom__licenses__wrapper">
                     <li class="certification">
                         <IconLabel :iconName="'Attachment'" label="license 1" size="small" :isLink="true" :href="'#'" />
                     </li>
@@ -146,27 +146,27 @@ p {
     margin: 0;
 }
 
-.about__bio, .about__education, .about__tags, .about__certifications, .about__licenses, .about__training {
+.about__top__bio, .about__bottom__educations, .about__top__tags, .about__bottom__certifications, .about__bottom__licenses, .about__bottom__trainings {
     padding: 32px;
     margin-bottom: 1rem;
 }
 
 /* about top */
 
-.about-top {
+.about__top {
     display: flex;
     gap: 32px;
 }
 
 /* about bottom */
 
-.about-bottom-edu-train {
+.about__bottom__top {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
 }
 
-.about-bottom-cert-licen {
+.about__bottom__bottom {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
@@ -174,25 +174,25 @@ p {
 
 /* bio */ 
 
-.about__bio {
+.about__top__bio {
     max-width: 794px;
     max-height: 350px;
 }
 
 /* education & training */ 
 
-.about__education, .about__training {
-    width: 100%;
+.about__bottom__educations, .about__bottom__trainings {
+    width: 379px;
 }
 
-.about__educations, .about__trainings {
+.about__bottom__education__container, .about__bottom__training__container {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 
 }
 
-.about__education__wrapper-info, .about__training__wrapper-info {
+.about__bottom__education__wrapper__info, .about__bottom__training__wrapper__info {
     display: flex;
     gap: 0.5rem;
 }
@@ -213,7 +213,7 @@ p {
 
 /* skills & languages */
 
-.about__tags {
+.about__top__tags {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -221,11 +221,7 @@ p {
     height: fit-content;
 }
 
-.skill {
-    width: fit-content;
-}
-
-.about-tags-skills, .about-tags-languages {
+.about__top__tags__skills, .about__top__tags__languages {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
@@ -233,7 +229,7 @@ p {
 
 /* certifications & licenses */
 
-.about__certifications, .about__licenses {
+.about__bottom__certifications, .about__bottom__licenses {
     max-width: fit-content;
 }
 
@@ -247,7 +243,7 @@ p {
     transition: 0.3s;
 }
 
-.about__certifications__wrapper, .about__licenses__wrapper {
+.about__bottom__certifications__wrapper, .about__bottom__licenses__wrapper {
     padding: 0;
     margin: 0;
 }
