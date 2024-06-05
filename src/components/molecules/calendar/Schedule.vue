@@ -329,7 +329,7 @@ h5 {
 }
 
 /* TIME INDICATOR */
-.time-indicator {
+.schedule__calendar__time-indicator{
   position: absolute;
   left: 56px;
   width: calc(100% - 56px);
@@ -337,7 +337,7 @@ h5 {
   background-color: var(--blurple);
 }
 
-.time-indicator::before {
+.schedule__calendar__time-indicator::before {
   content: "";
   position: absolute;
   width: 8px;
