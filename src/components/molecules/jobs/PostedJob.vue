@@ -5,6 +5,7 @@ import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import setupAxios from '../../../setupAxios';
 
 const jobs = ref([]);
+const jobCount = ref(0); // Added job count variable
 const emit = defineEmits(['jobClick']);
 const axiosInstance = setupAxios();
 
@@ -41,6 +42,7 @@ const fetchJobs = async (businessId) => {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         jobs.value = response.data.linkedJobs;
+        jobCount.value = response.data.linkedJobs.length; // Update job count
     } catch (error) {
         console.error('Failed to fetch jobs:', error);
     }
@@ -54,6 +56,10 @@ onMounted(async () => {
     const businessId = await fetchBusinessId();
     if (businessId) {
         await fetchJobs(businessId);
+        // Fetch jobs periodically
+        setInterval(async () => {
+            await fetchJobs(businessId);
+        }, 1000); // Fetch jobs every minute (adjust the interval as needed)
     }
 });
 </script>
