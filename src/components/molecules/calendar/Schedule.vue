@@ -54,7 +54,7 @@ async function fetchCalendarEvents() {
         endTime: endTime,
         emoji: '📅',
         label: event.summary || 'No Title',
-        type: 'personal'
+        type: event.type
       };
     });
   } catch (error) {
@@ -208,6 +208,7 @@ function isToday(date) {
               </div>
             </div>
           </template>
+
 
           <div class="schedule__calendar__time-indicator" :style="{ top: currentTimePosition }"></div>
         </div>

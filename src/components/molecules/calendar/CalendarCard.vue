@@ -29,26 +29,24 @@ const cardHeight = computed(() => {
 
 const cardColor = computed(() => {
     switch (props.type) {
-        case 'interview':
-            return 'var(--blurple-60)';
         case 'job':
             return 'var(--blurple-10)';
         case 'personal':
             return 'var(--green-20)';
-        case 'applied':
-            return 'var(--neutral-20)';
         default:
             return 'var(--blurple-60)';
     }
 });
 
 const textClasses = computed(() => {
-    if (props.type === 'interview') {
-        return { primary: 'text-white', secondary: 'text-white-secondary' };
+    if (props.type === 'job') {
+        return { primary: 'text-primary', secondary: 'text-secondary' };
     } else {
         return { primary: 'text-primary', secondary: 'text-secondary' };
     }
 });
+
+console.log(`Type: ${props.type}`);
 </script>
 
 <template>

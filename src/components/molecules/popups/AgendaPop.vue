@@ -74,6 +74,8 @@ const handleSubmit = async () => {
     try {
         const response = await axiosInstance.post('/calendar/google/schedule_event', event);
         console.log('Event scheduled successfully:', response.data);
+        emits('submit', response.data);
+        closeModal();
     } catch (error) {
         console.error('Error scheduling event:', error);
     }
