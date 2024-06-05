@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed, watch, defineProps } from 'vue';
 import setupAxios from '../../../setupAxios';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
@@ -7,18 +7,33 @@ import CalendarCard from './CalendarCard.vue';
 import AgendaPopUp from '../popups/AgendaPopUp.vue';
 
 // VARIABLES
+const props = defineProps({
+  weekRange: {
+    type: Object,
+    default: null
+  }
+});
+
 const axiosInstance = setupAxios(null);
 const currentTimePosition = ref('0px');
 const currentDate = ref(new Date());
 const formattedDate = ref('');
 const weekDays = ref([]);
 const calendarEvents = ref([]);
-const isPopupVisible = ref(false); // State variable for popup visibility
+const isPopupVisible = ref(false); 
 
 const currentDay = computed(() => {
   const today = new Date();
   const dayOfWeek = today.getDay(); // Sunday is 0, Monday is 1, and so on.
   return dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Adjust to start the week on Monday, so Monday is 0 and Sunday is 6.
+});
+
+
+// Watch for changes to currentDate to update the week days and formatted date
+watch(() => props.weekRange, (newWeekRange) => {
+  if (newWeekRange && newWeekRange.start) {
+    currentDate.value = newWeekRange.start;
+  }
 });
 
 // LIFECYCLE HOOKS
@@ -28,7 +43,6 @@ onMounted(() => {
   updateWeek();
 });
 
-// Watch for changes to currentDate to update the week days and formatted date
 watch(currentDate, updateWeek);
 
 async function fetchCalendarEvents() {
