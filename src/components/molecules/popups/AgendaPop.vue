@@ -2,7 +2,6 @@
 import { ref, defineProps, defineEmits } from 'vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
-import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 import InputField from '../../atoms/inputs/InputField.vue';
 import Dropdown from '../../atoms/inputs/DropDown.vue';
 import Overlay from './Overlay.vue';
@@ -12,8 +11,7 @@ const props = defineProps({
     isVisible: {
         type: Boolean,
         default: false,
-    },
-    iconName: String, // Define iconName prop
+    }
 });
 
 const emits = defineEmits(['close', 'submit']);
@@ -32,13 +30,10 @@ const closeModal = () => {
     emits('close');
 };
 
-// Define options for the Priority dropdown
 const priorityOptions = ['Low Priority', 'Medium Priority', 'High Priority'];
 
-// Define modelValue for the DatePicker
 const selectedDate = ref('');
 
-// Event handler for updating the selected date
 const updateSelectedDate = (date) => {
     selectedDate.value = date;
 };
@@ -47,40 +42,23 @@ const updateSelectedDate = (date) => {
 <template>
     <Overlay class="modal__overlay" v-if="isVisible" @overlayClick="closeModal">
         <div class="modal" @click.stop>
-            <div class="button-icon-container">
-                <div class="button-left">
-                    <NormalButton label="Personal"
-                        :class="{ 'button--secondary': !isButton2Secondary, 'button--tertiary': isButton2Secondary }"
-                        @click="revertButton2Color" />
-                    <NormalButton label="Professional"
-                        :class="{ 'button--secondary': isButton2Secondary, 'button--tertiary': !isButton2Secondary }"
-                        @click="toggleButton2Color" />
-                </div>
-                <div class="icon-container">
-                    <TransparentButton :iconName="iconName" :hasLabel="false" :hasIcon="true" />
-                </div>
+            <div class="modal__buttons">
+                <NormalButton label="Personal" :hasRequest=false
+                    :class="{ 'button--secondary': !isButton2Secondary, 'button--tertiary': isButton2Secondary }"
+                    @click="revertButton2Color" />
+                <NormalButton label="Professional" :hasRequest=false
+                    :class="{ 'button--secondary': isButton2Secondary, 'button--tertiary': !isButton2Secondary }"
+                    @click="toggleButton2Color" />
             </div>
-            <div class="input-dropdown-container">
-                <div>
-                    <InputField placeholder="Aa" :hasLabel="true" label="Title" />
-                </div>
-                <div class="datepicker-container">
-                    <DatePicker :modelValue="selectedDate" @update:modelValue="updateSelectedDate" :hasLabel="true"
-                        label="Date" />
-                </div>
-                <div>
-                    <InputField placeholder="Ae" :hasLabel="true" label="Location" />
-                </div>
-                <div class="dropdown-container">
-                    <Dropdown label="Priority" :options="priorityOptions" :hasLabel="true" />
-                </div>
-                <div>
-                    <InputField placeholder="Aa" :hasLabel="true" label="Description" />
-                </div>
+            <div class="modal__inputs">
+                <InputField placeholder="Aa" :hasLabel="true" label="Title" />
+                <DatePicker :modelValue="selectedDate" @update:modelValue="updateSelectedDate" :hasLabel="true"
+                    label="Date" />
+                <InputField placeholder="Ae" :hasLabel="true" label="Location" />
+                <Dropdown label="Priority" :options="priorityOptions" :hasLabel="true" />
+                <InputField placeholder="Aa" :hasLabel="true" label="Description" />
             </div>
-            <div class="large-button-container">
-                <LargeButton label="Add" class="button--primary" />
-            </div>
+            <LargeButton label="Add" class="button--primary" />
         </div>
     </Overlay>
 </template>
@@ -100,29 +78,18 @@ const updateSelectedDate = (date) => {
     top: 50%;
     transform: translateY(-50%);
     right: 64px;
-    gap: 16px;
+    gap: 32px;
 }
 
-.button-icon-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.button-left {
+.modal__buttons {
     display: flex;
     gap: 12px;
 }
 
-.icon-container {
-    margin-left: auto;
-}
-
-.input-dropdown-container {
+.modal__inputs {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    margin-top: 24px;
 }
 
 .icon {
