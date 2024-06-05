@@ -49,7 +49,23 @@ const props = defineProps({
 
 const emits = defineEmits(['close', 'submit', 'delete']);
 
-const localPostData = reactive(JSON.parse(JSON.stringify(props.postData)));
+const localPostData = reactive({
+    title: props.postData.title || '',
+    description: props.postData.description || '',
+    wage: props.postData.wage || '',
+    date: props.postData.date ? new Date(props.postData.date).toISOString().substr(0, 10) : new Date().toISOString().substr(0, 10), // Initialize with current date if not provided
+    time: props.postData.time || new Date().toTimeString().substr(0, 5), // Initialize with current time if not provided
+    skills: props.postData.skills || [],
+    jobFunction: props.postData.jobFunction || '',
+    location: {
+        city: props.postData.location.city || '',
+        address: props.postData.location.address || '',
+        country: props.postData.location.country || ''
+    },
+    production_type: props.postData.production_type || '',
+    union_status: props.postData.union_status || '',
+    attachments: props.postData.attachments || []
+});
 
 watch(() => props.postData, (newPostData) => {
     Object.assign(localPostData, JSON.parse(JSON.stringify(newPostData)));

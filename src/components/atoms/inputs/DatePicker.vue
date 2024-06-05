@@ -17,21 +17,34 @@ const emit = defineEmits(['update:modelValue']);
 
 const selectedDate = ref(props.modelValue || '');
 
-const selectDate = (event) => {
-    selectedDate.value = event.target.value;
-    emit('update:modelValue', selectedDate.value);
+const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const dateObj = new Date(dateString);
+    const year = dateObj.getFullYear();
+    let month = (1 + dateObj.getMonth()).toString().padStart(2, '0');
+    let day = dateObj.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
+const formattedDate = ref(formatDate(props.modelValue));
+
+const handleInput = (event) => {
+    const selectedDateString = event.target.value;
+    formattedDate.value = selectedDateString;
+    emit('update:modelValue', selectedDateString);
 };
 
 watch(() => props.modelValue, (newValue) => {
     selectedDate.value = newValue;
+    formattedDate.value = formatDate(newValue); // Update formattedDate when modelValue changes
 });
 </script>
 
 <template>
     <div class="datepicker">
         <label v-if="hasLabel" class="datepicker__label">{{ label }}</label>
-        <input class="datepicker__input radius-xs text-reg-l" type="date" v-model="selectedDate" @change="selectDate"
-            :class="{ 'filled': selectedDate }" placeholder=" " />
+        <input class="datepicker__input radius-xs text-reg-l" type="date" :value="formattedDate" @input="handleInput"
+            :class="{ 'filled': formattedDate }" placeholder=" " />
     </div>
 </template>
 
