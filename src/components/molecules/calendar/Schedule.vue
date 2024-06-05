@@ -20,27 +20,19 @@ const currentDate = ref(new Date());
 const formattedDate = ref('');
 const weekDays = ref([]);
 const calendarEvents = ref([]);
-const isPopupVisible = ref(false); 
-
-const currentDay = computed(() => {
-  const today = new Date();
-  const dayOfWeek = today.getDay(); // Sunday is 0, Monday is 1, and so on.
-  return dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Adjust to start the week on Monday, so Monday is 0 and Sunday is 6.
-});
-
-
-// Watch for changes to currentDate to update the week days and formatted date
-watch(() => props.weekRange, (newWeekRange) => {
-  if (newWeekRange && newWeekRange.start) {
-    currentDate.value = newWeekRange.start;
-  }
-});
+const isPopupVisible = ref(false);
 
 // LIFECYCLE HOOKS
 onMounted(() => {
   fetchCalendarEvents();
   updateCurrentTimePosition();
   updateWeek();
+});
+
+watch(() => props.weekRange, (newWeekRange) => {
+  if (newWeekRange && newWeekRange.start) {
+    currentDate.value = newWeekRange.start;
+  }
 });
 
 watch(currentDate, updateWeek);
@@ -102,7 +94,7 @@ function getWeekDays(date) {
   for (let i = 0; i < 7; i++) {
     const day = new Date(monday.getTime() + i * 86400000);
     const abbr = day.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2);
-    days.push({ abbr: abbr, number: day.getDate() });
+    days.push({ abbr: abbr, number: day.getDate(), fullDate: day });
   }
   return days;
 }
@@ -121,10 +113,6 @@ function previousWeek() {
 
 function goToToday() {
   currentDate.value = new Date();
-}
-
-function handleDayClicked({ date, weekRange }) {
-  currentDate.value = weekRange.start;
 }
 
 function getCardPosition(event) {
@@ -163,13 +151,21 @@ function openPopup() {
 function closePopup() {
   isPopupVisible.value = false;
 }
+
+function isToday(date) {
+  const today = new Date();
+  return date.getDate() === today.getDate() &&
+    date.getMonth() === today.getMonth() &&
+    date.getFullYear() === today.getFullYear();
+}
 </script>
 
 <template>
   <div class="schedule">
     <div class="schedule__top">
       <div class="schedule__top__left">
-        <NormalButton label="Today" class="schedule__top__left__today button--primary" @click="goToToday" />
+        <NormalButton label="Today" class="schedule__top__left__today button--primary" :hasRequest=false
+          @click="goToToday" />
         <div class="schedule__top__left__arrows">
           <TransparentButton iconName="NavArrowLeft" class="schedule__top__left__arrows__arrow no-label"
             @click="previousWeek" />
@@ -184,7 +180,7 @@ function closePopup() {
     <div class="schedule__calendar">
       <div class="schedule__days text-reg-s">
         <div class="schedule__days__abbr" v-for="(day, index) in weekDays" :key="index"
-          :class="{ 'current-day': index === currentDay }">
+          :class="{ 'current-day': isToday(day.fullDate) }">
           {{ day.abbr }} {{ day.number }}
         </div>
       </div>
