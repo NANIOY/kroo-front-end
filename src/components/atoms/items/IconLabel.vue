@@ -3,8 +3,14 @@ import { IconoirProvider, MapPin, Learning, CinemaOld, DragHandGesture, Attachme
 import { defineProps } from 'vue';
 
 const props = defineProps({
-    iconName: String,
-    label: String,
+    iconName: {
+        type: String,
+        required: true
+    },
+    label: {
+        type: String,
+        required: true
+    },
     size: {
         type: String,
         default: 'default',
@@ -13,6 +19,14 @@ const props = defineProps({
     textColor: {
         type: String,
         default: 'var(--black)'
+    },
+    isLink: {
+        type: Boolean,
+        default: false
+    },
+    href: {
+        type: String,
+        default: '#'
     }
 });
 
@@ -42,7 +56,11 @@ const iconSize = {
         'height': iconSize[size],
         'stroke-width': '2'
     }">
-        <div :class="['icon-label', size]">
+        <a v-if="isLink" :href="href" class="icon-label">
+            <component :is="iconComponents[iconName]" class="icon" />
+            <span :style="{ color: textColor }" class="label text-reg-s">{{ label }}</span>
+        </a>
+        <div v-else :class="['icon-label', size]">
             <component :is="iconComponents[iconName]" class="icon" />
             <span :style="{ color: textColor }" class="label text-reg-s">{{ label }}</span>
         </div>
