@@ -99,7 +99,7 @@ const formatMonth = (dateString) => {
 }
 
 .container {
-    width: 273.5px;
+    width: 264px;
     height: 176px;
     background-color: var(--neutral-20);
     color: var(--black);
