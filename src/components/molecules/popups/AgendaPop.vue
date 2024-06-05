@@ -6,6 +6,7 @@ import InputField from '../../atoms/inputs/InputField.vue';
 import Dropdown from '../../atoms/inputs/DropDown.vue';
 import Overlay from './Overlay.vue';
 import DatePicker from '../../atoms/inputs/DatePicker';
+import TimePicker from '../../atoms/inputs/TimePicker';
 
 const props = defineProps({
     isVisible: {
@@ -54,6 +55,10 @@ const updateSelectedDate = (date) => {
                 <InputField placeholder="Aa" :hasLabel="true" label="Title" />
                 <DatePicker :modelValue="selectedDate" @update:modelValue="updateSelectedDate" :hasLabel="true"
                     label="Date" />
+                <div class="modal__inputs__time">
+                    <TimePicker :hasLabel="true" label="Start time" />
+                    <TimePicker :hasLabel="true" label="End time" />
+                </div>
                 <InputField placeholder="Ae" :hasLabel="true" label="Location" />
                 <Dropdown label="Priority" :options="priorityOptions" :hasLabel="true" />
                 <InputField placeholder="Aa" :hasLabel="true" label="Description" />
@@ -92,19 +97,13 @@ const updateSelectedDate = (date) => {
     gap: 12px;
 }
 
-.icon {
-    font-size: 24px;
+.modal__inputs__time {
+    display: flex;
+    gap: 12px;
 }
 
-.dropdown-container {
-    display: flex;
-    flex-direction: column;
-}
-
-.large-button-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 32px;
+.modal__inputs__time>* {
+    flex: 1;
 }
 
 .button--secondary,
