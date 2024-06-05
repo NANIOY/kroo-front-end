@@ -1,9 +1,12 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, defineEmits } from 'vue';
+import { ref, onMounted, onBeforeUnmount, defineEmits, defineProps } from 'vue';
 import { NavArrowDown } from '@iconoir/vue';
 
 const props = defineProps({
-  modelValue: Array,
+  modelValue: {
+    type: Array,
+    default: () => []
+  },
   hasLabel: {
     type: Boolean,
     default: false

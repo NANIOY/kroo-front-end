@@ -2,7 +2,6 @@
 import { ref, defineProps, defineEmits } from 'vue';
 import FormHeader from '../../molecules/login/FormHeader.vue';
 import setupAxios from '../../../setupAxios';
-import { useRouter } from 'vue-router';
 
 // INPUTS
 import InputField from '../../atoms/inputs/InputField.vue';
@@ -75,6 +74,7 @@ const props = defineProps({
     hasLargeButton: Boolean,
     hasAuthButton: Boolean,
     hasLocalStorageButton: Boolean,
+
     paymentMethodCombo: Boolean,
     dropBillCombo: Boolean,
 

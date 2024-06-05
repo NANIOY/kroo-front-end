@@ -13,7 +13,6 @@ const selectedDay = ref(null);
 watch(selectedDay, (newVal) => {
     if (newVal) {
         const weekRange = getWeekRange(newVal);
-        console.log("Selected day:", newVal, "Week:", weekRange);
         emit('day-clicked', { date: newVal, weekRange });
     }
 });
