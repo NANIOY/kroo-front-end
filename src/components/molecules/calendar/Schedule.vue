@@ -21,6 +21,7 @@ const formattedDate = ref('');
 const weekDays = ref([]);
 const calendarEvents = ref([]);
 const isPopupVisible = ref(false);
+const selectedEvent = ref(null);
 
 // LIFECYCLE HOOKS
 onMounted(() => {
@@ -144,12 +145,14 @@ function getStartOfWeek(date) {
   return startOfWeek;
 }
 
-function openPopup() {
+function openPopup(event) {
+  selectedEvent.value = event;
   isPopupVisible.value = true;
 }
 
 function closePopup() {
   isPopupVisible.value = false;
+  selectedEvent.value = null;
 }
 
 function isToday(date) {
@@ -202,19 +205,18 @@ function isToday(date) {
                   <div v-if="isEventInCurrentWeek(event) && event.date.getDay() === day - 1"
                     :style="getCardPosition(event)" class="schedule__calendar__card">
                     <CalendarCard :emoji="event.emoji" :label="event.label" :startTime="event.startTime"
-                      :endTime="event.endTime" :type="event.type" />
+                      :endTime="event.endTime" :type="event.type" @open="openPopup" />
                   </div>
                 </template>
               </div>
             </div>
           </template>
 
-
           <div class="schedule__calendar__time-indicator" :style="{ top: currentTimePosition }"></div>
         </div>
       </div>
 
-      <AgendaPop :isVisible="isPopupVisible" @close="closePopup" />
+      <AgendaPop :isVisible="isPopupVisible" @close="closePopup" :event="selectedEvent" />
     </div>
 </template>
 
