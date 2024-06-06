@@ -19,9 +19,6 @@ const props = defineProps({
   }
 });
 
-// Compute the height of the alert based on whether it has text or not
-const alertHeight = computed(() => props.text ? 'auto' : '48px');
-
 const iconToUse = computed(() => {
   if (props.icon) {
     return props.icon;
@@ -76,12 +73,13 @@ const close = () => {
 
 <style scoped>
 .alert {
-  background-color: var(--color-text-text-secondary, #333);
+  background-color: var(--neutral-80);
   border-left: 4px solid;
   width: 608px;
   display: flex;
   justify-content: space-between;
   padding: 16px;
+  align-items: center;
 }
 
 .alert__icon__label {
@@ -96,7 +94,6 @@ const close = () => {
 
 .close {
   cursor: pointer;
-  font-size: 1.2em;
   margin-left: auto;
   color: var(--neutral-40);
   align-self: flex-start;
