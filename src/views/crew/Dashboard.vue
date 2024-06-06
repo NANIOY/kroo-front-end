@@ -1,22 +1,23 @@
 <script setup>
-// IMPORT DASHBOARD COMPONENTS
+import { ref, onMounted } from 'vue';
 import JobCard from '../../components/molecules/dashboard/JobCard.vue';
 import JobSug from '../../components/molecules/dashboard/JobSug.vue';
 import Week from '../../components/molecules/dashboard/Week.vue';
 import ScheduleCard from '../../components/molecules/dashboard/ScheduleCard.vue';
 import Upgrade from '../../components/molecules/dashboard/Upgrade.vue';
-
-// IMPORT OTHER
 import TransparentButton from '../../components/atoms/buttons/TransparentButton.vue';
 import JobPop from '../../components/molecules/popups/JobPop.vue';
 import Overlay from '../../components/molecules/popups/Overlay.vue';
 import setupAxios from '../../setupAxios';
 
 import { useRouter } from 'vue-router';
-import { ref, onMounted } from 'vue';
 
 const axiosInstance = setupAxios();
 const router = useRouter();
+
+const fetchedJobs = ref([]);
+const activeJobs = ref([]);
+const selectedJob = ref(null);
 
 // NAVIGATION FUNCTIONS
 const goToTracker = () => {
@@ -29,10 +30,28 @@ const goToUpgrade = () => {
   router.push('/upgrade');
 };
 
-const fetchedJobs = ref([]);
-const selectedJob = ref(null);
+// Fetch active jobs
+const fetchActiveJobs = async () => {
+  const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+  if (!token) {
+    console.error('Authentication token is missing');
+    return;
+  }
 
-// fetch job suggestions
+  try {
+    const activeJobsResponse = await axiosInstance.get('/crewJob/activejobs', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    activeJobs.value = activeJobsResponse.data.activeJobs.map(job => ({
+      ...job,
+      id: job._id
+    }));
+  } catch (error) {
+    console.error('Error fetching active jobs:', error);
+  }
+};
+
+// Fetch job suggestions
 const fetchJobSuggestions = async () => {
   try {
     const response = await axiosInstance.get('/crewjob/jobs');
@@ -41,7 +60,7 @@ const fetchJobSuggestions = async () => {
       id: job._id
     }));
 
-    // fetch employer details for each job based on businessId
+    // Fetch employer details for each job based on businessId
     await Promise.all(fetchedJobs.value.map(async (job) => {
       try {
         const businessResponse = await axiosInstance.get(`/business/${job.businessId}`);
@@ -58,24 +77,24 @@ const fetchJobSuggestions = async () => {
   }
 };
 
-// open job popup when job is clicked
+// Open job popup when job is clicked
 const openJobPop = (job) => {
   selectedJob.value = job;
 };
 
-// close job popup
+// Close job popup
 const closeJobPop = () => {
   selectedJob.value = null;
 };
 
 onMounted(() => {
+  fetchActiveJobs();
   fetchJobSuggestions();
 });
 </script>
 
 <template>
   <div class="dashboard">
-
     <div class="dashboard__left">
       <div class="dashboard__left__block">
         <div class="dashboard__left__header">
@@ -85,12 +104,15 @@ onMounted(() => {
             label="All jobs" iconName="NavArrowRight" iconPosition="right" />
         </div>
         <div class="dashboard__left__block--active__jobs">
-          <JobCard cardType="highlight" date="Month 00" time="00:00 - 00:00" jobFunction="Function" city="City"
-            street="Street, Number" />
-          <JobCard cardType="default" date="Month 00" time="00:00 - 00:00" jobFunction="Function" city="City"
-            street="Street, Number" />
-          <JobCard cardType="default" date="Month 00" time="00:00 - 00:00" jobFunction="Function" city="City"
-            street="Street, Number" />
+          <template v-if="activeJobs.length">
+            <JobCard v-for="(job, index) in activeJobs" :key="index" :cardType="'default'" :date="job.date"
+              :time="job.time" :jobFunction="job.jobFunction" :city="job.location.city" :street="job.location.street" />
+          </template>
+          <template v-else>
+            <div class="no-active-jobs">
+              <p>You dont have any active jobs at the moment.</p>
+            </div>
+          </template>
         </div>
       </div>
 
@@ -140,8 +162,7 @@ onMounted(() => {
   display: flex;
 }
 
-.dashboard,
-.dashboard__left__block--active__jobs {
+.dashboard {
   flex-direction: row;
 }
 
@@ -200,6 +221,18 @@ h5 {
 .dashboard__left__block--sug__jobs {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+}
+
+/* Placeholder for no active jobs */
+.no-active-jobs {
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--black);
+  border: 1px dashed var(--light-gray);
+  border-radius: 8px;
+  padding: 16px;
 }
 
 /* RIGHT */

@@ -13,6 +13,11 @@ const jobCounts = ref({
   offered: 0
 });
 
+const appliedJobs = ref([]);
+const offeredJobs = ref([]);
+const savedJobs = ref([]);
+const ongoingJobs = ref([]);
+
 const axiosInstance = setupAxios();
 
 const fetchJobCounts = async () => {
@@ -27,21 +32,30 @@ const fetchJobCounts = async () => {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     jobCounts.value.applied = appliedResponse.data.applications.length;
+    appliedJobs.value = appliedResponse.data.applications.map(application => ({
+      ...application.application,
+      title: application.job.title || 'Unknown Job Title',
+      businessImage: application.job.business.logo,
+      businessName: application.job.business.companyName
+    }));
 
     const offeredResponse = await axiosInstance.get('/crewJobInt/offers', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     jobCounts.value.offered = offeredResponse.data.offeredJobs.length;
+    offeredJobs.value = offeredResponse.data.offeredJobs;
 
     const savedResponse = await axiosInstance.get('/crewJobInt/saved', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     jobCounts.value.saved = savedResponse.data.savedJobs.length;
+    savedJobs.value = savedResponse.data.savedJobs;
 
     const activeJobsResponse = await axiosInstance.get('/crewJob/activejobs', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     jobCounts.value.ongoing = activeJobsResponse.data.activeJobs.length;
+    ongoingJobs.value = activeJobsResponse.data.activeJobs;
   } catch (error) {
     console.error('Failed to fetch job counts:', error);
   }
@@ -55,28 +69,28 @@ onMounted(fetchJobCounts);
     <div class="tracker__container">
       <h6>SAVED &#8722; {{ jobCounts.saved }}</h6>
       <div class="tracker__container__column">
-        <SavedJob />
+        <SavedJob :jobs="savedJobs" />
       </div>
     </div>
 
     <div class="tracker__container">
       <h6>APPLIED &#8722; {{ jobCounts.applied }}</h6>
       <div class="tracker__container__column">
-        <AppliedJob />
+        <AppliedJob :jobs="appliedJobs" />
       </div>
     </div>
 
     <div class="tracker__container">
       <h6>ONGOING &#8722; {{ jobCounts.ongoing }}</h6>
       <div class="tracker__container__column">
-        <OngoingJob />
+        <OngoingJob :jobs="ongoingJobs" />
       </div>
     </div>
 
     <div class="tracker__container">
       <h6>OFFERED &#8722; {{ jobCounts.offered }}</h6>
       <div class="tracker__container__column">
-        <OfferedJob />
+        <OfferedJob :jobs="offeredJobs" />
       </div>
     </div>
   </div>
