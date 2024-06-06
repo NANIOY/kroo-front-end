@@ -16,10 +16,6 @@ const props = defineProps({
   text: {
     type: String,
     default: ''
-  },
-  icon: {
-    type: String,
-    default: ''
   }
 });
 
