@@ -1,5 +1,6 @@
 <script setup>
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
+import Tag from '../../atoms/items/Tag.vue';
 import { onMounted, ref } from 'vue';
 import setupAxios from '../../../setupAxios';
 
@@ -41,6 +42,11 @@ const fetchJobs = async () => {
     }
 };
 
+const getFormattedDate = (dateString, options) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', options);
+};
+
 onMounted(fetchJobs);
 </script>
 
@@ -65,9 +71,9 @@ onMounted(fetchJobs);
 
         <div id="saved__job__info">
             <div id="saved__job__info__date">
-                <div id="saved__job__info__date__day">
-                    <p>{{ new Date(job.date).toLocaleDateString() }}</p>
-                </div>
+                <Tag type="big">
+                    <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, { month: 'long' }) }}</p>
+                </Tag>
             </div>
             <div id="saved__job__info__place">
                 <div id="saved__job__info__place__city">
