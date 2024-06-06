@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps, computed } from 'vue';
-import * as iconoirIcons from '@iconoir/vue';
+import {CheckCircle, WarningCircle, HelpCircle, InfoCircle } from '@iconoir/vue';
 
 // Define props
 const props = defineProps({
@@ -22,22 +22,19 @@ const props = defineProps({
 // Compute the height of the alert based on whether it has text or not
 const alertHeight = computed(() => props.text ? 'auto' : '48px');
 
-// Define icon based on props or type
 const iconToUse = computed(() => {
   if (props.icon) {
     return props.icon;
   } else {
     switch (props.type) {
       case 'good':
-        return iconoirIcons.CheckCircle;
+        return CheckCircle;
       case 'bad':
-        return iconoirIcons.WarningCircle;
+        return WarningCircle;
       case 'warning':
-        return iconoirIcons.WarningCircle;
+        return HelpCircle;
       case 'info':
-        return iconoirIcons.HelpCircle;
-      default:
-        return iconoirIcons.HelpCircle;
+        return InfoCircle;
     }
   }
 });
