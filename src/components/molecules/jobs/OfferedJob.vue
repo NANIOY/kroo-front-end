@@ -1,5 +1,6 @@
 <script setup>
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
+import Tag from '../../atoms/items/Tag.vue';
 import { IconoirProvider, Calendar } from '@iconoir/vue';
 import { onMounted, ref } from 'vue';
 import setupAxios from '../../../setupAxios';
@@ -102,12 +103,9 @@ onMounted(fetchJobs);
 
             <div id="offered__job__info">
                 <div id="offered__job__info__date">
-                    <div id="offered__job__info__date__day">
-                        <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }}</p>
-                    </div>
-                    <div id="offered__job__info__date__month">
-                        <p class="text-reg-s">{{ getFormattedDate(job.date, { month: 'long' }) }}</p>
-                    </div>
+                    <Tag type="big">
+                        <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, { month: 'long' }) }}</p>
+                    </Tag>
                 </div>
                 <div id="offered__job__info__place">
                     <div id="offered__job__info__place__city">
