@@ -2,6 +2,7 @@
 import { onMounted, ref, defineEmits } from 'vue';
 import { IconoirProvider, User } from '@iconoir/vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
+import Tag from '../../atoms/items/Tag.vue';
 import setupAxios from '../../../setupAxios';
 
 const jobs = ref([]);
@@ -51,6 +52,11 @@ const handleJobClick = (job) => {
     emit('jobClick', job);
 };
 
+const getFormattedDate = (dateString, options) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', options);
+};
+
 onMounted(async () => {
     const businessId = await fetchBusinessId();
     if (businessId) {
@@ -94,12 +100,9 @@ onMounted(async () => {
 
             <div id="posted__job__info">
                 <div id="posted__job__info__date">
-                    <div id="posted__job__info__date__day">
-                        <p>{{ new Date(job.date).getDate() }}</p>
-                    </div>
-                    <div id="posted__job__info__date__month">
-                        <p class="text-reg-s">{{ new Date(job.date).toLocaleString('default', { month: 'long' }) }}</p>
-                    </div>
+                    <Tag type="big">
+                        <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, { month: 'long' }) }}</p>
+                    </Tag>
                 </div>
                 <div id="posted__job__info__place">
                     <div id="posted__job__info__place__city">
