@@ -49,7 +49,7 @@ const props = defineProps({
 }
 
 .tag--big {
-    height: 32px !important;
+    height: 28px !important;
     background-color: var(--neutral-70);
 }
 </style>
