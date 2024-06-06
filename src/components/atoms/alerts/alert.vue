@@ -82,7 +82,7 @@ p {
   display: flex;
   justify-content: space-between;
   padding: 16px;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .alert__icon__label {
