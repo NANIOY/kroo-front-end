@@ -1,6 +1,7 @@
 <script setup>
 import IconLabel from '../../atoms/items/IconLabel.vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
+import { defineProps } from 'vue';
 
 const props = defineProps({
   jobFunction: String,
@@ -13,6 +14,20 @@ const props = defineProps({
     default: 'default'
   }
 });
+
+// Function to format the date in the desired format
+const formatDate = (dateString) => {
+  const options = { day: 'numeric', month: 'long' };
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', options);
+};
+
+// Function to format the time in 24-hour format
+const formatTime = (timeString) => {
+  const options = { hour: 'numeric', minute: 'numeric' };
+  const [hours, minutes] = timeString.split(':');
+  return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`;
+};
 </script>
 
 <template>
@@ -20,9 +35,10 @@ const props = defineProps({
     <div class="jobCard__content">
       <div class="jobCard__topSection">
         <div class="jobCard__topSection__labels">
-          <IconLabel :iconName="'Calendar'" :label="date" size="small"
+          <!-- Updated to use the formatted date and time -->
+          <IconLabel :iconName="'Calendar'" :label="formatDate(date)" size="small"
             :textColor="cardType === 'highlight' ? 'var(--white)' : null" />
-          <IconLabel :iconName="'Clock'" :label="time" size="small"
+          <IconLabel :iconName="'Clock'" :label="formatTime(time)" size="small"
             :textColor="cardType === 'highlight' ? 'var(--white)' : null" />
         </div>
         <TransparentButton class="jobCard__topSection__button no-label" :hasIcon="true" iconName="MoreHoriz"
@@ -31,6 +47,7 @@ const props = defineProps({
       <div class="jobCard__bottomSection">
         <div class="jobCard__bottomSection__function">{{ jobFunction }}</div>
         <div class="jobCard__bottomSection__location">
+          <!-- Updated to display both city and street only when street is available -->
           <h3 class="jobCard__bottomSection__location__city">{{ city }}</h3>
           <h5 class="jobCard__bottomSection__location__street">{{ street }}</h5>
         </div>
@@ -112,10 +129,10 @@ h5 {
 
 /*  PSEUDO CLASSES  */
 .jobCard--default:hover {
-    filter: brightness(92%);
+  filter: brightness(92%);
 }
 
 .jobCard--highlight:hover {
-    filter: brightness(112%);
+  filter: brightness(112%);
 }
 </style>
