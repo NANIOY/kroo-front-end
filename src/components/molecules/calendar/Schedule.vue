@@ -51,17 +51,21 @@ async function fetchCalendarEvents() {
       return {
         ...event,
         date: startDate,
+        startDate: startDate,
+        endDate: endDate,
         startTime: startTime,
         endTime: endTime,
         emoji: '📅',
         label: event.summary || 'No Title',
-        type: event.type
+        type: event.type,
+        description: event.description || 'No Description'
       };
     });
   } catch (error) {
     console.error('Failed to fetch calendar events:', error);
   }
 }
+
 
 function updateCurrentTimePosition() {
   currentTimePosition.value = calculateTimeIndicatorPosition();
@@ -148,7 +152,9 @@ function getStartOfWeek(date) {
 function openPopup(event) {
   selectedEvent.value = event;
   isPopupVisible.value = true;
+  console.log('Selected event:', JSON.stringify(event, null, 2));
 }
+
 
 function closePopup() {
   isPopupVisible.value = false;
@@ -205,7 +211,7 @@ function isToday(date) {
                   <div v-if="isEventInCurrentWeek(event) && event.date.getDay() === day - 1"
                     :style="getCardPosition(event)" class="schedule__calendar__card">
                     <CalendarCard :emoji="event.emoji" :label="event.label" :startTime="event.startTime"
-                      :endTime="event.endTime" :type="event.type" @open="openPopup" />
+                      :endTime="event.endTime" :type="event.type" :description="event.description" @open="openPopup" />
                   </div>
                 </template>
               </div>
