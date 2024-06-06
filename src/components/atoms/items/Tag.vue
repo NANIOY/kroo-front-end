@@ -33,9 +33,6 @@ const props = defineProps({
 }
 
 .tag__text {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     margin-top: 2.6px;
 }
 

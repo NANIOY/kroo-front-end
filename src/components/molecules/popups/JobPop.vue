@@ -156,12 +156,6 @@ p {
     margin-top: 4px;
 }
 
-.jobpop__top__details__tags__tag {
-    max-width: 160px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
 
 /* MIDDLE */
 .jobpop__mid {
