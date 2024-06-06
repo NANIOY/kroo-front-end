@@ -43,10 +43,7 @@ const typeClasses = {
   info: 'alert-info'
 };
 
-// Method to handle closing the alert
-const close = () => {
-  // You can define your close logic here
-};
+
 </script>
 
 <template>
