@@ -106,11 +106,11 @@ onMounted(() => {
         <div class="dashboard__left__block--active__jobs">
           <template v-if="activeJobs.length">
             <JobCard v-for="(job, index) in activeJobs" :key="index" :cardType="'default'" :date="job.date"
-              :time="job.time" :jobFunction="job.jobFunction" :city="job.location.city" :street="job.location.street" />
+              :time="job.time" :jobFunction="job.jobFunction" :city="job.location.city" :street="job.location.address || job.location.street" />
           </template>
           <template v-else>
             <div class="no-active-jobs">
-              <p>You dont have any active jobs at the moment.</p>
+              <p>You don't have any active jobs at the moment.</p>
             </div>
           </template>
         </div>
