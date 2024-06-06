@@ -1,9 +1,9 @@
 <script setup>
-import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
 import IconLabel from '../../atoms/items/IconLabel.vue';
 import Tag from '../../atoms/items/Tag.vue';
 import { defineProps } from 'vue';
+import { Xmark } from '@iconoir/vue';
 
 const props = defineProps({
     job: Object,
@@ -28,7 +28,7 @@ const formatDateTime = (dateTimeString) => {
         <div class="jobpop__top">
             <div class="jobpop__top__row">
                 <h3>{{ job.title }}</h3>
-                <TransparentButton class="jobpop__top__row__button no-label" :hasLabel="false" iconName="Xmark" />
+                <Xmark class="jobpop__top__row__button"></Xmark>
             </div>
             <div class="jobpop__top__business">
                 <img :src="job.employer.image" alt="Employer Image" />
