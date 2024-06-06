@@ -66,7 +66,6 @@ async function fetchCalendarEvents() {
   }
 }
 
-
 function updateCurrentTimePosition() {
   currentTimePosition.value = calculateTimeIndicatorPosition();
   setTimeout(updateCurrentTimePosition, 60000);
@@ -155,7 +154,6 @@ function openPopup(event) {
   console.log('Selected event:', JSON.stringify(event, null, 2));
 }
 
-
 function closePopup() {
   isPopupVisible.value = false;
   selectedEvent.value = null;
@@ -211,7 +209,8 @@ function isToday(date) {
                   <div v-if="isEventInCurrentWeek(event) && event.date.getDay() === day - 1"
                     :style="getCardPosition(event)" class="schedule__calendar__card">
                     <CalendarCard :emoji="event.emoji" :label="event.label" :startTime="event.startTime"
-                      :endTime="event.endTime" :type="event.type" :description="event.description" @open="openPopup" />
+                      :endTime="event.endTime" :type="event.type" :description="event.description"
+                      @open="openPopup(event)" />
                   </div>
                 </template>
               </div>

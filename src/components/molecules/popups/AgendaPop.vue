@@ -39,7 +39,7 @@ watch(props, () => {
     if (props.event) {
         title.value = props.event.label;
         description.value = props.event.description;
-        selectedDate.value = props.event.date;
+        selectedDate.value = new Date(props.event.date);
         startTime.value = props.event.startTime;
         endTime.value = props.event.endTime;
         eventType.value = props.event.type;
