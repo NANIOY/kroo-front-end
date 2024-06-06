@@ -50,7 +50,7 @@ const typeClasses = {
     <!-- <div class="content"> -->
       <!-- <div class="text-content text-reg-l" v-if="props.text">{{ props.text }}</div> -->
 
-  <div v-if="props" :class="['alert', 'radius-xs', typeClasses[props.type], { 'has-text': props.text }]" :style="{ height: alertHeight }">
+  <div v-if="props" :class="['alert', 'radius-xs', typeClasses[props.type]]">
     
     <div class="alert__icon__label">
       <div>
