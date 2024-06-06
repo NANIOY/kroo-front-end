@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, computed } from 'vue';
+import { defineProps, computed, ref, onMounted } from 'vue';
 import {CheckCircle, WarningCircle, HelpCircle, InfoCircle, Xmark } from '@iconoir/vue';
 
 // Define props
@@ -16,13 +16,18 @@ const props = defineProps({
   text: {
     type: String,
     default: ''
+  },
+  duration: {
+    type: Number,
+    default: 10000
   }
 });
 
+const visible = ref(true);
+let timer = null;
+
+
 const iconToUse = computed(() => {
-  if (props.icon) {
-    return props.icon;
-  } else {
     switch (props.type) {
       case 'good':
         return CheckCircle;
@@ -34,7 +39,7 @@ const iconToUse = computed(() => {
         return InfoCircle;
     }
   }
-});
+);
 
 const typeClasses = {
   good: 'alert-good',
@@ -43,23 +48,69 @@ const typeClasses = {
   info: 'alert-info'
 };
 
+const close = () => {
+  visible.value = false;
+  clearTimeout(timer);
+};
+
+const onMouseOver = () => {
+  clearTimeout(timer);
+};
+
+const onMouseLeave = () => {
+  timer = setTimeout(() => {
+    visible.value = false;
+  }, props.duration);
+};
+
+const beforeEnter = (el) => {
+  el.style.display = 'none';
+};
+
+const enter = (el, done) => {
+  el.style.display = '';
+  el.style.opacity = 0;
+  requestAnimationFrame(() => {
+    el.style.transition = 'opacity 0.5s';
+    el.style.opacity = 1;
+    done();
+  });
+};
+
+const leave = (el, done) => {
+  el.style.opacity = 1;
+  requestAnimationFrame(() => {
+    el.style.transition = 'opacity 0.5s';
+    el.style.opacity = 0;
+    setTimeout(() => {
+      el.style.display = 'none';
+      done();
+    }, 500); // Match this with your transition duration
+  });
+};
+
+onMounted(() => {
+  timer = setTimeout(() => {
+    visible.value = false;
+  }, props.duration);
+});
 
 </script>
 
 <template>
-
-  <div v-if="props" :class="['alert', 'radius-xs', typeClasses[props.type]]">
+<transition name="fade" @before-enter="beforeEnter" @enter="enter" @leave="leave">
+  <div v-if="visible" :class="['alert', 'radius-xs', typeClasses[type]]" @mouseover="onMouseOver" @mouseleave="onMouseLeave">
     <div>
       <div class="alert__icon__label">
         <div>
           <component :is="iconToUse" />
         </div>
-        <div v-if="props.label" class="label button-l text-white">
-          {{ props.label }}
+        <div v-if="label" class="label button-l text-white">
+          {{ label }}
         </div>
       </div>
-    <div v-if="props.text">
-      <p class="alert__text text-disabled text-reg-l">{{ props.text }}</p>
+    <div v-if="text">
+      <p class="alert__text text-disabled text-reg-l">{{ text }}</p>
     </div>
   </div>
 
@@ -68,6 +119,7 @@ const typeClasses = {
     </div>
 
   </div>
+</transition>
 </template>
 
 <style scoped>
@@ -83,6 +135,7 @@ p {
   justify-content: space-between;
   padding: 16px;
   align-items: flex-start;
+  transition: opacity 0.5s ease-in-out;
 }
 
 .alert__icon__label {
@@ -124,6 +177,13 @@ p {
 
 .alert__text {
   margin-top: 8px;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s, display 0.5s;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
 }
 
 </style>
