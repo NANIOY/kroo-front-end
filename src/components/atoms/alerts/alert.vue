@@ -47,19 +47,21 @@ const typeClasses = {
 </script>
 
 <template>
-    <!-- <div class="content"> -->
-      <!-- <div class="text-content text-reg-l" v-if="props.text">{{ props.text }}</div> -->
 
   <div v-if="props" :class="['alert', 'radius-xs', typeClasses[props.type]]">
-    
-    <div class="alert__icon__label">
-      <div>
-        <component :is="iconToUse" />
+    <div>
+      <div class="alert__icon__label">
+        <div>
+          <component :is="iconToUse" />
+        </div>
+        <div v-if="props.label" class="label button-l text-white">
+          {{ props.label }}
+        </div>
       </div>
-      <div v-if="props.label" class="label button-l text-white">
-        {{ props.label }}
-      </div>
+    <div v-if="props.text">
+      <p class="alert__text text-disabled text-reg-l">{{ props.text }}</p>
     </div>
+  </div>
 
     <div class="alert__xmark">
       <Xmark class="close" @click="close"></Xmark>
@@ -69,6 +71,10 @@ const typeClasses = {
 </template>
 
 <style scoped>
+p {
+  margin: 0;
+}
+
 .alert {
   background-color: var(--neutral-80);
   border-left: 4px solid;
@@ -116,8 +122,8 @@ const typeClasses = {
   color: var(--info);
 }
 
-.text-content {
-  color: var(--neutral-40);
+.alert__text {
+  margin-top: 8px;
 }
 
 </style>
