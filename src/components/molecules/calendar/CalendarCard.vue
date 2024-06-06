@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, computed } from 'vue';
+import { defineProps, computed, defineEmits } from 'vue';
 
 const props = defineProps({
     emoji: String,
@@ -10,8 +10,11 @@ const props = defineProps({
     type: {
         type: String,
         default: 'personal'
-    }
+    },
+    description: String
 });
+
+const emits = defineEmits(['open']);
 
 const cardHeight = computed(() => {
     const [startHour, startMinute] = props.startTime.split(':').map(Number);
@@ -45,12 +48,11 @@ const textClasses = computed(() => {
         return { primary: 'text-primary', secondary: 'text-secondary' };
     }
 });
-
-console.log(`Type: ${props.type}`);
 </script>
 
 <template>
-    <div class="calendarCard" :style="{ height: cardHeight + 'px', backgroundColor: cardColor }">
+    <div class="calendarCard" :style="{ height: cardHeight + 'px', backgroundColor: cardColor }"
+        @click="$emit('open', { emoji, label, startTime, endTime, date, type, description })">
         <div class="calendarCard__header">
             <span class="calendarCard__header__emoji text-reg-l">{{ props.emoji }}</span>
             <span class="calendarCard__header__label text-bold-normal" :class="textClasses.primary">{{ props.label
@@ -76,6 +78,12 @@ console.log(`Type: ${props.type}`);
     position: relative;
     user-select: none;
     cursor: pointer;
+    transition: 0.2s;
+
+}
+
+.calendarCard:hover {
+    filter: brightness(92%);
 }
 
 .calendarCard__header {

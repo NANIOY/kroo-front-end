@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref, defineProps, defineEmits, watch } from 'vue';
 import setupAxios from '../../../setupAxios';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
@@ -13,6 +13,10 @@ const props = defineProps({
     isVisible: {
         type: Boolean,
         default: false,
+    },
+    event: {
+        type: Object,
+        default: null
     }
 });
 
@@ -30,6 +34,18 @@ const priorityOptions = ['Low Priority', 'Medium Priority', 'High Priority'];
 // const selectedPriority = ref(priorityOptions[0]);
 
 const axiosInstance = setupAxios();
+
+watch(props, () => {
+    if (props.event) {
+        title.value = props.event.label;
+        description.value = props.event.description;
+        selectedDate.value = new Date(props.event.date);
+        startTime.value = props.event.startTime;
+        endTime.value = props.event.endTime;
+        eventType.value = props.event.type;
+        isButton2Secondary.value = props.event.type === 'job';
+    }
+}, { immediate: true });
 
 const toggleButton2Color = (type) => {
     eventType.value = type;
@@ -75,7 +91,6 @@ const handleSubmit = async () => {
         const response = await axiosInstance.post('/calendar/google/schedule_event', event);
         console.log('Event scheduled successfully:', response.data);
         emits('submit', response.data);
-        closeModal();
     } catch (error) {
         console.error('Error scheduling event:', error);
     }
