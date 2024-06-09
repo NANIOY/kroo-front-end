@@ -31,31 +31,31 @@ const fetchJobCounts = async () => {
     const appliedResponse = await axiosInstance.get('/crewJobInt/applications', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
-    jobCounts.value.applied = appliedResponse.data.applications.length;
-    appliedJobs.value = appliedResponse.data.applications.map(application => ({
-      ...application.application,
-      title: application.job.title || 'Unknown Job Title',
-      businessImage: application.job.business.logo,
-      businessName: application.job.business.companyName
-    }));
+    jobCounts.value.applied = appliedResponse.data?.applications?.length || 0;
+    appliedJobs.value = appliedResponse.data?.applications?.map(application => ({
+      ...application?.application,
+      title: application?.job?.title || 'Unknown Job Title',
+      businessImage: application?.job?.business?.logo,
+      businessName: application?.job?.business?.companyName
+    })) || [];
 
     const offeredResponse = await axiosInstance.get('/crewJobInt/offers', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
-    jobCounts.value.offered = offeredResponse.data.offeredJobs.length;
-    offeredJobs.value = offeredResponse.data.offeredJobs;
+    jobCounts.value.offered = offeredResponse.data?.offeredJobs?.length || 0;
+    offeredJobs.value = offeredResponse.data?.offeredJobs || [];
 
     const savedResponse = await axiosInstance.get('/crewJobInt/saved', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
-    jobCounts.value.saved = savedResponse.data.savedJobs.length;
-    savedJobs.value = savedResponse.data.savedJobs;
+    jobCounts.value.saved = savedResponse.data?.savedJobs?.length || 0;
+    savedJobs.value = savedResponse.data?.savedJobs || [];
 
     const activeJobsResponse = await axiosInstance.get('/crewJob/activejobs', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
-    jobCounts.value.ongoing = activeJobsResponse.data.activeJobs.length;
-    ongoingJobs.value = activeJobsResponse.data.activeJobs;
+    ongoingJobs.value = activeJobsResponse.data?.activeJobs || [];
+    jobCounts.value.ongoing = ongoingJobs.value.length;
   } catch (error) {
     console.error('Failed to fetch job counts:', error);
   }
