@@ -42,10 +42,19 @@ const fetchActiveJobs = async () => {
     const activeJobsResponse = await axiosInstance.get('/crewJob/activejobs', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
-    activeJobs.value = activeJobsResponse.data.activeJobs.map(job => ({
-      ...job,
-      id: job._id
-    }));
+
+    // Sort active jobs based on their dates
+    activeJobs.value = activeJobsResponse.data.activeJobs
+      .map(job => ({
+        ...job,
+        id: job._id,
+        date: new Date(job.date)
+      }))
+      .sort((a, b) => a.date - b.date)
+      .map((job, index) => ({
+        ...job,
+        cardType: index === 0 ? 'highlight' : 'default'
+      }));
   } catch (error) {
     console.error('Error fetching active jobs:', error);
   }
@@ -105,8 +114,9 @@ onMounted(() => {
         </div>
         <div class="dashboard__left__block--active__jobs">
           <template v-if="activeJobs.length">
-            <JobCard v-for="(job, index) in activeJobs" :key="index" :cardType="'default'" :date="job.date"
-              :time="job.time" :jobFunction="job.jobFunction" :city="job.location.city" :street="job.location.address || job.location.street" />
+            <JobCard v-for="(job, index) in activeJobs" :key="index" :date="job.date" :time="job.time"
+              :jobFunction="job.jobFunction" :city="job.location.city"
+              :street="job.location.address || job.location.street" :cardType="index === 0 ? 'highlight' : 'default'" />
           </template>
           <template v-else>
             <div class="no-active-jobs">
