@@ -79,7 +79,9 @@ onMounted(fetchJobs);
             <div id="ongoing__job__info">
                 <div id="ongoing__job__info__date">
                     <Tag type="big">
-                        <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, { month: 'long' }) }}</p>
+                        <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, {
+                            month:
+                            'long' }) }}</p>
                     </Tag>
                 </div>
                 <div id="ongoing__job__info__place">
@@ -118,6 +120,7 @@ img {
     padding: 20px;
     box-sizing: border-box;
     gap: 12px;
+    margin-bottom: 16px;
 }
 
 #ongoing__job__top {
