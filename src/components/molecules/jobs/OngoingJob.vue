@@ -111,6 +111,7 @@ p {
 
 img {
     max-width: 24px;
+    height:24px;
 }
 
 #ongoing__job {
