@@ -139,6 +139,7 @@ p {
 }
 
 img {
+    object-fit: cover;
     max-width: 24px;
     height:24px;
 }
