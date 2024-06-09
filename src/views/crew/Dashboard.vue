@@ -51,6 +51,7 @@ const fetchActiveJobs = async () => {
         date: new Date(job.date)
       }))
       .sort((a, b) => a.date - b.date)
+      .slice(0, 3)
       .map((job, index) => ({
         ...job,
         cardType: index === 0 ? 'highlight' : 'default'
