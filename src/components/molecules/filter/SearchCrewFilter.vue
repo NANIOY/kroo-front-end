@@ -2,6 +2,7 @@
 import DropFilter from './DropFilter.vue';
 import InputField from '../../atoms/inputs/InputField.vue';
 import Dropdown from '../../atoms/inputs/DropDown.vue';
+import { ref, watch, defineEmits } from 'vue';
 
 const functionConfig = {
     title: 'Function',
@@ -21,29 +22,35 @@ const skillsConfig = {
     title: 'Skills',
     numberOfCheckboxes: 3,
     hasMore: true,
-    checkboxLabels: ['Adaptability',
-        'Attention to Detail',
-        'Budget Management']
+    checkboxLabels: ['Adaptability', 'Attention to Detail', 'Budget Management']
 };
 
 const searchDropdownConfig = {
     label: ' ',
     placeholder: 'Sort by',
+    options: ['Option 1', 'Option 2', 'Option 3'] // Example options
 };
 
 const searchInputConfig = {
     label: 'Search',
-    placeholder: 'Placeholder',
+    placeholder: 'Search by name',
     width: '272px'
 };
+
+const searchTerm = ref('');
+
+const emitSearch = defineEmits(['search']);
+
+watch(searchTerm, (newVal) => {
+    emitSearch('search', newVal);
+});
 </script>
 
 <template>
     <div class="searchfilter">
-
         <div class="searchfilter__inputs">
             <InputField :label="searchInputConfig.label" :placeholder="searchInputConfig.placeholder"
-                :hasIconLeft="true" iconLeftName="Search" class="searchfilter__input__field" />
+                :hasIconLeft="true" iconLeftName="Search" class="searchfilter__input__field" v-model="searchTerm" />
             <Dropdown :label="searchDropdownConfig.label" :placeholder="searchDropdownConfig.placeholder"
                 :options="searchDropdownConfig.options" class="searchfilter__input__dropdown" />
         </div>
