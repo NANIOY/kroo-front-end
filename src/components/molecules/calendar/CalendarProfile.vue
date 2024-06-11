@@ -68,26 +68,6 @@ function previousMonth() {
 function updateMonth() {
     formattedDate.value = getFormattedDate(currentDate.value);
     weeks.value = getMonthWeeks(currentDate.value);
-    markActiveDay();
-}
-
-function markActiveDay() {
-    const today = new Date();
-    weeks.value.forEach(week => {
-        week.forEach(day => {
-            const dayDate = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth(), day.number);
-            day.isActive = dayDate.toDateString() === today.toDateString();
-        });
-    });
-}
-
-function handleDayClick(day) {
-    if (!day.isPrevMonth) {
-        const clickedDate = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth(), day.number);
-        selectedDay.value = clickedDate;
-        const weekRange = getWeekRange(clickedDate);
-        emit('day-clicked', { date: clickedDate, weekRange });
-    }
 }
 
 function getWeekRange(date) {
@@ -104,9 +84,9 @@ function getWeekRange(date) {
 </script>
 
 <template>
-    <div class="calendar">
+    <div class="calendar radius-m">
         <div class="calendar__top">
-            <h5>{{ formattedDate }}</h5>
+            <h6 class="calendar__month">{{ formattedDate }}</h6>
             <div class="calendar__top__buttons">
                 <TransparentButton class="calendar__top__button no-label" hasLabel="false" iconName="NavArrowLeft"
                     @click="previousMonth" />
@@ -123,8 +103,7 @@ function getWeekRange(date) {
             <div class="calendar__bot__numbers text-reg-normal">
                 <template v-for="(week) in weeks">
                     <div v-for="(day, dayIndex) in week" :key="dayIndex" class="calendar__bot__numbers__number"
-                        :class="['day', { 'active-day': day.isActive, 'prev-month-day': day.isPrevMonth, 'weekend-day': day.isWeekend, 'selected-day': selectedDay && selectedDay.getDate() === day.number && !day.isPrevMonth }]"
-                        @click="handleDayClick(day)">
+                        :class="['day', { 'prev-month-day': day.isPrevMonth, 'weekend-day': day.isWeekend }]">
                         {{ day.number }}
                     </div>
                 </template>
@@ -148,6 +127,13 @@ function getWeekRange(date) {
     flex-direction: column;
     gap: 16px;
     color: var(--black);
+    background-color: var(--white);
+    padding: 24px;
+    width: fit-content;
+}
+
+.calendar__month {
+    text-transform: uppercase;
 }
 
 .calendar__top {
@@ -200,17 +186,7 @@ h5 {
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
-}
-
-.selected-day {
-    outline: 2px solid var(--blurple);
-    border-radius: 100%;
-}
-
-.active-day {
-    background-color: var(--green);
-    opacity: 1 !important;
+    padding: 0.5rem
 }
 
 .prev-month-day {
