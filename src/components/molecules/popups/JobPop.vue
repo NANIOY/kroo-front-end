@@ -8,14 +8,14 @@ import Overlay from './Overlay.vue';
 
 const props = defineProps({
     job: Object,
-    jobType: String, // 'search', 'schedule', 'tracker', 'applied'
+    jobType: String, // 'search', 'schedule', 'saved', 'applied'
     isVisible: {
         type: Boolean,
         default: false,
     }
 });
 
-const emits = defineEmits(['close']);
+const emits = defineEmits(['close', 'unsave']);
 
 const formatDateTime = (dateTimeString) => {
     const dateTime = new Date(dateTimeString);
@@ -28,6 +28,11 @@ const formatDateTime = (dateTimeString) => {
 
 const closePopup = () => {
     emits('close');
+};
+
+const handleUnsaveSuccess = () => {
+    emits('unsave', props.job._id);
+    closePopup();
 };
 
 watch(props, () => {
@@ -82,18 +87,27 @@ watch(props, () => {
             <!-- Bottom Section -->
             <div class="jobpop__bottom">
                 <div class="jobpop__bottom__buttons" v-if="jobType !== 'schedule'">
+                    <!-- SEARCH BUTTONS -->
                     <LargeButton v-if="jobType === 'search'" label="Apply"
-                        class="jobpop__bottom__button button--primary half-width-button"
-                        :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" />
+                        class="jobpop__bottom__button button--primary" :endpoint="`/crewJobInt/${job.id}/apply`"
+                        :postData="{}" />
                     <LargeButton v-if="jobType === 'search'" label="Save"
-                        class="jobpop__bottom__button button--tertiary half-width-button"
-                        :endpoint="`/crewJobInt/${job.id}/save`" :postData="{}" />
-                    <LargeButton v-if="jobType === 'tracker'" label="Apply"
-                        class="jobpop__bottom__button button--primary full-width-button"
-                        :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" />
+                        class="jobpop__bottom__button button--tertiary" :endpoint="`/crewJobInt/${job.id}/save`"
+                        :postData="{}" />
+
+                    <!-- SAVED BUTTONS -->
+                    <LargeButton v-if="jobType === 'saved'" label="Apply"
+                        class="jobpop__bottom__button button--primary " :endpoint="`/crewJobInt/${job.id}/apply`"
+                        :postData="{}" />
+                    <LargeButton v-if="jobType === 'saved'" label="Unsave"
+                        class="jobpop__bottom__button button--tertiary" method="DELETE" :endpoint="`/crewJobInt/${job._id}/unsave`"
+                        :postData="{}" :onSuccess="handleUnsaveSuccess" />
+
+
+
                     <LargeButton v-if="jobType === 'applied'" label="Cancel"
-                        class="jobpop__bottom__button button--secondary full-width-button"
-                        :endpoint="`/crewJobInt/${job.id}/cancel`" :postData="{}" />
+                        class="jobpop__bottom__button button--secondary " :endpoint="`/crewJobInt/${job.id}/cancel`"
+                        :postData="{}" />
                 </div>
             </div>
         </div>
@@ -225,13 +239,5 @@ p {
 
 .jobpop__bottom__button {
     width: 100%;
-}
-
-.full-width-button {
-    width: 100%;
-}
-
-.half-width-button {
-    width: calc(50% - 12px);
 }
 </style>
