@@ -123,6 +123,12 @@ img {
     box-sizing: border-box;
     gap: 12px;
     margin-bottom: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#ongoing__job:hover {
+    filter: brightness(92%);
 }
 
 #ongoing__job__top {

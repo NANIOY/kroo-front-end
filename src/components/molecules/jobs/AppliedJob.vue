@@ -92,6 +92,12 @@ img {
     padding: 20px;
     box-sizing: border-box;
     gap: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#applied__job:hover {
+    filter: brightness(92%);
 }
 
 #applied__job__top {

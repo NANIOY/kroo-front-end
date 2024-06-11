@@ -117,6 +117,12 @@ img {
     padding: 20px;
     box-sizing: border-box;
     gap: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#saved__job:hover {
+    filter: brightness(92%);
 }
 
 #saved__job__top {
