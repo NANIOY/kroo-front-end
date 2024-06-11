@@ -96,12 +96,11 @@ watch(props, () => {
                         :postData="{}" />
 
                     <!-- SAVED BUTTONS -->
-                    <LargeButton v-if="jobType === 'saved'" label="Apply"
-                        class="jobpop__bottom__button button--primary " :endpoint="`/crewJobInt/${job.id}/apply`"
-                        :postData="{}" />
+                    <LargeButton v-if="jobType === 'saved'" label="Apply" class="jobpop__bottom__button button--primary"
+                        :endpoint="`/crewJobInt/${job._id}/apply`" :postData="{}" />
                     <LargeButton v-if="jobType === 'saved'" label="Unsave"
-                        class="jobpop__bottom__button button--tertiary" method="DELETE" :endpoint="`/crewJobInt/${job._id}/unsave`"
-                        :postData="{}" :onSuccess="handleUnsaveSuccess" />
+                        class="jobpop__bottom__button button--tertiary" method="DELETE"
+                        :endpoint="`/crewJobInt/${job._id}/unsave`" :postData="{}" :onSuccess="handleUnsaveSuccess" />
 
 
 
