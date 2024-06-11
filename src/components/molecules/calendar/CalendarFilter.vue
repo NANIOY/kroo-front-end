@@ -8,18 +8,18 @@ const cardTypeConfig = {
     checkboxLabels: [ 'Professional', 'Personal']
 };
 
-const priorityConfig = {
-    title: 'Priority',
-    numberOfCheckboxes: 3,
-    hasMore: false,
-    checkboxLabels: ['High', 'Medium', 'Low']
-};
+// const priorityConfig = {
+//     title: 'Priority',
+//     numberOfCheckboxes: 3,
+//     hasMore: false,
+//     checkboxLabels: ['High', 'Medium', 'Low']
+// };
 </script>
 
 <template>
     <div class="searchfilter">
         <DropFilter :useSlider="false" :dropdowns="[cardTypeConfig]" />
-        <DropFilter :useSlider="false" :dropdowns="[priorityConfig]" />
+        <!-- <DropFilter :useSlider="false" :dropdowns="[priorityConfig]" /> -->
     </div>
 </template>
 

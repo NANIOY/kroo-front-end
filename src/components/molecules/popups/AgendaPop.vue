@@ -30,7 +30,7 @@ const selectedDate = ref('');
 const startTime = ref('');
 const endTime = ref('');
 const eventType = ref('personal');
-const priorityOptions = ['Low Priority', 'Medium Priority', 'High Priority'];
+// const priorityOptions = ['Low Priority', 'Medium Priority', 'High Priority'];
 // const selectedPriority = ref(priorityOptions[0]);
 
 const axiosInstance = setupAxios();
@@ -132,7 +132,7 @@ const handleSubmit = async () => {
                     <TimePicker v-model="startTime" :hasLabel="true" label="Start time" />
                     <TimePicker v-model="endTime" :hasLabel="true" label="End time" />
                 </div>
-                <Dropdown label="Priority" :options="priorityOptions" :hasLabel="true" />
+                <!-- <Dropdown label="Priority" :options="priorityOptions" :hasLabel="true" /> -->
                 <InputField v-model="description" placeholder="Aa" :hasLabel="true" label="Description" />
             </div>
             <LargeButton label="Add" class="button--primary" @click="handleSubmit" />
