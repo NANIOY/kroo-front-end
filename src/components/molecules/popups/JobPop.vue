@@ -1,14 +1,21 @@
 <script setup>
+import { ref, defineProps, defineEmits, watch } from 'vue';
+import { Xmark } from '@iconoir/vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
 import IconLabel from '../../atoms/items/IconLabel.vue';
 import Tag from '../../atoms/items/Tag.vue';
-import { defineProps } from 'vue';
-import { Xmark } from '@iconoir/vue';
+import Overlay from './Overlay.vue';
 
 const props = defineProps({
     job: Object,
-    jobType: String, // 'search', 'schedule', 'tracker', 'applied'
+    jobType: String, // 'search', 'schedule', 'saved', 'applied'
+    isVisible: {
+        type: Boolean,
+        default: false,
+    }
 });
+
+const emits = defineEmits(['close', 'unsave']);
 
 const formatDateTime = (dateTimeString) => {
     const dateTime = new Date(dateTimeString);
@@ -19,67 +26,91 @@ const formatDateTime = (dateTimeString) => {
     return `${formattedDate} | ${formattedTime}`;
 };
 
+const closePopup = () => {
+    emits('close');
+};
+
+const handleUnsaveSuccess = () => {
+    emits('unsave', props.job._id);
+    closePopup();
+};
+
+watch(props, () => {
+    if (props.job) {
+    }
+}, { immediate: true });
+
 </script>
 
 <template>
-    <div class="jobpop" @click.stop>
-        <!-- Top Section -->
-        <div class="jobpop__top">
-            <div class="jobpop__top__row">
-                <h3>{{ job.title }}</h3>
-                <Xmark class="jobpop__top__row__button" @click="closePopup"></Xmark>
+    <Overlay class="modal__overlay" v-if="isVisible" @overlayClick="closePopup">
+        <div class="jobpop modal" @click.stop>
+            <!-- Top Section -->
+            <div class="jobpop__top">
+                <div class="jobpop__top__row">
+                    <h3>{{ job.title }}</h3>
+                    <Xmark class="jobpop__top__row__button" @click="closePopup"></Xmark>
+                </div>
+                <div class="jobpop__top__business" v-if="job.employer">
+                    <img :src="job.employer.image" alt="Employer Image" />
+                    <span class="text-reg-normal">{{ job.employer.name }}</span>
+                </div>
+                <div class="jobpop__top__details">
+                    <p class="jobpop__top__details__desc text-reg-normal">{{ job.description }}</p>
+                    <p class="jobpop__top__details__rate text-bold-normal">€ {{ (job.wage).toFixed(2) }}/hr</p>
+                    <p class="jobpop__top__details__time text-bold-normal">{{ formatDateTime(job.date) }}</p>
+                    <div class="jobpop__top__details__tags">
+                        <Tag class="jobpop__top__details__tags__tag" v-for="(skill, index) in job.skills" :key="index"
+                            type="default">{{ skill }}</Tag>
+                    </div>
+                </div>
             </div>
-            <div class="jobpop__top__business">
-                <img :src="job.employer.image" alt="Employer Image" />
-                <span class="text-reg-normal">{{ job.employer.name }}</span>
+
+            <!-- Middle Section -->
+            <div class="jobpop__mid">
+                <div class="jobpop__mid__details">
+                    <p class="jobpop__mid__details__heading text-bold-l">Details</p>
+                    <IconLabel iconName="Learning" :label="job.jobFunction" />
+                    <IconLabel iconName="MapPin" :label="`${job.location.city}, ${job.location.country}`" />
+                    <IconLabel iconName="CinemaOld" :label="job.production_type" />
+                    <IconLabel iconName="DragHandGesture" :label="job.union_status" />
+                </div>
+                <div class="jobpop__attachments">
+                    <p class="jobpop__attachments__head text-bold-normal">Attachments</p>
+                    <div class="jobpop__attachments__links">
+                        <IconLabel v-for="(attachment, index) in job.attachments" :key="index" :label="attachment"
+                            iconName="Attachment" />
+                    </div>
+                </div>
             </div>
-            <div class="jobpop__top__details">
-                <p class="jobpop__top__details__desc text-reg-normal">{{ job.description }}</p>
-                <p class="jobpop__top__details__rate text-bold-normal">€ {{ (job.wage).toFixed(2) }}/hr</p>
-                <p class="jobpop__top__details__time text-bold-normal">{{ formatDateTime(job.date) }}</p>
-                <div class="jobpop__top__details__tags">
-                    <Tag class="jobpop__top__details__tags__tag" v-for="(skill, index) in job.skills" :key="index"
-                        type="default">{{ skill }}</Tag>
+
+            <!-- Bottom Section -->
+            <div class="jobpop__bottom">
+                <div class="jobpop__bottom__buttons" v-if="jobType !== 'schedule'">
+                    <!-- SEARCH BUTTONS -->
+                    <LargeButton v-if="jobType === 'search'" label="Apply"
+                        class="jobpop__bottom__button button--primary" :endpoint="`/crewJobInt/${job.id}/apply`"
+                        :postData="{}" />
+                    <LargeButton v-if="jobType === 'search'" label="Save"
+                        class="jobpop__bottom__button button--tertiary" :endpoint="`/crewJobInt/${job.id}/save`"
+                        :postData="{}" />
+
+                    <!-- SAVED BUTTONS -->
+                    <LargeButton v-if="jobType === 'saved'" label="Apply" class="jobpop__bottom__button button--primary"
+                        :endpoint="`/crewJobInt/${job._id}/apply`" :postData="{}" />
+                    <LargeButton v-if="jobType === 'saved'" label="Unsave"
+                        class="jobpop__bottom__button button--tertiary" method="DELETE"
+                        :endpoint="`/crewJobInt/${job._id}/unsave`" :postData="{}" :onSuccess="handleUnsaveSuccess" />
+
+
+
+                    <LargeButton v-if="jobType === 'applied'" label="Cancel"
+                        class="jobpop__bottom__button button--tertiary " method="DELETE"
+                        :endpoint="`/crewJobInt/${job.applicationId}`" />
                 </div>
             </div>
         </div>
-
-        <!-- Middle Section -->
-        <div class="jobpop__mid">
-            <div class="jobpop__mid__details">
-                <p class="jobpop__mid__details__heading text-bold-l">Details</p>
-                <IconLabel iconName="Learning" :label="job.jobFunction" />
-                <IconLabel iconName="MapPin" :label="`${job.location.city}, ${job.location.country}`" />
-                <IconLabel iconName="CinemaOld" :label="job.production_type" />
-                <IconLabel iconName="DragHandGesture" :label="job.union_status" />
-            </div>
-            <div class="jobpop__attachments">
-                <p class="jobpop__attachments__head text-bold-normal">Attachments</p>
-                <div class="jobpop__attachments__links">
-                    <IconLabel v-for="(attachment, index) in job.attachments" :key="index" :label="attachment"
-                        iconName="Attachment" />
-                </div>
-            </div>
-        </div>
-
-        <!-- Bottom Section -->
-        <div class="jobpop__bottom">
-            <div class="jobpop__bottom__buttons" v-if="jobType !== 'schedule'">
-                <LargeButton v-if="jobType === 'search'" label="Apply"
-                    class="jobpop__bottom__button button--primary half-width-button"
-                    :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" />
-                <LargeButton v-if="jobType === 'search'" label="Save"
-                    class="jobpop__bottom__button button--tertiary half-width-button"
-                    :endpoint="`/crewJobInt/${job.id}/save`" :postData="{}" />
-                <LargeButton v-if="jobType === 'tracker'" label="Apply"
-                    class="jobpop__bottom__button button--primary full-width-button"
-                    :endpoint="`/crewJobInt/${job.id}/apply`" :postData="{}" />
-                <LargeButton v-if="jobType === 'applied'" label="Cancel"
-                    class="jobpop__bottom__button button--secondary full-width-button"
-                    :endpoint="`/crewJobInt/${job.id}/cancel`" :postData="{}" />
-            </div>
-        </div>
-    </div>
+    </Overlay>
 </template>
 
 <style scoped>
@@ -118,6 +149,10 @@ const formatDateTime = (dateTimeString) => {
 .jobpop__top__row h3 {
     margin: 0;
     font-weight: 100;
+}
+
+.jobpop__top__row__button {
+    cursor: pointer;
 }
 
 .jobpop__top__business {
@@ -207,13 +242,5 @@ p {
 
 .jobpop__bottom__button {
     width: 100%;
-}
-
-.full-width-button {
-    width: 100%;
-}
-
-.half-width-button {
-    width: calc(50% - 12px);
 }
 </style>

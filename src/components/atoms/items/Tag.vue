@@ -12,7 +12,7 @@ const props = defineProps({
 <template>
     <div class="tag"
         :class="{ 'tag--colored': type === 'colored', 'tag--transparent': type === 'transparent', 'tag--big': type === 'big' }">
-        <span class="tag__text text-bold-s">
+        <span class="tag__text">
             <slot></slot>
         </span>
     </div>
@@ -34,7 +34,7 @@ const props = defineProps({
 
 .tag__text {
     margin-top: 2.6px;
-    font-weight: bold;
+    font-weight: 600;
 }
 
 .tag--colored {

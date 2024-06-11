@@ -1,13 +1,16 @@
 <script setup>
+import { ref, defineProps, defineEmits, onMounted } from 'vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
-import { defineProps, ref, onMounted } from 'vue';
 import Tag from '../../atoms/items/Tag.vue';
+import JobPop from '../popups/JobPop.vue';
 
 const props = defineProps({
     job: Object,
 });
 
 const loading = ref(true);
+const isJobPopVisible = ref(false);
+const selectedJob = ref(null);
 
 onMounted(() => {
     setTimeout(() => {
@@ -21,19 +24,15 @@ const getFormattedDate = (dateString, options) => {
     return date.toLocaleDateString('en-US', options);
 };
 
-// format date string to month
-const formatMonth = (dateString) => {
-    const date = new Date(dateString);
-    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    return monthNames[date.getMonth()];
-};
-
-// emit jobClick event when job is clicked
-const emits = defineEmits(['jobClick']);
-
 // open job popup when job is clicked
 const openJobPop = () => {
-    emits('jobClick', props.job);
+    selectedJob.value = props.job;
+    isJobPopVisible.value = true;
+};
+
+const closeJobPop = () => {
+    isJobPopVisible.value = false;
+    selectedJob.value = null;
 };
 </script>
 
@@ -53,7 +52,8 @@ const openJobPop = () => {
                 <div class="container__mid__data">
                     <div class="container__mid__data__date">
                         <Tag class="date" type="big">
-                            <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, { month: 'long' }) }}</p>
+                            <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, {
+                                month: 'long' }) }}</p>
                         </Tag>
                     </div>
                     <div class="container__mid__data__location">
@@ -75,6 +75,9 @@ const openJobPop = () => {
             </div>
         </div>
     </div>
+
+    <JobPop v-if="isJobPopVisible" :job="selectedJob" jobType="search" :isVisible="isJobPopVisible"
+        @close="closeJobPop" />
 </template>
 
 <style scoped>

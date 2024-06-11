@@ -28,7 +28,7 @@ export default {
         },
         postData: {
             type: Object,
-            required: true
+            default: () => ({})
         },
         redirect: {
             type: String,
@@ -36,6 +36,10 @@ export default {
         hasRequest: {
             type: Boolean,
             default: true
+        },
+        onSuccess: {
+            type: Function,
+            default: null
         }
     },
     setup(props) {
@@ -46,10 +50,17 @@ export default {
 
         const handleClick = () => {
             if (props.hasRequest) {
-                axiosInstance.post(props.endpoint, props.postData)
-                    .catch(error => {
-                        console.error('Error making POST request:', error);
-                    });
+                axiosInstance({
+                    method: props.method,
+                    url: props.endpoint,
+                    data: props.postData
+                }).then(response => {
+                    if (props.onSuccess) {
+                        props.onSuccess(response);
+                    }
+                }).catch(error => {
+                    console.error(`Error making ${props.method} request:`, error);
+                });
             }
             if (props.redirect) {
                 router.push(props.redirect);

@@ -1,10 +1,13 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+import setupAxios from '../../../setupAxios';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import Tag from '../../atoms/items/Tag.vue';
-import { onMounted, ref } from 'vue';
-import setupAxios from '../../../setupAxios';
+import JobPop from '../popups/JobPop.vue';
 
 const jobs = ref([]);
+const selectedJob = ref(null);
+const isJobPopVisible = ref(false);
 const axiosInstance = setupAxios();
 
 const fetchJobs = async () => {
@@ -33,6 +36,10 @@ const fetchJobs = async () => {
             const businessResponse = businessDetailsResponses[index].data;
             return {
                 ...job,
+                employer: {
+                    image: businessResponse.data.business.businessInfo.logo,
+                    name: businessResponse.data.business.businessInfo.companyName,
+                },
                 businessImage: businessResponse.data.business.businessInfo.logo,
                 businessName: businessResponse.data.business.businessInfo.companyName,
             };
@@ -47,11 +54,26 @@ const getFormattedDate = (dateString, options) => {
     return date.toLocaleDateString('en-US', options);
 };
 
+const showJobDetails = (job) => {
+    selectedJob.value = job;
+    isJobPopVisible.value = true;
+};
+
+const closeJobDetails = () => {
+    isJobPopVisible.value = false;
+    selectedJob.value = null;
+};
+
+const removeJobFromList = (jobId) => {
+    jobs.value = jobs.value.filter(job => job._id !== jobId);
+};
+
 onMounted(fetchJobs);
 </script>
 
 <template>
-    <div v-for="job in jobs" :key="job._id" id="saved__job" class="surface-tertiary radius-xs">
+    <div v-for="job in jobs" :key="job._id" id="saved__job" class="surface-tertiary radius-xs"
+        @click="showJobDetails(job)">
         <div id="saved__job__top">
             <div id="saved__job__top__business">
                 <div id="saved__job__top__business__image">
@@ -61,7 +83,6 @@ onMounted(fetchJobs);
                 <div id="saved__job__top__business__name">
                     <p>{{ job.businessName || 'Unknown Company' }}</p>
                 </div>
-
             </div>
         </div>
 
@@ -72,7 +93,9 @@ onMounted(fetchJobs);
         <div id="saved__job__info">
             <div id="saved__job__info__date">
                 <Tag type="big">
-                    <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, { month: 'long' }) }}</p>
+                    <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, {
+                        month: 'long'
+                    }) }}</p>
                 </Tag>
             </div>
             <div id="saved__job__info__place">
@@ -94,11 +117,16 @@ onMounted(fetchJobs);
 
         <div id="saved__job__buttons">
             <NormalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
-                :hasLabel="true" label="Unsave" iconName="" />
-            <NormalButton id="normalButton__details" class="button--primary" :hasIcon="false" :hasLabel="true"
-                label="Details" iconName="" :hasRequest="false" />
+                :hasLabel="true" label="Unsave" method="DELETE" :endpoint="`/crewJobInt/${job._id}/unsave`"
+                :onSuccess="() => removeJobFromList(job._id)" @click.stop />
+            <NormalButton id="normalButton__apply" class="button--primary" :hasIcon="false" :hasLabel="true"
+                label="Apply" :hasRequest="true" :endpoint="`/crewJobInt/${job._id}/apply`"
+                :onSuccess="() => removeJobFromList(job._id)" @click.stop />
         </div>
     </div>
+
+    <JobPop v-if="isJobPopVisible" :job="selectedJob" :isVisible="isJobPopVisible" @close="closeJobDetails"
+        jobType="saved" />
 </template>
 
 <style scoped>
@@ -117,6 +145,12 @@ img {
     padding: 20px;
     box-sizing: border-box;
     gap: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#saved__job:hover {
+    filter: brightness(92%);
 }
 
 #saved__job__top {
@@ -155,11 +189,11 @@ img {
 }
 
 #normalButton__cancel,
-#normalButton__details {
+#normalButton__apply {
     flex: 1;
 }
 
-#saved__job__top__business__image img{
+#saved__job__top__business__image img {
     object-fit: cover;
     height: 24px;
     width: 24px;
