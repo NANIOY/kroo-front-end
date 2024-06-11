@@ -113,13 +113,15 @@ onMounted(fetchJobs);
 
         <div id="saved__job__buttons">
             <NormalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
-                :hasLabel="true" label="Unsave" iconName="" />
+                :hasLabel="true" label="Unsave" method="DELETE" :endpoint="`/crewJobInt/${job._id}/unsave`"
+                @click.stop />
             <NormalButton id="normalButton__details" class="button--primary" :hasIcon="false" :hasLabel="true"
-                label="Details" iconName="" :hasRequest="false" @click.stop="showJobDetails(job)" />
+                label="Details" :hasRequest="false" @click.stop="showJobDetails(job)" />
         </div>
     </div>
 
-    <JobPop v-if="isJobPopVisible" :job="selectedJob" :isVisible="isJobPopVisible" @close="closeJobDetails" jobType="tracker" />
+    <JobPop v-if="isJobPopVisible" :job="selectedJob" :isVisible="isJobPopVisible" @close="closeJobDetails"
+        jobType="saved" />
 </template>
 
 <style scoped>

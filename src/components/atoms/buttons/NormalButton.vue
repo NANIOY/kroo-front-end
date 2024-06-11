@@ -28,7 +28,7 @@ export default {
         },
         postData: {
             type: Object,
-            required: true
+            default: () => ({})
         },
         redirect: {
             type: String,
@@ -46,10 +46,13 @@ export default {
 
         const handleClick = () => {
             if (props.hasRequest) {
-                axiosInstance.post(props.endpoint, props.postData)
-                    .catch(error => {
-                        console.error('Error making POST request:', error);
-                    });
+                axiosInstance({
+                    method: props.method,
+                    url: props.endpoint,
+                    data: props.postData
+                }).catch(error => {
+                    console.error(`Error making ${props.method} request:`, error);
+                });
             }
             if (props.redirect) {
                 router.push(props.redirect);
@@ -106,6 +109,7 @@ export default {
         <span v-if="hasLabel && label" class="normalButton__label">{{ label }}</span>
     </button>
 </template>
+
 
 <style scoped>
 .normalButton {
