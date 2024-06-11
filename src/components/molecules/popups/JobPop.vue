@@ -23,12 +23,11 @@ const formatDateTime = (dateTimeString) => {
 
 <template>
     <div class="jobpop" @click.stop>
-
         <!-- Top Section -->
         <div class="jobpop__top">
             <div class="jobpop__top__row">
                 <h3>{{ job.title }}</h3>
-                <Xmark class="jobpop__top__row__button"></Xmark>
+                <Xmark class="jobpop__top__row__button" @click="closePopup"></Xmark>
             </div>
             <div class="jobpop__top__business">
                 <img :src="job.employer.image" alt="Employer Image" />
@@ -54,7 +53,7 @@ const formatDateTime = (dateTimeString) => {
                 <IconLabel iconName="CinemaOld" :label="job.production_type" />
                 <IconLabel iconName="DragHandGesture" :label="job.union_status" />
             </div>
-            <div class="jobpop__attachements">
+            <div class="jobpop__attachments">
                 <p class="jobpop__attachments__head text-bold-normal">Attachments</p>
                 <div class="jobpop__attachments__links">
                     <IconLabel v-for="(attachment, index) in job.attachments" :key="index" :label="attachment"

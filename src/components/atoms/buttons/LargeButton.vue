@@ -32,6 +32,10 @@ export default {
         },
         redirect: {
             type: String
+        },
+        hasRequest: {
+            type: Boolean,
+            default: true
         }
     },
     setup(props) {
