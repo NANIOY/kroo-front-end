@@ -11,14 +11,12 @@ const setupAxios = (router) => {
     // add a request interceptor
     axiosInstance.interceptors.request.use(
         config => {
-            // get session token and remember me token from session storage
+            // get session token from session storage
             const sessionToken = sessionStorage.getItem('sessionToken');
-            const rememberMeToken = sessionStorage.getItem('rememberMeToken');
 
             // set Authorization header with session token if available
-            if (sessionToken && rememberMeToken) {
-                config.headers['Authorization'] = sessionToken;
-                config.headers['Cookie'] = `rememberMeToken=${rememberMeToken}`;
+            if (sessionToken) {
+                config.headers['Authorization'] = `Bearer ${sessionToken}`;
             }
 
             return config;
@@ -47,12 +45,9 @@ const setupAxios = (router) => {
     // function to handle success response and update session tokens
     const handleSuccessResponse = (responseData, router) => {
         if (responseData && responseData.data) {
-            // update session token and remember me token in session storage
+            // update session token in session storage
             if (responseData.data.sessionToken) {
                 sessionStorage.setItem('sessionToken', responseData.data.sessionToken);
-            }
-            if (responseData.data.rememberMeToken) {
-                sessionStorage.setItem('rememberMeToken', responseData.data.rememberMeToken);
             }
         }
     };
