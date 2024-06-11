@@ -3,6 +3,7 @@ import { defineProps, ref, watchEffect } from 'vue';
 import ProfileImg from '../../atoms/profile/ProfileImg.vue';
 import Tag from '../../atoms/items/Tag.vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
+import CalendarProfile from '../../molecules/calendar/CalendarProfile.vue';
 
 const props = defineProps({
     user: {
@@ -46,12 +47,16 @@ watchEffect(() => {
                 </div>
             </div>
             <LargeButton label="Send a job offer" class="button--primary" />
+            <CalendarProfile class="profileinfo__calendar"></CalendarProfile>
         </div>
     </div>
     <div v-else>Loading...</div>
 </template>
 
 <style scoped>
+p {
+    margin: 0;
+}
 /* COMBINED */
 .profileinfo,
 .profileinfo__container,
@@ -98,6 +103,12 @@ watchEffect(() => {
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
+}
+
+/* calendar */
+
+.profileinfo__calendar {
+    margin-top: 16px;
 }
 
 </style>
