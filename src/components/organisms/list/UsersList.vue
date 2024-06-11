@@ -7,9 +7,9 @@ const sortField = ref('');
 const sortDirection = ref('asc');
 
 const data = ref([
-    { name: 'John Doe', email: 'john@example.com', dateAdded: new Date('2023-01-01') },
-    { name: 'Jane Smith', email: 'jane@example.com', dateAdded: new Date('2023-02-15') },
-    { name: 'Alice Johnson', email: 'alice@example.com', dateAdded: new Date('2023-03-20') },
+    { image:'https://placehold.co/32x32', name: 'John Doe', email: 'john@example.com', dateAdded: new Date('2023-01-01') },
+    { image:'https://placehold.co/32x32', name: 'Jane Smith', email: 'jane@example.com', dateAdded: new Date('2023-02-15') },
+    { image:'https://placehold.co/32x32', name: 'Alice Johnson', email: 'alice@example.com', dateAdded: new Date('2023-03-20') },
 ]);
 
 
@@ -56,34 +56,37 @@ function removeUser(index) {
 <template>
     <div class="list__container">
         <div class="list__header">
-            <div class="list__header__item" @click="sortData('name')">
+            <div class="list__header__item list__name" @click="sortData('name')">
                 <div class="text-reg-normal">Name</div>
                 <div>
                     <component :is="getArrowIcon('name')"></component>
                 </div>
             </div>
-            <div class="list__header__item" @click="sortData('email')">
+            <div class="list__header__item list__email" @click="sortData('email')">
                 <div class="text-reg-normal">Email</div>
                 <div>
                     <component :is="getArrowIcon('email')"></component>
                 </div>
             </div>
-            <div class="list__header__item" @click="sortData('dateAdded')">
+            <div class="list__header__item list__date" @click="sortData('dateAdded')">
                 <div class="text-reg-normal">Date Added</div>
                 <div>
                     <component :is="getArrowIcon('dateAdded')"></component>
                 </div>
             </div>
-            <div class="list__header__item">
+            <div class="list__header__item list__action">
                 <div class="text-reg-normal">Action</div>
             </div>
         </div>
         <div class="list__body">
             <div v-for="(item, index) in data" :key="item.email" class="list__body__row">
-                <div class="text-reg-normal">{{ item.name }}</div>
+                <div class="text-reg-normal">
+                    <img :src="item.image" alt="User Image" class="user__image radius-full" />
+                    {{ item.name }}
+                </div>
                 <div class="text-reg-normal">{{ item.email }}</div>
                 <div class="text-reg-normal">{{ item.dateAdded.toLocaleDateString() }}</div>
-                <div @click="removeUser(index)" style="cursor: pointer;">
+                <div @click="removeUser(index)">
                     <UserXmark />
                 </div>
             </div>
@@ -92,6 +95,10 @@ function removeUser(index) {
 </template>
 
 <style scoped>
+p {
+    margin: 0;
+}
+
 .list__container {
     border: 2px solid var(--gray);
 }
@@ -115,28 +122,47 @@ function removeUser(index) {
 .list__body__row div {
     display: flex;
     align-items: center;
-    justify-content: center;
     padding: 8px;
     text-align: center;
     overflow: hidden;
+}
+
+.list__body__row {
+    padding: 8px 0px;
+}
+
+.list__header__item {
+    gap: 8px;
+}
+
+.list__header {
+    padding: 8px 16px 8px 16px;
+}
+
+.list__body__row {
+    padding: 8px;
 }
 
 .list__body__row div:first-child {
     justify-content: flex-start;
 }
 
-.list__header__item:first-child,
-.list__body__row div:first-child {
-    justify-content: center;
-}
-
 .list__body__row div:last-child {
     cursor: pointer;
 }
 
-.list__header__item {
+.list__name, .list__email, .list__date {
     cursor: pointer;
-    user-select: none; 
+    user-select: none;
+}
+
+/* user */
+
+.user__image {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    margin-right: 8px;
 }
 
 </style>
