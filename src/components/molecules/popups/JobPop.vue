@@ -105,8 +105,8 @@ watch(props, () => {
 
 
                     <LargeButton v-if="jobType === 'applied'" label="Cancel"
-                        class="jobpop__bottom__button button--tertiary " :endpoint="`/crewJobInt/${job.id}/cancel`"
-                        :postData="{}" />
+                        class="jobpop__bottom__button button--tertiary " method="DELETE"
+                        :endpoint="`/crewJobInt/${job.applicationId}`" />
                 </div>
             </div>
         </div>
