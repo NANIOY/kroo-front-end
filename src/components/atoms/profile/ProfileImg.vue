@@ -28,8 +28,8 @@ const props = defineProps({
 .pfpContainer__image {
     border-radius: 50%;
     border: 2px solid var(--white);
-    width: 168px;
-    height: 168px;
+    width: 152px;
+    height: 152px;
     object-fit: cover;
 }
 
