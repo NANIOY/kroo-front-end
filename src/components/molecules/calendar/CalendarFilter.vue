@@ -3,23 +3,23 @@ import DropFilter from '../filter/DropFilter.vue';
 
 const cardTypeConfig = {
     title: 'Card Type',
-    numberOfCheckboxes: 3,
+    numberOfCheckboxes: 2,
     hasMore: false,
-    checkboxLabels: [ 'Job', 'Personal', 'Applied']
+    checkboxLabels: [ 'Professional', 'Personal']
 };
 
-const priorityConfig = {
-    title: 'Priority',
-    numberOfCheckboxes: 3,
-    hasMore: false,
-    checkboxLabels: ['High', 'Medium', 'Low']
-};
+// const priorityConfig = {
+//     title: 'Priority',
+//     numberOfCheckboxes: 3,
+//     hasMore: false,
+//     checkboxLabels: ['High', 'Medium', 'Low']
+// };
 </script>
 
 <template>
     <div class="searchfilter">
         <DropFilter :useSlider="false" :dropdowns="[cardTypeConfig]" />
-        <DropFilter :useSlider="false" :dropdowns="[priorityConfig]" />
+        <!-- <DropFilter :useSlider="false" :dropdowns="[priorityConfig]" /> -->
     </div>
 </template>
 

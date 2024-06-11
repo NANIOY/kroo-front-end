@@ -29,8 +29,8 @@ const description = ref('');
 const selectedDate = ref('');
 const startTime = ref('');
 const endTime = ref('');
-const eventType = ref('');
-const priorityOptions = ['Low Priority', 'Medium Priority', 'High Priority'];
+const eventType = ref('personal');
+// const priorityOptions = ['Low Priority', 'Medium Priority', 'High Priority'];
 // const selectedPriority = ref(priorityOptions[0]);
 
 const axiosInstance = setupAxios();
@@ -42,14 +42,14 @@ watch(props, () => {
         selectedDate.value = new Date(props.event.date);
         startTime.value = props.event.startTime;
         endTime.value = props.event.endTime;
-        eventType.value = props.event.type;
-        isButton2Secondary.value = props.event.type === 'job';
+        eventType.value = props.event.type || 'personal';
+        isButton2Secondary.value = (props.event.type === 'job');
     }
 }, { immediate: true });
 
 const toggleButton2Color = (type) => {
     eventType.value = type;
-    isButton2Secondary.value = !isButton2Secondary.value;
+    isButton2Secondary.value = (type === 'job');
 };
 
 const revertButton2Color = (type) => {
@@ -90,11 +90,28 @@ const handleSubmit = async () => {
     try {
         const response = await axiosInstance.post('/calendar/google/schedule_event', event);
         console.log('Event scheduled successfully:', response.data);
-        emits('submit', response.data);
+
+        const newEvent = {
+            summary: response.data.summary,
+            description: response.data.description,
+            startDateTime: response.data.start.dateTime,
+            endDateTime: response.data.end.dateTime,
+            timeZone: response.data.start.timeZone,
+            type: response.data.extendedProperties.private.type,
+            date: new Date(response.data.start.dateTime),
+            startTime: response.data.start.dateTime.split('T')[1].substring(0, 5),
+            endTime: response.data.end.dateTime.split('T')[1].substring(0, 5),
+            emoji: '📅',
+            label: response.data.summary,
+        };
+
+        emits('submit', newEvent);
+        closeModal();
     } catch (error) {
         console.error('Error scheduling event:', error);
     }
 };
+
 </script>
 
 <template>
@@ -102,10 +119,10 @@ const handleSubmit = async () => {
         <div class="modal" @click.stop>
             <div class="modal__buttons">
                 <NormalButton label="Personal" :hasRequest=false
-                    :class="{ 'button--secondary': !isButton2Secondary, 'button--tertiary': isButton2Secondary }"
+                    :class="{ 'button--secondary': eventType === 'personal', 'button--tertiary': eventType !== 'personal' }"
                     @click="() => toggleButton2Color('personal')" />
                 <NormalButton label="Professional" :hasRequest=false
-                    :class="{ 'button--secondary': isButton2Secondary, 'button--tertiary': !isButton2Secondary }"
+                    :class="{ 'button--secondary': eventType === 'job', 'button--tertiary': eventType !== 'job' }"
                     @click="() => toggleButton2Color('job')" />
             </div>
             <div class="modal__inputs">
@@ -115,7 +132,7 @@ const handleSubmit = async () => {
                     <TimePicker v-model="startTime" :hasLabel="true" label="Start time" />
                     <TimePicker v-model="endTime" :hasLabel="true" label="End time" />
                 </div>
-                <Dropdown label="Priority" :options="priorityOptions" :hasLabel="true" />
+                <!-- <Dropdown label="Priority" :options="priorityOptions" :hasLabel="true" /> -->
                 <InputField v-model="description" placeholder="Aa" :hasLabel="true" label="Description" />
             </div>
             <LargeButton label="Add" class="button--primary" @click="handleSubmit" />
