@@ -79,6 +79,8 @@ const filteredCrewMembers = computed(() => {
 .viewcontainer {
     display: flex;
     flex-direction: row;
+    align-items: flex-start;
+    gap: 40px;
 }
 
 .crew-container {
@@ -89,7 +91,7 @@ const filteredCrewMembers = computed(() => {
 .viewcontainer__crews {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-end;
+    justify-content: flex-start;
     gap: 24px;
     margin-bottom: 48px;
 }
