@@ -43,13 +43,13 @@ watch(props, () => {
         startTime.value = props.event.startTime;
         endTime.value = props.event.endTime;
         eventType.value = props.event.type;
-        isButton2Secondary.value = props.event.type === 'job';
+        isButton2Secondary.value = (props.event.type === 'job');
     }
 }, { immediate: true });
 
 const toggleButton2Color = (type) => {
     eventType.value = type;
-    isButton2Secondary.value = !isButton2Secondary.value;
+    isButton2Secondary.value = (type === 'job');
 };
 
 const revertButton2Color = (type) => {
@@ -91,6 +91,7 @@ const handleSubmit = async () => {
         const response = await axiosInstance.post('/calendar/google/schedule_event', event);
         console.log('Event scheduled successfully:', response.data);
         emits('submit', response.data);
+        closeModal();
     } catch (error) {
         console.error('Error scheduling event:', error);
     }
