@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import SearchCrew from '../../components/molecules/crew/SearchCrew.vue';
 import SearchCrewFilter from '../../components/molecules/filter/SearchCrewFilter.vue';
 import setupAxios from '../../setupAxios';
@@ -8,16 +8,12 @@ const axiosInstance = setupAxios();
 
 const crewMembers = ref([]);
 const loading = ref(true);
-const allCrewLoaded = ref(false);
+const searchTerm = ref('');
 
 const fetchCrewData = async () => {
     try {
         const { data } = await axiosInstance.get('/user');
         const crewMembersData = data.data.users.filter(user => user.crewData);
-
-        if (crewMembersData.length === 0) {
-            allCrewLoaded.value = true;
-        }
 
         const crewData = await Promise.all(crewMembersData.map(async member => {
             const crewResponse = await axiosInstance.get(`/crew/${member.crewData}`);
@@ -44,20 +40,33 @@ const navigateToProfile = (userUrl) => {
     window.open(`/#/user/${userUrl}`, '_blank');
 };
 
+const handleSearch = (value) => {
+    searchTerm.value = value;
+};
+
 onMounted(() => {
     fetchCrewData();
+});
+
+const filteredCrewMembers = computed(() => {
+    if (searchTerm.value === '') {
+        return crewMembers.value;
+    }
+    return crewMembers.value.filter(crew =>
+        crew.name.toLowerCase().includes(searchTerm.value.toLowerCase())
+    );
 });
 </script>
 
 <template>
     <div class="viewcontainer">
-        <SearchCrewFilter />
+        <SearchCrewFilter @search="handleSearch" />
 
         <div class="crew-container">
             <div v-if="loading" class="loading">Loading...</div>
             <div v-else>
                 <div class="viewcontainer__crews">
-                    <SearchCrew v-for="crew in crewMembers" :key="crew.name" :img="crew.img" :name="crew.name"
+                    <SearchCrew v-for="crew in filteredCrewMembers" :key="crew.name" :img="crew.img" :name="crew.name"
                         :city="crew.city" :country="crew.country" :functions="crew.functions" :userUrl="crew.userUrl"
                         @navigateToProfile="navigateToProfile" />
                 </div>
