@@ -3,6 +3,10 @@ import { ref } from 'vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 
 const currentDate = ref(new Date());
+
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
 const options = { month: 'long', year: 'numeric' };
 const formattedDate = ref(getFormattedDate(currentDate.value));
 const weeks = ref(getMonthWeeks(currentDate.value));
@@ -27,19 +31,20 @@ function getMonthWeeks(date) {
             abbr: prevDay.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2),
             number: prevDay.getDate(),
             isPrevMonth: true,
-            isFree: false  // Vorige maand dagen zijn nooit vrij
+            isFree: false
         });
     }
 
     for (let i = 1; i <= numDaysInMonth; i++) {
         const day = new Date(date.getFullYear(), date.getMonth(), i);
-        const isFree = Math.random() < 0.2;
+        const isPast = day < today; 
+        const isFree = !isPast && Math.random() < 0.2;
         currentWeek.push({
             abbr: day.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2),
             number: day.getDate(),
             isActive: day.getDate() === currentDate.value.getDate(),
             isWeekend: day.getDay() === 0 || day.getDay() === 6,
-            isFree: isFree // Voeg de isFree eigenschap toe
+            isFree: isFree
         });
 
         if (day.getDay() === 0 || i === numDaysInMonth) {
