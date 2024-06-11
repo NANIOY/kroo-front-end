@@ -119,8 +119,9 @@ onMounted(fetchJobs);
             <NormalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
                 :hasLabel="true" label="Unsave" method="DELETE" :endpoint="`/crewJobInt/${job._id}/unsave`"
                 :onSuccess="() => removeJobFromList(job._id)" @click.stop />
-            <NormalButton id="normalButton__details" class="button--primary" :hasIcon="false" :hasLabel="true"
-                label="Details" :hasRequest="false" @click.stop="showJobDetails(job)" />
+            <NormalButton id="normalButton__apply" class="button--primary" :hasIcon="false" :hasLabel="true"
+                label="Apply" :hasRequest="true" :endpoint="`/crewJobInt/${job._id}/apply`"
+                :onSuccess="() => removeJobFromList(job._id)" @click.stop />
         </div>
     </div>
 
@@ -188,7 +189,7 @@ img {
 }
 
 #normalButton__cancel,
-#normalButton__details {
+#normalButton__apply {
     flex: 1;
 }
 
