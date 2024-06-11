@@ -2,7 +2,6 @@
 import { ref, onMounted } from 'vue';
 import setupAxios from '../../../setupAxios';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
-import Tag from '../../atoms/items/Tag.vue';
 import JobPop from '../popups/JobPop.vue';
 
 const jobs = ref([]);
@@ -86,9 +85,10 @@ onMounted(fetchJobs);
 
         <div id="applied__job__buttons">
             <NormalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
-                :hasLabel="true" label="Cancel" iconName="" />
+                :hasLabel="true" label="Cancel" @click.stop method="DELETE"
+                :endpoint="`/crewJobInt/${job.applicationId}`" />
             <NormalButton id="normalButton__details" class="button--primary" :hasIcon="false" :hasLabel="true"
-                label="Details" iconName="" :hasRequest="false" @click.stop="showJobDetails(job)" />
+                label="Details" :hasRequest="false" @click.stop="showJobDetails(job)" />
         </div>
     </div>
 
