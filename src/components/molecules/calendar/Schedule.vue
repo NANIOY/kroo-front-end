@@ -165,6 +165,11 @@ function isToday(date) {
     date.getMonth() === today.getMonth() &&
     date.getFullYear() === today.getFullYear();
 }
+
+function addEventToSchedule(newEvent) {
+  calendarEvents.value.push(newEvent);
+}
+
 </script>
 
 <template>
@@ -221,7 +226,7 @@ function isToday(date) {
         </div>
       </div>
 
-      <AgendaPop :isVisible="isPopupVisible" @close="closePopup" :event="selectedEvent" />
+      <AgendaPop :isVisible="isPopupVisible" @close="closePopup" @submit="addEventToSchedule" :event="selectedEvent" />
     </div>
 </template>
 

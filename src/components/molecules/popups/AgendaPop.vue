@@ -90,12 +90,28 @@ const handleSubmit = async () => {
     try {
         const response = await axiosInstance.post('/calendar/google/schedule_event', event);
         console.log('Event scheduled successfully:', response.data);
-        emits('submit', response.data);
+
+        const newEvent = {
+            summary: response.data.summary,
+            description: response.data.description,
+            startDateTime: response.data.start.dateTime,
+            endDateTime: response.data.end.dateTime,
+            timeZone: response.data.start.timeZone,
+            type: response.data.extendedProperties.private.type,
+            date: new Date(response.data.start.dateTime),
+            startTime: response.data.start.dateTime.split('T')[1].substring(0, 5),
+            endTime: response.data.end.dateTime.split('T')[1].substring(0, 5),
+            emoji: '📅',
+            label: response.data.summary,
+        };
+
+        emits('submit', newEvent);
         closeModal();
     } catch (error) {
         console.error('Error scheduling event:', error);
     }
 };
+
 </script>
 
 <template>
