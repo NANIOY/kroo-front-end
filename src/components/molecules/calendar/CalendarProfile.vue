@@ -1,21 +1,11 @@
 <script setup>
-import { ref, watch, defineEmits } from 'vue';
+import { ref } from 'vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
-
-const emit = defineEmits(['day-clicked']);
 
 const currentDate = ref(new Date());
 const options = { month: 'long', year: 'numeric' };
 const formattedDate = ref(getFormattedDate(currentDate.value));
 const weeks = ref(getMonthWeeks(currentDate.value));
-const selectedDay = ref(null);
-
-watch(selectedDay, (newVal) => {
-    if (newVal) {
-        const weekRange = getWeekRange(newVal);
-        emit('day-clicked', { date: newVal, weekRange });
-    }
-});
 
 function getFormattedDate(date) {
     const monthYear = date.toLocaleDateString('en-GB', options);
@@ -36,17 +26,20 @@ function getMonthWeeks(date) {
         currentWeek.push({
             abbr: prevDay.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2),
             number: prevDay.getDate(),
-            isPrevMonth: true
+            isPrevMonth: true,
+            isFree: false  // Vorige maand dagen zijn nooit vrij
         });
     }
 
     for (let i = 1; i <= numDaysInMonth; i++) {
         const day = new Date(date.getFullYear(), date.getMonth(), i);
+        const isFree = Math.random() < 0.2;
         currentWeek.push({
             abbr: day.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2),
             number: day.getDate(),
             isActive: day.getDate() === currentDate.value.getDate(),
-            isWeekend: day.getDay() === 0 || day.getDay() === 6
+            isWeekend: day.getDay() === 0 || day.getDay() === 6,
+            isFree: isFree // Voeg de isFree eigenschap toe
         });
 
         if (day.getDay() === 0 || i === numDaysInMonth) {
@@ -63,7 +56,8 @@ function getMonthWeeks(date) {
             lastWeek.push({
                 abbr: nextDay.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2),
                 number: nextDay.getDate(),
-                isNextMonth: true
+                isNextMonth: true,
+                isFree: false
             });
         }
     }
@@ -88,17 +82,6 @@ function updateMonth() {
     weeks.value = getMonthWeeks(currentDate.value);
 }
 
-function getWeekRange(date) {
-    const firstDayOfWeek = new Date(date);
-    const lastDayOfWeek = new Date(date);
-    const dayOfWeek = date.getDay();
-    firstDayOfWeek.setDate(date.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1));
-    lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 6);
-    return {
-        start: firstDayOfWeek,
-        end: lastDayOfWeek
-    };
-}
 </script>
 
 <template>
@@ -119,9 +102,9 @@ function getWeekRange(date) {
                 </div>
             </div>
             <div class="calendar__bot__numbers text-reg-normal">
-                <template v-for="(week) in weeks">
-                    <div v-for="(day, dayIndex) in week" :key="dayIndex" class="calendar__bot__numbers__number"
-                        :class="['day', { 'prev-month-day': day.isPrevMonth, 'next-month-day': day.isNextMonth, 'weekend-day': day.isWeekend }]">
+                <template v-for="(week, weekIndex) in weeks">
+                    <div v-for="(day, dayIndex) in week" :key="`${weekIndex}-${dayIndex}`" class="calendar__bot__numbers__number"
+                        :class="['day', { 'prev-month-day': day.isPrevMonth, 'next-month-day': day.isNextMonth, 'weekend-day': day.isWeekend, 'free-day': day.isFree }]">
                         {{ day.number }}
                     </div>
                 </template>
@@ -216,7 +199,7 @@ h5 {
 }
 
 .weekend-day {
-    opacity: 0.7;
+    color: var(--neutral-50);
 }
 
 .free-day {
