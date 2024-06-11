@@ -218,4 +218,9 @@ h5 {
 .weekend-day {
     opacity: 0.7;
 }
+
+.free-day {
+    background-color: var(--green);
+}
+
 </style>
