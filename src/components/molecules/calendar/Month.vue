@@ -33,7 +33,9 @@ function getMonthWeeks(date) {
 
     for (let i = 0; i < numDaysFromPrevMonth; i++) {
         const prevDay = new Date(firstDayOfMonth.getTime() - (numDaysFromPrevMonth - i) * 24 * 60 * 60 * 1000);
-        currentWeek.push({ abbr: prevDay.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2), number: prevDay.getDate(), isPrevMonth: true });
+        currentWeek.push({ abbr: prevDay.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2), 
+        number: prevDay.getDate(), 
+        isPrevMonth: true });
     }
 
     for (let i = 1; i <= numDaysInMonth; i++) {
@@ -50,6 +52,20 @@ function getMonthWeeks(date) {
             currentWeek = [];
         }
     }
+
+    if (weeks.length > 0 && weeks[weeks.length - 1].length < 7) {
+        const lastWeek = weeks[weeks.length - 1];
+        let dayIndex = 1;
+        while (lastWeek.length < 7) {
+            const nextDay = new Date(lastDayOfMonth.getFullYear(), lastDayOfMonth.getMonth() + 1, dayIndex++);
+            lastWeek.push({
+                abbr: nextDay.toLocaleDateString('en-GB', { weekday: 'short' }).substring(0, 2),
+                number: nextDay.getDate(),
+                isNextMonth: true
+            });
+        }
+    }
+    
     return weeks;
 }
 
@@ -123,7 +139,7 @@ function getWeekRange(date) {
             <div class="calendar__bot__numbers text-reg-normal">
                 <template v-for="(week) in weeks">
                     <div v-for="(day, dayIndex) in week" :key="dayIndex" class="calendar__bot__numbers__number"
-                        :class="['day', { 'active-day': day.isActive, 'prev-month-day': day.isPrevMonth, 'weekend-day': day.isWeekend, 'selected-day': selectedDay && selectedDay.getDate() === day.number && !day.isPrevMonth }]"
+                        :class="['day', { 'active-day': day.isActive, 'prev-month-day': day.isPrevMonth, 'next-month-day': day.isNextMonth, 'weekend-day': day.isWeekend, 'selected-day': selectedDay && selectedDay.getDate() === day.number && !day.isPrevMonth }]"
                         @click="handleDayClick(day)">
                         {{ day.number }}
                     </div>
@@ -215,6 +231,10 @@ h5 {
 
 .prev-month-day {
     opacity: 0.4;
+}
+
+.next-month-day {
+    opacity: 0.2;
 }
 
 .weekend-day {
