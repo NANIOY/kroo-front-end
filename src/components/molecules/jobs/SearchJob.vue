@@ -1,6 +1,7 @@
 <script setup>
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import { defineProps, ref, onMounted } from 'vue';
+import Tag from '../../atoms/items/Tag.vue';
 
 const props = defineProps({
     job: Object,
@@ -15,9 +16,9 @@ onMounted(() => {
 });
 
 // format date string to day
-const formatDate = (dateString) => {
+const getFormattedDate = (dateString, options) => {
     const date = new Date(dateString);
-    return date.getDate();
+    return date.toLocaleDateString('en-US', options);
 };
 
 // format date string to month
@@ -51,9 +52,9 @@ const openJobPop = () => {
                 <h4 class="container__mid__title">{{ job.title }}</h4>
                 <div class="container__mid__data">
                     <div class="container__mid__data__date">
-                        <span class="container__mid__data__date__day text-reg-l">{{ formatDate(job.date) }}</span>
-                        <span class="container__mid__data__date__month text-reg-normal">{{ formatMonth(job.date)
-                            }}</span>
+                        <Tag class="date" type="big">
+                            <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, { month: 'long' }) }}</p>
+                        </Tag>
                     </div>
                     <div class="container__mid__data__location">
                         <span class="container__mid__data__location__city text-reg-l">{{ job.location.city }}</span>
@@ -65,7 +66,7 @@ const openJobPop = () => {
         </div>
 
         <div class="container__bot">
-            <span class="container__bot__rate">€ {{ job.hourlyRate }}/hr</span>
+            <span class="container__bot__rate">€ {{ job.wage }}/hr</span>
             <div class="container__bot__buttons">
                 <NormalButton label="Save Job" class="container__bot__buttons__save button--tertiary"
                     :endpoint="`/crewJobInt/${job.id}/save`" :postData="{}" @click.stop />
@@ -77,6 +78,15 @@ const openJobPop = () => {
 </template>
 
 <style scoped>
+p {
+    margin: 0
+}
+
+/* date */
+.date {
+    height: 24px !important;
+}
+
 /* SKELETON */
 .container.skeleton {
     animation: pulse 0.2s infinite alternate;

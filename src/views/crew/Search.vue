@@ -26,7 +26,7 @@ const fetchJobs = async () => {
       try {
         const businessResponse = await axiosInstance.get(`/business/${job.businessId}`);
         job.employer = {
-          name: businessResponse.data.data.business.name,
+          name: businessResponse.data.data.business.businessInfo.companyName,
           image: businessResponse.data.data.business.businessInfo.logo
         };
       } catch (error) {
