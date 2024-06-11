@@ -227,6 +227,12 @@ p {
     gap: 0.5rem;
 }
 
+.skill {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 /* certifications & licenses */
 
 .about__bottom__certifications, .about__bottom__licenses {
