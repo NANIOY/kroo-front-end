@@ -1,9 +1,13 @@
 <script setup>
-import NormalButton from '../../atoms/buttons/NormalButton.vue';
-import { onMounted, ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import setupAxios from '../../../setupAxios';
+import NormalButton from '../../atoms/buttons/NormalButton.vue';
+import Tag from '../../atoms/items/Tag.vue';
+import JobPop from '../popups/JobPop.vue';
 
 const jobs = ref([]);
+const selectedJob = ref(null);
+const isJobPopVisible = ref(false);
 const axiosInstance = setupAxios();
 
 const fetchJobs = async () => {
@@ -32,12 +36,14 @@ const fetchJobs = async () => {
         const businessDetailsResponses = await Promise.all(businessDetailsPromises);
 
         jobs.value = applications.map((application, index) => {
-            const businessResponse = businessDetailsResponses[index].data;
+            const businessResponse = businessDetailsResponses[index]?.data;
             return {
-                ...application.application,
-                title: application.job.title || 'Unknown Job Title',
-                businessImage: businessResponse.data.business.businessInfo.logo,
-                businessName: businessResponse.data.business.businessInfo.companyName,
+                ...application.job,
+                applicationId: application.application._id,
+                status: application.application.status,
+                dateApplied: application.application.date,
+                businessImage: businessResponse?.data.business.businessInfo.logo || 'https://placehold.co/56x56',
+                businessName: businessResponse?.data.business.businessInfo.companyName || 'Unknown Company',
             };
         });
 
@@ -46,11 +52,22 @@ const fetchJobs = async () => {
     }
 };
 
+const showJobDetails = (job) => {
+    selectedJob.value = job;
+    isJobPopVisible.value = true;
+};
+
+const closeJobDetails = () => {
+    isJobPopVisible.value = false;
+    selectedJob.value = null;
+};
+
 onMounted(fetchJobs);
 </script>
 
 <template>
-    <div v-for="job in jobs" :key="job._id" id="applied__job" class="surface-tertiary radius-xs">
+    <div v-for="job in jobs" :key="job._id" id="applied__job" class="surface-tertiary radius-xs"
+        @click="showJobDetails(job)">
         <div id="applied__job__top">
             <div id="applied__job__top__business">
                 <div>
@@ -71,9 +88,12 @@ onMounted(fetchJobs);
             <NormalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
                 :hasLabel="true" label="Cancel" iconName="" />
             <NormalButton id="normalButton__details" class="button--primary" :hasIcon="false" :hasLabel="true"
-                label="Details" iconName="" :hasRequest="false" />
+                label="Details" iconName="" :hasRequest="false" @click.stop="showJobDetails(job)" />
         </div>
     </div>
+
+    <JobPop v-if="isJobPopVisible" :job="selectedJob" :isVisible="isJobPopVisible" @close="closeJobDetails"
+        jobType="applied" />
 </template>
 
 <style scoped>

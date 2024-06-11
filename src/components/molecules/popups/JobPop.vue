@@ -105,7 +105,7 @@ watch(props, () => {
 
 
                     <LargeButton v-if="jobType === 'applied'" label="Cancel"
-                        class="jobpop__bottom__button button--secondary " :endpoint="`/crewJobInt/${job.id}/cancel`"
+                        class="jobpop__bottom__button button--tertiary " :endpoint="`/crewJobInt/${job.id}/cancel`"
                         :postData="{}" />
                 </div>
             </div>
@@ -149,6 +149,10 @@ watch(props, () => {
 .jobpop__top__row h3 {
     margin: 0;
     font-weight: 100;
+}
+
+.jobpop__top__row__button {
+    cursor: pointer;
 }
 
 .jobpop__top__business {
