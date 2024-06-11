@@ -29,7 +29,7 @@ const description = ref('');
 const selectedDate = ref('');
 const startTime = ref('');
 const endTime = ref('');
-const eventType = ref('');
+const eventType = ref('personal');
 const priorityOptions = ['Low Priority', 'Medium Priority', 'High Priority'];
 // const selectedPriority = ref(priorityOptions[0]);
 
@@ -42,7 +42,7 @@ watch(props, () => {
         selectedDate.value = new Date(props.event.date);
         startTime.value = props.event.startTime;
         endTime.value = props.event.endTime;
-        eventType.value = props.event.type;
+        eventType.value = props.event.type || 'personal';
         isButton2Secondary.value = (props.event.type === 'job');
     }
 }, { immediate: true });
@@ -119,10 +119,10 @@ const handleSubmit = async () => {
         <div class="modal" @click.stop>
             <div class="modal__buttons">
                 <NormalButton label="Personal" :hasRequest=false
-                    :class="{ 'button--secondary': !isButton2Secondary, 'button--tertiary': isButton2Secondary }"
+                    :class="{ 'button--secondary': eventType === 'personal', 'button--tertiary': eventType !== 'personal' }"
                     @click="() => toggleButton2Color('personal')" />
                 <NormalButton label="Professional" :hasRequest=false
-                    :class="{ 'button--secondary': isButton2Secondary, 'button--tertiary': !isButton2Secondary }"
+                    :class="{ 'button--secondary': eventType === 'job', 'button--tertiary': eventType !== 'job' }"
                     @click="() => toggleButton2Color('job')" />
             </div>
             <div class="modal__inputs">
