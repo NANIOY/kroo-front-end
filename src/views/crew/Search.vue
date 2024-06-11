@@ -1,55 +1,44 @@
 <script setup>
-import SearchJob from '../../components/molecules/jobs/SearchJob.vue';
-import JobPop from '../../components/molecules/popups/JobPop.vue';
-import Overlay from '../../components/molecules/popups/Overlay.vue';
-import SearchFilter from '../../components/molecules/filter/SearchFilter.vue';
 import { ref, computed, onMounted } from 'vue';
 import setupAxios from '../../setupAxios';
+import SearchJob from '../../components/molecules/jobs/SearchJob.vue';
+import SearchFilter from '../../components/molecules/filter/SearchFilter.vue';
 
 const axiosInstance = setupAxios();
 
 const fetchedJobs = ref([]);
-const selectedJob = ref(null);
 const loading = ref(true);
 const allJobsLoaded = ref(false);
 const searchTerm = ref('');
 
 const fetchJobs = async () => {
-  try {
-    const response = await axiosInstance.get('/crewjob/jobs');
-    fetchedJobs.value = response.data.data.jobs.map(job => ({
-      ...job,
-      id: job._id
-    }));
+    try {
+        const response = await axiosInstance.get('/crewjob/jobs');
+        fetchedJobs.value = response.data.data.jobs.map(job => ({
+            ...job,
+            id: job._id
+        }));
 
-    await Promise.all(fetchedJobs.value.map(async (job) => {
-      try {
-        const businessResponse = await axiosInstance.get(`/business/${job.businessId}`);
-        job.employer = {
-          name: businessResponse.data.data.business.businessInfo.companyName,
-          image: businessResponse.data.data.business.businessInfo.logo
-        };
-      } catch (error) {
-        console.error('Error fetching employer details:', error);
-      }
-    }));
+        await Promise.all(fetchedJobs.value.map(async (job) => {
+            try {
+                const businessResponse = await axiosInstance.get(`/business/${job.businessId}`);
+                job.employer = {
+                    name: businessResponse.data.data.business.businessInfo.companyName,
+                    image: businessResponse.data.data.business.businessInfo.logo
+                };
+            } catch (error) {
+                console.error('Error fetching employer details:', error);
+            }
+        }));
 
-    if (fetchedJobs.value.length === 0) {
-      allJobsLoaded.value = true;
+        if (fetchedJobs.value.length === 0) {
+            allJobsLoaded.value = true;
+        }
+    } catch (error) {
+        console.error('Error fetching jobs:', error);
+    } finally {
+        loading.value = false;
     }
-  } catch (error) {
-    console.error('Error fetching jobs:', error);
-  } finally {
-    loading.value = false;
-  }
-};
-
-const openJobPop = (job) => {
-  selectedJob.value = job;
-};
-
-const closeJobPop = () => {
-  selectedJob.value = null;
 };
 
 const filteredJobs = computed(() => {
@@ -73,15 +62,11 @@ onMounted(() => {
       <div v-if="loading" class="loading">Loading...</div>
       <div v-else>
         <div class="viewcontainer__jobs">
-          <SearchJob v-for="job in filteredJobs" :key="job.id" :job="job" @jobClick="openJobPop" />
+          <SearchJob v-for="job in filteredJobs" :key="job.id" :job="job" />
         </div>
         <div v-if="allJobsLoaded || filteredJobs.length === 0" class="end">No more jobs to display</div>
       </div>
     </div>
-
-    <Overlay v-if="selectedJob" @overlayClick="closeJobPop">
-      <JobPop v-if="selectedJob" :job="selectedJob" jobType="search" />
-    </Overlay>
   </div>
 </template>
 
