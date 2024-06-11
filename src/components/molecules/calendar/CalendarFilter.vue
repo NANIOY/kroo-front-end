@@ -3,9 +3,9 @@ import DropFilter from '../filter/DropFilter.vue';
 
 const cardTypeConfig = {
     title: 'Card Type',
-    numberOfCheckboxes: 3,
+    numberOfCheckboxes: 2,
     hasMore: false,
-    checkboxLabels: [ 'Job', 'Personal', 'Applied']
+    checkboxLabels: [ 'Professional', 'Personal']
 };
 
 const priorityConfig = {
