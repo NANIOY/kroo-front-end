@@ -223,7 +223,11 @@ const fetchJobSuggestions = async () => {
           return overlap;
         });
 
-        availabilityMatch = isAvailable ? 5 : 0; // 5 points if no overlap
+        if (isAvailable) {
+          availabilityMatch = 5; // 5 points if no overlap
+        } else {
+          availabilityMatch = functionMatch > 0 ? 0 : 2; // 2 points if overlap and no function match
+        }
 
       } catch (error) {
         console.error('Error fetching user events:', error);
