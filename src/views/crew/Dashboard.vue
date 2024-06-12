@@ -187,7 +187,7 @@ const fetchJobSuggestions = async () => {
           const businessResponse = await axiosInstance.get(`/business/${job.businessId}`);
           const businessLanguages = businessResponse.data.data.business.businessInfo.languages || [];
           const userLanguages = user.crewData?.profileDetails?.languages || [];
-          languageMatch = businessLanguages.some(lang => userLanguages.includes(lang)) ? 2 : 0;
+          languageMatch = businessLanguages.some(lang => userLanguages.includes(lang)) ? 2 : 0; // 2 points if at least one language matches
         } catch (error) {
           console.error('Error fetching business details:', error);
         }
@@ -223,6 +223,7 @@ const fetchJobSuggestions = async () => {
           return overlap;
         });
 
+        // calculate availability match points
         if (isAvailable) {
           availabilityMatch = 5; // 5 points if no overlap
         } else {
