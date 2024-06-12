@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import moment from 'moment';
 import JobCard from '../../components/molecules/dashboard/JobCard.vue';
 import JobSug from '../../components/molecules/dashboard/JobSug.vue';
 import Week from '../../components/molecules/dashboard/Week.vue';
@@ -140,7 +141,6 @@ const fetchJobSuggestions = async () => {
     const userCity = user.crewData?.profileDetails?.city || '';
     const userCountry = user.crewData?.profileDetails?.country || '';
     const userWorkRadius = user.crewData?.profileDetails?.workRadius || 0;
-    const userLanguages = user.crewData?.profileDetails?.languages || [];
 
     // get user coordinates based on city and country
     const userCoords = await getCoordinates(userCity, userCountry);
@@ -180,20 +180,56 @@ const fetchJobSuggestions = async () => {
         locationMatch = distance <= userWorkRadius ? (functionMatch > 0 ? 3 : 1) : 0; // 3 points if within work radius and function matches, 1 point if function doesn't match
       }
 
+      // fetch business details to get languages
       let languageMatch = 0;
-      if (functionMatch > 0) { // only check languages if function matches
+      if (functionMatch > 0) { // only consider language match if function matches
         try {
           const businessResponse = await axiosInstance.get(`/business/${job.businessId}`);
           const businessLanguages = businessResponse.data.data.business.businessInfo.languages || [];
           const userLanguages = user.crewData?.profileDetails?.languages || [];
-          languageMatch = businessLanguages.some(lang => userLanguages.includes(lang)) ? 2 : 0; // 2 points if at least one language matches
+          languageMatch = businessLanguages.some(lang => userLanguages.includes(lang)) ? 2 : 0;
         } catch (error) {
           console.error('Error fetching business details:', error);
         }
       }
 
-      const totalMatchScore = functionMatch + skillMatchCount + locationMatch + languageMatch;
-      console.log(`Job: ${job.title}, Function Match: ${functionMatch}, Skill Match: ${skillMatchCount}, Location Match: ${locationMatch}, Language Match: ${languageMatch}, Total Score: ${totalMatchScore}`);
+      // fetch user events to check availability
+      let availabilityMatch = 0;
+      let overlaps = [];
+      try {
+        const userId = sessionStorage.getItem('userId');
+        const eventsResponse = await axiosInstance.get(`/calendar/google/events?userId=${userId}`);
+        const events = eventsResponse.data;
+
+        const jobStart = moment(job.date);
+        const jobEnd = moment(jobStart).add(2, 'hours'); // assuming each job is 2 hours long, adjust as necessary
+
+        const isAvailable = !events.some(event => {
+          const eventStartStr = event.start.dateTime || event.start.date;
+          const eventEndStr = event.end.dateTime || event.end.date;
+
+          const eventStart = moment(eventStartStr);
+          const eventEnd = moment(eventEndStr);
+
+          if (!eventStart.isValid() || !eventEnd.isValid()) {
+            console.error('Invalid event dates:', event);
+            return false;
+          }
+
+          const overlap = (jobStart.isBefore(eventEnd) && jobEnd.isAfter(eventStart));
+          if (overlap) {
+            overlaps.push({ eventStart: eventStart.toISOString(), eventEnd: eventEnd.toISOString() });
+          }
+          return overlap;
+        });
+
+        availabilityMatch = isAvailable ? 5 : 0; // 5 points if no overlap
+
+      } catch (error) {
+        console.error('Error fetching user events:', error);
+      }
+
+      const totalMatchScore = functionMatch + skillMatchCount + locationMatch + languageMatch + availabilityMatch;
       return { ...job, matchScore: totalMatchScore };
     }));
 
