@@ -1,10 +1,13 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+import setupAxios from '../../../setupAxios';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import Tag from '../../atoms/items/Tag.vue';
-import { onMounted, ref } from 'vue';
-import setupAxios from '../../../setupAxios';
+import JobPop from '../popups/JobPop.vue';
 
 const jobs = ref([]);
+const selectedJob = ref(null);
+const isJobPopVisible = ref(false);
 const axiosInstance = setupAxios();
 
 const fetchJobs = async () => {
@@ -54,12 +57,23 @@ const getFormattedDate = (dateString, options) => {
     return date.toLocaleDateString('en-US', options);
 };
 
+const showJobDetails = (job) => {
+    selectedJob.value = job;
+    isJobPopVisible.value = true;
+};
+
+const closeJobDetails = () => {
+    isJobPopVisible.value = false;
+    selectedJob.value = null;
+};
+
 onMounted(fetchJobs);
 </script>
 
 <template>
     <div>
-        <div v-for="job in jobs" :key="job._id" id="ongoing__job" class="surface-tertiary radius-xs">
+        <div v-for="job in jobs" :key="job._id" id="ongoing__job" class="surface-tertiary radius-xs"
+            @click="showJobDetails(job)">
             <div id="ongoing__job__top">
                 <div id="ongoing__job__top__business">
                     <div>
@@ -80,8 +94,8 @@ onMounted(fetchJobs);
                 <div id="ongoing__job__info__date">
                     <Tag type="big">
                         <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, {
-                            month:
-                            'long' }) }}</p>
+                            month: 'long'
+                        }) }}</p>
                     </Tag>
                 </div>
                 <div id="ongoing__job__info__place">
@@ -101,6 +115,9 @@ onMounted(fetchJobs);
                     label="Details" iconName="" :hasRequest="false" />
             </div>
         </div>
+
+        <JobPop v-if="isJobPopVisible" :job="selectedJob" :isVisible="isJobPopVisible" @close="closeJobDetails"
+            jobType="ongoing" />
     </div>
 </template>
 
@@ -112,7 +129,7 @@ p {
 img {
     object-fit: cover;
     max-width: 24px;
-    height:24px;
+    height: 24px;
 }
 
 #ongoing__job {
