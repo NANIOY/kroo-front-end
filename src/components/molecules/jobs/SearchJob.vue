@@ -15,7 +15,7 @@ const selectedJob = ref(null);
 onMounted(() => {
     setTimeout(() => {
         loading.value = false;
-    }, 500);
+    }, 0);
 });
 
 // format date string to day

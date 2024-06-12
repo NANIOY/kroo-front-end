@@ -278,7 +278,6 @@ onMounted(() => {
 /* SKELETON LOADER */
 .container.skeleton {
   width: calc(33.333% - 16px);
-  /* 3 items per row */
   height: 282px;
   background-color: var(--neutral-20);
   border-radius: 4px;
