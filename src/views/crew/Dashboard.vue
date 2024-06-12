@@ -100,7 +100,36 @@ const fetchActiveJobs = async () => {
   }
 };
 
-// fetch job suggestions
+// fetch coordinates for a city and country
+const getCoordinates = async (city, country) => {
+  try {
+    const response = await axiosInstance.get('/geo/coordinates', {
+      params: {
+        city: city,
+        country: country,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching coordinates:', error);
+    return null;
+  }
+};
+
+// distance calculation between two coordinates
+const calculateDistance = (lat1, lon1, lat2, lon2) => {
+  const toRadians = (degree) => degree * (Math.PI / 180);
+  const R = 6371; // earth radius in km
+  const dLat = toRadians(lat2 - lat1); // lat2 - lat1
+  const dLon = toRadians(lon2 - lon1); // lon2 - lon1
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c; // distance in km
+};
+
+// fetch job suggestions based on user data
 const fetchJobSuggestions = async () => {
   try {
     const user = await fetchUserData();
@@ -108,6 +137,13 @@ const fetchJobSuggestions = async () => {
 
     const userFunctions = user.crewData?.basicInfo?.functions || [];
     const userSkills = user.crewData?.profileDetails?.skills || [];
+    const userCity = user.crewData?.profileDetails?.city || '';
+    const userCountry = user.crewData?.profileDetails?.country || '';
+    const userWorkRadius = user.crewData?.profileDetails?.workRadius || 0;
+
+    // get user coordinates based on city and country
+    const userCoords = await getCoordinates(userCity, userCountry);
+    if (!userCoords) return;
 
     const response = await axiosInstance.get('/crewjob/jobs');
     const jobs = response.data.data.jobs.map(job => ({
@@ -115,7 +151,7 @@ const fetchJobSuggestions = async () => {
       id: job._id
     }));
 
-    // fetch employer details for each job based on businessId
+    // fetch employer details for each job
     await Promise.all(jobs.map(async (job) => {
       try {
         const businessResponse = await axiosInstance.get(`/business/${job.businessId}`);
@@ -128,22 +164,33 @@ const fetchJobSuggestions = async () => {
       }
     }));
 
-    // sort jobs based on user functions
-    fetchedJobs.value = jobs.map(job => {
-      const functionMatch = userFunctions.includes(job.jobFunction) ? 2 : 0; // 2 points for function match
+    // process job matches
+    const jobMatches = await Promise.all(jobs.map(async (job) => {
+      const functionMatch = userFunctions.includes(job.jobFunction) ? 3 : 0; // 3 points for function match
       const skillMatchCount = job.skills.reduce((count, skill) => {
         return count + (userSkills.includes(skill) ? 1 : 0); // 1 point for each skill match
       }, 0);
-      const totalMatchScore = functionMatch + skillMatchCount;
+
+      // calculate location match
+      const jobCoords = await getCoordinates(job.location.city, job.location.country);
+      let locationMatch = 0;
+      if (jobCoords) {
+        const distance = calculateDistance(userCoords.lat, userCoords.lon, jobCoords.lat, jobCoords.lon);
+        locationMatch = distance <= userWorkRadius ? 2 : 0; // 2 points if within work radius
+      }
+
+      const totalMatchScore = functionMatch + skillMatchCount + locationMatch;
+      console.log(`Job: ${job.title}, Function Match: ${functionMatch}, Skill Match: ${skillMatchCount}, Location Match: ${locationMatch}, Total Score: ${totalMatchScore}`);
       return { ...job, matchScore: totalMatchScore };
-    })
-      .sort((a, b) => b.matchScore - a.matchScore); // sort by match score
+    }));
+
+    // sort job matches based on match score
+    fetchedJobs.value = jobMatches.sort((a, b) => b.matchScore - a.matchScore);
 
   } catch (error) {
     console.error('Error fetching jobs:', error);
   }
 };
-
 
 // open job popup when job is clicked
 const openJobPop = (job) => {
