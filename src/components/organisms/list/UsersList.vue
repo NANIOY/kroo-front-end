@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue';
 import { NavArrowDown, NavArrowUp, UserXmark } from '@iconoir/vue';
-import Dropdown from '../../atoms/inputs/DropDown.vue';
 
 /* state sorting */
 const sortField = ref('');
@@ -10,7 +9,12 @@ const sortDirection = ref('asc');
 const data = ref([
     { image:'https://placehold.co/32x32', name: 'John Doe', role: 'Producer', email: 'john@example.com', dateAdded: new Date('2023-01-01') },
     { image:'https://placehold.co/32x32', name: 'Jane Smith', role: 'Editor', email: 'jane@example.com', dateAdded: new Date('2023-02-15') },
-    { image:'https://placehold.co/32x32', name: 'Alice Johnson', role: 'Audience', email: 'alice@example.com', dateAdded: new Date('2023-03-20') },
+    { image:'https://placehold.co/32x32', name: 'Alice Johnson', role: 'Audience', email: 'alice@example.com', dateAdded: new Date('2024-03-20') },
+    { image:'https://placehold.co/32x32', name: 'Mark Haas', role: 'Producer', email: 'mark@example.com', dateAdded: new Date('2021-03-20') },
+    { image:'https://placehold.co/32x32', name: 'Miranda Van Tielen', role: 'Editor', email: 'miranda@example.com', dateAdded: new Date('2019-03-20') },
+    { image:'https://placehold.co/32x32', name: 'Pedro Duprez', role: 'Audience', email: 'pedro.duprez1999@example.com', dateAdded: new Date('2018-03-20') },
+    { image:'https://placehold.co/32x32', name: 'Pascale Colman', role: 'Producer', email: 'pascale2014@example.com', dateAdded: new Date('2023-09-20') },
+    { image:'https://placehold.co/32x32', name: 'Christiane Rotthier', role: 'Editor', email: 'christy.rotthier1998@example.com', dateAdded: new Date('2023-05-20') },
 ]);
 
 
@@ -56,33 +60,40 @@ function removeUser(index) {
 
 <template>
     <div class="list__container radius-s">
-        <div class="list__header text-white">
+        <div class="list__header">
             <div class="list__header__item list__name" @click="sortData('name')">
-                <div class="text-reg-normal">Name</div>
+                <div>
+                    <h6>Name</h6>
+                </div>
                 <div>
                     <component :is="getArrowIcon('name')"></component>
                 </div>
             </div>
             <div class="list__header__item list__role" @click="sortData('role')">
-                <div class="text-reg-normal">Role</div>
+                <div>
+                    <h6>Role</h6>
+                </div>
                 <div>
                     <component :is="getArrowIcon('role')"></component>
                 </div>
             </div>
             <div class="list__header__item list__email" @click="sortData('email')">
-                <div class="text-reg-normal">Email</div>
+                <div>
+                    <h6>Email</h6>
+                </div>
                 <div>
                     <component :is="getArrowIcon('email')"></component>
                 </div>
             </div>
             <div class="list__header__item list__date" @click="sortData('dateAdded')">
-                <div class="text-reg-normal">Date Added</div>
+                <div>
+                    <h6>Date Added</h6>
+                </div>
                 <div>
                     <component :is="getArrowIcon('dateAdded')"></component>
                 </div>
             </div>
-            <div class="list__header__item list__action">
-                <div class="text-reg-normal">Action</div>
+                <div class="list__header__item list__action">
             </div>
         </div>
         <div class="list__body">
@@ -96,7 +107,7 @@ function removeUser(index) {
                 </div>
                 <div class="text-reg-normal">{{ item.email }}</div>
                 <div class="text-reg-normal">{{ item.dateAdded.toLocaleDateString() }}</div>
-                <div class="list__action" @click="removeUser(index)">
+                <div class="list__action delete" @click="removeUser(index)">
                     <UserXmark />
                 </div>
             </div>
@@ -105,6 +116,15 @@ function removeUser(index) {
 </template>
 
 <style scoped>
+.list__body__row > div:nth-child(5), .list__action {
+    margin-left: auto;
+    margin-right: 8px;
+}
+
+h6 {
+    font-size: 16px !important;
+}
+
 p {
     margin: 0;
 }
@@ -125,7 +145,6 @@ p {
 }
 
 .list__header {
-    background-color: var(--blurple);
     font-weight: bold;
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
@@ -142,10 +161,12 @@ p {
 
 .list__body__row {
     padding: 8px;
+    border-top: 1px solid var(--gray);
 }
 
 .list__header__item {
     gap: 8px;
+    color: var(--neutral-50)
 }
 
 .list__header {
