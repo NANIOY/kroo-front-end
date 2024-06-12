@@ -30,7 +30,46 @@ const goToUpgrade = () => {
   router.push('/upgrade');
 };
 
-// Fetch active jobs
+// fetch user data
+const fetchUserData = async () => {
+  const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+  const userId = sessionStorage.getItem('userId');
+  if (!token || !userId) {
+    console.error('Authentication token or user ID is missing');
+    return null;
+  }
+
+  try {
+    const userResponse = await axiosInstance.get(`/user/${userId}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const userData = userResponse.data.data.user;
+    if (!userData) {
+      console.error('User data is missing');
+      return null;
+    }
+
+    const crewDataId = userData.crewData?._id;
+    if (crewDataId) {
+      const crewResponse = await axiosInstance.get(`/crew/${crewDataId}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const crewData = crewResponse.data.data;
+      if (crewData && crewData.basicInfo) {
+        userData.crewData = crewData;
+      } else {
+        console.error('Crew data is missing');
+      }
+    }
+
+    return userData;
+  } catch (error) {
+    console.error('Failed to fetch user data:', error);
+    return null;
+  }
+};
+
+// fetch active jobs
 const fetchActiveJobs = async () => {
   const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
   if (!token) {
@@ -43,7 +82,7 @@ const fetchActiveJobs = async () => {
       headers: { 'Authorization': `Bearer ${token}` }
     });
 
-    // Sort active jobs based on their dates
+    // sort active jobs based on their dates
     activeJobs.value = activeJobsResponse.data.activeJobs
       .map(job => ({
         ...job,
@@ -61,17 +100,22 @@ const fetchActiveJobs = async () => {
   }
 };
 
-// Fetch job suggestions
+// fetch job suggestions
 const fetchJobSuggestions = async () => {
   try {
+    const user = await fetchUserData();
+    if (!user) return;
+
+    const userFunctions = user.crewData?.basicInfo?.functions || [];
+
     const response = await axiosInstance.get('/crewjob/jobs');
-    fetchedJobs.value = response.data.data.jobs.map(job => ({
+    const jobs = response.data.data.jobs.map(job => ({
       ...job,
       id: job._id
     }));
 
-    // Fetch employer details for each job based on businessId
-    await Promise.all(fetchedJobs.value.map(async (job) => {
+    // fetch employer details for each job based on businessId
+    await Promise.all(jobs.map(async (job) => {
       try {
         const businessResponse = await axiosInstance.get(`/business/${job.businessId}`);
         job.employer = {
@@ -82,10 +126,22 @@ const fetchJobSuggestions = async () => {
         console.error('Error fetching employer details:', error);
       }
     }));
+
+    // sort jobs based on user functions
+    fetchedJobs.value = jobs.sort((a, b) => {
+      const aMatch = userFunctions.includes(a.jobFunction);
+      const bMatch = userFunctions.includes(b.jobFunction);
+
+      if (aMatch && !bMatch) return -1;
+      if (!aMatch && bMatch) return 1;
+      return 0;
+    });
+
   } catch (error) {
     console.error('Error fetching jobs:', error);
   }
 };
+
 
 // open job popup when job is clicked
 const openJobPop = (job) => {
