@@ -181,13 +181,15 @@ const fetchJobSuggestions = async () => {
       }
 
       let languageMatch = 0;
-      try {
-        const businessResponse = await axiosInstance.get(`/business/${job.businessId}`);
-        const businessLanguages = businessResponse.data.data.business.businessInfo.languages || [];
-        const userLanguages = user.crewData?.profileDetails?.languages || [];
-        languageMatch = businessLanguages.some(lang => userLanguages.includes(lang)) ? 2 : 0; // 2 points if at least one language matches
-      } catch (error) {
-        console.error('Error fetching business details:', error);
+      if (functionMatch > 0) { // only check languages if function matches
+        try {
+          const businessResponse = await axiosInstance.get(`/business/${job.businessId}`);
+          const businessLanguages = businessResponse.data.data.business.businessInfo.languages || [];
+          const userLanguages = user.crewData?.profileDetails?.languages || [];
+          languageMatch = businessLanguages.some(lang => userLanguages.includes(lang)) ? 2 : 0; // 2 points if at least one language matches
+        } catch (error) {
+          console.error('Error fetching business details:', error);
+        }
       }
 
       const totalMatchScore = functionMatch + skillMatchCount + locationMatch + languageMatch;
