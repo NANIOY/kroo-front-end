@@ -78,13 +78,13 @@ const closeJobDetails = () => {
 };
 
 const acceptOffer = (job) => {
-    // Logic for accepting the job offer
     console.log('Accepted job offer:', job);
+    // Additional logic to handle accepting the job offer can be added here
 };
 
 const declineOffer = (job) => {
-    // Logic for declining the job offer
     console.log('Declined job offer:', job);
+    // Additional logic to handle declining the job offer can be added here
 };
 
 onMounted(fetchJobs);
@@ -122,8 +122,7 @@ onMounted(fetchJobs);
             <div id="offered__job__info__date">
                 <Tag type="big">
                     <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, {
-                        month:
-                            'long'
+                        month: 'long'
                     }) }}</p>
                 </Tag>
             </div>
@@ -138,12 +137,11 @@ onMounted(fetchJobs);
         </div>
 
         <div id="offered__job__bottom">
-            <div>
-                <p class="button-l">€ {{ job.wage }}/hr</p>
-            </div>
             <div id="offered__job__bottom__buttons">
-                <NormalButton id="normalButton__details" class="button--tertiary offered__job__bottom__buttons_details"
-                    :hasIcon="false" :hasLabel="true" label="Details" iconName="" />
+                <NormalButton id="normalButton__accept" class="button--primary offered__job__bottom__buttons_accept"
+                    :hasIcon="false" :hasLabel="true" label="Accept" iconName="" @click.stop="acceptOffer(job)" />
+                <NormalButton id="normalButton__decline" class="button--tertiary offered__job__bottom__buttons_decline"
+                    :hasIcon="false" :hasLabel="true" label="Decline" iconName="" @click.stop="declineOffer(job)" />
             </div>
         </div>
     </div>
@@ -224,7 +222,6 @@ img {
     gap: 16px;
 }
 
-.offered__job__bottom__buttons_details,
 .offered__job__bottom__buttons_accept,
 .offered__job__bottom__buttons_decline {
     flex: 1;
