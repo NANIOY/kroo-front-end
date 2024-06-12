@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import setupAxios from '../../setupAxios';
 import BusinessProfileLeft from '../../components/organisms/profile/BusinessProfileLeft.vue';
+import BusinessProfileRight from '../../components/organisms/profile/BusinessProfileRight.vue';
 
 const props = defineProps(['name', 'func', 'profileImage']);
 const userId = sessionStorage.getItem('userId');
@@ -52,6 +53,7 @@ onMounted(() => {
 <template>
   <div v-if="hasBusiness">
     <BusinessProfileLeft :business="business" />
+    <BusinessProfileRight />
   </div>
   <div v-else>
     <p>No business data available</p>
