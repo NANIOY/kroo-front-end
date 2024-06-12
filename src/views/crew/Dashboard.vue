@@ -7,7 +7,6 @@ import ScheduleCard from '../../components/molecules/dashboard/ScheduleCard.vue'
 import Upgrade from '../../components/molecules/dashboard/Upgrade.vue';
 import TransparentButton from '../../components/atoms/buttons/TransparentButton.vue';
 import JobPop from '../../components/molecules/popups/JobPop.vue';
-import Overlay from '../../components/molecules/popups/Overlay.vue';
 import setupAxios from '../../setupAxios';
 
 import { useRouter } from 'vue-router';
@@ -18,6 +17,7 @@ const router = useRouter();
 const fetchedJobs = ref([]);
 const activeJobs = ref([]);
 const selectedJob = ref(null);
+const isJobPopVisible = ref(false);
 
 // NAVIGATION FUNCTIONS
 const goToTracker = () => {
@@ -87,13 +87,14 @@ const fetchJobSuggestions = async () => {
   }
 };
 
-// Open job popup when job is clicked
+// open job popup when job is clicked
 const openJobPop = (job) => {
   selectedJob.value = job;
+  isJobPopVisible.value = true;
 };
 
-// Close job popup
 const closeJobPop = () => {
+  isJobPopVisible.value = false;
   selectedJob.value = null;
 };
 
@@ -130,7 +131,7 @@ onMounted(() => {
         <div
           :class="{ 'dashboard__left__block--sug__jobs': true, 'dashboard__left__block--sug__jobs--wide': !activeJobs.length }">
           <JobSug v-for="(job, index) in fetchedJobs.slice(0, activeJobs.length ? 4 : 8)" :key="index" :job="job"
-            @jobClick="openJobPop" />
+            @jobClick="openJobPop(job)" />
         </div>
       </div>
     </div>
@@ -149,9 +150,8 @@ onMounted(() => {
       </div>
       <Upgrade @click="goToUpgrade" />
     </div>
-    <Overlay v-if="selectedJob" @overlayClick="closeJobPop">
-      <JobPop v-if="selectedJob" :job="selectedJob" jobType="search" />
-    </Overlay>
+    <JobPop v-if="isJobPopVisible" :job="selectedJob" jobType="search" :isVisible="isJobPopVisible"
+      @close="closeJobPop" />
   </div>
 </template>
 
