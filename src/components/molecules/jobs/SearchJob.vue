@@ -37,16 +37,13 @@ const closeJobPop = () => {
 </script>
 
 <template>
-    <!-- Skeleton loading -->
     <div v-if="loading || !job" class="container skeleton"></div>
-
     <div v-else class="container" @click="openJobPop">
         <div class="container__info">
             <div class="container__top" v-if="job.employer">
                 <img :src="job.employer.image" class="container__top__image" alt="Employer's Logo" />
                 <span class="container__top__name text-reg-s">{{ job.employer.name }}</span>
             </div>
-
             <div class="container__mid">
                 <h4 class="container__mid__title">{{ job.title }}</h4>
                 <div class="container__mid__data">
@@ -65,7 +62,6 @@ const closeJobPop = () => {
                 </div>
             </div>
         </div>
-
         <div class="container__bot">
             <span class="container__bot__rate">€ {{ job.wage }}/hr</span>
             <div class="container__bot__buttons">
@@ -76,7 +72,6 @@ const closeJobPop = () => {
             </div>
         </div>
     </div>
-
     <JobPop v-if="isJobPopVisible" :job="selectedJob" jobType="search" :isVisible="isJobPopVisible"
         @close="closeJobPop" />
 </template>
