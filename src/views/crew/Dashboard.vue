@@ -167,20 +167,20 @@ const fetchJobSuggestions = async () => {
     // process job matches
     const jobMatches = await Promise.all(jobs.map(async (job) => {
       const functionMatch = userFunctions.includes(job.jobFunction) ? 3 : 0; // 3 points for function match
-      const skillMatchCount = job.skills.reduce((count, skill) => {
+      const skillMatchCount = functionMatch > 0 ? job.skills.reduce((count, skill) => {
         return count + (userSkills.includes(skill) ? 1 : 0); // 1 point for each skill match
-      }, 0);
+      }, 0) : 0; // 0 skill points if function doesn't match
 
       // calculate location match
       const jobCoords = await getCoordinates(job.location.city, job.location.country);
       let locationMatch = 0;
       if (jobCoords) {
         const distance = calculateDistance(userCoords.lat, userCoords.lon, jobCoords.lat, jobCoords.lon);
-        locationMatch = distance <= userWorkRadius ? 2 : 0; // 2 points if within work radius
+        locationMatch = distance <= userWorkRadius ? (functionMatch > 0 ? 2 : 1) : 0; // 2 points if within work radius and function matches, 1 point if function doesn't match
       }
 
+
       const totalMatchScore = functionMatch + skillMatchCount + locationMatch;
-      console.log(`Job: ${job.title}, Function Match: ${functionMatch}, Skill Match: ${skillMatchCount}, Location Match: ${locationMatch}, Total Score: ${totalMatchScore}`);
       return { ...job, matchScore: totalMatchScore };
     }));
 
