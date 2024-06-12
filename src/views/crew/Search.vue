@@ -199,8 +199,12 @@ onMounted(() => {
 <template>
   <div class="viewcontainer">
     <SearchFilter @search="handleSearch" />
+
     <div class="jobs-container">
-      <div v-if="loading" class="loading">Loading...</div>
+      <div v-if="loading" class="viewcontainer__jobs">
+        <!-- Skeleton Loader for each job placeholder -->
+        <SearchJob v-for="n in 15" :key="n" :job="null" />
+      </div>
       <div v-else>
         <div class="viewcontainer__jobs">
           <SearchJob v-for="job in filteredJobs" :key="job.id" :job="job" />
@@ -218,7 +222,6 @@ onMounted(() => {
   align-items: flex-start;
   gap: 40px;
 }
-
 
 .jobs-container {
   display: flex;
@@ -270,5 +273,25 @@ onMounted(() => {
 
 .pagination__button:disabled {
   opacity: 0;
+}
+
+/* SKELETON LOADER */
+.container.skeleton {
+  width: calc(33.333% - 16px);
+  /* 3 items per row */
+  height: 282px;
+  background-color: var(--neutral-20);
+  border-radius: 4px;
+  animation: pulse 0.2s infinite alternate;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 </style>

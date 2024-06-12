@@ -38,7 +38,7 @@ const closeJobPop = () => {
 
 <template>
     <!-- Skeleton loading -->
-    <div v-if="loading" class="container skeleton"></div>
+    <div v-if="loading || !job" class="container skeleton"></div>
 
     <div v-else class="container" @click="openJobPop">
         <div class="container__info">
@@ -53,7 +53,8 @@ const closeJobPop = () => {
                     <div class="container__mid__data__date">
                         <Tag class="date" type="big">
                             <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, {
-                                month: 'long' }) }}</p>
+                                month: 'long'
+                            }) }}</p>
                         </Tag>
                     </div>
                     <div class="container__mid__data__location">
@@ -88,21 +89,6 @@ p {
 /* date */
 .date {
     height: 24px !important;
-}
-
-/* SKELETON */
-.container.skeleton {
-    animation: pulse 0.2s infinite alternate;
-}
-
-@keyframes pulse {
-    0% {
-        opacity: 0.8;
-    }
-
-    100% {
-        opacity: 1;
-    }
 }
 
 /* GENERAL */
