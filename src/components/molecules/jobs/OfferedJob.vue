@@ -1,11 +1,13 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+import setupAxios from '../../../setupAxios';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import Tag from '../../atoms/items/Tag.vue';
-import { IconoirProvider, Calendar } from '@iconoir/vue';
-import { onMounted, ref } from 'vue';
-import setupAxios from '../../../setupAxios';
+import JobPop from '../popups/JobPop.vue';
 
 const jobs = ref([]);
+const selectedJob = ref(null);
+const isJobPopVisible = ref(false);
 const axiosInstance = setupAxios();
 
 const fetchJobs = async () => {
@@ -34,11 +36,11 @@ const fetchJobs = async () => {
         const businessDetailsResponses = await Promise.all(businessDetailsPromises);
 
         jobs.value = offeredJobs.map((job, index) => {
-            const businessResponse = businessDetailsResponses[index].data;
+            const businessResponse = businessDetailsResponses[index]?.data;
             return {
                 ...job,
-                businessImage: businessResponse.data.business.businessInfo.logo,
-                businessName: businessResponse.data.business.businessInfo.companyName,
+                businessImage: businessResponse?.data?.business?.businessInfo?.logo || 'https://placehold.co/56x56',
+                businessName: businessResponse?.data?.business?.businessInfo?.companyName || 'Unknown Company',
                 city: job.location.city,
                 country: job.location.country,
                 wage: job.wage,
@@ -65,72 +67,87 @@ const calculateDaysLeft = (dateString) => {
     return daysLeft > 0 ? daysLeft : 0;
 };
 
+const showJobDetails = (job) => {
+    selectedJob.value = job;
+    isJobPopVisible.value = true;
+};
+
+const closeJobDetails = () => {
+    isJobPopVisible.value = false;
+    selectedJob.value = null;
+};
+
+const acceptOffer = (job) => {
+    console.log('Accepted job offer:', job);
+    // Additional logic to handle accepting the job offer can be added here
+};
+
+const declineOffer = (job) => {
+    console.log('Declined job offer:', job);
+    // Additional logic to handle declining the job offer can be added here
+};
+
 onMounted(fetchJobs);
 </script>
 
 <template>
-    <IconoirProvider :icon-props="{
-        'color': 'var(--black)',
-        'width': '20',
-        'height': '20',
-        'stroke-width': '1.8'
-    }">
-        <div v-for="job in jobs" :key="job._id" id="offered__job" class="surface-tertiary radius-xs">
-            <div id="offered__job__top">
-                <div id="offered__job__top__business">
-                    <div>
-                        <img class="radius-full" :src="job.businessImage || 'https://placehold.co/56x56'"
-                            alt="Business logo">
-                    </div>
-                    <div id="offered__job__top__business__name">
-                        <p>{{ job.businessName }}</p>
-                    </div>
-                </div>
-
-                <div id="offered__job__top__right">
-                    <div id="offered__job__top__right__days">
-                        <p>{{ job.daysLeft }}</p>
-                    </div>
-                    <div id="offered__job__top__right__calendar">
-                        <Calendar />
-                    </div>
-                </div>
-            </div>
-
-            <div id="offered__job__jobTitle">
-                <p class="text-bold-l">{{ job.title }}</p>
-            </div>
-
-            <div id="offered__job__info">
-                <div id="offered__job__info__date">
-                    <Tag type="big">
-                        <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, { month: 'long' }) }}</p>
-                    </Tag>
-                </div>
-                <div id="offered__job__info__place">
-                    <div id="offered__job__info__place__city">
-                        <p class="text-reg-normal">{{ job.city }}</p>
-                    </div>
-                    <div id="offered__job__info__place__country">
-                        <p class="text-reg-s">{{ job.country }}</p>
-                    </div>
-                </div>
-            </div>
-
-            <div id="offered__job__bottom">
+    <div v-for="job in jobs" :key="job._id" id="offered__job" class="surface-tertiary radius-xs"
+        @click="showJobDetails(job)">
+        <div id="offered__job__top">
+            <div id="offered__job__top__business">
                 <div>
-                    <p class="button-l">€ {{ job.wage }}/hr</p>
+                    <img class="radius-full" :src="job.businessImage || 'https://placehold.co/56x56'"
+                        alt="Business logo">
                 </div>
-                <div id="offered__job__bottom__buttons">
-                    <NormalButton id="normalButton__details"
-                        class="button--tertiary offered__job__bottom__buttons_details" :hasIcon="false" :hasLabel="true"
-                        label="Details" iconName="" />
-                    <NormalButton id="normalButton__accept" class="button--primary offered__job__bottom__buttons_accept"
-                        :hasIcon="false" :hasLabel="true" label="Accept" iconName="" />
+                <div id="offered__job__top__business__name">
+                    <p>{{ job.businessName }}</p>
+                </div>
+            </div>
+
+            <div id="offered__job__top__right">
+                <div id="offered__job__top__right__days">
+                    <p>{{ job.daysLeft }}</p>
+                </div>
+                <div id="offered__job__top__right__calendar">
+                    <calendar-icon />
                 </div>
             </div>
         </div>
-    </IconoirProvider>
+
+        <div id="offered__job__jobTitle">
+            <p class="text-bold-l">{{ job.title }}</p>
+        </div>
+
+        <div id="offered__job__info">
+            <div id="offered__job__info__date">
+                <Tag type="big">
+                    <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, {
+                        month: 'long'
+                    }) }}</p>
+                </Tag>
+            </div>
+            <div id="offered__job__info__place">
+                <div id="offered__job__info__place__city">
+                    <p class="text-reg-normal">{{ job.city }}</p>
+                </div>
+                <div id="offered__job__info__place__country">
+                    <p class="text-reg-s">{{ job.country }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="offered__job__bottom">
+            <div id="offered__job__bottom__buttons">
+                <NormalButton id="normalButton__accept" class="button--primary offered__job__bottom__buttons_accept"
+                    :hasIcon="false" :hasLabel="true" label="Accept" iconName="" @click.stop="acceptOffer(job)" />
+                <NormalButton id="normalButton__decline" class="button--tertiary offered__job__bottom__buttons_decline"
+                    :hasIcon="false" :hasLabel="true" label="Decline" iconName="" @click.stop="declineOffer(job)" />
+            </div>
+        </div>
+    </div>
+
+    <JobPop v-if="isJobPopVisible" :job="selectedJob" :isVisible="isJobPopVisible" @close="closeJobDetails"
+        jobType="offered" />
 </template>
 
 <style scoped>
@@ -141,7 +158,7 @@ p {
 img {
     object-fit: cover;
     max-width: 24px;
-    height:24px;
+    height: 24px;
 }
 
 #offered__job {
@@ -205,8 +222,8 @@ img {
     gap: 16px;
 }
 
-.offered__job__bottom__buttons_details,
-.offered__job__bottom__buttons_accept {
+.offered__job__bottom__buttons_accept,
+.offered__job__bottom__buttons_decline {
     flex: 1;
 }
 </style>

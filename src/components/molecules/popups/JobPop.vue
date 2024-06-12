@@ -8,14 +8,14 @@ import Overlay from './Overlay.vue';
 
 const props = defineProps({
     job: Object,
-    jobType: String, // 'search', 'schedule', 'saved', 'applied'
+    jobType: String,
     isVisible: {
         type: Boolean,
         default: false,
     }
 });
 
-const emits = defineEmits(['close', 'unsave']);
+const emits = defineEmits(['close', 'apply', 'save', 'unsave', 'accept', 'decline', 'cancel']);
 
 const formatDateTime = (dateTimeString) => {
     const dateTime = new Date(dateTimeString);
@@ -30,16 +30,40 @@ const closePopup = () => {
     emits('close');
 };
 
-const handleUnsaveSuccess = () => {
-    emits('unsave', props.job._id);
+const applyJob = () => {
+    emits('apply', props.job.id);
+    closePopup();
+};
+
+const saveJob = () => {
+    emits('save', props.job.id);
+};
+
+const unsaveJob = () => {
+    emits('unsave', props.job.id);
+    closePopup();
+};
+
+const acceptJob = () => {
+    emits('accept', props.job.id);
+    closePopup();
+};
+
+const declineJob = () => {
+    emits('decline', props.job.id);
+    closePopup();
+};
+
+const cancelJob = () => {
+    emits('cancel', props.job.id);
     closePopup();
 };
 
 watch(props, () => {
     if (props.job) {
+        // Additional logic if needed
     }
 }, { immediate: true });
-
 </script>
 
 <template>
@@ -49,7 +73,7 @@ watch(props, () => {
             <div class="jobpop__top">
                 <div class="jobpop__top__row">
                     <h3>{{ job.title }}</h3>
-                    <Xmark class="jobpop__top__row__button" @click="closePopup"></Xmark>
+                    <Xmark class="jobpop__top__row__button" @click="closePopup" />
                 </div>
                 <div class="jobpop__top__business" v-if="job.employer">
                     <img :src="job.employer.image" alt="Employer Image" />
@@ -86,27 +110,32 @@ watch(props, () => {
 
             <!-- Bottom Section -->
             <div class="jobpop__bottom">
-                <div class="jobpop__bottom__buttons" v-if="jobType !== 'schedule'">
+                <div class="jobpop__bottom__buttons">
                     <!-- SEARCH BUTTONS -->
                     <LargeButton v-if="jobType === 'search'" label="Apply"
-                        class="jobpop__bottom__button button--primary" :endpoint="`/crewJobInt/${job.id}/apply`"
-                        :postData="{}" />
+                        class="jobpop__bottom__button button--primary" @click.stop="applyJob" />
                     <LargeButton v-if="jobType === 'search'" label="Save"
-                        class="jobpop__bottom__button button--tertiary" :endpoint="`/crewJobInt/${job.id}/save`"
-                        :postData="{}" />
+                        class="jobpop__bottom__button button--tertiary" @click.stop="saveJob" />
 
                     <!-- SAVED BUTTONS -->
                     <LargeButton v-if="jobType === 'saved'" label="Apply" class="jobpop__bottom__button button--primary"
-                        :endpoint="`/crewJobInt/${job._id}/apply`" :postData="{}" />
+                        @click.stop="applyJob" />
                     <LargeButton v-if="jobType === 'saved'" label="Unsave"
-                        class="jobpop__bottom__button button--tertiary" method="DELETE"
-                        :endpoint="`/crewJobInt/${job._id}/unsave`" :postData="{}" :onSuccess="handleUnsaveSuccess" />
+                        class="jobpop__bottom__button button--tertiary" @click.stop="unsaveJob" />
 
-
-
+                    <!-- APPLIED BUTTONS -->
                     <LargeButton v-if="jobType === 'applied'" label="Cancel"
-                        class="jobpop__bottom__button button--tertiary " method="DELETE"
-                        :endpoint="`/crewJobInt/${job.applicationId}`" />
+                        class="jobpop__bottom__button button--tertiary" @click.stop="declineJob" />
+
+                    <!-- OFFERED BUTTONS -->
+                    <LargeButton v-if="jobType === 'offered'" label="Accept"
+                        class="jobpop__bottom__button button--primary" @click.stop="acceptJob" />
+                    <LargeButton v-if="jobType === 'offered'" label="Decline"
+                        class="jobpop__bottom__button button--tertiary" @click.stop="declineJob" />
+
+                    <!-- ONGOING BUTTONS -->
+                    <LargeButton v-if="jobType === 'ongoing'" label="Cancel"
+                        class="jobpop__bottom__button button--tertiary" @click.stop="cancelJob" />
                 </div>
             </div>
         </div>
@@ -190,7 +219,6 @@ p {
     margin-top: 4px;
 }
 
-
 /* MIDDLE */
 .jobpop__mid {
     display: flex;
@@ -203,7 +231,6 @@ p {
     display: flex;
     flex-direction: column;
     gap: 16px;
-
 }
 
 .jobpop__mid__details__heading {
@@ -211,7 +238,7 @@ p {
     padding-bottom: 2px;
 }
 
-.jobpop__attachements {
+.jobpop__attachments {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -225,7 +252,6 @@ p {
     display: flex;
     flex-direction: column;
     gap: 16px;
-
 }
 
 /* BOTTOM */
