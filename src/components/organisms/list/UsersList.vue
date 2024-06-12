@@ -141,7 +141,7 @@ p {
 }
 
 .list__body__row {
-    padding: 8px 0px;
+    padding: 8px;
 }
 
 .list__header__item {
@@ -150,10 +150,6 @@ p {
 
 .list__header {
     padding: 8px 16px 8px 16px;
-}
-
-.list__body__row {
-    padding: 8px;
 }
 
 .list__body__row div:first-child {
