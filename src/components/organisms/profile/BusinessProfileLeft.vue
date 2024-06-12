@@ -12,7 +12,7 @@ const props = defineProps({
 
 <template>
     <div class="profileleft">
-        <BusinessProfileInfo :business="user" />
+        <BusinessProfileInfo :business="business" />
     </div>
 </template>
 

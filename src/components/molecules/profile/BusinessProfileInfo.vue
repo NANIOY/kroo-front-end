@@ -23,7 +23,6 @@ watchEffect(() => {
         logo.value = props.business.businessInfo.logo || '';
     }
 });
-
 </script>
 
 <template>

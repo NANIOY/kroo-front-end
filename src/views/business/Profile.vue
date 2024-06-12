@@ -7,7 +7,7 @@ const props = defineProps(['name', 'func', 'profileImage']);
 const userId = sessionStorage.getItem('userId');
 const name = ref(props.name);
 
-const businessName = ref('');
+const business = ref(null);
 const hasBusiness = ref(false);
 
 const axiosInstance = setupAxios();
@@ -24,19 +24,19 @@ const fetchUserData = async () => {
         const businessResponse = await axiosInstance.get(`/business/${businessDataId}`);
         console.log('businessResponse:', businessResponse.data);
         if (businessResponse && businessResponse.data) {
-          businessName.value = businessResponse.data.data.business.businessInfo.companyName;
+          business.value = businessResponse.data.data.business;
           hasBusiness.value = true;
         } else {
-          businessName.value = '';
+          business.value = null;
           hasBusiness.value = false;
         }
       } catch (err) {
         console.error('Fetching business data failed:', err);
-        businessName.value = '';
+        business.value = null;
         hasBusiness.value = false;
       }
     } else {
-      businessName.value = '';
+      business.value = null;
       hasBusiness.value = false;
     }
   } catch (error) {
@@ -47,14 +47,16 @@ const fetchUserData = async () => {
 onMounted(() => {
   fetchUserData();
 });
-
 </script>
 
-
 <template>
-    <p>{{ businessName }}</p>
+  <div v-if="hasBusiness">
+    <BusinessProfileLeft :business="business" />
+  </div>
+  <div v-else>
+    <p>No business data available</p>
+  </div>
 </template>
 
 
-<style scoped>
-</style>
+<style scoped></style>
