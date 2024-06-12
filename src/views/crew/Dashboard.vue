@@ -107,6 +107,7 @@ const fetchJobSuggestions = async () => {
     if (!user) return;
 
     const userFunctions = user.crewData?.basicInfo?.functions || [];
+    const userSkills = user.crewData?.profileDetails?.skills || [];
 
     const response = await axiosInstance.get('/crewjob/jobs');
     const jobs = response.data.data.jobs.map(job => ({
@@ -128,14 +129,15 @@ const fetchJobSuggestions = async () => {
     }));
 
     // sort jobs based on user functions
-    fetchedJobs.value = jobs.sort((a, b) => {
-      const aMatch = userFunctions.includes(a.jobFunction);
-      const bMatch = userFunctions.includes(b.jobFunction);
-
-      if (aMatch && !bMatch) return -1;
-      if (!aMatch && bMatch) return 1;
-      return 0;
-    });
+    fetchedJobs.value = jobs.map(job => {
+      const functionMatch = userFunctions.includes(job.jobFunction) ? 2 : 0; // 2 points for function match
+      const skillMatchCount = job.skills.reduce((count, skill) => {
+        return count + (userSkills.includes(skill) ? 1 : 0); // 1 point for each skill match
+      }, 0);
+      const totalMatchScore = functionMatch + skillMatchCount;
+      return { ...job, matchScore: totalMatchScore };
+    })
+      .sort((a, b) => b.matchScore - a.matchScore); // sort by match score
 
   } catch (error) {
     console.error('Error fetching jobs:', error);
