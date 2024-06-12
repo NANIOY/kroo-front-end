@@ -15,7 +15,7 @@ const props = defineProps({
     }
 });
 
-const emits = defineEmits(['close', 'apply', 'save', 'unsave', 'accept', 'decline']);
+const emits = defineEmits(['close', 'apply', 'save', 'unsave', 'accept', 'decline', 'cancel']);
 
 const formatDateTime = (dateTimeString) => {
     const dateTime = new Date(dateTimeString);
@@ -51,6 +51,11 @@ const acceptJob = () => {
 
 const declineJob = () => {
     emits('decline', props.job.id);
+    closePopup();
+};
+
+const cancelJob = () => {
+    emits('cancel', props.job.id);
     closePopup();
 };
 
@@ -120,14 +125,17 @@ watch(props, () => {
 
                     <!-- APPLIED BUTTONS -->
                     <LargeButton v-if="jobType === 'applied'" label="Cancel"
-                        class="jobpop__bottom__button button--tertiary" method="DELETE"
-                        :endpoint="`/crewJobInt/${job.applicationId}`" />
+                        class="jobpop__bottom__button button--tertiary" @click.stop="declineJob" />
 
                     <!-- OFFERED BUTTONS -->
                     <LargeButton v-if="jobType === 'offered'" label="Accept"
                         class="jobpop__bottom__button button--primary" @click.stop="acceptJob" />
                     <LargeButton v-if="jobType === 'offered'" label="Decline"
                         class="jobpop__bottom__button button--tertiary" @click.stop="declineJob" />
+
+                    <!-- ONGOING BUTTONS -->
+                    <LargeButton v-if="jobType === 'ongoing'" label="Cancel"
+                        class="jobpop__bottom__button button--tertiary" @click.stop="cancelJob" />
                 </div>
             </div>
         </div>
@@ -211,7 +219,6 @@ p {
     margin-top: 4px;
 }
 
-
 /* MIDDLE */
 .jobpop__mid {
     display: flex;
@@ -224,7 +231,6 @@ p {
     display: flex;
     flex-direction: column;
     gap: 16px;
-
 }
 
 .jobpop__mid__details__heading {
@@ -232,7 +238,7 @@ p {
     padding-bottom: 2px;
 }
 
-.jobpop__attachements {
+.jobpop__attachments {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -246,7 +252,6 @@ p {
     display: flex;
     flex-direction: column;
     gap: 16px;
-
 }
 
 /* BOTTOM */

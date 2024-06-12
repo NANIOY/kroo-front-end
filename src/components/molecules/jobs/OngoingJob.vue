@@ -45,7 +45,7 @@ const fetchJobs = async () => {
                     };
                 }
             }
-        });
+        }).filter(job => job !== undefined);
 
     } catch (error) {
         console.error('Failed to fetch active jobs or business details:', error);
@@ -65,6 +65,24 @@ const showJobDetails = (job) => {
 const closeJobDetails = () => {
     isJobPopVisible.value = false;
     selectedJob.value = null;
+};
+
+const cancelJob = async (jobId) => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+    if (!token) {
+        console.error('Authentication token is missing');
+        return;
+    }
+
+    try {
+        await axiosInstance.delete(`/crewJob/${jobId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        fetchJobs(); // Refresh the job list after cancelling a job
+    } catch (error) {
+        console.error('Failed to cancel the job:', error);
+    }
 };
 
 onMounted(fetchJobs);
@@ -94,7 +112,8 @@ onMounted(fetchJobs);
                 <div id="ongoing__job__info__date">
                     <Tag type="big">
                         <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, {
-                            month: 'long'
+                            month:
+                                'long'
                         }) }}</p>
                     </Tag>
                 </div>
@@ -110,14 +129,14 @@ onMounted(fetchJobs);
 
             <div id="ongoing__job__buttons">
                 <NormalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
-                    :hasLabel="true" label="Cancel" iconName="" :hasRequest="false" />
+                    :hasLabel="true" label="Cancel" iconName="" @click.stop="cancelJob(job._id)" />
                 <NormalButton id="normalButton__details" class="button--primary" :hasIcon="false" :hasLabel="true"
-                    label="Details" iconName="" :hasRequest="false" />
+                    label="Details" iconName="" @click.stop="showJobDetails(job)" />
             </div>
         </div>
 
         <JobPop v-if="isJobPopVisible" :job="selectedJob" :isVisible="isJobPopVisible" @close="closeJobDetails"
-            jobType="ongoing" />
+            @cancel="cancelJob" jobType="ongoing" />
     </div>
 </template>
 
