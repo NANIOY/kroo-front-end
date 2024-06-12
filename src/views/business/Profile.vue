@@ -1,9 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
 import setupAxios from '../../setupAxios';
-import ProfileLeft from '../../components/organisms/profile/ProfileLeft.vue';
-import ProfileRight from '../../components/organisms/profile/ProfileRight.vue';
+import BusinessProfileLeft from '../../components/organisms/profile/BusinessProfileLeft.vue';
 
 const props = defineProps(['name', 'func', 'profileImage']);
 const userId = sessionStorage.getItem('userId');
@@ -54,10 +52,7 @@ onMounted(() => {
 
 
 <template>
-  <div>
-    <ProfileLeft :name="name" :profileImage="profileImage" />
-    <ProfileRight :hasBusiness="hasBusiness" :businessName="businessName" />
-  </div>
+    <p>{{ businessName }}</p>
 </template>
 
 
