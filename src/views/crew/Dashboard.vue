@@ -7,7 +7,6 @@ import ScheduleCard from '../../components/molecules/dashboard/ScheduleCard.vue'
 import Upgrade from '../../components/molecules/dashboard/Upgrade.vue';
 import TransparentButton from '../../components/atoms/buttons/TransparentButton.vue';
 import JobPop from '../../components/molecules/popups/JobPop.vue';
-import Overlay from '../../components/molecules/popups/Overlay.vue';
 import setupAxios from '../../setupAxios';
 
 import { useRouter } from 'vue-router';
@@ -18,6 +17,7 @@ const router = useRouter();
 const fetchedJobs = ref([]);
 const activeJobs = ref([]);
 const selectedJob = ref(null);
+const isJobPopVisible = ref(false);
 
 // NAVIGATION FUNCTIONS
 const goToTracker = () => {
@@ -87,13 +87,14 @@ const fetchJobSuggestions = async () => {
   }
 };
 
-// Open job popup when job is clicked
+// open job popup when job is clicked
 const openJobPop = (job) => {
   selectedJob.value = job;
+  isJobPopVisible.value = true;
 };
 
-// Close job popup
 const closeJobPop = () => {
+  isJobPopVisible.value = false;
   selectedJob.value = null;
 };
 
@@ -106,7 +107,7 @@ onMounted(() => {
 <template>
   <div class="dashboard">
     <div class="dashboard__left">
-      <div class="dashboard__left__block">
+      <div class="dashboard__left__block" v-if="activeJobs.length">
         <div class="dashboard__left__header">
           <h5>Active Jobs</h5>
           <TransparentButton @click="goToTracker"
@@ -114,16 +115,9 @@ onMounted(() => {
             label="All jobs" iconName="NavArrowRight" iconPosition="right" />
         </div>
         <div class="dashboard__left__block--active__jobs">
-          <template v-if="activeJobs.length">
-            <JobCard v-for="(job, index) in activeJobs" :key="index" :date="job.date" :time="job.time"
-              :jobFunction="job.jobFunction" :city="job.location.city"
-              :street="job.location.address || job.location.street" :cardType="index === 0 ? 'highlight' : 'default'" />
-          </template>
-          <template v-else>
-            <div class="no-active-jobs">
-              <p>You don't have any active jobs at the moment.</p>
-            </div>
-          </template>
+          <JobCard v-for="(job, index) in activeJobs" :key="index" :date="job.date" :time="job.time"
+            :jobFunction="job.jobFunction" :city="job.location.city"
+            :street="job.location.address || job.location.street" :cardType="index === 0 ? 'highlight' : 'default'" />
         </div>
       </div>
 
@@ -134,8 +128,10 @@ onMounted(() => {
             class="dashboard__left__header__button dashboard__left__header__button--sug" hasLabel="true"
             label="Search more" iconName="NavArrowRight" iconPosition="right" />
         </div>
-        <div class="dashboard__left__block--sug__jobs">
-          <JobSug v-for="(job, index) in fetchedJobs.slice(0, 4)" :key="index" :job="job" @jobClick="openJobPop" />
+        <div
+          :class="{ 'dashboard__left__block--sug__jobs': true, 'dashboard__left__block--sug__jobs--wide': !activeJobs.length }">
+          <JobSug v-for="(job, index) in fetchedJobs.slice(0, activeJobs.length ? 4 : 8)" :key="index" :job="job"
+            @jobClick="openJobPop(job)" />
         </div>
       </div>
     </div>
@@ -154,9 +150,8 @@ onMounted(() => {
       </div>
       <Upgrade @click="goToUpgrade" />
     </div>
-    <Overlay v-if="selectedJob" @overlayClick="closeJobPop">
-      <JobPop v-if="selectedJob" :job="selectedJob" jobType="search" />
-    </Overlay>
+    <JobPop v-if="isJobPopVisible" :job="selectedJob" jobType="search" :isVisible="isJobPopVisible"
+      @close="closeJobPop" />
   </div>
 </template>
 
@@ -192,10 +187,15 @@ onMounted(() => {
   gap: 16px;
 }
 
+.dashboard__left__block--sug__jobs--wide {
+  gap: 28px;
+}
+
 .dashboard__left__block--active__jobs,
 .dashboard__right__schedule {
   gap: 24px;
 }
+
 
 /* GENERAL */
 .dashboard {
@@ -234,16 +234,17 @@ h5 {
   grid-template-columns: repeat(2, 1fr);
 }
 
-/* Placeholder for no active jobs */
 .no-active-jobs {
-  min-height: 80px;
+  width: 100%;
+  height: 304px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--black);
   border: 1px dashed var(--light-gray);
   border-radius: 8px;
-  padding: 16px;
+  text-align: center;
+  font-size: 1.2em;
 }
 
 /* RIGHT */
