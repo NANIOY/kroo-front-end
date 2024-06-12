@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import moment from 'moment';
 import JobCard from '../../components/molecules/dashboard/JobCard.vue';
 import JobSug from '../../components/molecules/dashboard/JobSug.vue';
 import Week from '../../components/molecules/dashboard/Week.vue';
@@ -30,7 +31,46 @@ const goToUpgrade = () => {
   router.push('/upgrade');
 };
 
-// Fetch active jobs
+// fetch user data
+const fetchUserData = async () => {
+  const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+  const userId = sessionStorage.getItem('userId');
+  if (!token || !userId) {
+    console.error('Authentication token or user ID is missing');
+    return null;
+  }
+
+  try {
+    const userResponse = await axiosInstance.get(`/user/${userId}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const userData = userResponse.data.data.user;
+    if (!userData) {
+      console.error('User data is missing');
+      return null;
+    }
+
+    const crewDataId = userData.crewData?._id;
+    if (crewDataId) {
+      const crewResponse = await axiosInstance.get(`/crew/${crewDataId}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const crewData = crewResponse.data.data;
+      if (crewData && crewData.basicInfo) {
+        userData.crewData = crewData;
+      } else {
+        console.error('Crew data is missing');
+      }
+    }
+
+    return userData;
+  } catch (error) {
+    console.error('Failed to fetch user data:', error);
+    return null;
+  }
+};
+
+// fetch active jobs
 const fetchActiveJobs = async () => {
   const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
   if (!token) {
@@ -43,7 +83,7 @@ const fetchActiveJobs = async () => {
       headers: { 'Authorization': `Bearer ${token}` }
     });
 
-    // Sort active jobs based on their dates
+    // sort active jobs based on their dates
     activeJobs.value = activeJobsResponse.data.activeJobs
       .map(job => ({
         ...job,
@@ -61,17 +101,59 @@ const fetchActiveJobs = async () => {
   }
 };
 
-// Fetch job suggestions
+// fetch coordinates for a city and country
+const getCoordinates = async (city, country) => {
+  try {
+    const response = await axiosInstance.get('/geo/coordinates', {
+      params: {
+        city: city,
+        country: country,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching coordinates:', error);
+    return null;
+  }
+};
+
+// distance calculation between two coordinates
+const calculateDistance = (lat1, lon1, lat2, lon2) => {
+  const toRadians = (degree) => degree * (Math.PI / 180);
+  const R = 6371; // earth radius in km
+  const dLat = toRadians(lat2 - lat1); // lat2 - lat1
+  const dLon = toRadians(lon2 - lon1); // lon2 - lon1
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c; // distance in km
+};
+
+// fetch job suggestions based on user data
 const fetchJobSuggestions = async () => {
   try {
+    const user = await fetchUserData();
+    if (!user) return;
+
+    const userFunctions = user.crewData?.basicInfo?.functions || [];
+    const userSkills = user.crewData?.profileDetails?.skills || [];
+    const userCity = user.crewData?.profileDetails?.city || '';
+    const userCountry = user.crewData?.profileDetails?.country || '';
+    const userWorkRadius = user.crewData?.profileDetails?.workRadius || 0;
+
+    // get user coordinates based on city and country
+    const userCoords = await getCoordinates(userCity, userCountry);
+    if (!userCoords) return;
+
     const response = await axiosInstance.get('/crewjob/jobs');
-    fetchedJobs.value = response.data.data.jobs.map(job => ({
+    const jobs = response.data.data.jobs.map(job => ({
       ...job,
       id: job._id
     }));
 
-    // Fetch employer details for each job based on businessId
-    await Promise.all(fetchedJobs.value.map(async (job) => {
+    // fetch employer details for each job
+    await Promise.all(jobs.map(async (job) => {
       try {
         const businessResponse = await axiosInstance.get(`/business/${job.businessId}`);
         job.employer = {
@@ -82,6 +164,83 @@ const fetchJobSuggestions = async () => {
         console.error('Error fetching employer details:', error);
       }
     }));
+
+    // process job matches
+    const jobMatches = await Promise.all(jobs.map(async (job) => {
+      const functionMatch = userFunctions.includes(job.jobFunction) ? 4 : 0; // 4 points for function match
+      const skillMatchCount = functionMatch > 0 ? job.skills.reduce((count, skill) => {
+        return count + (userSkills.includes(skill) ? 1 : 0); // 1 point for each skill match
+      }, 0) : 0; // 0 skill points if function doesn't match
+
+      // calculate location match
+      const jobCoords = await getCoordinates(job.location.city, job.location.country);
+      let locationMatch = 0;
+      if (jobCoords) {
+        const distance = calculateDistance(userCoords.lat, userCoords.lon, jobCoords.lat, jobCoords.lon);
+        locationMatch = distance <= userWorkRadius ? (functionMatch > 0 ? 3 : 1) : 0; // 3 points if within work radius and function matches, 1 point if function doesn't match
+      }
+
+      // fetch business details to get languages
+      let languageMatch = 0;
+      if (functionMatch > 0) { // only consider language match if function matches
+        try {
+          const businessResponse = await axiosInstance.get(`/business/${job.businessId}`);
+          const businessLanguages = businessResponse.data.data.business.businessInfo.languages || [];
+          const userLanguages = user.crewData?.profileDetails?.languages || [];
+          languageMatch = businessLanguages.some(lang => userLanguages.includes(lang)) ? 2 : 0; // 2 points if at least one language matches
+        } catch (error) {
+          console.error('Error fetching business details:', error);
+        }
+      }
+
+      // fetch user events to check availability
+      let availabilityMatch = 0;
+      let overlaps = [];
+      try {
+        const userId = sessionStorage.getItem('userId');
+        const eventsResponse = await axiosInstance.get(`/calendar/google/events?userId=${userId}`);
+        const events = eventsResponse.data;
+
+        const jobStart = moment(job.date);
+        const jobEnd = moment(jobStart).add(2, 'hours'); // assuming each job is 2 hours long, adjust as necessary
+
+        const isAvailable = !events.some(event => {
+          const eventStartStr = event.start.dateTime || event.start.date;
+          const eventEndStr = event.end.dateTime || event.end.date;
+
+          const eventStart = moment(eventStartStr);
+          const eventEnd = moment(eventEndStr);
+
+          if (!eventStart.isValid() || !eventEnd.isValid()) {
+            console.error('Invalid event dates:', event);
+            return false;
+          }
+
+          const overlap = (jobStart.isBefore(eventEnd) && jobEnd.isAfter(eventStart));
+          if (overlap) {
+            overlaps.push({ eventStart: eventStart.toISOString(), eventEnd: eventEnd.toISOString() });
+          }
+          return overlap;
+        });
+
+        // calculate availability match points
+        if (isAvailable) {
+          availabilityMatch = 5; // 5 points if no overlap
+        } else {
+          availabilityMatch = functionMatch > 0 ? 0 : 2; // 2 points if overlap and no function match
+        }
+
+      } catch (error) {
+        console.error('Error fetching user events:', error);
+      }
+
+      const totalMatchScore = functionMatch + skillMatchCount + locationMatch + languageMatch + availabilityMatch;
+      return { ...job, matchScore: totalMatchScore };
+    }));
+
+    // sort job matches based on match score
+    fetchedJobs.value = jobMatches.sort((a, b) => b.matchScore - a.matchScore);
+
   } catch (error) {
     console.error('Error fetching jobs:', error);
   }
