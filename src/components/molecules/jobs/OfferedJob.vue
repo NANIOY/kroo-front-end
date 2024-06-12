@@ -77,6 +77,16 @@ const closeJobDetails = () => {
     selectedJob.value = null;
 };
 
+const acceptOffer = (job) => {
+    // Logic for accepting the job offer
+    console.log('Accepted job offer:', job);
+};
+
+const declineOffer = (job) => {
+    // Logic for declining the job offer
+    console.log('Declined job offer:', job);
+};
+
 onMounted(fetchJobs);
 </script>
 
@@ -113,7 +123,8 @@ onMounted(fetchJobs);
                 <Tag type="big">
                     <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, {
                         month:
-                        'long' }) }}</p>
+                            'long'
+                    }) }}</p>
                 </Tag>
             </div>
             <div id="offered__job__info__place">
@@ -133,8 +144,6 @@ onMounted(fetchJobs);
             <div id="offered__job__bottom__buttons">
                 <NormalButton id="normalButton__details" class="button--tertiary offered__job__bottom__buttons_details"
                     :hasIcon="false" :hasLabel="true" label="Details" iconName="" />
-                <NormalButton id="normalButton__accept" class="button--primary offered__job__bottom__buttons_accept"
-                    :hasIcon="false" :hasLabel="true" label="Accept" iconName="" />
             </div>
         </div>
     </div>
@@ -216,7 +225,8 @@ img {
 }
 
 .offered__job__bottom__buttons_details,
-.offered__job__bottom__buttons_accept {
+.offered__job__bottom__buttons_accept,
+.offered__job__bottom__buttons_decline {
     flex: 1;
 }
 </style>
