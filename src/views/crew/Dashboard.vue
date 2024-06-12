@@ -140,6 +140,7 @@ const fetchJobSuggestions = async () => {
     const userCity = user.crewData?.profileDetails?.city || '';
     const userCountry = user.crewData?.profileDetails?.country || '';
     const userWorkRadius = user.crewData?.profileDetails?.workRadius || 0;
+    const userLanguages = user.crewData?.profileDetails?.languages || [];
 
     // get user coordinates based on city and country
     const userCoords = await getCoordinates(userCity, userCountry);
@@ -179,8 +180,18 @@ const fetchJobSuggestions = async () => {
         locationMatch = distance <= userWorkRadius ? (functionMatch > 0 ? 3 : 1) : 0; // 3 points if within work radius and function matches, 1 point if function doesn't match
       }
 
+      let languageMatch = 0;
+      try {
+        const businessResponse = await axiosInstance.get(`/business/${job.businessId}`);
+        const businessLanguages = businessResponse.data.data.business.businessInfo.languages || [];
+        const userLanguages = user.crewData?.profileDetails?.languages || [];
+        languageMatch = businessLanguages.some(lang => userLanguages.includes(lang)) ? 2 : 0; // 2 points if at least one language matches
+      } catch (error) {
+        console.error('Error fetching business details:', error);
+      }
 
-      const totalMatchScore = functionMatch + skillMatchCount + locationMatch;
+      const totalMatchScore = functionMatch + skillMatchCount + locationMatch + languageMatch;
+      console.log(`Job: ${job.title}, Function Match: ${functionMatch}, Skill Match: ${skillMatchCount}, Location Match: ${locationMatch}, Language Match: ${languageMatch}, Total Score: ${totalMatchScore}`);
       return { ...job, matchScore: totalMatchScore };
     }));
 
