@@ -1,5 +1,5 @@
 <script>
-import { NavArrowDown, NavArrowUp, NavArrowLeft, NavArrowRight, User, HandCard, Bell, Accessibility, Behance, Tiktok, Threads, X, Linkedin, Youtube, Instagram, Facebook, Dribbble, MapPin, AtSign, CheckCircle, MoreHoriz, Xmark, Learning, CinemaOld, DragHandGesture, Attachment, Calendar, Search, Plus, Clock, BadgeCheck, EditPencil } from '@iconoir/vue';
+import { NavArrowDown, NavArrowUp, NavArrowLeft, NavArrowRight, User, HandCard, Bell, Accessibility, Behance, Tiktok, Threads, X, Linkedin, Youtube, Instagram, Facebook, Dribbble, MapPin, AtSign, CheckCircle, MoreHoriz, Xmark, Learning, CinemaOld, DragHandGesture, Attachment, Calendar, Search, Plus, Clock, BadgeCheck, EditPencil, ShareAndroid } from '@iconoir/vue';
 import { useRouter } from 'vue-router';
 import setupAxios from '../../../setupAxios.js'
 
@@ -103,7 +103,8 @@ export default {
         Plus,
         Clock,
         BadgeCheck,
-        EditPencil
+        EditPencil,
+        ShareAndroid
     }
 };
 </script>
