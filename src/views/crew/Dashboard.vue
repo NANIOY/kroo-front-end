@@ -106,7 +106,7 @@ onMounted(() => {
 <template>
   <div class="dashboard">
     <div class="dashboard__left">
-      <div class="dashboard__left__block">
+      <div class="dashboard__left__block" v-if="activeJobs.length">
         <div class="dashboard__left__header">
           <h5>Active Jobs</h5>
           <TransparentButton @click="goToTracker"
@@ -114,16 +114,9 @@ onMounted(() => {
             label="All jobs" iconName="NavArrowRight" iconPosition="right" />
         </div>
         <div class="dashboard__left__block--active__jobs">
-          <template v-if="activeJobs.length">
-            <JobCard v-for="(job, index) in activeJobs" :key="index" :date="job.date" :time="job.time"
-              :jobFunction="job.jobFunction" :city="job.location.city"
-              :street="job.location.address || job.location.street" :cardType="index === 0 ? 'highlight' : 'default'" />
-          </template>
-          <template v-else>
-            <div class="no-active-jobs">
-              <p>You don't have any active jobs at the moment.</p>
-            </div>
-          </template>
+          <JobCard v-for="(job, index) in activeJobs" :key="index" :date="job.date" :time="job.time"
+            :jobFunction="job.jobFunction" :city="job.location.city"
+            :street="job.location.address || job.location.street" :cardType="index === 0 ? 'highlight' : 'default'" />
         </div>
       </div>
 
@@ -134,8 +127,10 @@ onMounted(() => {
             class="dashboard__left__header__button dashboard__left__header__button--sug" hasLabel="true"
             label="Search more" iconName="NavArrowRight" iconPosition="right" />
         </div>
-        <div class="dashboard__left__block--sug__jobs">
-          <JobSug v-for="(job, index) in fetchedJobs.slice(0, 4)" :key="index" :job="job" @jobClick="openJobPop" />
+        <div
+          :class="{ 'dashboard__left__block--sug__jobs': true, 'dashboard__left__block--sug__jobs--wide': !activeJobs.length }">
+          <JobSug v-for="(job, index) in fetchedJobs.slice(0, activeJobs.length ? 4 : 8)" :key="index" :job="job"
+            @jobClick="openJobPop" />
         </div>
       </div>
     </div>
@@ -192,10 +187,15 @@ onMounted(() => {
   gap: 16px;
 }
 
+.dashboard__left__block--sug__jobs--wide {
+  gap: 28px;
+}
+
 .dashboard__left__block--active__jobs,
 .dashboard__right__schedule {
   gap: 24px;
 }
+
 
 /* GENERAL */
 .dashboard {
@@ -234,16 +234,17 @@ h5 {
   grid-template-columns: repeat(2, 1fr);
 }
 
-/* Placeholder for no active jobs */
 .no-active-jobs {
-  min-height: 80px;
+  width: 100%;
+  height: 304px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--black);
   border: 1px dashed var(--light-gray);
   border-radius: 8px;
-  padding: 16px;
+  text-align: center;
+  font-size: 1.2em;
 }
 
 /* RIGHT */
