@@ -26,13 +26,13 @@ watchEffect(() => {
 </script>
 
 <template>
-    <div>
-        <div>
-            <ProfileImg :profileImage="logo" />
-            <div>
+    <div class="profile__container">
+        <div class="profile__container__wrapper text-white">
+            <ProfileImg class="profile__container__wrapper__profile" :profileImage="logo" />
+            <div class="profile__container__wrapper__info">
                 <h4>{{ companyName }}</h4>
-                <div>
-                    <Tag class="function" v-for="(type, index) in mediaTypes" :key="index" type="colored">{{ type }}</Tag>
+                <div class="profile__types">
+                    <Tag class="types" v-for="(type, index) in mediaTypes" :key="index" type="colored">{{ type }}</Tag>
                 </div>
                 <div>
                     <p>{{ bio }}</p>
@@ -41,3 +41,31 @@ watchEffect(() => {
         </div>
     </div>
 </template>
+
+<style scoped>
+
+
+.profile__container__wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+    gap: 24px;
+    text-align: center;
+}
+
+.profile__container__wrapper__info {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+}
+
+.profile__types {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+</style>
