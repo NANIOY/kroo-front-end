@@ -356,7 +356,7 @@ const closeModal = () => {
 
                 <div class="modal__buttons">
                     <LargeButton :label="props.type === 'create' ? 'Create' : 'Update'"
-                        class="button--primary modal__buttons__button" type="submit" />
+                        class="button--primary modal__buttons__button" type="submit" :hasRequest="false" />
                     <LargeButton label="Cancel" class="button--secondary modal__buttons__button" @click="closeModal" />
                 </div>
             </form>
