@@ -164,6 +164,10 @@ p {
     word-break: break-word;
 }
 
+.container__mid__data {
+    align-items: center;
+}
+
 .container__mid__data__location {
     text-align: right;
 }
