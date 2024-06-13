@@ -52,6 +52,7 @@ watchEffect(() => {
     flex-direction: column;
     gap: 24px;
     text-align: center;
+    margin-top: 140px;
 }
 
 .profile__container__wrapper__info {

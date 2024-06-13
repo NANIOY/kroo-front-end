@@ -22,6 +22,6 @@ const props = defineProps({
     height: 100vh;
     background-color: rgba(14, 15, 15, 0.96);
     margin-left: -48px;
-    padding-top: 140px;
+
 }
 </style>
