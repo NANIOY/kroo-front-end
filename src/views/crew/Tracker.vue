@@ -90,7 +90,7 @@ onMounted(fetchJobCounts);
     <div class="tracker__container">
       <h6>OFFERED &#8722; {{ jobCounts.offered }}</h6>
       <div class="tracker__container__column">
-        <OfferedJob :jobs="offeredJobs" />
+        <OfferedJob :jobs="offeredJobs" @jobAccepted="fetchJobCounts" />
       </div>
     </div>
   </div>

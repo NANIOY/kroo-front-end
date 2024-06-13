@@ -34,11 +34,11 @@ const fetchJobs = async () => {
         const businessDetailsResponses = await Promise.all(businessDetailsPromises);
 
         jobs.value = offeredJobs.map((job, index) => {
-            const businessResponse = businessDetailsResponses[index].data;
+            const businessResponse = businessDetailsResponses[index]?.data;
             return {
                 ...job,
-                businessImage: businessResponse.data.business.businessInfo.logo,
-                businessName: businessResponse.data.business.businessInfo.companyName,
+                businessImage: businessResponse?.business?.businessInfo?.logo || '',
+                businessName: businessResponse?.business?.businessInfo?.companyName || '',
                 city: job.location.city,
                 country: job.location.country,
                 wage: job.wage,
@@ -63,6 +63,26 @@ const calculateDaysLeft = (dateString) => {
     const timeDifference = offerDate.getTime() - currentDate.getTime();
     const daysLeft = Math.ceil(timeDifference / (1000 * 3600 * 24));
     return daysLeft > 0 ? daysLeft : 0;
+};
+
+const acceptJobOffer = async (jobId) => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+    if (!token) {
+        console.error('Authentication token is missing');
+        return;
+    }
+
+    try {
+        await axiosInstance.post(`/crewJobInt/offers/${jobId}/accept`, {}, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        // Update the job list after accepting the offer
+        jobs.value = jobs.value.filter(job => job._id !== jobId);
+
+    } catch (error) {
+        console.error('Failed to accept job offer:', error);
+    }
 };
 
 onMounted(fetchJobs);
@@ -104,7 +124,10 @@ onMounted(fetchJobs);
             <div id="offered__job__info">
                 <div id="offered__job__info__date">
                     <Tag type="big">
-                        <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, { month: 'long' }) }}</p>
+                        <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, {
+                            month:
+                                'long'
+                        }) }}</p>
                     </Tag>
                 </div>
                 <div id="offered__job__info__place">
@@ -126,7 +149,7 @@ onMounted(fetchJobs);
                         class="button--tertiary offered__job__bottom__buttons_details" :hasIcon="false" :hasLabel="true"
                         label="Details" iconName="" />
                     <NormalButton id="normalButton__accept" class="button--primary offered__job__bottom__buttons_accept"
-                        :hasIcon="false" :hasLabel="true" label="Accept" iconName="" />
+                        :hasIcon="false" :hasLabel="true" label="Accept" iconName="" @click="acceptJobOffer(job._id)" />
                 </div>
             </div>
         </div>
@@ -141,7 +164,7 @@ p {
 img {
     object-fit: cover;
     max-width: 24px;
-    height:24px;
+    height: 24px;
 }
 
 #offered__job {
