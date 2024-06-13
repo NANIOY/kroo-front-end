@@ -355,9 +355,12 @@ onMounted(() => {
         <div class="dashboard__right__schedule__cards">
           <ScheduleCard v-for="(event, index) in filteredEvents" :key="index" :title="event.label"
             :label="`${event.startTime} - ${event.endTime}`" :type="event.type" class="schedulecard" />
+          <div v-if="filteredEvents.length === 0" class="dashboard__right__placeholder">
+            <p class="text-reg-normal text-secondary">No events scheduled for this day.</p>
+          </div>
         </div>
       </div>
-      <Upgrade @click="goToUpgrade" />
+      <Upgrade style="flex-grow: 1;" @click="goToUpgrade" />
     </div>
     <JobPop v-if="isJobPopVisible" :job="selectedJob" jobType="search" :isVisible="isJobPopVisible"
       @close="closeJobPop" />
@@ -405,7 +408,6 @@ onMounted(() => {
   gap: 24px;
 }
 
-
 /* GENERAL */
 .dashboard {
   gap: 64px;
@@ -443,19 +445,6 @@ h5 {
   grid-template-columns: repeat(2, 1fr);
 }
 
-.no-active-jobs {
-  width: 100%;
-  height: 304px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--black);
-  border: 1px dashed var(--light-gray);
-  border-radius: 8px;
-  text-align: center;
-  font-size: 1.2em;
-}
-
 /* RIGHT */
 .dashboard__right,
 .dashboard__right__schedule {
@@ -467,13 +456,21 @@ h5 {
   overflow-y: scroll;
   overflow-x: hidden;
   scrollbar-width: none;
+  flex-grow: 1;
 }
 
 .schedulecard {
   min-height: 80px;
 }
 
-/* Skeleton Loader */
+.dashboard__right__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+/* SKELETON LOADING */
 .skeleton-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
