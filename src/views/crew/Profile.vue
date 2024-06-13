@@ -46,8 +46,6 @@ const editProfile = () => {
   <div class="profile">
     <ProfileLeft :user="user" v-if="user" />
     <ProfileRight :user="user" :currentUser="currentUser" :isCurrentUserProfile="isCurrentUserProfile" v-if="user" />
-    <button v-if="isCurrentUserProfile && currentUser.value.role === 'crew'" @click="editProfile">Edit</button>
-    <p v-else>{{ error }}</p>
   </div>
 </template>
 

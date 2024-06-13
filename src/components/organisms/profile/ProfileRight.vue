@@ -4,6 +4,7 @@ import Tabs from '../../molecules/profile/Tabs.vue';
 import Portfolio from '../../molecules/profile/Portfolio.vue';
 import About from '../../molecules/profile/About.vue';
 import Activity from '../../molecules/profile/Activity.vue';
+import NormalButton from '../../atoms/buttons/NormalButton.vue';
 
 const props = defineProps({
     user: {
@@ -34,8 +35,12 @@ watch(activeTab, (newTab) => {
 
 <template>
     <div class="profileright">
-        <Tabs :currentUser="props.currentUser" :isCurrentUserProfile="props.isCurrentUserProfile"
-            @update:activeTab="handleTabChange" />
+        <div class="profileright__top">
+            <Tabs :currentUser="props.currentUser" :isCurrentUserProfile="props.isCurrentUserProfile"
+                @update:activeTab="handleTabChange" />
+            <NormalButton class="button--primary" :hasLabel="true" label="Edit profile" iconName="EditPencil"
+                :hasRequest="false"></NormalButton>
+        </div>
         <div class="profileright__content">
             <div class="profileright__content__inner">
                 <Portfolio v-if="activeTab === 'Portfolio'" :user="props.user" />
@@ -53,6 +58,16 @@ watch(activeTab, (newTab) => {
     gap: 24px;
     width: 1166px;
     margin-top: 48px;
+}
+
+.profileright__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profileright__top .button--primary {
+    width: 16%;
 }
 
 .profileright__content {
