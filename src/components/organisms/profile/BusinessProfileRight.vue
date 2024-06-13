@@ -5,16 +5,8 @@ import Portfolio from '../../molecules/profile/Portfolio.vue';
 import BusinessAbout from '../../molecules/profile/BusinessAbout.vue';
 
 const props = defineProps({
-    user: {
+    business: {
         type: Object,
-        required: true
-    },
-    currentUser: {
-        type: Object,
-        required: true
-    },
-    isCurrentUserProfile: {
-        type: Boolean,
         required: true
     }
 });
@@ -29,17 +21,15 @@ const handleTabChange = (newTab) => {
 watch(activeTab, (newTab) => {
     console.log(`Tab changed to: ${newTab}`);
 });
-
 </script>
 
 <template>
     <div class="profileright">
-        <Tabs :currentUser="props.currentUser" :isCurrentUserProfile="props.isCurrentUserProfile"
-            @update:activeTab="handleTabChange" />
+        <Tabs :currentUser="props.business" :isCurrentUserProfile="true" @update:activeTab="handleTabChange" />
         <div class="profileright__content">
             <div class="profileright__content__inner">
-                <Portfolio v-if="activeTab === 'Portfolio'" :user="props.user" />
-                <BusinessAbout v-if="activeTab === 'About'" :user="props.user" />
+                <Portfolio v-if="activeTab === 'Portfolio'" :user="props.business" />
+                <BusinessAbout v-if="activeTab === 'About'" :business="props.business" />
             </div>
         </div>
     </div>

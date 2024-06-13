@@ -1,32 +1,31 @@
 <script setup>
+import { defineProps } from 'vue';
+import SearchJob from '../jobs/SearchJob.vue';
 import JobList from '../../organisms/list/JobList.vue';
 
+const props = defineProps({
+    business: {
+        type: Object,
+        required: true
+    }
+});
 </script>
 
 <template>
     <div class="about">
         <div class="about__top">
             <div class="about__top__bio surface-tertiary radius-s">
-                <p>Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. 
-                    Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem 
-                    ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed 
-                    scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum 
-                    dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque 
-                    ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet 
-                    consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt 
-                    purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Tincidunt sit arcu donec cursus volutpat 
-                    luctus volutpat Tincidunt sit arcu donec cursus volutpat luctus volutpat.</p>
+                <p>{{ business.businessInfo.bio }}</p>
             </div>
             <div class="about__top__work">
-                <img class="radius-s work" src="https://fakeimg.pl/1086x1177" alt="portfolio work">
+                <img class="radius-s work" :src="business.businessInfo.bannerImage" alt="portfolio work">
             </div>
         </div>
-        <JobList />
+        <JobList :jobs="business.jobs" />
     </div>
 </template>
 
 <style scoped>
-
 .about {
     display: flex;
     flex-direction: column;
@@ -63,5 +62,4 @@ p {
     max-height: 300px;
 
 }
-
 </style>

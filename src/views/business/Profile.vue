@@ -53,18 +53,16 @@ onMounted(() => {
 <template>
   <div class="profile" v-if="hasBusiness">
     <BusinessProfileLeft :business="business" />
-    <BusinessProfileRight />
+    <BusinessProfileRight :business="business" />
   </div>
   <div v-else>
     <p>No business data available</p>
   </div>
 </template>
 
-
 <style scoped>
 .profile {
   display: flex;
   gap: 80px;
 }
-
 </style>
