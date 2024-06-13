@@ -8,14 +8,14 @@ const sortField = ref('');
 const sortDirection = ref('asc');
 
 const data = ref([
-    { image:'https://placehold.co/32x32', name: 'John Doe', role: 'Producer', email: 'john@example.com', dateAdded: new Date('2023-01-01') },
-    { image:'https://placehold.co/32x32', name: 'Jane Smith', role: 'Editor', email: 'jane@example.com', dateAdded: new Date('2023-02-15') },
-    { image:'https://placehold.co/32x32', name: 'Alice Johnson', role: 'Audience', email: 'alice@example.com', dateAdded: new Date('2024-03-20') },
-    { image:'https://placehold.co/32x32', name: 'Mark Haas', role: 'Producer', email: 'mark@example.com', dateAdded: new Date('2021-03-20') },
-    { image:'https://placehold.co/32x32', name: 'Miranda Van Tielen', role: 'Editor', email: 'miranda@example.com', dateAdded: new Date('2019-03-20') },
-    { image:'https://placehold.co/32x32', name: 'Pedro Duprez', role: 'Audience', email: 'pedro.duprez1999@example.com', dateAdded: new Date('2018-03-20') },
-    { image:'https://placehold.co/32x32', name: 'Pascale Colman', role: 'Producer', email: 'pascale2014@example.com', dateAdded: new Date('2023-09-20') },
-    { image:'https://placehold.co/32x32', name: 'Christiane Rotthier', role: 'Editor', email: 'christy.rotthier1998@example.com', dateAdded: new Date('2023-05-20') },
+    { job: 'Actor needed!', location: 'Brussels, Belgium', date: new Date('2024-12-01') },
+    { job: 'Network systems engineer needed!', location: 'Berlin, Germany', date: new Date('2024-12-15') },
+    { job: 'On-set tutor', location: 'Paris, France', date: new Date('2024-12-01') },
+    { job: 'Looking for a senior technical project manager!', location: 'Leuven, Belgium', date: new Date('2025-03-02') },
+    { job: 'Studio assistant needed', location: 'London, UK', date: new Date('2025-03-05') },
+    { job: 'Good security where?', location: 'Gent, Belgium', date: new Date('2025-03-10') },
+    { job: 'Is there a music editor available somewhere?', location: 'Rome, Italy', date: new Date('2025-05-22') },
+    { job: 'Looking for a good sound designer!', location: 'Marseille, France', date: new Date('2025-05-19') },
 ]);
 
 
@@ -32,7 +32,7 @@ function sortData(field) {
         let aValue = a[field];
         let bValue = b[field];
 
-        if (field === 'dateAdded') {
+        if (field === 'date') {
             aValue = new Date(aValue).getTime();
             bValue = new Date(bValue).getTime();
         } else {
@@ -53,37 +53,28 @@ function getArrowIcon(field) {
     return NavArrowDown;
 }
 
-function removeUser(index) {
-    data.value.splice(index, 1);
-}
 
 </script>
 
 <template>
     <div class="list__container radius-s">
         <div class="list__header">
-            <div class="list__header__item list__name" @click="sortData('name')">
+            <div class="list__header__item list__jobs">
                 <div>
                     <h6>Job</h6>
                 </div>
-                <div>
-                    <component :is="getArrowIcon('name')"></component>
-                </div>
             </div>
-            <div class="list__header__item list__role" @click="sortData('role')">
+            <div class="list__header__item list__role">
                 <div>
                     <h6>Location</h6>
                 </div>
-                <div>
-                    <component :is="getArrowIcon('role')"></component>
-                </div>
             </div>
-            <div class="list__header__item list__date" @click="sortData('dateAdded')">
+            <div class="list__header__item list__date" @click="sortData('date')">
                 <div>
                     <h6>Date</h6>
                 </div>
                 <div>
-                    <component :is="getArrowIcon('dateAdded')"></component>
+                    <component :is="getArrowIcon('date')"></component>
                 </div>
             </div>
                 <div class="list__header__item list__action">
@@ -91,14 +82,14 @@ function removeUser(index) {
         </div>
         <div class="list__body">
             <div v-for="(item, index) in data" :key="item.email" class="list__body__row">
-                <div class="text-bold-normal ">
-                    {{ item.name }}
+                <div class="text-bold-normal list__job">
+                    {{ item.job }}
                 </div>
                 <div class="text-reg-normal list__body__item">
-                    {{ item.role }}
+                    {{ item.location }}
                 </div>
-                <div class="text-reg-normal">{{ item.dateAdded.toLocaleDateString() }}</div>
-                <div>
+                <div class="text-reg-normal">{{ item.date.toLocaleDateString() }}</div>
+                <div class="list__actions">
                     <NormalButton class="button--tertiary button__savejob" label="Save job"/>
                     <NormalButton class="button--primary button__apply" label="Apply"/>
                 </div>
@@ -107,11 +98,8 @@ function removeUser(index) {
     </div>
 </template>
 
+
 <style scoped>
-.list__body__row > div:nth-child(5), .list__action {
-    margin-left: auto;
-    margin-right: 8px;
-}
 
 h6 {
     font-size: 16px !important;
@@ -125,13 +113,15 @@ p {
     border: 2px solid var(--gray);
     display: flex;
     flex-direction: column;
+    height: 462px;
+    overflow-x: hidden;
+    overflow-y: scroll ;
 }
 
 .list__header,
 .list__body__row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    align-items: center;
     gap: 8px;
 }
 
@@ -139,6 +129,9 @@ p {
     font-weight: bold;
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
+    position: sticky;
+    top: 0;
+    background-color: var(--gray);
 }
 
 .list__header__item,
@@ -146,7 +139,6 @@ p {
     display: flex;
     align-items: center;
     padding: 8px;
-    text-align: center;
     overflow: hidden;
 }
 
@@ -170,19 +162,28 @@ p {
     align-items: center;
 }
 
-.list__body__row div:last-child {
-    cursor: pointer;
-}
-
-.list__name, .list__email, .list__date, .list__role {
+.list__date {
     cursor: pointer;
     user-select: none;
     width: fit-content;
 }
 
-.list__action {
-    width: fit-content;
+.list__actions {
+    display: flex;
+    gap: 16px;
 }
 
+.button__apply, .button__savejob {
+    padding: 4px 24px;
+}
+
+.list__job {
+    word-break: break-word;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}
 
 </style>
