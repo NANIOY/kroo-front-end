@@ -21,6 +21,8 @@ const selectedJob = ref(null);
 const isJobPopVisible = ref(false);
 const loading = ref(true);
 const calendarEvents = ref([]);
+const selectedDate = ref(new Date());
+const filteredEvents = ref([]);
 
 // NAVIGATION FUNCTIONS
 const goToTracker = () => {
@@ -283,9 +285,24 @@ async function fetchCalendarEvents() {
         description: event.description || 'No Description'
       };
     });
+    filterEventsBySelectedDate();
   } catch (error) {
     console.error('Failed to fetch calendar events:', error);
   }
+}
+
+function filterEventsBySelectedDate() {
+  const startOfDay = new Date(selectedDate.value);
+  startOfDay.setHours(0, 0, 0, 0);
+  const endOfDay = new Date(startOfDay);
+  endOfDay.setHours(23, 59, 59, 999);
+  filteredEvents.value = calendarEvents.value.filter(event => event.startDate >= startOfDay && event.startDate <= endOfDay);
+}
+
+
+function handleDaySelected(date) {
+  selectedDate.value = date;
+  filterEventsBySelectedDate();
 }
 
 onMounted(() => {
@@ -334,9 +351,9 @@ onMounted(() => {
 
     <div class="dashboard__right">
       <div class="dashboard__right__schedule">
-        <Week />
+        <Week @daySelected="handleDaySelected" />
         <div class="dashboard__right__schedule__cards">
-          <ScheduleCard v-for="(event, index) in calendarEvents.slice(0, 6)" :key="index" :title="event.label"
+          <ScheduleCard v-for="(event, index) in filteredEvents" :key="index" :title="event.label"
             :label="`${event.startTime} - ${event.endTime}`" :type="event.type" class="schedulecard" />
         </div>
       </div>
