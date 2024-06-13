@@ -1,6 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 
 // IMPORT DASHBOARD COMPONENTS
 import JobCardBus from '../../components/molecules/dashboard/JobCardBus.vue';
@@ -142,7 +142,6 @@ const handleDeleteJob = (jobId) => {
 
 <template>
     <div class="dashboard">
-
         <div class="dashboard__left">
             <div class="dashboard__left__block">
                 <div class="dashboard__left__header">
@@ -163,7 +162,8 @@ const handleDeleteJob = (jobId) => {
                         <JobCardBus v-for="(job, index) in activeJobs" :key="job._id"
                             :date="new Date(job.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })"
                             :title="job.title" :func="job.jobFunction" :applicants="job.applications.length.toString()"
-                            :status="'Open'" :cardType="index === 0 ? 'highlight' : 'default'" />
+                            :status="'Open'" :cardType="index === 0 ? 'highlight' : 'default'"
+                            :class="{ 'single-job': activeJobs.length === 1, 'two-jobs': activeJobs.length === 2 }" />
                     </div>
                 </div>
             </div>
@@ -253,6 +253,26 @@ const handleDeleteJob = (jobId) => {
     width: 100%;
     height: 100%;
     margin-bottom: 128px;
+}
+
+.dashboard__left__block--active__jobs {
+    width: 100%;
+}
+
+.single-job {
+    width: 100% !important;
+}
+
+.single-job .jobCard {
+    width: 100% !important;
+}
+
+.two-jobs {
+    width: 100% !important;
+}
+
+.two-jobs .jobCard {
+    width: 50% !important;
 }
 
 /* GENERAL */
