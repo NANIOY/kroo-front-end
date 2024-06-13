@@ -36,6 +36,7 @@ import NormalButton from '../../atoms/buttons/NormalButton.vue';
     height: 100%;
     background-image: url('../../../assets/img/upgrade.png');
     background-size: cover;
+    background-position: center;
 }
 
 /* CONTENT */
