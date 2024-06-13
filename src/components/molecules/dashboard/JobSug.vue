@@ -37,16 +37,14 @@ const openJobPop = () => {
 
 <template>
     <!-- Skeleton loading -->
-    <div v-if="loading" class="jobSug skeleton"></div>
+    <div v-if="loading || !job" class="jobSug skeleton"></div>
 
     <div v-else class="jobSug" @click="openJobPop">
         <div class="jobSug__top">
             <img v-if="job.employer" :src="job.employer.image" class="jobSug__top__img" alt="Business logo" width="56"
                 height="56">
             <h4 class="jobSug__top__title">{{ job.title }}</h4>
-            <IconoirProvider :icon-props="{
-                'stroke-width': '2'
-            }">
+            <IconoirProvider :icon-props="{ 'stroke-width': '2' }">
                 <TransparentButton @click.stop class="jobSug__top__save no-label" :hasIcon="true" iconName="Bookmark"
                     color="var(--blurple)" :hasRequest="true" :endpoint="`/crewJobInt/${job.id}/save`"
                     :postData="{ jobId: job.id }" />
@@ -55,7 +53,7 @@ const openJobPop = () => {
         <div class="jobSug__bot">
             <IconLabel :iconName="'MapPin'" :label="`${job.location.country}, ${job.location.city}`" size="small" />
             <span class="jobSug__bot__sep text-secondary text-reg-l">|</span>
-            <IconLabel :iconName="'Calendar'" :label=formatDate(job.date) size="small" />
+            <IconLabel :iconName="'Calendar'" :label="formatDate(job.date)" size="small" />
             <span class="jobSug__bot__sep text-secondary text-reg-l">|</span>
             <IconLabel :iconName="'Clock'" :label="job.time" size="small" />
         </div>

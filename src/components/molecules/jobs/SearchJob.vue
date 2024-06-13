@@ -13,9 +13,7 @@ const isJobPopVisible = ref(false);
 const selectedJob = ref(null);
 
 onMounted(() => {
-    setTimeout(() => {
-        loading.value = false;
-    }, 0);
+    loading.value = false;
 });
 
 // format date string to day
@@ -162,6 +160,10 @@ p {
     align-items: center;
     height: 64px;
     word-break: break-word;
+}
+
+.container__mid__data {
+    align-items: center;
 }
 
 .container__mid__data__location {

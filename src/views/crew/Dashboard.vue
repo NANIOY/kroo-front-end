@@ -19,6 +19,10 @@ const fetchedJobs = ref([]);
 const activeJobs = ref([]);
 const selectedJob = ref(null);
 const isJobPopVisible = ref(false);
+const loading = ref(true);
+const calendarEvents = ref([]);
+const selectedDate = ref(new Date());
+const filteredEvents = ref([]);
 
 const activeJobsClass = computed(() => {
   switch (activeJobs.value.length) {
@@ -252,6 +256,8 @@ const fetchJobSuggestions = async () => {
 
   } catch (error) {
     console.error('Error fetching jobs:', error);
+  } finally {
+    loading.value = false;
   }
 };
 
@@ -266,9 +272,52 @@ const closeJobPop = () => {
   selectedJob.value = null;
 };
 
+async function fetchCalendarEvents() {
+  const userId = sessionStorage.getItem('userId');
+  try {
+    const response = await axiosInstance.get(`/calendar/google/events?userId=${userId}`);
+    calendarEvents.value = response.data.map(event => {
+      const startDate = event.start.dateTime ? new Date(event.start.dateTime) : new Date(event.start.date);
+      const endDate = event.end.dateTime ? new Date(event.end.dateTime) : new Date(event.end.date);
+      const startTime = event.start.dateTime ? event.start.dateTime.split('T')[1].substring(0, 5) : 'All Day';
+      const endTime = event.end.dateTime ? event.end.dateTime.split('T')[1].substring(0, 5) : 'All Day';
+
+      return {
+        ...event,
+        date: startDate,
+        startDate: startDate,
+        endDate: endDate,
+        startTime: startTime,
+        endTime: endTime,
+        label: event.summary || 'No Title',
+        type: event.type,
+        description: event.description || 'No Description'
+      };
+    });
+    filterEventsBySelectedDate();
+  } catch (error) {
+    console.error('Failed to fetch calendar events:', error);
+  }
+}
+
+function filterEventsBySelectedDate() {
+  const startOfDay = new Date(selectedDate.value);
+  startOfDay.setHours(0, 0, 0, 0);
+  const endOfDay = new Date(startOfDay);
+  endOfDay.setHours(23, 59, 59, 999);
+  filteredEvents.value = calendarEvents.value.filter(event => event.startDate >= startOfDay && event.startDate <= endOfDay);
+}
+
+
+function handleDaySelected(date) {
+  selectedDate.value = date;
+  filterEventsBySelectedDate();
+}
+
 onMounted(() => {
   fetchActiveJobs();
   fetchJobSuggestions();
+  fetchCalendarEvents();
 });
 </script>
 
@@ -297,27 +346,31 @@ onMounted(() => {
             class="dashboard__left__header__button dashboard__left__header__button--sug" hasLabel="true"
             label="Search more" iconName="NavArrowRight" iconPosition="right" />
         </div>
-        <div
-          :class="{ 'dashboard__left__block--sug__jobs': true, 'dashboard__left__block--sug__jobs--wide': !activeJobs.length }">
-          <JobSug v-for="(job, index) in fetchedJobs.slice(0, activeJobs.length ? 4 : 8)" :key="index" :job="job"
-            @jobClick="openJobPop(job)" />
+        <div>
+          <div v-if="loading" class="skeleton-container">
+            <JobSug class="container" v-for="n in (activeJobs.length ? 4 : 8)" :key="n" :job="null" />
+          </div>
+          <div v-else
+            :class="{ 'dashboard__left__block--sug__jobs': true, 'dashboard__left__block--sug__jobs--wide': !activeJobs.length }">
+            <JobSug v-for="(job, index) in fetchedJobs.slice(0, activeJobs.length ? 4 : 8)" :key="index" :job="job"
+              @jobClick="openJobPop(job)" />
+          </div>
         </div>
       </div>
     </div>
 
     <div class="dashboard__right">
       <div class="dashboard__right__schedule">
-        <Week />
+        <Week @daySelected="handleDaySelected" />
         <div class="dashboard__right__schedule__cards">
-          <ScheduleCard title="Meeting with John" label="10:00 - 11:00" class="schedulecard" />
-          <ScheduleCard title="Design review" label="13:00 - 14:00" type="personal" class="schedulecard" />
-          <ScheduleCard title="Team meeting" label="15:00 - 16:00" class="schedulecard" />
-          <ScheduleCard title="Meeting with John" label="10:00 - 11:00" class="schedulecard" />
-          <ScheduleCard title="Design review" label="13:00 - 14:00" type="personal" class="schedulecard" />
-          <ScheduleCard title="Team meeting" label="15:00 - 16:00" class="schedulecard" />
+          <ScheduleCard v-for="(event, index) in filteredEvents" :key="index" :title="event.label"
+            :label="`${event.startTime} - ${event.endTime}`" :type="event.type" class="schedulecard" />
+          <div v-if="filteredEvents.length === 0" class="dashboard__right__placeholder">
+            <p class="text-reg-normal text-secondary">No events scheduled for this day.</p>
+          </div>
         </div>
       </div>
-      <Upgrade @click="goToUpgrade" />
+      <Upgrade style="flex-grow: 1;" @click="goToUpgrade" />
     </div>
     <JobPop v-if="isJobPopVisible" :job="selectedJob" jobType="search" :isVisible="isJobPopVisible"
       @close="closeJobPop" />
@@ -365,8 +418,6 @@ onMounted(() => {
   gap: 24px;
 }
 
-/* test */
-
 .single-job {
   width: 100% !important;
 }
@@ -382,7 +433,6 @@ onMounted(() => {
 .two-job .jobCard {
   width: 100% !important;
 }
-
 
 /* GENERAL */
 .dashboard {
@@ -421,19 +471,6 @@ h5 {
   grid-template-columns: repeat(2, 1fr);
 }
 
-.no-active-jobs {
-  width: 100%;
-  height: 304px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--black);
-  border: 1px dashed var(--light-gray);
-  border-radius: 8px;
-  text-align: center;
-  font-size: 1.2em;
-}
-
 /* RIGHT */
 .dashboard__right,
 .dashboard__right__schedule {
@@ -445,9 +482,40 @@ h5 {
   overflow-y: scroll;
   overflow-x: hidden;
   scrollbar-width: none;
+  flex-grow: 1;
 }
 
 .schedulecard {
   min-height: 80px;
+}
+
+.dashboard__right__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+/* SKELETON LOADING */
+.skeleton-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+.skeleton-container .container {
+  background-color: var(--neutral-20);
+  border-radius: 4px;
+  animation: pulse 0.2s infinite alternate;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 </style>

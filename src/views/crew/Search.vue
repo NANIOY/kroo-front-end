@@ -11,6 +11,7 @@ const fetchedJobs = ref([]);
 const loading = ref(true);
 const allJobsLoaded = ref(false);
 const searchTerm = ref('');
+const selectedSortOption = ref('');
 
 const fetchUserData = async () => {
   const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
@@ -184,11 +185,25 @@ const fetchJobs = async () => {
 };
 
 const filteredJobs = computed(() => {
-  return fetchedJobs.value.filter(job => job.title.toLowerCase().includes(searchTerm.value.toLowerCase()));
+  let jobs = fetchedJobs.value.filter(job => job.title.toLowerCase().includes(searchTerm.value.toLowerCase()));
+
+  if (selectedSortOption.value === 'Wage') {
+    jobs.sort((a, b) => b.wage - a.wage);
+  } else if (selectedSortOption.value === 'Relevance') {
+    jobs.sort((a, b) => b.matchScore - a.matchScore);
+  } else if (selectedSortOption.value === 'Date') {
+    jobs.sort((a, b) => new Date(a.date) - new Date(b.date));
+  }
+
+  return jobs;
 });
 
 const handleSearch = (value) => {
   searchTerm.value = value;
+};
+
+const handleSort = (option) => {
+  selectedSortOption.value = option;
 };
 
 onMounted(() => {
@@ -198,11 +213,10 @@ onMounted(() => {
 
 <template>
   <div class="viewcontainer">
-    <SearchFilter @search="handleSearch" />
+    <SearchFilter @search="handleSearch" @sort="handleSort" />
 
     <div class="jobs-container">
       <div v-if="loading" class="viewcontainer__jobs">
-        <!-- Skeleton Loader for each job placeholder -->
         <SearchJob v-for="n in 15" :key="n" :job="null" />
       </div>
       <div v-else>
@@ -212,6 +226,11 @@ onMounted(() => {
         <div v-if="allJobsLoaded || filteredJobs.length === 0" class="end">No more jobs to display</div>
       </div>
     </div>
+
+    <transition name="fade">
+      <JobPop v-if="isJobPopVisible" :job="selectedJob" jobType="search" :isVisible="isJobPopVisible"
+        @close="closeJobPop" />
+    </transition>
   </div>
 </template>
 
