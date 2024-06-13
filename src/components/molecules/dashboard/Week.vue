@@ -1,13 +1,16 @@
 <script setup>
-import { ref, defineEmits } from 'vue';
+import { ref, defineEmits, watch } from 'vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 
 const currentDate = ref(new Date());
+const selectedDate = ref(new Date());
 const emits = defineEmits(['daySelected']);
 
 const options = { month: 'long', year: 'numeric' };
 const formattedDate = ref(getFormattedDate(currentDate.value));
 const weekDays = ref(getWeekDays(currentDate.value));
+
+watch(selectedDate, markActiveDay);
 
 function getFormattedDate(date) {
     const monthYear = date.toLocaleDateString('en-GB', options);
@@ -49,12 +52,13 @@ function updateWeek() {
 }
 
 function markActiveDay() {
-    const today = new Date();
-    const currentWeekStartDate = getWeekStartDate(today);
-    const currentWeekEndDate = new Date(currentWeekStartDate.getTime() + 6 * 24 * 60 * 60 * 1000);
+    const selectedDay = selectedDate.value.getDate();
+    const selectedMonth = selectedDate.value.getMonth();
+    const selectedYear = selectedDate.value.getFullYear();
+
     weekDays.value.forEach((day) => {
         const dayDate = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth(), day.number);
-        day.isActive = (dayDate >= currentWeekStartDate && dayDate <= currentWeekEndDate && dayDate.toDateString() === today.toDateString());
+        day.isActive = (dayDate.getDate() === selectedDay && dayDate.getMonth() === selectedMonth && dayDate.getFullYear() === selectedYear);
     });
 }
 
@@ -64,8 +68,8 @@ function getWeekStartDate(date) {
 }
 
 function selectDay(day) {
-    currentDate.value = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth(), day.number);
-    emits('daySelected', currentDate.value);
+    selectedDate.value = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth(), day.number);
+    emits('daySelected', selectedDate.value);
 }
 
 markActiveDay();
@@ -139,6 +143,7 @@ h5 {
     flex: 1;
     flex-direction: column;
     align-items: center;
+    cursor: pointer;
 }
 
 .container__bot__days__number {
