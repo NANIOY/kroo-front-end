@@ -26,114 +26,131 @@ watchEffect(() => {
     <div v-if="crewData">
         <div class="about__top">
             <div class="about__top__bio surface-tertiary radius-s">
-                <p>Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum.</p>
+                <p>Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu
+                    donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae
+                    facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet
+                    consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus
+                    volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem
+                    egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper
+                    elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut
+                    tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo
+                    vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt
+                    sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et
+                    vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum.</p>
             </div>
 
             <div class="about__top__tags surface-tertiary radius-s">
                 <div class="about__top__tags__skills">
                     <Tag v-for="skill in skills" :key="skill" class="skill tag">
-                    {{ skill }}
+                        {{ skill }}
                     </Tag>
                 </div>
                 <div class="about__top__tags__languages">
-                    <Tag v-for="language in crewData.profileDetails?.languages" :key="language" class="skill tag--transparent">
-                    {{ language }}
+                    <Tag v-for="language in crewData.profileDetails?.languages" :key="language"
+                        class="skill tag--transparent">
+                        {{ language }}
                     </Tag>
                 </div>
             </div>
         </div>
 
-    <div class="about__bottom">
-        <div class="about__bottom__top">
-            <div class="about__bottom__educations surface-tertiary radius-s">
-                <div class="about__bottom__education__container">
-                    <div>
-                        <div class="about__bottom__education__wrapper">
-                            <div class="about__bottom__education__wrapper__info">
-                                <p class="education__year">2024</p>
-                                <p>-</p>
-                                <p class="text-bold-normal education__school">Thomas More Mechelen</p>
+        <div class="about__bottom">
+            <div class="about__bottom__top">
+                <div class="about__bottom__educations surface-tertiary radius-s">
+                    <div class="about__bottom__education__container">
+                        <div>
+                            <div class="about__bottom__education__wrapper">
+                                <div class="about__bottom__education__wrapper__info">
+                                    <p class="education__year">2024</p>
+                                    <p>-</p>
+                                    <p class="text-bold-normal education__school">Thomas More Mechelen</p>
+                                </div>
+                                <div>
+                                    <p class="text-reg-s education__course">Digital Experience Design</p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-reg-s education__course">Digital Experience Design</p>
+                        </div>
+                        <div>
+                            <div class="about__education__wrapper">
+                                <div class="about__bottom__education__wrapper__info">
+                                    <p class="education__year">2020</p>
+                                    <p>-</p>
+                                    <p class="text-bold-normal education__school">AP hogeschool</p>
+                                </div>
+                                <div>
+                                    <p class="text-reg-s education__course">Toegepaste journalistiek</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <div class="about__education__wrapper">
-                            <div class="about__bottom__education__wrapper__info">
-                                <p class="education__year">2020</p>
-                                <p>-</p>
-                                <p class="text-bold-normal education__school">AP hogeschool</p>
+                </div>
+
+                <div class="about__bottom__trainings surface-tertiary radius-s">
+                    <div class="about__bottom__training__container">
+                        <div>
+                            <div class="about__bottom__training__wrapper">
+                                <div class="about__bottom__training__wrapper__info">
+                                    <p class="training__year">2018</p>
+                                    <p>-</p>
+                                    <p class="text-bold-normal training__school">Syntra</p>
+                                </div>
+                                <div>
+                                    <p class="text-reg-s training__course">Training: how to be a good actor</p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-reg-s education__course">Toegepaste journalistiek</p>
+                        </div>
+                        <div>
+                            <div class="about__bottom__training__wrapper">
+                                <div class="about__bottom__training__wrapper__info">
+                                    <p class="training__year">2017</p>
+                                    <p>-</p>
+                                    <p class="text-bold-normal training__school">Syntra</p>
+                                </div>
+                                <div>
+                                    <p class="text-reg-s training__course">Training: make-up artist</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="about__bottom__trainings surface-tertiary radius-s">
-                <div class="about__bottom__training__container">
-                    <div>
-                        <div class="about__bottom__training__wrapper">
-                            <div class="about__bottom__training__wrapper__info">
-                                <p class="training__year">2018</p>
-                                <p>-</p>
-                                <p class="text-bold-normal training__school">Syntra</p>
-                            </div>
-                            <div>
-                                <p class="text-reg-s training__course">Training: how to be a good actor</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="about__bottom__training__wrapper">
-                            <div class="about__bottom__training__wrapper__info">
-                                <p class="training__year">2017</p>
-                                <p>-</p>
-                                <p class="text-bold-normal training__school">Syntra</p>
-                            </div>
-                            <div>
-                                <p class="text-reg-s training__course">Training: make-up artist</p>
-                            </div>
-                        </div>
-                    </div>
+            <div class="about__bottom__bottom">
+                <div class="about__bottom__certifications surface-tertiary radius-s">
+                    <ul class="about__bottom__certifications__wrapper">
+                        <li class="certification">
+                            <IconLabel :iconName="'Attachment'" label="certification 1" size="small" :isLink="true"
+                                :href="'#'" />
+                        </li>
+                        <li class="certification">
+                            <IconLabel :iconName="'Attachment'" label="certification 2" size="small" :isLink="true"
+                                :href="'#'" />
+                        </li>
+                        <li class="certification">
+                            <IconLabel :iconName="'Attachment'" label="certification 3" size="small" :isLink="true"
+                                :href="'#'" />
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="about__bottom__licenses surface-tertiary radius-s">
+                    <ul class="about__bottom__licenses__wrapper">
+                        <li class="certification">
+                            <IconLabel :iconName="'Attachment'" label="license 1" size="small" :isLink="true"
+                                :href="'#'" />
+                        </li>
+                        <li class="certification">
+                            <IconLabel :iconName="'Attachment'" label="license 2" size="small" :isLink="true"
+                                :href="'#'" />
+                        </li>
+                        <li class="certification">
+                            <IconLabel :iconName="'Attachment'" label="license 3" size="small" :isLink="true"
+                                :href="'#'" />
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
-
-        <div class="about__bottom__bottom">
-            <div class="about__bottom__certifications surface-tertiary radius-s">
-                <ul class="about__bottom__certifications__wrapper">
-                    <li class="certification">
-                        <IconLabel :iconName="'Attachment'" label="certification 1" size="small" :isLink="true" :href="'#'" />
-                    </li>
-                    <li class="certification">
-                        <IconLabel :iconName="'Attachment'" label="certification 2" size="small" :isLink="true" :href="'#'" />
-                    </li>
-                    <li class="certification">
-                        <IconLabel :iconName="'Attachment'" label="certification 3" size="small" :isLink="true" :href="'#'" />
-                    </li>
-                </ul>
-            </div>
-
-            <div class="about__bottom__licenses surface-tertiary radius-s">
-                <ul class="about__bottom__licenses__wrapper">
-                    <li class="certification">
-                        <IconLabel :iconName="'Attachment'" label="license 1" size="small" :isLink="true" :href="'#'" />
-                    </li>
-                    <li class="certification">
-                        <IconLabel :iconName="'Attachment'" label="license 2" size="small" :isLink="true" :href="'#'" />
-                    </li>
-                    <li class="certification">
-                        <IconLabel :iconName="'Attachment'" label="license 3" size="small" :isLink="true" :href="'#'" />
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
     </div>
     <div v-else>
         <p>No crew data available</p>
@@ -141,12 +158,16 @@ watchEffect(() => {
 </template>
 
 <style scoped>
-
 p {
     margin: 0;
 }
 
-.about__top__bio, .about__bottom__educations, .about__top__tags, .about__bottom__certifications, .about__bottom__licenses, .about__bottom__trainings {
+.about__top__bio,
+.about__bottom__educations,
+.about__top__tags,
+.about__bottom__certifications,
+.about__bottom__licenses,
+.about__bottom__trainings {
     padding: 32px;
     margin-bottom: 1rem;
 }
@@ -172,37 +193,42 @@ p {
     flex-direction: column;
 }
 
-/* bio */ 
+/* bio */
 
 .about__top__bio {
     max-width: 794px;
     max-height: 350px;
 }
 
-/* education & training */ 
+/* education & training */
 
-.about__bottom__educations, .about__bottom__trainings {
+.about__bottom__educations,
+.about__bottom__trainings {
     width: 379px;
 }
 
-.about__bottom__education__container, .about__bottom__training__container {
+.about__bottom__education__container,
+.about__bottom__training__container {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 
 }
 
-.about__bottom__education__wrapper__info, .about__bottom__training__wrapper__info {
+.about__bottom__education__wrapper__info,
+.about__bottom__training__wrapper__info {
     display: flex;
     gap: 0.5rem;
 }
 
-.education__school, .training__school {
+.education__school,
+.training__school {
     text-transform: uppercase;
     color: var(--blurple);
 }
 
-.education__course, .training__course {
+.education__course,
+.training__course {
     color: var(--neutral-80);
 }
 
@@ -221,7 +247,8 @@ p {
     height: fit-content;
 }
 
-.about__top__tags__skills, .about__top__tags__languages {
+.about__top__tags__skills,
+.about__top__tags__languages {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
@@ -235,23 +262,27 @@ p {
 
 /* certifications & licenses */
 
-.about__bottom__certifications, .about__bottom__licenses {
+.about__bottom__certifications,
+.about__bottom__licenses {
     max-width: fit-content;
 }
 
-.certification, .licenses {
+.certification,
+.licenses {
     list-style-type: none;
 }
 
-.certification a, .attachment-icon, .licenses a {
+.certification a,
+.attachment-icon,
+.licenses a {
     color: var(--black);
     text-decoration: none;
     transition: 0.3s;
 }
 
-.about__bottom__certifications__wrapper, .about__bottom__licenses__wrapper {
+.about__bottom__certifications__wrapper,
+.about__bottom__licenses__wrapper {
     padding: 0;
     margin: 0;
 }
-
 </style>
