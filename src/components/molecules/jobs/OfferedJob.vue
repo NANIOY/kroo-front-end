@@ -34,11 +34,11 @@ const fetchJobs = async () => {
         const businessDetailsResponses = await Promise.all(businessDetailsPromises);
 
         jobs.value = offeredJobs.map((job, index) => {
-            const businessResponse = businessDetailsResponses[index]?.data;
+            const businessResponse = businessDetailsResponses[index].data;
             return {
                 ...job,
-                businessImage: businessResponse?.business?.businessInfo?.logo || '',
-                businessName: businessResponse?.business?.businessInfo?.companyName || '',
+                businessImage: businessResponse.data.business.businessInfo.logo,
+                businessName: businessResponse.data.business.businessInfo.companyName,
                 city: job.location.city,
                 country: job.location.country,
                 wage: job.wage,
@@ -73,15 +73,29 @@ const acceptJobOffer = async (jobId) => {
     }
 
     try {
-        await axiosInstance.post(`/crewJobInt/offers/${jobId}/accept`, {}, {
+        await axiosInstance.post(`/crewJobInt/offers/${jobId}/accept`, null, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
-
-        // Update the job list after accepting the offer
-        jobs.value = jobs.value.filter(job => job._id !== jobId);
-
+        fetchJobs();
     } catch (error) {
         console.error('Failed to accept job offer:', error);
+    }
+};
+
+const declineJobOffer = async (jobId) => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+    if (!token) {
+        console.error('Authentication token is missing');
+        return;
+    }
+
+    try {
+        await axiosInstance.post(`/crewJobInt/offers/${jobId}/reject`, null, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        fetchJobs();
+    } catch (error) {
+        console.error('Failed to decline job offer:', error);
     }
 };
 
@@ -126,8 +140,7 @@ onMounted(fetchJobs);
                     <Tag type="big">
                         <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, {
                             month:
-                                'long'
-                        }) }}</p>
+                            'long' }) }}</p>
                     </Tag>
                 </div>
                 <div id="offered__job__info__place">
@@ -150,6 +163,9 @@ onMounted(fetchJobs);
                         label="Details" iconName="" />
                     <NormalButton id="normalButton__accept" class="button--primary offered__job__bottom__buttons_accept"
                         :hasIcon="false" :hasLabel="true" label="Accept" iconName="" @click="acceptJobOffer(job._id)" />
+                    <NormalButton id="normalButton__decline"
+                        class="button--danger offered__job__bottom__buttons_decline" :hasIcon="false" :hasLabel="true"
+                        label="Decline" iconName="" @click="declineJobOffer(job._id)" />
                 </div>
             </div>
         </div>
@@ -229,7 +245,8 @@ img {
 }
 
 .offered__job__bottom__buttons_details,
-.offered__job__bottom__buttons_accept {
+.offered__job__bottom__buttons_accept,
+.offered__job__bottom__buttons_decline {
     flex: 1;
 }
 </style>
