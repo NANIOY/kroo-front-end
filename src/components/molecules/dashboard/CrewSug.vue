@@ -89,6 +89,7 @@ const navigateToProfile = () => {
 
 .crewSug__top__img__pfp {
     border-radius: 4px;
+    object-fit: cover;
 }
 
 .crewSug__top__img__badge {
