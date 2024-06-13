@@ -35,7 +35,7 @@ onMounted(() => {
 });
 
 const isCurrentUserProfile = computed(() => {
-  return user.value && currentUser.value && user.value.id === currentUser.value.id;
+  return user.value && currentUser.value && user.value._id === currentUser.value._id;
 });
 
 const editProfile = () => {

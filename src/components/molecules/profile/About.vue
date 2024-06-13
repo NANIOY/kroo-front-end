@@ -1,12 +1,20 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { defineProps, ref, watchEffect } from 'vue';
+import { Trophy, Medal } from '@iconoir/vue';
 import Tag from '../../atoms/items/Tag.vue';
 import IconLabel from '../../atoms/items/IconLabel.vue';
-import setupAxios from '../../../setupAxios';
 
 const props = defineProps({
     user: {
         type: Object,
+        required: true
+    },
+    currentUser: {
+        type: Object,
+        required: true
+    },
+    isCurrentUserProfile: {
+        type: Boolean,
         required: true
     }
 });
@@ -15,59 +23,17 @@ const crewData = ref(null);
 const skills = ref([]);
 const educationTrainings = ref([]);
 const certificationsLicenses = ref([]);
+const activeJobsCount = ref(0);
+const completedJobsCount = ref(0); // HARDCODED FOR NOW
 
-const axiosInstance = setupAxios();
-
-const fetchUserData = async () => {
-    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
-    const userId = sessionStorage.getItem('userId');
-    if (!token || !userId) {
-        console.error('Authentication token or user ID is missing');
-        return null;
+watchEffect(() => {
+    if (props.user && props.user.crewData) {
+        crewData.value = props.user.crewData;
+        skills.value = props.user.crewData.profileDetails.skills || [];
+        educationTrainings.value = props.user.crewData.careerDetails.educationTraining || [];
+        certificationsLicenses.value = props.user.crewData.careerDetails.certificationsLicenses || [];
+        activeJobsCount.value = props.user.userJobs.active_jobs.length;
     }
-
-    try {
-        const userResponse = await axiosInstance.get(`/user/${userId}`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const userData = userResponse.data.data.user;
-        if (!userData) {
-            console.error('User data is missing');
-            return null;
-        }
-
-        const crewDataId = userData.crewData?._id;
-        if (crewDataId) {
-            const crewResponse = await axiosInstance.get(`/crew/${crewDataId}`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            const crewData = crewResponse.data.data;
-            if (crewData && crewData.basicInfo) {
-                userData.crewData = crewData;
-            } else {
-                console.error('Crew data is missing');
-            }
-        }
-
-        return userData;
-    } catch (error) {
-        console.error('Failed to fetch user data:', error);
-        return null;
-    }
-};
-
-const loadData = async () => {
-    const userData = await fetchUserData();
-    if (userData) {
-        crewData.value = userData.crewData;
-        skills.value = userData.crewData.profileDetails.skills || [];
-        educationTrainings.value = userData.crewData.careerDetails.educationTraining || [];
-        certificationsLicenses.value = userData.crewData.careerDetails.certificationsLicenses || [];
-    }
-};
-
-onMounted(() => {
-    loadData();
 });
 </script>
 
@@ -77,18 +43,35 @@ onMounted(() => {
             <div class="about__top__bio surface-tertiary radius-s">
                 <p>{{ crewData.profileDetails.bio }}</p>
             </div>
-
-            <div class="about__top__tags surface-tertiary radius-s">
-                <div class="about__top__tags__skills">
-                    <Tag v-for="skill in skills" :key="skill" class="skill tag">
-                        {{ skill }}
-                    </Tag>
+            <div class="about__top__right">
+                <div class="about__top__right__tags surface-tertiary radius-s">
+                    <div class="about__top__right__tags__skills">
+                        <Tag v-for="skill in skills" :key="skill" class="skill tag">
+                            {{ skill }}
+                        </Tag>
+                    </div>
+                    <div class="about__top__right__tags__languages">
+                        <Tag v-for="language in crewData.profileDetails.languages" :key="language"
+                            class="skill tag--transparent">
+                            {{ language }}
+                        </Tag>
+                    </div>
                 </div>
-                <div class="about__top__tags__languages">
-                    <Tag v-for="language in crewData.profileDetails.languages" :key="language"
-                        class="skill tag--transparent">
-                        {{ language }}
-                    </Tag>
+                <div class="about__top__right__count surface-tertiary radius-s">
+                    <div class="about__top__right__count__item">
+                        <p class="about__top__right__count__item__label text-reg-s">Active Jobs</p>
+                        <div class="about__top__right__count__item__value">
+                            <span class="text-bold-xl">{{ activeJobsCount }}</span>
+                            <Trophy class="about__top__right__count__item__value__icon" />
+                        </div>
+                    </div>
+                    <div class="about__top__right__count__item">
+                        <p class="about__top__right__count__item__label text-reg-s">Completed Jobs</p>
+                        <div class="about__top__right__count__item__value">
+                            <span class="text-bold-xl">{{ completedJobsCount }}</span>
+                            <Medal class="about__top__right__count__item__value__icon" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -163,7 +146,8 @@ p {
 
 .about__top__bio,
 .about__bottom__educations,
-.about__top__tags,
+.about__top__right__tags,
+.about__top__right__count,
 .about__bottom__certifications,
 .about__bottom__licenses,
 .about__bottom__trainings {
@@ -171,15 +155,78 @@ p {
     margin-bottom: 1rem;
 }
 
-/* about top */
-
+/* TOP */
 .about__top {
     display: flex;
     gap: 32px;
 }
 
-/* about bottom */
+.about__top div {
+    height: 100%;
+}
 
+.about__top__bio {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.about__top__bio p {
+    white-space: pre-wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* tags */
+.about__top__right__tags {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.about__top__right__tags__skills,
+.about__top__right__tags__languages {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+
+.about__top__right__count {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    background-color: var(--neutral-20);
+    border-radius: 8px;
+}
+
+.about__top__right__count__item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.about__top__right__count__item__label {
+    color: var(--neutral-80);
+    text-transform: uppercase;
+}
+
+.about__top__right__count__item__value {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--blurple-70);
+}
+
+.about__top__right__count__item__value__icon {
+    color: var(--blurple);
+}
+
+/* about bottom */
 .about__bottom__top {
     display: flex;
     justify-content: space-between;
@@ -190,13 +237,6 @@ p {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-}
-
-/* bio */
-
-.about__top__bio {
-    max-width: 794px;
-    max-height: 350px;
 }
 
 /* education & training */
@@ -234,29 +274,6 @@ p {
 .training__school {
     text-transform: uppercase;
     color: var(--green-50);
-}
-
-/* skills & languages */
-
-.about__top__tags {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    width: 100%;
-    height: fit-content;
-}
-
-.about__top__tags__skills,
-.about__top__tags__languages {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.skill {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 /* certifications & licenses */
