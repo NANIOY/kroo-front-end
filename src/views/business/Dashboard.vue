@@ -1,4 +1,7 @@
 <script setup>
+import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
+
 // IMPORT DASHBOARD COMPONENTS
 import JobCardBus from '../../components/molecules/dashboard/JobCardBus.vue';
 import CrewSug from '../../components/molecules/dashboard/CrewSug.vue';
@@ -7,18 +10,18 @@ import ScheduleCard from '../../components/molecules/dashboard/ScheduleCard.vue'
 
 // IMPORT OTHER
 import TransparentButton from '../../components/atoms/buttons/TransparentButton.vue';
+import LargeButton from '../../components/atoms/buttons/LargeButton.vue';
 import JobPop from '../../components/molecules/popups/JobPop.vue';
+import CreateJob from '../../components/molecules/popups/CreateJob.vue';
 import Overlay from '../../components/molecules/popups/Overlay.vue';
 import setupAxios from '../../setupAxios';
-
-import { useRouter } from 'vue-router';
-import { ref, onMounted } from 'vue';
 
 const axiosInstance = setupAxios();
 const router = useRouter();
 const activeJobs = ref([]);
 const crewSuggestions = ref([]);
 const selectedJob = ref(null);
+const isCreateJobModalVisible = ref(false);
 
 // NAVIGATION FUNCTIONS
 const goToTracker = () => {
@@ -81,6 +84,10 @@ const navigateToProfile = (userUrl) => {
     window.open(`/#/user/${userId}`, '_blank');
 };
 
+const openCreateJobModal = () => {
+    isCreateJobModalVisible.value = true;
+};
+
 </script>
 
 <template>
@@ -95,16 +102,23 @@ const navigateToProfile = (userUrl) => {
                         label="All jobs" iconName="NavArrowRight" iconPosition="right" />
                 </div>
                 <div class="dashboard__left__block--active__jobs">
-                    <div class="dashboard__left__block--active__jobs">
+                    <div v-if="activeJobs.length === 0"
+                        class="dashboard__left__block--active__jobs dashboard__left__block--active__jobs--none">
+                        <div class="placeholder text-reg-l">No active job postings.</div>
+                        <LargeButton class="button--primary" @click="openCreateJobModal" hasLabel="true"
+                            label="Create Job" iconName="Plus" iconPosition="left" />
+                    </div>
+                    <div v-else class="dashboard__left__block--active__jobs">
                         <JobCardBus v-for="(job, index) in activeJobs" :key="job._id"
                             :date="new Date(job.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })"
                             :title="job.title" :func="job.jobFunction" :applicants="job.applications.length.toString()"
                             :status="'Open'" :cardType="index === 0 ? 'highlight' : 'default'" />
                     </div>
                 </div>
+
             </div>
 
-            <div class="dashboard__left__block">
+            <div class="dashboard__left__block dashboard__left__block--sug">
                 <div class="dashboard__left__header">
                     <h5>Applicant Suggestions</h5>
                     <TransparentButton @click="goToSearch"
@@ -112,8 +126,10 @@ const navigateToProfile = (userUrl) => {
                         label="Search more" iconName="NavArrowRight" iconPosition="right" />
                 </div>
                 <div class="dashboard__left__block--sug__jobs">
-                    <CrewSug v-for="crew in crewSuggestions" :key="crew.name" v-bind="crew"
+                    <CrewSug v-if="activeJobs.length > 0" v-for="crew in crewSuggestions" :key="crew.name" v-bind="crew"
                         @navigateToProfile="navigateToProfile" />
+                    <div v-else class="placeholder text-reg-l">No crew suggestions available until there are active job
+                        postings.</div>
                 </div>
             </div>
         </div>
@@ -179,6 +195,15 @@ const navigateToProfile = (userUrl) => {
     gap: 24px;
 }
 
+.dashboard__left__block--active__jobs--none {
+    justify-content: center;
+    align-items: center;
+    gap: 48px;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 128px;
+}
+
 /* GENERAL */
 .dashboard {
     gap: 64px;
@@ -214,6 +239,10 @@ h5 {
 .dashboard__left__block--sug__jobs {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+}
+
+.placeholder {
+    color: var(--neutral-80);
 }
 
 /* RIGHT */
