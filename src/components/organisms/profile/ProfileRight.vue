@@ -35,8 +35,10 @@ watch(route, (newRoute) => {
 <template>
     <div class="profileright">
         <div class="profileright__top">
-            <Tabs :currentUser="currentUser" :isCurrentUserProfile="isCurrentUserProfile" @update:activeTab="handleTabChange" />
-            <NormalButton v-if="isCurrentUserProfile" class="button--primary" :hasLabel="true" label="Edit profile" iconName="EditPencil" :hasRequest="false"></NormalButton>
+            <Tabs :currentUser="currentUser" :isCurrentUserProfile="isCurrentUserProfile"
+                @update:activeTab="handleTabChange" />
+            <NormalButton v-if="isCurrentUserProfile" class="button--primary" :hasLabel="true" label="Edit profile"
+                iconName="EditPencil" :hasRequest="false"></NormalButton>
         </div>
         <div class="profileright__content">
             <div class="profileright__content__inner">

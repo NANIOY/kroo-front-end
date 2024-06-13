@@ -1,7 +1,8 @@
 <script setup>
-import { defineProps, ref, watchEffect } from 'vue';
+import { ref, onMounted } from 'vue';
 import Tag from '../../atoms/items/Tag.vue';
 import IconLabel from '../../atoms/items/IconLabel.vue';
+import setupAxios from '../../../setupAxios';
 
 const props = defineProps({
     user: {
@@ -12,13 +13,61 @@ const props = defineProps({
 
 const crewData = ref(null);
 const skills = ref([]);
+const educationTrainings = ref([]);
+const certificationsLicenses = ref([]);
 
-watchEffect(() => {
-    if (props.user && props.user.crewData) {
-        crewData.value = props.user.crewData;
-        skills.value = props.user.crewData?.profileDetails.skills || [];
-        console.log('About received crewData:', crewData.value);
+const axiosInstance = setupAxios();
+
+const fetchUserData = async () => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+    const userId = sessionStorage.getItem('userId');
+    if (!token || !userId) {
+        console.error('Authentication token or user ID is missing');
+        return null;
     }
+
+    try {
+        const userResponse = await axiosInstance.get(`/user/${userId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const userData = userResponse.data.data.user;
+        if (!userData) {
+            console.error('User data is missing');
+            return null;
+        }
+
+        const crewDataId = userData.crewData?._id;
+        if (crewDataId) {
+            const crewResponse = await axiosInstance.get(`/crew/${crewDataId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const crewData = crewResponse.data.data;
+            if (crewData && crewData.basicInfo) {
+                userData.crewData = crewData;
+            } else {
+                console.error('Crew data is missing');
+            }
+        }
+
+        return userData;
+    } catch (error) {
+        console.error('Failed to fetch user data:', error);
+        return null;
+    }
+};
+
+const loadData = async () => {
+    const userData = await fetchUserData();
+    if (userData) {
+        crewData.value = userData.crewData;
+        skills.value = userData.crewData.profileDetails.skills || [];
+        educationTrainings.value = userData.crewData.careerDetails.educationTraining || [];
+        certificationsLicenses.value = userData.crewData.careerDetails.certificationsLicenses || [];
+    }
+};
+
+onMounted(() => {
+    loadData();
 });
 </script>
 
@@ -26,17 +75,7 @@ watchEffect(() => {
     <div v-if="crewData">
         <div class="about__top">
             <div class="about__top__bio surface-tertiary radius-s">
-                <p>Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu
-                    donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae
-                    facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet
-                    consectetur. Nulla nulla semper elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus
-                    volutpat. Sed scelerisque ut tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem
-                    egestas etiam amet commodo vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper
-                    elit blandit purus. Tincidunt sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut
-                    tincidunt purus nunc et vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo
-                    vestibulum. Lorem ipsum dolor sit amet consectetur. Nulla nulla semper elit blandit purus. Tincidunt
-                    sit arcu donec cursus volutpat luctus volutpat. Sed scelerisque ut tincidunt purus nunc et
-                    vestibulum vitae facilisi. Sollicitudin lorem egestas etiam amet commodo vestibulum.</p>
+                <p>{{ crewData.profileDetails.bio }}</p>
             </div>
 
             <div class="about__top__tags surface-tertiary radius-s">
@@ -46,7 +85,7 @@ watchEffect(() => {
                     </Tag>
                 </div>
                 <div class="about__top__tags__languages">
-                    <Tag v-for="language in crewData.profileDetails?.languages" :key="language"
+                    <Tag v-for="language in crewData.profileDetails.languages" :key="language"
                         class="skill tag--transparent">
                         {{ language }}
                     </Tag>
@@ -58,27 +97,15 @@ watchEffect(() => {
             <div class="about__bottom__top">
                 <div class="about__bottom__educations surface-tertiary radius-s">
                     <div class="about__bottom__education__container">
-                        <div>
+                        <div v-for="education in educationTrainings" :key="education._id">
                             <div class="about__bottom__education__wrapper">
                                 <div class="about__bottom__education__wrapper__info">
-                                    <p class="education__year">2024</p>
+                                    <p class="education__year">{{ education.year }}</p>
                                     <p>-</p>
-                                    <p class="text-bold-normal education__school">Thomas More Mechelen</p>
+                                    <p class="text-bold-normal education__school">{{ education.school }}</p>
                                 </div>
                                 <div>
-                                    <p class="text-reg-s education__course">Digital Experience Design</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="about__education__wrapper">
-                                <div class="about__bottom__education__wrapper__info">
-                                    <p class="education__year">2020</p>
-                                    <p>-</p>
-                                    <p class="text-bold-normal education__school">AP hogeschool</p>
-                                </div>
-                                <div>
-                                    <p class="text-reg-s education__course">Toegepaste journalistiek</p>
+                                    <p class="text-reg-s education__course">{{ education.course }}</p>
                                 </div>
                             </div>
                         </div>
@@ -87,27 +114,15 @@ watchEffect(() => {
 
                 <div class="about__bottom__trainings surface-tertiary radius-s">
                     <div class="about__bottom__training__container">
-                        <div>
+                        <div v-for="training in educationTrainings" :key="training._id">
                             <div class="about__bottom__training__wrapper">
                                 <div class="about__bottom__training__wrapper__info">
-                                    <p class="training__year">2018</p>
+                                    <p class="training__year">{{ training.year }}</p>
                                     <p>-</p>
-                                    <p class="text-bold-normal training__school">Syntra</p>
+                                    <p class="text-bold-normal training__school">{{ training.school }}</p>
                                 </div>
                                 <div>
-                                    <p class="text-reg-s training__course">Training: how to be a good actor</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="about__bottom__training__wrapper">
-                                <div class="about__bottom__training__wrapper__info">
-                                    <p class="training__year">2017</p>
-                                    <p>-</p>
-                                    <p class="text-bold-normal training__school">Syntra</p>
-                                </div>
-                                <div>
-                                    <p class="text-reg-s training__course">Training: make-up artist</p>
+                                    <p class="text-reg-s training__course">{{ training.course }}</p>
                                 </div>
                             </div>
                         </div>
@@ -118,34 +133,18 @@ watchEffect(() => {
             <div class="about__bottom__bottom">
                 <div class="about__bottom__certifications surface-tertiary radius-s">
                     <ul class="about__bottom__certifications__wrapper">
-                        <li class="certification">
-                            <IconLabel :iconName="'Attachment'" label="certification 1" size="small" :isLink="true"
-                                :href="'#'" />
-                        </li>
-                        <li class="certification">
-                            <IconLabel :iconName="'Attachment'" label="certification 2" size="small" :isLink="true"
-                                :href="'#'" />
-                        </li>
-                        <li class="certification">
-                            <IconLabel :iconName="'Attachment'" label="certification 3" size="small" :isLink="true"
-                                :href="'#'" />
+                        <li v-for="certification in certificationsLicenses" :key="certification" class="certification">
+                            <IconLabel :iconName="'Attachment'" :label="certification" size="small" :isLink="true"
+                                :href="certification" />
                         </li>
                     </ul>
                 </div>
 
                 <div class="about__bottom__licenses surface-tertiary radius-s">
                     <ul class="about__bottom__licenses__wrapper">
-                        <li class="certification">
-                            <IconLabel :iconName="'Attachment'" label="license 1" size="small" :isLink="true"
-                                :href="'#'" />
-                        </li>
-                        <li class="certification">
-                            <IconLabel :iconName="'Attachment'" label="license 2" size="small" :isLink="true"
-                                :href="'#'" />
-                        </li>
-                        <li class="certification">
-                            <IconLabel :iconName="'Attachment'" label="license 3" size="small" :isLink="true"
-                                :href="'#'" />
+                        <li v-for="license in certificationsLicenses" :key="license" class="certification">
+                            <IconLabel :iconName="'Attachment'" :label="license" size="small" :isLink="true"
+                                :href="license" />
                         </li>
                     </ul>
                 </div>
