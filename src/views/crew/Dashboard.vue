@@ -20,6 +20,7 @@ const activeJobs = ref([]);
 const selectedJob = ref(null);
 const isJobPopVisible = ref(false);
 const loading = ref(true);
+const calendarEvents = ref([]);
 
 // NAVIGATION FUNCTIONS
 const goToTracker = () => {
@@ -249,7 +250,6 @@ const fetchJobSuggestions = async () => {
   }
 };
 
-
 // open job popup when job is clicked
 const openJobPop = (job) => {
   selectedJob.value = job;
@@ -261,9 +261,37 @@ const closeJobPop = () => {
   selectedJob.value = null;
 };
 
+async function fetchCalendarEvents() {
+  const userId = sessionStorage.getItem('userId');
+  try {
+    const response = await axiosInstance.get(`/calendar/google/events?userId=${userId}`);
+    calendarEvents.value = response.data.map(event => {
+      const startDate = event.start.dateTime ? new Date(event.start.dateTime) : new Date(event.start.date);
+      const endDate = event.end.dateTime ? new Date(event.end.dateTime) : new Date(event.end.date);
+      const startTime = event.start.dateTime ? event.start.dateTime.split('T')[1].substring(0, 5) : 'All Day';
+      const endTime = event.end.dateTime ? event.end.dateTime.split('T')[1].substring(0, 5) : 'All Day';
+
+      return {
+        ...event,
+        date: startDate,
+        startDate: startDate,
+        endDate: endDate,
+        startTime: startTime,
+        endTime: endTime,
+        label: event.summary || 'No Title',
+        type: event.type,
+        description: event.description || 'No Description'
+      };
+    });
+  } catch (error) {
+    console.error('Failed to fetch calendar events:', error);
+  }
+}
+
 onMounted(() => {
   fetchActiveJobs();
   fetchJobSuggestions();
+  fetchCalendarEvents();
 });
 </script>
 
@@ -308,12 +336,8 @@ onMounted(() => {
       <div class="dashboard__right__schedule">
         <Week />
         <div class="dashboard__right__schedule__cards">
-          <ScheduleCard title="Meeting with John" label="10:00 - 11:00" class="schedulecard" />
-          <ScheduleCard title="Design review" label="13:00 - 14:00" type="personal" class="schedulecard" />
-          <ScheduleCard title="Team meeting" label="15:00 - 16:00" class="schedulecard" />
-          <ScheduleCard title="Meeting with John" label="10:00 - 11:00" class="schedulecard" />
-          <ScheduleCard title="Design review" label="13:00 - 14:00" type="personal" class="schedulecard" />
-          <ScheduleCard title="Team meeting" label="15:00 - 16:00" class="schedulecard" />
+          <ScheduleCard v-for="(event, index) in calendarEvents.slice(0, 6)" :key="index" :title="event.label"
+            :label="`${event.startTime} - ${event.endTime}`" :type="event.type" class="schedulecard" />
         </div>
       </div>
       <Upgrade @click="goToUpgrade" />
