@@ -122,7 +122,6 @@ export default {
   width: 96px;
   height: 40px;
   background-color: transparent;
-  transition: 0.3s;
 }
 
 /* Default styles */
@@ -142,20 +141,24 @@ export default {
 .button--primary--transparent:hover {
   color: var(--blurple-20);
   background-color: transparent;
+  transition: 0.3s;
 }
 
 .button--secondary--transparent:hover {
   color: var(--green-20);
   background-color: transparent;
+  transition: 0.3s;
 }
 
 .button--tertiary--transparent:hover {
   color: var(--blurple-30);
   background-color: transparent;
+  transition: 0.3s;
 }
 
 .button--disabled--transparent {
   color: var(--neutral-30);
+
 }
 
 .transparentButton.no-label {
@@ -165,13 +168,5 @@ export default {
 
 .transparentButton__label {
   padding-top: 2px;
-}
-
-.transparentButton.no-label svg {
-  transition: fill 0.3s ease;
-}
-
-.transparentButton.no-label:hover svg {
-  fill: currentColor;
 }
 </style>
