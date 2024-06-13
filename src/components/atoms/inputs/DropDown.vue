@@ -31,9 +31,7 @@ const emit = defineEmits(['update:modelValue', 'optionSelected']);
 
 const isOpen = ref(false);
 const selectedOption = ref(props.modelValue || props.placeholder);
-const inputId = 'container__dropdown__box-' + Math.random().toString(36).substring(2, 15);
-let dropdownContainer = ref(null);
-const optionSelected = ref(false);
+const dropdownContainer = ref(null);
 
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
@@ -42,7 +40,6 @@ const toggleDropdown = () => {
 const selectOption = (option) => {
   selectedOption.value = option;
   isOpen.value = false;
-  optionSelected.value = true;
 
   if (props.localStorageKey && props.group) {
     const sectionData = JSON.parse(localStorage.getItem('postData')) || {};
@@ -73,10 +70,11 @@ onUnmounted(() => {
 
 <template>
   <div class="container" ref="dropdownContainer">
-    <label v-if="props.hasLabel" class="text-reg-normal" :for="inputId">{{ props.label }}</label>
+    <label v-if="props.hasLabel" class="text-reg-normal">{{ props.label }}</label>
     <div class="container__dropdown text-reg-normal">
       <div class="container__dropdown__box" @click="toggleDropdown" :class="{ 'open': isOpen }">
-        <span :class="['placeholder', { 'placeholder-black': optionSelected }]">{{ selectedOption }}</span>
+        <span :class="['placeholder', { 'placeholder-black': selectedOption !== props.placeholder }]">{{ selectedOption
+          }}</span>
         <NavArrowDown :class="{ 'container__dropdown__box__icon': isOpen }" />
       </div>
       <ul v-if="isOpen" class="container__dropdown__items" @click.stop>

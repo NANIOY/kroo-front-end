@@ -4,7 +4,7 @@ import InputField from '../../atoms/inputs/InputField.vue';
 import Dropdown from '../../atoms/inputs/DropDown.vue';
 import { defineEmits } from 'vue';
 
-const emit = defineEmits(['search']);
+const emit = defineEmits(['search', 'sort']);
 
 const timeConfig = {
   title: 'Time',
@@ -40,8 +40,9 @@ const productionTypeConfig = {
 };
 
 const searchDropdownConfig = {
-  label: ' ',
-  placeholder: 'Sort by'
+  label: 'Sort by',
+  placeholder: 'Sort by',
+  options: ['Relevance', 'Wage', 'Date']
 };
 
 const searchInputConfig = {
@@ -53,6 +54,10 @@ const searchInputConfig = {
 const handleSearch = (value) => {
   emit('search', value);
 };
+
+const handleSort = (option) => {
+  emit('sort', option);
+};
 </script>
 
 <template>
@@ -61,7 +66,7 @@ const handleSearch = (value) => {
       <InputField :label="searchInputConfig.label" :placeholder="searchInputConfig.placeholder" :hasIconLeft="true"
         iconLeftName="Search" class="searchfilter__input__field" hasSearchFunction="true" @search="handleSearch" />
       <Dropdown :label="searchDropdownConfig.label" :placeholder="searchDropdownConfig.placeholder"
-        :options="searchDropdownConfig.options" class="searchfilter__input__dropdown" />
+        :options="searchDropdownConfig.options" class="searchfilter__input__dropdown" @optionSelected="handleSort" />
     </div>
 
     <div class="searchfilter__filters">
