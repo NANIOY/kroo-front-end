@@ -51,7 +51,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="hasBusiness">
+  <div class="profile" v-if="hasBusiness">
     <BusinessProfileLeft :business="business" />
     <BusinessProfileRight />
   </div>
@@ -61,4 +61,10 @@ onMounted(() => {
 </template>
 
 
-<style scoped></style>
+<style scoped>
+.profile {
+  display: flex;
+  gap: 80px;
+}
+
+</style>
