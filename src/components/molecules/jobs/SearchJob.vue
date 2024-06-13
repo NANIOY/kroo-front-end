@@ -13,9 +13,7 @@ const isJobPopVisible = ref(false);
 const selectedJob = ref(null);
 
 onMounted(() => {
-    setTimeout(() => {
-        loading.value = false;
-    }, 0);
+    loading.value = false;
 });
 
 // format date string to day
