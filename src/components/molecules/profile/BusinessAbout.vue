@@ -1,5 +1,4 @@
 <script setup>
-import SearchJob from '../jobs/SearchJob.vue';
 import JobList from '../../organisms/list/JobList.vue';
 
 </script>
