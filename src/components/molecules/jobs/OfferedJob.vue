@@ -1,9 +1,11 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, defineEmits } from 'vue';
 import setupAxios from '../../../setupAxios';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import Tag from '../../atoms/items/Tag.vue';
 import JobPop from '../popups/JobPop.vue';
+
+const emit = defineEmits();
 
 const jobs = ref([]);
 const selectedJob = ref(null);
@@ -18,7 +20,7 @@ const fetchJobs = async () => {
     }
 
     try {
-        const offeredJobsResponse = await axiosInstance.get(`/crewJobInt/offers`, {
+        const offeredJobsResponse = await axiosInstance.get('/crewJobInt/offers', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
@@ -39,8 +41,8 @@ const fetchJobs = async () => {
             const businessResponse = businessDetailsResponses[index]?.data;
             return {
                 ...job,
-                businessImage: businessResponse?.data?.business?.businessInfo?.logo || 'https://placehold.co/56x56',
-                businessName: businessResponse?.data?.business?.businessInfo?.companyName || 'Unknown Company',
+                businessImage: businessResponse?.business?.businessInfo?.logo || 'https://placehold.co/56x56',
+                businessName: businessResponse?.business?.businessInfo?.companyName || 'Unknown Company',
                 city: job.location.city,
                 country: job.location.country,
                 wage: job.wage,
@@ -77,14 +79,12 @@ const closeJobDetails = () => {
     selectedJob.value = null;
 };
 
-const acceptOffer = (job) => {
-    console.log('Accepted job offer:', job);
-    // Additional logic to handle accepting the job offer can be added here
+const acceptOffer = async (job) => {
+    console.log('Accepted job:', job);
 };
 
 const declineOffer = (job) => {
-    console.log('Declined job offer:', job);
-    // Additional logic to handle declining the job offer can be added here
+    console.log('Declined job:', job);
 };
 
 onMounted(fetchJobs);

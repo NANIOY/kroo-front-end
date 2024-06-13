@@ -79,10 +79,14 @@ const cancelJob = async (jobId) => {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
-        fetchJobs(); // Refresh the job list after cancelling a job
+        removeJobFromList(jobId); // Remove the job from the list
     } catch (error) {
         console.error('Failed to cancel the job:', error);
     }
+};
+
+const removeJobFromList = (jobId) => {
+    jobs.value = jobs.value.filter(job => job._id !== jobId);
 };
 
 onMounted(fetchJobs);
