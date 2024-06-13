@@ -275,17 +275,18 @@ onMounted(() => {
 <template>
   <div class="dashboard">
     <div class="dashboard__left">
-      <div class="dashboard__left__block" v-if="activeJobs.length">
+      <div class="dashboard__left__block">
         <div class="dashboard__left__header">
           <h5>Active Jobs</h5>
           <TransparentButton @click="goToTracker"
             class="dashboard__left__header__button dashboard__left__header__button--active" hasLabel="true"
             label="All jobs" iconName="NavArrowRight" iconPosition="right" />
         </div>
-        <div :class="['dashboard__left__block--active__jobs', activeJobsClass]">
+        <div class="dashboard__left__block--active__jobs">
           <JobCard v-for="(job, index) in activeJobs" :key="index" :date="job.date" :time="job.time"
             :jobFunction="job.jobFunction" :city="job.location.city"
-            :street="job.location.address || job.location.street" :cardType="index === 0 ? 'highlight' : 'default'" />
+            :street="job.location.address || job.location.street" :cardType="index === 0 ? 'highlight' : 'default'"
+            :class="{ 'single-job': activeJobs.length === 1, 'two-jobs': activeJobs.length === 2 }" />
         </div>
       </div>
 
