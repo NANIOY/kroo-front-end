@@ -1,5 +1,6 @@
 <script setup>
-import { defineProps, ref, watchEffect } from 'vue';
+import { defineProps, ref, watchEffect, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import ProfileImg from '../../atoms/profile/ProfileImg.vue';
 import Tag from '../../atoms/items/Tag.vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
@@ -12,9 +13,12 @@ const props = defineProps({
     }
 });
 
+const route = useRoute();
 const name = ref('');
 const functions = ref([]);
 const description = ref('');
+
+const isCurrentUserProfile = ref(route.path === '/profile');
 
 watchEffect(() => {
     if (props.user) {
@@ -23,30 +27,31 @@ watchEffect(() => {
         description.value = props.user.crewData?.profileDetails.tagline || '';
     }
 });
+
+watch(route, (newRoute) => {
+    isCurrentUserProfile.value = newRoute.path === '/profile';
+}, { immediate: true });
 </script>
 
 <template>
-    <div class="profileinfo" v-if="props.user">
+    <div class="profileinfo" v-if="user">
         <div class="profileinfo__container">
             <div class="profileinfo__container__info">
-                <ProfileImg :profileImage="props.user.crewData?.basicInfo.profileImage" :showBadge="true" />
+                <ProfileImg :profileImage="user.crewData?.basicInfo.profileImage" :showBadge="true" />
 
                 <div class="profileinfo__container__info__text">
                     <h4>{{ name }}</h4>
 
                     <div class="profileinfo__container__info__text__functions">
-                        <Tag class="profileinfo__container__info__text__functions__function"
-                            v-for="(func, index) in functions" :key="index" type="colored">{{ func }}</Tag>
+                        <Tag class="profileinfo__container__info__text__functions__function" v-for="(func, index) in functions" :key="index" type="colored">{{ func }}</Tag>
                     </div>
 
                     <div>
-                        <p class="text-reg-normal">
-                            {{ description }}
-                        </p>
+                        <p class="text-reg-normal">{{ description }}</p>
                     </div>
                 </div>
             </div>
-            <LargeButton label="Send a job offer" class="button--primary" />
+            <LargeButton v-if="!isCurrentUserProfile" label="Send a job offer" class="button--primary" />
             <CalendarProfile class="profileinfo__calendar"></CalendarProfile>
         </div>
     </div>
@@ -57,6 +62,7 @@ watchEffect(() => {
 p {
     margin: 0;
 }
+
 /* COMBINED */
 .profileinfo,
 .profileinfo__container,
@@ -110,5 +116,4 @@ p {
 .profileinfo__calendar {
     margin-top: 16px;
 }
-
 </style>

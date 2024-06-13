@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import Tabs from '../../molecules/profile/Tabs.vue';
 import Portfolio from '../../molecules/profile/Portfolio.vue';
 import About from '../../molecules/profile/About.vue';
@@ -14,38 +15,34 @@ const props = defineProps({
     currentUser: {
         type: Object,
         required: true
-    },
-    isCurrentUserProfile: {
-        type: Boolean,
-        required: true
     }
 });
 
+const route = useRoute();
 const activeTab = ref('About');
+
+const isCurrentUserProfile = ref(route.path === '/profile');
 
 const handleTabChange = (newTab) => {
     activeTab.value = newTab;
-    console.log(`Active tab changed to: ${newTab}`);
 };
 
-watch(activeTab, (newTab) => {
-    console.log(`Tab changed to: ${newTab}`);
-});
+watch(route, (newRoute) => {
+    isCurrentUserProfile.value = newRoute.path === '/profile';
+}, { immediate: true });
 </script>
 
 <template>
     <div class="profileright">
         <div class="profileright__top">
-            <Tabs :currentUser="props.currentUser" :isCurrentUserProfile="props.isCurrentUserProfile"
-                @update:activeTab="handleTabChange" />
-            <NormalButton class="button--primary" :hasLabel="true" label="Edit profile" iconName="EditPencil"
-                :hasRequest="false"></NormalButton>
+            <Tabs :currentUser="currentUser" :isCurrentUserProfile="isCurrentUserProfile" @update:activeTab="handleTabChange" />
+            <NormalButton v-if="isCurrentUserProfile" class="button--primary" :hasLabel="true" label="Edit profile" iconName="EditPencil" :hasRequest="false"></NormalButton>
         </div>
         <div class="profileright__content">
             <div class="profileright__content__inner">
-                <Portfolio v-if="activeTab === 'Portfolio'" :user="props.user" />
-                <About v-if="activeTab === 'About'" :user="props.user" />
-                <Activity v-if="activeTab === 'Activity'" :user="props.user" />
+                <Portfolio v-if="activeTab === 'Portfolio'" :user="user" />
+                <About v-if="activeTab === 'About'" :user="user" />
+                <Activity v-if="activeTab === 'Activity'" :user="user" />
             </div>
         </div>
     </div>
