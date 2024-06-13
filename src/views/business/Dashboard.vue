@@ -13,15 +13,13 @@ import TransparentButton from '../../components/atoms/buttons/TransparentButton.
 import LargeButton from '../../components/atoms/buttons/LargeButton.vue';
 import JobPop from '../../components/molecules/popups/JobPop.vue';
 import CreateJob from '../../components/molecules/popups/CreateJob.vue';
-import Overlay from '../../components/molecules/popups/Overlay.vue';
 import setupAxios from '../../setupAxios';
 
 const axiosInstance = setupAxios();
 const router = useRouter();
 const activeJobs = ref([]);
 const crewSuggestions = ref([]);
-const selectedJob = ref(null);
-const isCreateJobModalVisible = ref(false);
+const isModalVisible = ref(false);
 
 // NAVIGATION FUNCTIONS
 const goToTracker = () => {
@@ -66,6 +64,25 @@ const fetchCrewSuggestions = async () => {
     }
 };
 
+const selectedJob = ref({
+    title: '',
+    description: '',
+    wage: '',
+    date: '',
+    time: '',
+    skills: [],
+    jobFunction: '',
+    location: {
+        city: '',
+        address: ''
+    },
+    production_type: '',
+    union_status: '',
+    attachments: []
+});
+
+const createJobModalType = ref('create');
+
 onMounted(() => {
     fetchActiveJobs();
     fetchCrewSuggestions();
@@ -84,10 +101,43 @@ const navigateToProfile = (userUrl) => {
     window.open(`/#/user/${userId}`, '_blank');
 };
 
-const openCreateJobModal = () => {
-    isCreateJobModalVisible.value = true;
+const openModal = (job = null) => {
+    if (job) {
+        selectedJob.value = { ...job };
+        createJobModalType.value = 'create';
+    } else {
+        selectedJob.value = {
+            title: '',
+            description: '',
+            wage: '',
+            date: '',
+            time: '',
+            skills: [],
+            jobFunction: '',
+            location: {
+                city: '',
+                address: ''
+            },
+            production_type: '',
+            union_status: '',
+            attachments: []
+        };
+        createJobModalType.value = 'create';
+    }
+    isModalVisible.value = true;
 };
 
+const closeModal = () => {
+    isModalVisible.value = false;
+};
+
+const handleCreateJob = (jobData) => {
+    closeModal();
+};
+
+const handleDeleteJob = (jobId) => {
+    closeModal();
+};
 </script>
 
 <template>
@@ -105,9 +155,10 @@ const openCreateJobModal = () => {
                     <div v-if="activeJobs.length === 0"
                         class="dashboard__left__block--active__jobs dashboard__left__block--active__jobs--none">
                         <div class="placeholder text-reg-l">No active job postings.</div>
-                        <LargeButton class="button--primary" @click="openCreateJobModal" hasLabel="true"
-                            label="Create Job" iconName="Plus" iconPosition="left" />
+                        <LargeButton class="button--primary" @click="openModal" hasLabel="true" label="Create Job"
+                            iconName="Plus" iconPosition="left" :hasRequest="false" />
                     </div>
+
                     <div v-else class="dashboard__left__block--active__jobs">
                         <JobCardBus v-for="(job, index) in activeJobs" :key="job._id"
                             :date="new Date(job.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })"
@@ -115,7 +166,6 @@ const openCreateJobModal = () => {
                             :status="'Open'" :cardType="index === 0 ? 'highlight' : 'default'" />
                     </div>
                 </div>
-
             </div>
 
             <div class="dashboard__left__block dashboard__left__block--sug">
@@ -151,9 +201,10 @@ const openCreateJobModal = () => {
                 </div>
             </div>
         </div>
-        <Overlay v-if="selectedJob" @overlayClick="closeJobPop">
-            <JobPop v-if="selectedJob" :job="selectedJob" />
-        </Overlay>
+
+        <JobPop v-if="selectedJob" :job="selectedJob" />
+        <CreateJob :isVisible="isModalVisible" :postData="selectedJob" :type="createJobModalType"
+            :jobId="selectedJob._id" @close="closeModal" @submit="handleCreateJob" @delete="handleDeleteJob" />
     </div>
 </template>
 
