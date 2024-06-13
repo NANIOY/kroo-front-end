@@ -197,22 +197,9 @@ onMounted(() => {
     fetchBusinessId().then((businessId) => {
         if (businessId) {
             fetchJobCounts(businessId);
-            // Fetch job counts periodically
-            setInterval(async () => {
-                await fetchJobCounts(businessId);
-            }, 1000); // Fetch job counts every second (adjust the interval as needed)
         }
     });
 });
-
-// Listen for jobsUpdated event from PostJob.vue
-const handleJobsUpdated = () => {
-    fetchBusinessId().then((businessId) => {
-        if (businessId) {
-            fetchJobCounts(businessId);
-        }
-    });
-};
 
 </script>
 
