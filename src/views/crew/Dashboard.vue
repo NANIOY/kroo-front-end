@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import moment from 'moment';
 import JobCard from '../../components/molecules/dashboard/JobCard.vue';
 import JobSug from '../../components/molecules/dashboard/JobSug.vue';
@@ -19,6 +19,15 @@ const fetchedJobs = ref([]);
 const activeJobs = ref([]);
 const selectedJob = ref(null);
 const isJobPopVisible = ref(false);
+
+const activeJobsClass = computed(() => {
+  switch (activeJobs.value.length) {
+    case 1:
+      return 'single-job';
+    case 2:
+      return 'two-jobs';
+  }
+});
 
 // NAVIGATION FUNCTIONS
 const goToTracker = () => {
@@ -273,7 +282,7 @@ onMounted(() => {
             class="dashboard__left__header__button dashboard__left__header__button--active" hasLabel="true"
             label="All jobs" iconName="NavArrowRight" iconPosition="right" />
         </div>
-        <div class="dashboard__left__block--active__jobs">
+        <div :class="['dashboard__left__block--active__jobs', activeJobsClass]">
           <JobCard v-for="(job, index) in activeJobs" :key="index" :date="job.date" :time="job.time"
             :jobFunction="job.jobFunction" :city="job.location.city"
             :street="job.location.address || job.location.street" :cardType="index === 0 ? 'highlight' : 'default'" />
@@ -353,6 +362,24 @@ onMounted(() => {
 .dashboard__left__block--active__jobs,
 .dashboard__right__schedule {
   gap: 24px;
+}
+
+/* test */
+
+.single-job {
+  width: 100% !important;
+}
+
+.single-job .jobCard {
+  width: 100% !important;
+}
+
+.two-jobs {
+  width: 100% !important;
+}
+
+.two-job .jobCard {
+  width: 100% !important;
 }
 
 
