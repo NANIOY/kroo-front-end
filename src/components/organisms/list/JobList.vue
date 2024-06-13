@@ -1,23 +1,18 @@
 <script setup>
 import { ref } from 'vue';
-import { NavArrowDown, NavArrowUp, UserXmark } from '@iconoir/vue';
+import { NavArrowDown, NavArrowUp } from '@iconoir/vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 
 /* state sorting */
 const sortField = ref('');
 const sortDirection = ref('asc');
 
-const data = ref([
-    { job: 'Actor needed!', location: 'Brussels, Belgium', date: new Date('2024-12-01') },
-    { job: 'Network systems engineer needed!', location: 'Berlin, Germany', date: new Date('2024-12-15') },
-    { job: 'On-set tutor', location: 'Paris, France', date: new Date('2024-12-01') },
-    { job: 'Looking for a senior technical project manager!', location: 'Leuven, Belgium', date: new Date('2025-03-02') },
-    { job: 'Studio assistant needed', location: 'London, UK', date: new Date('2025-03-05') },
-    { job: 'Good security where?', location: 'Gent, Belgium', date: new Date('2025-03-10') },
-    { job: 'Is there a music editor available somewhere?', location: 'Rome, Italy', date: new Date('2025-05-22') },
-    { job: 'Looking for a good sound designer!', location: 'Marseille, France', date: new Date('2025-05-19') },
-]);
-
+const props = defineProps({
+    data: {
+        type: Array,
+        required: true
+    }
+});
 
 /* sort data */
 function sortData(field) {
@@ -28,7 +23,7 @@ function sortData(field) {
         sortDirection.value = 'asc';
     }
 
-    data.value.sort((a, b) => {
+    props.data.sort((a, b) => {
         let aValue = a[field];
         let bValue = b[field];
 
@@ -77,21 +72,23 @@ function getArrowIcon(field) {
                     <component :is="getArrowIcon('date')"></component>
                 </div>
             </div>
-                <div class="list__header__item list__action">
+            <div class="list__header__item list__action">
             </div>
         </div>
         <div class="list__body">
-            <div v-for="(item, index) in data" :key="item.email" class="list__body__row">
-                <div class="text-bold-normal list__job">
-                    {{ item.job }}
-                </div>
-                <div class="text-reg-normal list__body__item">
-                    {{ item.location }}
-                </div>
-                <div class="text-reg-normal">{{ item.date.toLocaleDateString() }}</div>
-                <div class="list__actions">
-                    <NormalButton class="button--tertiary button__savejob" label="Save job"/>
-                    <NormalButton class="button--primary button__apply" label="Apply"/>
+            <div v-for="(item, index) in props.data" :key="index">
+                <div class="list__body__row">
+                    <div class="text-bold-normal list__job">
+                        {{ linkedJobs.title }}
+                    </div>
+                    <div class="text-reg-normal list__body__item">
+                        {{ linkedJobs.location.city }}, {{ item.location.country }}
+                    </div>
+                    <div class="text-reg-normal">{{ new Date(item.date).toLocaleDateString() }}</div>
+                    <div class="list__actions">
+                        <NormalButton class="button--tertiary button__savejob" label="Save job"/>
+                        <NormalButton class="button--primary button__apply" label="Apply"/>
+                    </div>
                 </div>
             </div>
         </div>

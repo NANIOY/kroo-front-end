@@ -1,7 +1,8 @@
 <script setup>
+import { ref, onMounted, watch } from 'vue';
 import { defineProps } from 'vue';
-import SearchJob from '../jobs/SearchJob.vue';
 import JobList from '../../organisms/list/JobList.vue';
+import setupAxios from '../../../setupAxios'
 
 const props = defineProps({
     business: {
@@ -9,6 +10,32 @@ const props = defineProps({
         required: true
     }
 });
+
+const jobs = ref([]);
+const axiosInstance = setupAxios();
+
+const fetchJobById = async (jobId) => {
+  try {
+    const jobResponse = await axiosInstance.get(`/bussJob/${jobId}`);
+    return jobResponse.data.data.job;
+  } catch (error) {
+    console.error('Error fetching job data:', error);
+    return null;
+  }
+};
+
+const fetchLinkedJobs = async () => {
+  if (props.business.businessJobs?.linkedJobs?.length) {
+    const jobPromises = props.business.businessJobs.linkedJobs.map(fetchJobById);
+    const fetchedJobs = await Promise.all(jobPromises);
+    jobs.value = fetchedJobs.filter(job => job);
+  }
+};
+
+watch(() => props.business, fetchLinkedJobs, { immediate: true });
+
+onMounted(fetchLinkedJobs);
+
 </script>
 
 <template>
@@ -21,7 +48,7 @@ const props = defineProps({
                 <img class="radius-s work" :src="business.businessInfo.bannerImage" alt="portfolio work">
             </div>
         </div>
-        <JobList :jobs="business.jobs" />
+        <JobList :data="jobs" />
     </div>
 </template>
 
