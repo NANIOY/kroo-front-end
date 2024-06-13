@@ -121,7 +121,6 @@ watch(inputValue, (newVal) => {
 label {
   margin-bottom: 4px;
   font-size: 16px;
-  text-transform: capitalize;
 }
 
 .inputContainer__wrapper input {

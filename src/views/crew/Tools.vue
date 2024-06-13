@@ -7,11 +7,11 @@ const tools = [
   { toolName: "Discord", tags: ["COMMUNICATION"] },
   { toolName: "Microsoft Teams", tags: ["COMMUNICATION"] },
   { toolName: "Slack", tags: ["COMMUNICATION"] },
-  { toolName: "Google Drive", tags: ["FILE STORAGE", "WORKPLACE"] },
+  { toolName: "Google Drive", tags: ["FILE STORAGE", "WORKPLACE", "PRESENTATION", "SPREADSHEETS"] },
   { toolName: "Notion", tags: ["WORKPLACE"] },
   { toolName: "Microsoft Outlook", tags: ["AGENDA SERVICE"] },
   { toolName: "Zoom", tags: ["COMMUNICATION"] },
-  { toolName: "Microsoft OneDrive", tags: ["FILE STORAGE", "WORKPLACE"] },
+  { toolName: "Microsoft OneDrive", tags: ["FILE STORAGE", "WORKPLACE", "PRESENTATION", "SPREADSHEETS"] },
   { toolName: "Trello", tags: ["WORKSPACE"] },
 ];
 

@@ -65,6 +65,40 @@ const calculateDaysLeft = (dateString) => {
     return daysLeft > 0 ? daysLeft : 0;
 };
 
+const acceptJobOffer = async (jobId) => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+    if (!token) {
+        console.error('Authentication token is missing');
+        return;
+    }
+
+    try {
+        await axiosInstance.post(`/crewJobInt/offers/${jobId}/accept`, null, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        fetchJobs();
+    } catch (error) {
+        console.error('Failed to accept job offer:', error);
+    }
+};
+
+const declineJobOffer = async (jobId) => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+    if (!token) {
+        console.error('Authentication token is missing');
+        return;
+    }
+
+    try {
+        await axiosInstance.post(`/crewJobInt/offers/${jobId}/reject`, null, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        fetchJobs();
+    } catch (error) {
+        console.error('Failed to decline job offer:', error);
+    }
+};
+
 onMounted(fetchJobs);
 </script>
 
@@ -104,7 +138,9 @@ onMounted(fetchJobs);
             <div id="offered__job__info">
                 <div id="offered__job__info__date">
                     <Tag type="big">
-                        <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, { month: 'long' }) }}</p>
+                        <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, {
+                            month:
+                            'long' }) }}</p>
                     </Tag>
                 </div>
                 <div id="offered__job__info__place">
@@ -126,7 +162,10 @@ onMounted(fetchJobs);
                         class="button--tertiary offered__job__bottom__buttons_details" :hasIcon="false" :hasLabel="true"
                         label="Details" iconName="" />
                     <NormalButton id="normalButton__accept" class="button--primary offered__job__bottom__buttons_accept"
-                        :hasIcon="false" :hasLabel="true" label="Accept" iconName="" />
+                        :hasIcon="false" :hasLabel="true" label="Accept" iconName="" @click="acceptJobOffer(job._id)" />
+                    <NormalButton id="normalButton__decline"
+                        class="button--danger offered__job__bottom__buttons_decline" :hasIcon="false" :hasLabel="true"
+                        label="Decline" iconName="" @click="declineJobOffer(job._id)" />
                 </div>
             </div>
         </div>
@@ -141,7 +180,7 @@ p {
 img {
     object-fit: cover;
     max-width: 24px;
-    height:24px;
+    height: 24px;
 }
 
 #offered__job {
@@ -206,7 +245,8 @@ img {
 }
 
 .offered__job__bottom__buttons_details,
-.offered__job__bottom__buttons_accept {
+.offered__job__bottom__buttons_accept,
+.offered__job__bottom__buttons_decline {
     flex: 1;
 }
 </style>

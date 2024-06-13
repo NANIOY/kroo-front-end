@@ -49,6 +49,25 @@ const fetchJobs = async () => {
     }
 };
 
+const cancelJob = async (jobId) => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+    if (!token) {
+        console.error('Authentication token is missing');
+        return;
+    }
+
+    try {
+        await axiosInstance.delete(`/crewJobInt/cancelOngoing/${jobId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        // Refresh the job list
+        await fetchJobs();
+    } catch (error) {
+        console.error('Failed to cancel the job:', error);
+    }
+};
+
 const getFormattedDate = (dateString, options) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', options);
@@ -81,7 +100,8 @@ onMounted(fetchJobs);
                     <Tag type="big">
                         <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, {
                             month:
-                            'long' }) }}</p>
+                                'long'
+                        }) }}</p>
                     </Tag>
                 </div>
                 <div id="ongoing__job__info__place">
@@ -96,7 +116,7 @@ onMounted(fetchJobs);
 
             <div id="ongoing__job__buttons">
                 <NormalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
-                    :hasLabel="true" label="Cancel" iconName="" :hasRequest="false" />
+                    :hasLabel="true" label="Cancel" iconName="" :hasRequest="false" @click="cancelJob(job._id)" />
                 <NormalButton id="normalButton__details" class="button--primary" :hasIcon="false" :hasLabel="true"
                     label="Details" iconName="" :hasRequest="false" />
             </div>
@@ -112,7 +132,7 @@ p {
 img {
     object-fit: cover;
     max-width: 24px;
-    height:24px;
+    height: 24px;
 }
 
 #ongoing__job {

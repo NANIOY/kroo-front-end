@@ -133,7 +133,6 @@ p {
     border: 2px solid var(--gray);
     display: flex;
     flex-direction: column;
-    max-width: fit-content;
 }
 
 .list__header,

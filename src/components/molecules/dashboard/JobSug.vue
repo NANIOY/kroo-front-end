@@ -91,6 +91,7 @@ const openJobPop = () => {
     width: 56px;
     height: 56px;
     border-radius: 4px;
+    object-fit: cover;
 }
 
 .jobSug__top__title {
