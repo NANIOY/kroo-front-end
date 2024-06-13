@@ -1,7 +1,6 @@
 <script setup>
 import { ref, defineProps, defineEmits, watch } from 'vue';
 import Tab from '../../atoms/profile/Tab.vue';
-import NormalButton from '../../atoms/buttons/NormalButton.vue';
 
 const props = defineProps({
   currentUser: {
@@ -24,12 +23,6 @@ const setActiveTab = (index) => {
   emits('update:activeTab', tabs[index]);
 };
 
-const cycleTab = (direction) => {
-  const newIndex = direction === 'next' ? activeTabIndex.value + 1 : activeTabIndex.value - 1;
-  activeTabIndex.value = (newIndex + tabs.length) % tabs.length;
-  emits('update:activeTab', tabs[activeTabIndex.value]);
-};
-
 watch(activeTabIndex, (newIndex) => {
   emits('update:activeTab', tabs[newIndex]);
 });
@@ -41,11 +34,6 @@ watch(activeTabIndex, (newIndex) => {
       <Tab v-for="(tab, index) in tabs" :key="tab" :label="tab" :isActive="index === activeTabIndex"
         @tabSelected="setActiveTab(index)" />
     </div>
-    <!-- Show edit button only if the logged-in user is viewing their own profile -->
-    <template v-if="isCurrentUserProfile">
-      <NormalButton class="button--secondary tabcontainer__button" label="Edit" iconName="EditPencil"
-        :hasRequest="false" redirect="/settings" />
-    </template>
   </div>
 </template>
 
