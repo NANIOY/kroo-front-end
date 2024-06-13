@@ -4,7 +4,6 @@ import InputField from '../../atoms/inputs/InputField.vue';
 import Dropdown from '../../atoms/inputs/DropDown.vue';
 import { defineEmits } from 'vue';
 
-// Emit the search event to the parent
 const emit = defineEmits(['search']);
 
 const timeConfig = {
@@ -47,7 +46,7 @@ const searchDropdownConfig = {
 
 const searchInputConfig = {
   label: 'Search',
-  placeholder: 'Placeholder',
+  placeholder: 'Search jobs',
   width: '272px'
 };
 

@@ -52,6 +52,9 @@ const inputValue = computed({
   },
   set(value) {
     emit('update:modelValue', value);
+    if (props.hasSearchFunction) {
+      emit('search', value);
+    }
   }
 });
 
