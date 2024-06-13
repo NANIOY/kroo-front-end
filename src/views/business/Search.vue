@@ -16,19 +16,25 @@ const fetchCrewData = async () => {
         const crewMembersData = data.data.users.filter(user => user.crewData);
 
         const crewData = await Promise.all(crewMembersData.map(async member => {
-            const crewResponse = await axiosInstance.get(`/crew/${member.crewData}`);
-            const crewDetails = crewResponse.data.data;
-            return {
-                img: crewDetails.basicInfo.profileImage,
-                name: member.username,
-                city: crewDetails.profileDetails.city,
-                country: crewDetails.profileDetails.country,
-                functions: crewDetails.basicInfo.functions,
-                userUrl: member.userUrl
-            };
+            try {
+                console.log(`Fetching crew data for user ID: ${member._id}, crewData ID: ${member.crewData}`);
+                const crewResponse = await axiosInstance.get(`/crew/${member.crewData}`);
+                const crewDetails = crewResponse.data.data;
+                return {
+                    img: crewDetails.basicInfo.profileImage,
+                    name: member.username,
+                    city: crewDetails.profileDetails.city,
+                    country: crewDetails.profileDetails.country,
+                    functions: crewDetails.basicInfo.functions,
+                    userUrl: member.userUrl
+                };
+            } catch (error) {
+                console.error(`Error fetching crew data for user ID: ${member._id}, crewData ID: ${member.crewData}`, error);
+                return null;
+            }
         }));
 
-        crewMembers.value = crewData;
+        crewMembers.value = crewData.filter(member => member !== null);
     } catch (error) {
         console.error('Error fetching crew data:', error);
     } finally {
