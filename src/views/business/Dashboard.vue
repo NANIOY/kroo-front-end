@@ -67,7 +67,7 @@ const fetchActiveJobs = async () => {
     }
 };
 
-// Fetch crew suggestions
+// fetch crew suggestions
 const fetchCrewSuggestions = async () => {
     try {
         const { data } = await axiosInstance.get('/user');
@@ -87,59 +87,92 @@ const fetchCrewSuggestions = async () => {
         const crewDataList = await Promise.all(crewDataPromises);
 
         // define base max points
-        const baseMaxPoints = 7;
+        const baseMaxPoints = 11;
 
-        const suggestions = crewDataList.map(({ member, crewData }) => {
+        const getCoordinates = async (city, country) => {
+            try {
+                const response = await axiosInstance.get('/geo/coordinates', {
+                    params: { city, country },
+                });
+                return response.data;
+            } catch (error) {
+                console.error('Error fetching coordinates:', error);
+                return null;
+            }
+        };
+
+        const calculateDistance = (lat1, lon1, lat2, lon2) => {
+            const toRadians = (degree) => degree * (Math.PI / 180);
+            const R = 6371; // earth radius in km
+            const dLat = toRadians(lat2 - lat1);
+            const dLon = toRadians(lon2 - lon1);
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c; // distance in km
+        };
+
+        const suggestions = await Promise.all(crewDataList.map(async ({ member, crewData }) => {
             let bestFitPoints = 0;
             let bestFitJob = null;
 
-            activeJobs.value.forEach(job => {
+            for (const job of activeJobs.value) {
                 let points = 0;
 
+                // function match
                 const normalizedJobFunction = job.jobFunction.trim().toLowerCase();
                 const hasMatchingFunction = crewData.basicInfo.functions.some(func => {
                     const normalizedFunc = func.trim().toLowerCase();
                     return normalizedFunc === normalizedJobFunction;
                 });
+                if (hasMatchingFunction) points += 4;
+
+                // skill match
                 if (hasMatchingFunction) {
-                    points += 4;
+                    const crewSkills = crewData.profileDetails.skills.map(skill => skill.trim().toLowerCase());
+                    const jobSkills = job.skills.map(skill => skill.trim().toLowerCase());
+                    const skillMatches = crewSkills.filter(skill => jobSkills.includes(skill)).length;
+                    points += skillMatches;
                 }
 
-                // Check skill matches
-                const crewSkills = crewData.profileDetails.skills.map(skill => skill.trim().toLowerCase());
-                const jobSkills = job.skills.map(skill => skill.trim().toLowerCase());
-                const skillMatches = crewSkills.filter(skill => jobSkills.includes(skill)).length;
-
-                points += skillMatches;
+                // location match
+                const crewCoords = await getCoordinates(crewData.profileDetails.city, crewData.profileDetails.country);
+                const jobCoords = await getCoordinates(job.location.city, job.location.country);
+                if (crewCoords && jobCoords) {
+                    const distance = calculateDistance(crewCoords.lat, crewCoords.lon, jobCoords.lat, jobCoords.lon);
+                    const workRadius = crewData.profileDetails.workRadius || 0;
+                    if (distance <= workRadius) {
+                        points += hasMatchingFunction ? 3 : 1;
+                    }
+                }
 
                 if (points > bestFitPoints) {
                     bestFitPoints = points;
                     bestFitJob = job.title;
                 }
-
-                // log skill matches
-                console.log(`Skill Matches for ${member.username} on Job ${job.title}:`, skillMatches);
-            });
+            }
 
             // convert points to percentage
             const perc = Math.floor((bestFitPoints / baseMaxPoints) * 100);
 
-            // log points and percentage
-            console.log(`Points for ${member.username}:`, bestFitPoints);
-            console.log(`Percentage for ${member.username}:`, perc);
+            console.log(`Points for ${member.username}:`, bestFitPoints, `Percentage:`, perc);
 
             return {
                 img: crewData.basicInfo.profileImage,
                 name: member.username,
                 perc,
-                jobtitle: bestFitJob || 'No matching job', // use the best fit job title
+                jobtitle: bestFitJob || 'No matching job', // use best fit job or default
                 functions: crewData.basicInfo.functions,
                 userUrl: member.userUrl
             };
-        });
+        }));
 
-        // sort by percentage and take the top 4
-        crewSuggestions.value = suggestions.sort((a, b) => b.perc - a.perc).slice(0, 4);
+        // Filter out null suggestions
+        crewSuggestions.value = suggestions.filter(suggestion => suggestion !== null);
+
+        // Sort by percentage and take the top 4
+        crewSuggestions.value = crewSuggestions.value.sort((a, b) => b.perc - a.perc).slice(0, 4);
 
     } catch (error) {
         console.error('Error fetching crew suggestions:', error);
