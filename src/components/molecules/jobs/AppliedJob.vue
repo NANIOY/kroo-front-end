@@ -1,13 +1,15 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, defineEmits } from 'vue';
 import setupAxios from '../../../setupAxios';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import JobPop from '../popups/JobPop.vue';
 
 const jobs = ref([]);
 const selectedJob = ref(null);
+const selectedJobId = ref(null);
 const isJobPopVisible = ref(false);
 const axiosInstance = setupAxios();
+const emit = defineEmits(['jobCancelled']);
 
 const fetchJobs = async () => {
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
@@ -53,16 +55,19 @@ const fetchJobs = async () => {
 
 const showJobDetails = (job) => {
     selectedJob.value = job;
+    selectedJobId.value = job._id;
     isJobPopVisible.value = true;
 };
 
 const closeJobDetails = () => {
     isJobPopVisible.value = false;
     selectedJob.value = null;
+    selectedJobId.value = null;
 };
 
 const removeJobFromList = (jobId) => {
     jobs.value = jobs.value.filter(job => job.applicationId !== jobId);
+    emit('jobCancelled');
 };
 
 onMounted(fetchJobs);
@@ -90,14 +95,15 @@ onMounted(fetchJobs);
         <div id="applied__job__buttons">
             <NormalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
                 :hasLabel="true" label="Cancel" @click.stop method="DELETE"
-                :endpoint="`/crewJobInt/applications/${job.applicationId}`" @success="removeJobFromList(job.applicationId)" />
+                :endpoint="`/crewJobInt/applications/${job.applicationId}`"
+                @success="removeJobFromList(job.applicationId)" />
             <NormalButton id="normalButton__details" class="button--primary" :hasIcon="false" :hasLabel="true"
                 label="Details" :hasRequest="false" @click.stop="showJobDetails(job)" />
         </div>
     </div>
 
-    <JobPop v-if="isJobPopVisible" :job="selectedJob" :isVisible="isJobPopVisible" @close="closeJobDetails"
-        jobType="applied" />
+    <JobPop v-if="isJobPopVisible" :job="selectedJob" :jobId="selectedJobId" :isVisible="isJobPopVisible"
+        @close="closeJobDetails" jobType="applied" :onSuccess="() => { fetchJobs(); closeJobDetails(); }" />
 </template>
 
 <style scoped>

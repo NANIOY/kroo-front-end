@@ -76,14 +76,14 @@ onMounted(fetchJobCounts);
     <div class="tracker__container">
       <h6>APPLIED &#8722; {{ jobCounts.applied }}</h6>
       <div class="tracker__container__column">
-        <AppliedJob :jobs="appliedJobs" />
+        <AppliedJob :jobs="appliedJobs" @jobCancelled="fetchJobCounts" />
       </div>
     </div>
 
     <div class="tracker__container">
       <h6>ONGOING &#8722; {{ jobCounts.ongoing }}</h6>
       <div class="tracker__container__column">
-        <OngoingJob :jobs="ongoingJobs" @jobCancelled="fetchJobCounts" />
+        <OngoingJob :jobs="ongoingJobs" />
       </div>
     </div>
 

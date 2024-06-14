@@ -13,7 +13,8 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
-    jobId: String, // Add this line
+    jobId: String,
+    onSuccess: Function,
 });
 
 const emits = defineEmits(['close', 'unsave']);
@@ -111,7 +112,7 @@ watch(props, () => {
                     <!-- ONGOING BUTTONS -->
                     <LargeButton v-if="jobType === 'ongoing'" label="Cancel"
                         class="jobpop__bottom__button button--tertiary " method="POST"
-                        :endpoint="`/crewJobInt/ongoing/${jobId}/cancel`" :onSuccess="closePopup" />
+                        :endpoint="`/crewJobInt/ongoing/${jobId}/cancel`" :onSuccess="onSuccess" />
                 </div>
             </div>
         </div>
