@@ -4,6 +4,7 @@ import setupAxios from '../../../setupAxios';
 import Overlay from './Overlay.vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
 import DropDown from '../../atoms/inputs/DropDown.vue';
+import Alert from '../../atoms/alerts/alert.vue';
 
 const props = defineProps({
     isVisible: {
@@ -27,6 +28,11 @@ const jobs = ref([]);
 const selectedJobTitle = ref(null);
 const jobOptions = ref([]);
 const jobTitleToIdMap = ref({});
+
+const alertVisible = ref(false);
+const alertMessage = ref('');
+const alertType = ref('good');
+const alertText = ref('');
 
 const fetchAvailableJobs = async () => {
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
@@ -71,6 +77,7 @@ const sendJobOffer = async () => {
         });
 
         emits('submit');
+        showAlert('Job submitted successfully!', 'good');
         closeModal();
     } catch (error) {
         console.error('Failed to send job offer:', error);
@@ -86,9 +93,19 @@ watch(() => props.isVisible, (newVal) => {
         fetchAvailableJobs();
     }
 }, { immediate: true });
+
+const showAlert = (message, type) => {
+    alertMessage.value = message;
+    alertType.value = type;
+    alertVisible.value = true;
+    alertText.value = text;
+};
+
 </script>
 
 <template>
+    <Alert v-if="alertVisible" :type="alertType" :label="alertMessage" :text="alertText"/>
+
     <Overlay v-if="isVisible" @overlayClick="closeModal">
         <div class="offerjob" @click.stop>
             <div class="offerjob__top">
