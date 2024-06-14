@@ -89,10 +89,13 @@ const fetchCrewSuggestions = async () => {
         // define base max points
         const baseMaxPoints = 4;
 
-        crewSuggestions.value = crewDataList.map(({ member, crewData }) => {
+        const suggestions = crewDataList.map(({ member, crewData }) => {
             console.log('Functions', member.username, ':', crewData.basicInfo.functions);
 
             let points = 0;
+            let bestFitJob = null;
+            let highestPoints = 0;
+
             activeJobs.value.forEach(job => {
                 console.log('Comparing Job Function:', job.jobFunction);
                 const normalizedJobFunction = job.jobFunction.trim().toLowerCase();
@@ -101,8 +104,14 @@ const fetchCrewSuggestions = async () => {
                     console.log(`Checking if '${normalizedFunc}' matches '${normalizedJobFunction}'`);
                     return normalizedFunc === normalizedJobFunction;
                 });
+
                 if (hasMatchingFunction) {
                     points += 4;
+
+                    if (points > highestPoints) {
+                        highestPoints = points;
+                        bestFitJob = job.title;
+                    }
                 }
             });
 
@@ -117,20 +126,19 @@ const fetchCrewSuggestions = async () => {
                 img: crewData.basicInfo.profileImage,
                 name: member.username,
                 perc,
-                jobtitle: 'Job title', // HARD CODED
+                jobtitle: bestFitJob || 'No matching job', // use the best fit job title
                 functions: crewData.basicInfo.functions,
                 userUrl: member.userUrl
             };
         });
 
-        // sort by percentage
-        crewSuggestions.value.sort((a, b) => b.perc - a.perc);
+        // sort by percentage and take the top 4
+        crewSuggestions.value = suggestions.sort((a, b) => b.perc - a.perc).slice(0, 4);
 
     } catch (error) {
         console.error('Error fetching crew suggestions:', error);
     }
 };
-
 
 // Fetch calendar events
 const fetchCalendarEvents = async () => {
