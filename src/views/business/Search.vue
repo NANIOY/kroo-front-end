@@ -9,6 +9,7 @@ const axiosInstance = setupAxios();
 const crewMembers = ref([]);
 const loading = ref(true);
 const searchTerm = ref('');
+const selectedSortOption = ref('');
 
 const fetchCrewData = async () => {
     try {
@@ -50,29 +51,36 @@ const handleSearch = (value) => {
     searchTerm.value = value;
 };
 
+const filteredJobs = computed(() => {
+    let crew = crewMembers.value;
+
+    if (selectedSortOption.value === 'Name') {
+        crew.sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    return crew;
+});
+
+const handleSort = (option) => {
+    selectedSortOption.value = option;
+};
+
 onMounted(() => {
     fetchCrewData();
 });
 
-const filteredCrewMembers = computed(() => {
-    if (searchTerm.value === '') {
-        return crewMembers.value;
-    }
-    return crewMembers.value.filter(crew =>
-        crew.name.toLowerCase().includes(searchTerm.value.toLowerCase())
-    );
-});
+
 </script>
 
 <template>
     <div class="viewcontainer">
-        <SearchCrewFilter @search="handleSearch" />
+        <SearchCrewFilter @search="handleSearch" @sort="handleSort" />
 
         <div class="crew-container">
             <div v-if="loading" class="loading">Loading...</div>
             <div v-else>
                 <div class="viewcontainer__crews">
-                    <SearchCrew v-for="crew in filteredCrewMembers" :key="crew.name" :img="crew.img" :name="crew.name"
+                    <SearchCrew v-for="crew in filteredJobs" :key="crew.name" :img="crew.img" :name="crew.name"
                         :city="crew.city" :country="crew.country" :functions="crew.functions" :userUrl="crew.userUrl"
                         @navigateToProfile="navigateToProfile" />
                 </div>
