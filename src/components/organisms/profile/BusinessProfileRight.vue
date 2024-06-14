@@ -1,8 +1,9 @@
 <script setup>
-import { defineProps, ref, watch } from 'vue';
+import { defineProps, ref, watch, onMounted } from 'vue';
 import Tabs from '../../molecules/profile/BusinessTabs.vue';
 import Portfolio from '../../molecules/profile/Portfolio.vue';
 import BusinessAbout from '../../molecules/profile/BusinessAbout.vue';
+import setupAxios from '../../../setupAxios';
 
 const props = defineProps({
     business: {
@@ -10,6 +11,29 @@ const props = defineProps({
         required: true
     }
 });
+
+const axiosInstance = setupAxios();
+const businessId = ref('');
+
+const fetchBusinessId = async () => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+    const userId = sessionStorage.getItem('userId');
+
+    if (!token || !userId) {
+        console.error('Authentication token or user ID is missing');
+        return null;
+    }
+
+    try {
+        const userResponse = await axiosInstance.get(`/user/${userId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        businessId.value = userResponse.data.data.user.businessData;
+    } catch (error) {
+        console.error('Failed to fetch user data:', error);
+        return null;
+    }
+};
 
 const activeTab = ref('About');
 
@@ -21,6 +45,11 @@ const handleTabChange = (newTab) => {
 watch(activeTab, (newTab) => {
     console.log(`Tab changed to: ${newTab}`);
 });
+
+onMounted(() => {
+    fetchBusinessId();
+});
+
 </script>
 
 <template>

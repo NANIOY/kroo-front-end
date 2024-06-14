@@ -2,7 +2,7 @@
 import { ref, onMounted, watch } from 'vue';
 import { defineProps } from 'vue';
 import JobList from '../../organisms/list/JobList.vue';
-import setupAxios from '../../../setupAxios'
+import setupAxios from '../../../setupAxios';
 
 const props = defineProps({
     business: {
@@ -14,24 +14,24 @@ const props = defineProps({
 const jobs = ref([]);
 const axiosInstance = setupAxios();
 
-const fetchJobById = async (jobId) => {
-  try {
-    const jobResponse = await axiosInstance.get(`/bussJob/${jobId}`);
-    return jobResponse.data.data.job;
-  } catch (error) {
-    console.error('Error fetching job data:', error);
-    return null;
-  }
-};
-
 const fetchLinkedJobs = async () => {
-  if (props.business.businessJobs?.linkedJobs?.length) {
-    const jobPromises = props.business.businessJobs.linkedJobs.map(fetchJobById);
-    const fetchedJobs = await Promise.all(jobPromises);
-    jobs.value = fetchedJobs.filter(job => job);
+    if (!props.business || !props.business.id) {
+        console.error('No business ID found');
+        return;
+    } 
+    try {
+    // API-call voor het ophalen van gelinkte jobs van een business
+    const response = await axiosInstance.get(`/bussJob/${businessId}`);
+    console.log('Fetched linked jobs response:', response.data);
+    if (response.data && response.data.linkedJobs) {
+      jobs.value = response.data.linkedJobs;
+    }
+  } catch (error) {
+    console.error('Error fetching linked jobs:', error);
   }
 };
 
+// Watcher voor het bijwerken van jobs als de business verandert
 watch(() => props.business, fetchLinkedJobs, { immediate: true });
 
 onMounted(fetchLinkedJobs);
