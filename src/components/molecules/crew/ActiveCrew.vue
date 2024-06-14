@@ -2,6 +2,7 @@
 import { ref, onMounted, watch, defineEmits } from 'vue';
 import setupAxios from '../../../setupAxios';
 import Tag from '../../atoms/items/Tag.vue'
+import TransparentButton from '../../atoms/buttons/TransparentButton.vue'
 
 const props = defineProps({
     members: {
@@ -109,7 +110,10 @@ onMounted(() => {
         <div class="activeCrew__top">
             <img :src="crew.profileImage || 'https://placehold.co/64x64'" class="activeCrew__top__image"
                 alt="Crew image" />
-            <h4 class="activeCrew__top__name">{{ crew.username }}</h4>
+            <div>
+                <h4 class="activeCrew__top__name">{{ crew.username }}</h4>
+                <TransparentButton @click.stop class="activeCrew__top__button" :hasIcon="true" iconName="Xmark" />
+            </div>
         </div>
 
         <div id="activeCrew__info">
@@ -146,6 +150,7 @@ p {
 .activeCrew,
 .activeCrew__info,
 .activeCrew__top,
+.activeCrew__top div,
 .activeCrew__mid,
 .activeCrew__bot,
 #activeCrew__info {
@@ -162,6 +167,19 @@ p {
     height: 64px;
     border-radius: 4px;
     object-fit: cover;
+}
+
+.activeCrew__top div {
+    flex: 1;
+    justify-content: space-between;
+    gap: 8px;
+
+}
+
+.activeCrew__top__button {
+    width: fit-content;
+    margin-top: -4px;
+    color: var(--blurple-50) !important;
 }
 
 /* INFO */
