@@ -3,12 +3,18 @@ import { ref, onMounted, defineEmits } from 'vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import setupAxios from '../../../setupAxios';
 import Tag from '../../atoms/items/Tag.vue';
+import Alert from '../../atoms/alerts/alert.vue';
 
 const applicants = ref([]);
 const loading = ref(true);
 const axiosInstance = setupAxios();
 
 const emit = defineEmits(['accepted', 'rejected', 'fetchActiveCrewMembers', 'navigateToProfile']);
+
+const alertVisible = ref(false);
+const alertMessage = ref('');
+const alertType = ref('good');
+const alertText = ref('');
 
 const fetchBusinessId = async () => {
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
@@ -81,6 +87,7 @@ const rejectApplicant = async (applicationId, index) => {
         if (response.status === 200) {
             applicants.value.splice(index, 1);
             emit('rejected');
+            showAlert('Crewmember rejected successfully!', 'good', 'The crew member has been notified.');
         }
     } catch (error) {
         console.error('Failed to reject applicant:', error);
@@ -99,6 +106,7 @@ const acceptApplicant = async (application, index) => {
                 date: application.date,
                 profileImage: application.user.crewData?.basicInfo?.profileImage
             });
+            showAlert('Crewmember accepted successfully!', 'good', 'The crew member has been notified.');
             applicants.value = applicants.value.filter(app => app.jobTitle !== application.jobTitle);
         }
         emit('fetchActiveCrewMembers');
@@ -111,12 +119,21 @@ const navigateToProfile = (userUrl) => {
     emit('navigateToProfile', userUrl);
 };
 
+const showAlert = (message, type, text) => {
+    alertMessage.value = message;
+    alertType.value = type;
+    alertText.value = text;
+    alertVisible.value = true;
+};
+
 onMounted(() => {
     fetchApplicants();
 });
 </script>
 
 <template>
+    <Alert v-if="alertVisible" :type="alertType" :label="alertMessage" :text="alertText" />
+
     <div v-if="loading" class="loading">Loading...</div>
     <div v-for="(applicant, index) in applicants" :key="applicant.userId" class="applicant surface-tertiary radius-xs"
         @click="navigateToProfile(applicant.user.userUrl)">
