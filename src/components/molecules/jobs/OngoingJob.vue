@@ -112,9 +112,7 @@ onMounted(fetchJobs);
 </script>
 
 <template>
-    <div>
-        <Alert v-if="alertVisible" :type="alertType" :label="alertMessage" />
-    </div>
+    <Alert v-if="alertVisible" :type="alertType" :label="alertMessage" />
 
     <div>
         <div v-for="job in jobs" :key="job._id" id="ongoing__job" class="surface-tertiary radius-xs"
