@@ -61,6 +61,7 @@ const fetchActiveJobs = async () => {
         const jobResponse = await axiosInstance.get(`/bussjob/${businessId}`);
         const sortedJobs = jobResponse.data.linkedJobs.sort((a, b) => new Date(a.date) - new Date(b.date));
         activeJobs.value = sortedJobs.slice(0, 3);
+        activeJobs.value.forEach(job => console.log('Job Function:', job.jobFunction));
     } catch (error) {
         console.error('Error fetching active jobs:', error);
     }
@@ -71,13 +72,28 @@ const fetchCrewSuggestions = async () => {
     try {
         const { data } = await axiosInstance.get('/user');
         const crewMembers = data.data.users.filter(user => user.crewData).slice(0, 4);
+
         crewSuggestions.value = await Promise.all(crewMembers.map(async member => {
             const crewDataResponse = await axiosInstance.get(`/crew/${member.crewData}`);
             const crewData = crewDataResponse.data.data;
+
+            console.log('Crew Member Functions:', crewData.basicInfo.functions);
+
+            let points = 0;
+            activeJobs.value.forEach(job => {
+                console.log('Job Function:', job.jobFunction);
+                if (crewData.basicInfo.functions.includes(job.jobFunction)) {
+                    points += 4;
+                }
+            });
+
+            // Log the points
+            console.log(`Points for ${member.username}:`, points);
+
             return {
                 img: crewData.basicInfo.profileImage,
                 name: member.username,
-                perc: '85', // HARD CODED
+                perc: points,
                 jobtitle: 'Job title', // HARD CODED
                 functions: crewData.basicInfo.functions,
                 userUrl: member.userUrl
