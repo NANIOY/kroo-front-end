@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import SearchCrew from '../../components/molecules/crew/SearchCrew.vue';
 import SearchCrewFilter from '../../components/molecules/filter/SearchCrewFilter.vue';
 import setupAxios from '../../setupAxios';
@@ -9,6 +9,7 @@ const axiosInstance = setupAxios();
 const crewMembers = ref([]);
 const loading = ref(true);
 const searchTerm = ref('');
+const selectedSortOption = ref('Relevance');
 const activeJobs = ref([]);
 const crewSuggestions = ref([]);
 
@@ -181,6 +182,20 @@ const handleSearch = (value) => {
     searchTerm.value = value;
 };
 
+const handleSort = (option) => {
+    selectedSortOption.value = option;
+};
+
+watch(selectedSortOption, (newVal) => {
+    if (newVal === 'Relevance') {
+        crewSuggestions.value = crewSuggestions.value.sort((a, b) => b.perc - a.perc);
+    } else if (newVal === 'Name (A-Z)') {
+        crewSuggestions.value = crewSuggestions.value.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (newVal === 'Name (Z-A)') {
+        crewSuggestions.value = crewSuggestions.value.sort((a, b) => b.name.localeCompare(a.name));
+    }
+});
+
 onMounted(() => {
     fetchActiveJobs().then(fetchCrewData);
 });
@@ -197,7 +212,7 @@ const filteredCrewMembers = computed(() => {
 
 <template>
     <div class="viewcontainer">
-        <SearchCrewFilter @search="handleSearch" />
+        <SearchCrewFilter @search="handleSearch" @sort="handleSort" />
 
         <div class="crew-container">
             <div v-if="loading" class="loading">Loading...</div>

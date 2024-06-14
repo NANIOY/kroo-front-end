@@ -2,7 +2,7 @@
 import DropFilter from './DropFilter.vue';
 import InputField from '../../atoms/inputs/InputField.vue';
 import Dropdown from '../../atoms/inputs/DropDown.vue';
-import { ref, watch, defineEmits } from 'vue';
+import { ref, defineEmits, watch } from 'vue';
 
 const functionConfig = {
     title: 'Function',
@@ -28,7 +28,7 @@ const skillsConfig = {
 const searchDropdownConfig = {
     label: ' ',
     placeholder: 'Sort by',
-    options: ['Option 1', 'Option 2', 'Option 3'] // Example options
+    options: ['Relevance', 'Name (A-Z)', 'Name (Z-A)']
 };
 
 const searchInputConfig = {
@@ -38,11 +38,16 @@ const searchInputConfig = {
 };
 
 const searchTerm = ref('');
+const selectedSortOption = ref('Relevance');
 
-const emitSearch = defineEmits(['search']);
+const emit = defineEmits(['search', 'sort']);
 
-watch(searchTerm, (newVal) => {
-    emitSearch('search', newVal);
+const handleSearch = (value) => {
+    emit('search', value);
+};
+
+watch(selectedSortOption, (newVal) => {
+    emit('sort', newVal);
 });
 </script>
 
@@ -50,9 +55,11 @@ watch(searchTerm, (newVal) => {
     <div class="searchfilter">
         <div class="searchfilter__inputs">
             <InputField :label="searchInputConfig.label" :placeholder="searchInputConfig.placeholder"
-                :hasIconLeft="true" iconLeftName="Search" class="searchfilter__input__field" v-model="searchTerm" />
+                :hasIconLeft="true" iconLeftName="Search" class="searchfilter__input__field" v-model="searchTerm"
+                @input="handleSearch($event.target.value)" />
             <Dropdown :label="searchDropdownConfig.label" :placeholder="searchDropdownConfig.placeholder"
-                :options="searchDropdownConfig.options" class="searchfilter__input__dropdown" />
+                :options="searchDropdownConfig.options" class="searchfilter__input__dropdown"
+                v-model="selectedSortOption" />
         </div>
 
         <div class="searchfilter__filters">
