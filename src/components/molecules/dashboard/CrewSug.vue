@@ -120,6 +120,7 @@ const navigateToProfile = () => {
     flex-direction: column;
     gap: 4px;
     align-items: flex-end;
+    text-align: right;
     margin-left: auto;
     color: var(--blurple);
 }
