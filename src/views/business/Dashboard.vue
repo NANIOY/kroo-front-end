@@ -87,7 +87,7 @@ const fetchCrewSuggestions = async () => {
         const crewDataList = await Promise.all(crewDataPromises);
 
         // define base max points
-        const baseMaxPoints = 11;
+        const baseMaxPoints = 13; // 4 (function) + 1*skills + 3 (location) + 2 (languages)
 
         const getCoordinates = async (city, country) => {
             try {
@@ -126,14 +126,14 @@ const fetchCrewSuggestions = async () => {
                     const normalizedFunc = func.trim().toLowerCase();
                     return normalizedFunc === normalizedJobFunction;
                 });
-                if (hasMatchingFunction) points += 4;
+                if (hasMatchingFunction) points += 4; // 4 points for function match
 
                 // skill match
                 if (hasMatchingFunction) {
                     const crewSkills = crewData.profileDetails.skills.map(skill => skill.trim().toLowerCase());
                     const jobSkills = job.skills.map(skill => skill.trim().toLowerCase());
                     const skillMatches = crewSkills.filter(skill => jobSkills.includes(skill)).length;
-                    points += skillMatches;
+                    points += skillMatches; // 1 point per matching skill if function matches
                 }
 
                 // location match
@@ -143,7 +143,20 @@ const fetchCrewSuggestions = async () => {
                     const distance = calculateDistance(crewCoords.lat, crewCoords.lon, jobCoords.lat, jobCoords.lon);
                     const workRadius = crewData.profileDetails.workRadius || 0;
                     if (distance <= workRadius) {
-                        points += hasMatchingFunction ? 3 : 1;
+                        points += hasMatchingFunction ? 3 : 1; // 3 points if location matches and function matches, 1 point if location matches
+                    }
+                }
+
+                // language match
+                if (hasMatchingFunction) {
+                    try {
+                        const businessResponse = await axiosInstance.get(`/business/${job.businessId}`);
+                        const businessLanguages = businessResponse.data.data.business.businessInfo.languages || [];
+                        const crewLanguages = crewData.profileDetails.languages || [];
+                        const languageMatch = businessLanguages.some(lang => crewLanguages.includes(lang)) ? 2 : 0; // 2 points if at least one language matches and function matches
+                        points += languageMatch;
+                    } catch (error) {
+                        console.error('Error fetching business details:', error);
                     }
                 }
 
