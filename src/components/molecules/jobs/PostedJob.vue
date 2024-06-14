@@ -4,10 +4,15 @@ import { IconoirProvider, User } from '@iconoir/vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import Tag from '../../atoms/items/Tag.vue';
 import setupAxios from '../../../setupAxios';
+import Alert from '../../atoms/alerts/alert.vue';
 
 const jobs = ref([]);
-const emit = defineEmits(['jobClick', 'jobsUpdated']);
+const emit = defineEmits(['jobClick', 'jobsUpdated', 'jobCancelled']);
 const axiosInstance = setupAxios();
+
+const alertVisible = ref(false);
+const alertMessage = ref('');
+const alertType = ref('good');
 
 const fetchBusinessId = async () => {
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
@@ -63,9 +68,25 @@ onMounted(async () => {
         await fetchJobs(businessId);
     }
 });
+
+const removeJobFromList = (jobId) => {
+    jobs.value = jobs.value.filter(job => job.applicationId !== jobId);
+    emit('jobCancelled');
+    showAlert('Job canceled successfully!', 'good');
+};
+
+const showAlert = (message, type) => {
+    alertMessage.value = message;
+    alertType.value = type;
+    alertVisible.value = true;
+};
+
+
 </script>
 
 <template>
+    <Alert v-if="alertVisible" :type="alertType" :label="alertMessage" />
+
     <IconoirProvider :icon-props="{
         'color': 'var(--black)',
         'width': '20',
@@ -113,6 +134,10 @@ onMounted(async () => {
             <div id="posted__job__buttons">
                 <NormalButton id="normalButton__details" class="button--primary" :hasIcon="false" :hasLabel="true"
                     label="Details" :hasRequest="false" @click.stop="handleJobClick(job)" />
+                <NormalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
+                :hasLabel="true" label="Delete job" @click.stop method="DELETE"
+                :endpoint="`/bussJobInt/applications/${job.jobId}`"
+                @success="removeJobFromList(job.jobId)" />
             </div>
         </div>
     </IconoirProvider>
@@ -183,6 +208,7 @@ p {
     gap: 16px;
 }
 
+#normalButton__cancel,
 #normalButton__details {
     flex: 1;
 }

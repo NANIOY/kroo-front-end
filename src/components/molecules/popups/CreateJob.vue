@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, defineProps, defineEmits, watch } from 'vue';
+import { reactive, defineProps, defineEmits, watch, ref } from 'vue';
 import InputField from '../../atoms/inputs/InputField.vue';
 import MultiDropdown from '../../atoms/inputs/MultiDropdown.vue';
 import Dropdown from '../../atoms/inputs/DropDown.vue';
@@ -11,6 +11,7 @@ import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import Overlay from './Overlay.vue';
 import setupAxios from '../../../setupAxios';
 import axios from 'axios';
+import Alert from '../../atoms/alerts/alert.vue';
 
 const props = defineProps({
     isVisible: {
@@ -48,6 +49,11 @@ const props = defineProps({
 });
 
 const emits = defineEmits(['close', 'submit', 'delete']);
+
+const alertVisible = ref(false);
+const alertMessage = ref('');
+const alertType = ref('good');
+const alertText = ref('');
 
 const localPostData = reactive({
     title: props.postData.title || '',
@@ -293,6 +299,7 @@ const deleteJob = async () => {
         console.log('Job deleted successfully:', response.data);
         emits('delete', props.jobId);
         closeModal();
+        showAlert('Job deleted successfully!', 'good');
     } catch (error) {
         console.error('Failed to delete job:', error);
     }
@@ -302,17 +309,29 @@ const handleSubmit = () => {
     console.log('Submitting job data:', JSON.stringify(localPostData, null, 2));
     if (props.type === 'create') {
         createJob();
+        showAlert('Job created successfully!', 'good', 'The job has been created successfully. You can see it in the jobs list.');
     } else {
         updateJob();
+        showAlert('Job updated successfully!', 'good', 'The job has been updated successfully.');
     }
 };
 
 const closeModal = () => {
     emits('close');
 };
+
+const showAlert = (message, type, text) => {
+    alertMessage.value = message;
+    alertType.value = type;
+    alertText.value= text;
+    alertVisible.value = true;
+};
+
 </script>
 
 <template>
+    <Alert v-if="alertVisible" :type="alertType" :label="alertMessage" :text="alertText" />
+
     <Overlay class="modal__overlay" v-if="isVisible" @overlayClick="closeModal">
         <div class="modal" @click.stop>
             <div class="modal__top">
