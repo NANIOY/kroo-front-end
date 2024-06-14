@@ -71,23 +71,39 @@ const fetchActiveJobs = async () => {
 const fetchCrewSuggestions = async () => {
     try {
         const { data } = await axiosInstance.get('/user');
-        const crewMembers = data.data.users.filter(user => user.crewData).slice(0, 4);
+        const crewMembers = data.data.users.filter(user => user.crewData);
 
-        crewSuggestions.value = await Promise.all(crewMembers.map(async member => {
+        // fetch crew data for each crew member
+        const crewDataPromises = crewMembers.map(async member => {
             const crewDataResponse = await axiosInstance.get(`/crew/${member.crewData}`);
             const crewData = crewDataResponse.data.data;
 
-            console.log('Crew Member Functions:', crewData.basicInfo.functions);
+            return {
+                member,
+                crewData
+            };
+        });
+
+        const crewDataList = await Promise.all(crewDataPromises);
+
+        crewSuggestions.value = crewDataList.map(({ member, crewData }) => {
+            console.log('Functions', member.username, ':', crewData.basicInfo.functions);
 
             let points = 0;
             activeJobs.value.forEach(job => {
-                console.log('Job Function:', job.jobFunction);
-                if (crewData.basicInfo.functions.includes(job.jobFunction)) {
+                console.log('Comparing Job Function:', job.jobFunction);
+                const normalizedJobFunction = job.jobFunction.trim().toLowerCase();
+                const hasMatchingFunction = crewData.basicInfo.functions.some(func => {
+                    const normalizedFunc = func.trim().toLowerCase();
+                    console.log(`Checking if '${normalizedFunc}' matches '${normalizedJobFunction}'`);
+                    return normalizedFunc === normalizedJobFunction;
+                });
+                if (hasMatchingFunction) {
                     points += 4;
                 }
             });
 
-            // Log the points
+            // log points
             console.log(`Points for ${member.username}:`, points);
 
             return {
@@ -98,11 +114,16 @@ const fetchCrewSuggestions = async () => {
                 functions: crewData.basicInfo.functions,
                 userUrl: member.userUrl
             };
-        }));
+        });
+
+        // sort by percentage
+        crewSuggestions.value.sort((a, b) => b.perc - a.perc);
+
     } catch (error) {
         console.error('Error fetching crew suggestions:', error);
     }
 };
+
 
 // Fetch calendar events
 const fetchCalendarEvents = async () => {
@@ -195,6 +216,12 @@ const handleCreateJob = (jobData) => {
 const handleDeleteJob = (jobId) => {
     closeModal();
 };
+
+onMounted(() => {
+    fetchActiveJobs().then(fetchCrewSuggestions);
+    fetchCalendarEvents();
+});
+
 </script>
 
 <template>
