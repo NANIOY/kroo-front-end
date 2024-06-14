@@ -18,7 +18,7 @@ const loading = ref(true);
 onMounted(() => {
     setTimeout(() => {
         loading.value = false;
-    }, 200);
+    }, 2000);
 });
 
 const navigateToProfile = () => {
@@ -32,19 +32,19 @@ const navigateToProfile = () => {
 
     <div v-else class="crewSug" @click="navigateToProfile">
         <div class="crewSug__top">
-            <div class="crewSug__top__img">
+            <div class="crewSug__top__img hidden-during-loading">
                 <img :src="img" class="crewSug__top__img__pfp" alt="Crew image" width="56" height="56">
                 <div class="crewSug__top__img__badge">
                     <img src="../../../assets/img/badge.svg" alt="badge" @contextmenu.prevent>
                 </div>
             </div>
-            <h4 class="crewSug__top__name">{{ name }}</h4>
-            <div class="crewSug__top__perc">
+            <h4 class="crewSug__top__name hidden-during-loading">{{ name }}</h4>
+            <div class="crewSug__top__perc hidden-during-loading">
                 <h6>{{ perc }}%</h6>
                 <span class="text-bold-s">{{ jobtitle }}</span>
             </div>
         </div>
-        <div class="crewSug__bot">
+        <div class="crewSug__bot hidden-during-loading">
             <Tag v-for="(func, index) in functions" :key="index">{{ func }}</Tag>
         </div>
     </div>
@@ -131,5 +131,34 @@ const navigateToProfile = () => {
     align-items: center;
     margin-top: auto;
     gap: 12px;
+}
+
+/* SKELETON LOADING */
+.skeleton-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+.skeleton-container .container {
+  background-color: var(--neutral-20);
+  border-radius: 4px;
+  animation: pulse 0.2s infinite alternate;
+}
+
+/* Hide elements in skeleton */
+.skeleton .crewSug__top,
+.skeleton .crewSug__bot {
+  visibility: hidden;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 </style>
