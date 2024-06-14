@@ -47,8 +47,6 @@ function getArrowIcon(field) {
     }
     return NavArrowDown;
 }
-
-
 </script>
 
 <template>
@@ -79,15 +77,15 @@ function getArrowIcon(field) {
             <div v-for="(item, index) in props.data" :key="index">
                 <div class="list__body__row">
                     <div class="text-bold-normal list__job">
-                        {{ linkedJobs.title }}
+                        {{ item.title }}
                     </div>
                     <div class="text-reg-normal list__body__item">
-                        {{ linkedJobs.location.city }}, {{ item.location.country }}
+                        {{ item.location.city }}, {{ item.location.country }}
                     </div>
                     <div class="text-reg-normal">{{ new Date(item.date).toLocaleDateString() }}</div>
                     <div class="list__actions">
-                        <NormalButton class="button--tertiary button__savejob" label="Save job"/>
-                        <NormalButton class="button--primary button__apply" label="Apply"/>
+                        <NormalButton class="button--tertiary button__savejob" label="Save job" />
+                        <NormalButton class="button--primary button__apply" label="Apply" />
                     </div>
                 </div>
             </div>
@@ -95,9 +93,7 @@ function getArrowIcon(field) {
     </div>
 </template>
 
-
 <style scoped>
-
 h6 {
     font-size: 16px !important;
 }
@@ -112,7 +108,7 @@ p {
     flex-direction: column;
     height: 462px;
     overflow-x: hidden;
-    overflow-y: scroll ;
+    overflow-y: scroll;
 }
 
 .list__header,
@@ -170,7 +166,8 @@ p {
     gap: 16px;
 }
 
-.button__apply, .button__savejob {
+.button__apply,
+.button__savejob {
     padding: 4px 24px;
 }
 
@@ -182,5 +179,4 @@ p {
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
 }
-
 </style>

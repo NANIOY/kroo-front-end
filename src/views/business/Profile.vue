@@ -23,7 +23,6 @@ const fetchUserData = async () => {
     if (businessDataId) {
       try {
         const businessResponse = await axiosInstance.get(`/business/${businessDataId}`);
-        console.log('businessResponse:', businessResponse.data);
         if (businessResponse && businessResponse.data) {
           business.value = businessResponse.data.data.business;
           hasBusiness.value = true;
