@@ -8,11 +8,13 @@ import Overlay from './Overlay.vue';
 
 const props = defineProps({
     job: Object,
-    jobType: String, // 'search', 'schedule', 'saved', 'applied'
+    jobType: String, // 'search', 'schedule', 'saved', 'applied', 'ongoing'
     isVisible: {
         type: Boolean,
         default: false,
-    }
+    },
+    jobId: String,
+    onSuccess: Function,
 });
 
 const emits = defineEmits(['close', 'unsave']);
@@ -102,11 +104,15 @@ watch(props, () => {
                         class="jobpop__bottom__button button--tertiary" method="DELETE"
                         :endpoint="`/crewJobInt/${job._id}/unsave`" :postData="{}" :onSuccess="handleUnsaveSuccess" />
 
-
-
+                    <!-- APPLIED BUTTONS -->
                     <LargeButton v-if="jobType === 'applied'" label="Cancel"
                         class="jobpop__bottom__button button--tertiary " method="DELETE"
-                        :endpoint="`/crewJobInt/${job.applicationId}`" />
+                        :endpoint="`/crewJobInt/applications/${job.applicationId}`" />
+
+                    <!-- ONGOING BUTTONS -->
+                    <LargeButton v-if="jobType === 'ongoing'" label="Cancel"
+                        class="jobpop__bottom__button button--tertiary " method="POST"
+                        :endpoint="`/crewJobInt/ongoing/${jobId}/cancel`" :onSuccess="onSuccess" />
                 </div>
             </div>
         </div>

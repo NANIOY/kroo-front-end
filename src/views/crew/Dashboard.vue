@@ -324,7 +324,7 @@ onMounted(() => {
 <template>
   <div class="dashboard">
     <div class="dashboard__left">
-      <div class="dashboard__left__block">
+      <div class="dashboard__left__block" v-if="activeJobs.length > 0">
         <div class="dashboard__left__header">
           <h5>Active Jobs</h5>
           <TransparentButton @click="goToTracker"

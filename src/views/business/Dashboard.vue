@@ -1,6 +1,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { ref, onMounted, computed } from 'vue';
+import moment from 'moment';
 
 // IMPORT DASHBOARD COMPONENTS
 import JobCardBus from '../../components/molecules/dashboard/JobCardBus.vue';
@@ -11,7 +12,6 @@ import ScheduleCard from '../../components/molecules/dashboard/ScheduleCard.vue'
 // IMPORT OTHER
 import TransparentButton from '../../components/atoms/buttons/TransparentButton.vue';
 import LargeButton from '../../components/atoms/buttons/LargeButton.vue';
-import JobPop from '../../components/molecules/popups/JobPop.vue';
 import CreateJob from '../../components/molecules/popups/CreateJob.vue';
 import setupAxios from '../../setupAxios';
 
@@ -20,6 +20,11 @@ const router = useRouter();
 const activeJobs = ref([]);
 const crewSuggestions = ref([]);
 const isModalVisible = ref(false);
+const isJobPopVisible = ref(false);
+const loading = ref(true);
+const calendarEvents = ref([]);
+const selectedDate = ref(new Date());
+const filteredEvents = ref([]);
 
 // NAVIGATION FUNCTIONS
 const goToTracker = () => {
@@ -29,6 +34,24 @@ const goToSearch = () => {
     router.push('/search');
 };
 
+const selectedJob = ref({
+    title: '',
+    description: '',
+    wage: '',
+    date: '',
+    time: '',
+    skills: [],
+    jobFunction: '',
+    location: {
+        city: '',
+        address: ''
+    },
+    production_type: '',
+    union_status: '',
+    attachments: []
+});
+
+// Fetch active jobs
 const fetchActiveJobs = async () => {
     const userId = sessionStorage.getItem('userId');
     try {
@@ -43,6 +66,7 @@ const fetchActiveJobs = async () => {
     }
 };
 
+// Fetch crew suggestions
 const fetchCrewSuggestions = async () => {
     try {
         const { data } = await axiosInstance.get('/user');
@@ -64,43 +88,60 @@ const fetchCrewSuggestions = async () => {
     }
 };
 
-const selectedJob = ref({
-    title: '',
-    description: '',
-    wage: '',
-    date: '',
-    time: '',
-    skills: [],
-    jobFunction: '',
-    location: {
-        city: '',
-        address: ''
-    },
-    production_type: '',
-    union_status: '',
-    attachments: []
-});
+// Fetch calendar events
+const fetchCalendarEvents = async () => {
+    const userId = sessionStorage.getItem('userId');
+    try {
+        const response = await axiosInstance.get(`/calendar/google/events?userId=${userId}`);
+        calendarEvents.value = response.data.map(event => {
+            const startDate = event.start.dateTime ? new Date(event.start.dateTime) : new Date(event.start.date);
+            const endDate = event.end.dateTime ? new Date(event.end.dateTime) : new Date(event.end.date);
+            const startTime = event.start.dateTime ? event.start.dateTime.split('T')[1].substring(0, 5) : 'All Day';
+            const endTime = event.end.dateTime ? event.end.dateTime.split('T')[1].substring(0, 5) : 'All Day';
 
-const createJobModalType = ref('create');
+            return {
+                ...event,
+                date: startDate,
+                startDate: startDate,
+                endDate: endDate,
+                startTime: startTime,
+                endTime: endTime,
+                label: event.summary || 'No Title',
+                type: event.type,
+                description: event.description || 'No Description'
+            };
+        });
+        filterEventsBySelectedDate();
+    } catch (error) {
+        console.error('Failed to fetch calendar events:', error);
+    }
+};
 
+const filterEventsBySelectedDate = () => {
+    const startOfDay = new Date(selectedDate.value);
+    startOfDay.setHours(0, 0, 0, 0);
+    const endOfDay = new Date(startOfDay);
+    endOfDay.setHours(23, 59, 59, 999);
+    filteredEvents.value = calendarEvents.value.filter(event => event.startDate >= startOfDay && event.startDate <= endOfDay);
+};
+
+const handleDaySelected = (date) => {
+    selectedDate.value = date;
+    filterEventsBySelectedDate();
+};
+
+// Initialize data on mount
 onMounted(() => {
     fetchActiveJobs();
     fetchCrewSuggestions();
+    fetchCalendarEvents();
 });
-
-const openJobPop = (job) => {
-    selectedJob.value = job;
-};
-
-const closeJobPop = () => {
-    selectedJob.value = null;
-};
 
 const navigateToProfile = (userUrl) => {
     const userId = userUrl.split('/').pop();
     window.open(`/#/user/${userId}`, '_blank');
 };
-
+const createJobModalType = ref('create');
 const openModal = (job = null) => {
     if (job) {
         selectedJob.value = { ...job };
@@ -186,23 +227,17 @@ const handleDeleteJob = (jobId) => {
 
         <div class="dashboard__right">
             <div class="dashboard__right__schedule">
-                <Week />
+                <Week @daySelected="handleDaySelected" />
                 <div class="dashboard__right__schedule__cards">
-                    <ScheduleCard title="Meeting with John" label="10:00 - 11:00" class="schedulecard" />
-                    <ScheduleCard title="Design review" label="13:00 - 14:00" type="personal" class="schedulecard" />
-                    <ScheduleCard title="Team meeting" label="15:00 - 16:00" class="schedulecard" />
-                    <ScheduleCard title="Meeting with John" label="10:00 - 11:00" class="schedulecard" />
-                    <ScheduleCard title="Design review" label="13:00 - 14:00" type="personal" class="schedulecard" />
-                    <ScheduleCard title="Meeting with John" label="10:00 - 11:00" class="schedulecard" />
-                    <ScheduleCard title="Design review" label="13:00 - 14:00" type="personal" class="schedulecard" />
-                    <ScheduleCard title="Meeting with John" label="10:00 - 11:00" class="schedulecard" />
-                    <ScheduleCard title="Design review" label="13:00 - 14:00" type="personal" class="schedulecard" />
-                    <ScheduleCard title="Team meeting" label="15:00 - 16:00" class="schedulecard" />
+                    <ScheduleCard v-for="(event, index) in filteredEvents" :key="index" :title="event.label"
+                        :label="`${event.startTime} - ${event.endTime}`" :type="event.type" class="schedulecard" />
+                    <div v-if="filteredEvents.length === 0" class="dashboard__right__placeholder">
+                        <p class="text-reg-normal text-secondary">No events scheduled for this day.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <JobPop v-if="selectedJob" :job="selectedJob" />
         <CreateJob :isVisible="isModalVisible" :postData="selectedJob" :type="createJobModalType"
             :jobId="selectedJob._id" @close="closeModal" @submit="handleCreateJob" @delete="handleDeleteJob" />
     </div>

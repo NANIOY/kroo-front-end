@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, defineEmits } from 'vue';
 import setupAxios from '../../../setupAxios';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import Tag from '../../atoms/items/Tag.vue';
@@ -9,6 +9,7 @@ const jobs = ref([]);
 const selectedJob = ref(null);
 const isJobPopVisible = ref(false);
 const axiosInstance = setupAxios();
+const emit = defineEmits(['jobUnsaved', 'jobApplied']);
 
 const fetchJobs = async () => {
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
@@ -68,6 +69,16 @@ const removeJobFromList = (jobId) => {
     jobs.value = jobs.value.filter(job => job._id !== jobId);
 };
 
+const handleUnsave = (jobId) => {
+    removeJobFromList(jobId);
+    emit('jobUnsaved');
+};
+
+const handleApply = (jobId) => {
+    removeJobFromList(jobId);
+    emit('jobApplied');
+};
+
 onMounted(fetchJobs);
 </script>
 
@@ -118,10 +129,10 @@ onMounted(fetchJobs);
         <div id="saved__job__buttons">
             <NormalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
                 :hasLabel="true" label="Unsave" method="DELETE" :endpoint="`/crewJobInt/${job._id}/unsave`"
-                :onSuccess="() => removeJobFromList(job._id)" @click.stop />
+                :onSuccess="() => handleUnsave(job._id)" @click.stop />
             <NormalButton id="normalButton__apply" class="button--primary" :hasIcon="false" :hasLabel="true"
                 label="Apply" :hasRequest="true" :endpoint="`/crewJobInt/${job._id}/apply`"
-                :onSuccess="() => removeJobFromList(job._id)" @click.stop />
+                :onSuccess="() => handleApply(job._id)" @click.stop />
         </div>
     </div>
 
