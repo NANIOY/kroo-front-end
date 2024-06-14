@@ -5,6 +5,7 @@ import LargeButton from '../../atoms/buttons/LargeButton.vue';
 import IconLabel from '../../atoms/items/IconLabel.vue';
 import Tag from '../../atoms/items/Tag.vue';
 import Overlay from './Overlay.vue';
+import Alert from '../../atoms/alerts/alert.vue';
 
 const props = defineProps({
     job: Object,
@@ -18,6 +19,11 @@ const props = defineProps({
 });
 
 const emits = defineEmits(['close', 'unsave']);
+
+const alertVisible = ref(false);
+const alertMessage = ref('');
+const alertType = ref('good');
+const alertText = ref('');
 
 const formatDateTime = (dateTimeString) => {
     const dateTime = new Date(dateTimeString);
@@ -34,7 +40,15 @@ const closePopup = () => {
 
 const handleUnsaveSuccess = () => {
     emits('unsave', props.job._id);
+    showAlert('Job unsaved successfully!', 'good');
     closePopup();
+};
+
+const showAlert = (message, type, text) => {
+    alertMessage.value = message;
+    alertType.value = type;
+    alertText.value= text;
+    alertVisible.value = true;
 };
 
 watch(props, () => {
@@ -45,6 +59,8 @@ watch(props, () => {
 </script>
 
 <template>
+    <Alert v-if="alertVisible" :type="alertType" :label="alertMessage" :text="alertText" />
+
     <Overlay class="modal__overlay" v-if="isVisible" @overlayClick="closePopup">
         <div class="jobpop modal" @click.stop>
             <!-- Top Section -->
