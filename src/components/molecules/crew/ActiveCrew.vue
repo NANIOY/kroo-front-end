@@ -3,6 +3,7 @@ import { ref, onMounted, watch, defineEmits } from 'vue';
 import setupAxios from '../../../setupAxios';
 import Tag from '../../atoms/items/Tag.vue';
 import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
+import Alert from '../../atoms/alerts/alert.vue';
 
 const props = defineProps({
     members: {
@@ -17,6 +18,11 @@ const activeCrewMembers = ref([]);
 const loading = ref(true);
 
 const axiosInstance = setupAxios();
+
+const alertVisible = ref(false);
+const alertMessage = ref('');
+const alertType = ref('good');
+const alertText = ref('');
 
 const fetchBusinessId = async () => {
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
@@ -101,7 +107,7 @@ const removeCrewMember = async (jobId, userId) => {
         await axiosInstance.delete(`/bussJobInt/${jobId}/activecrew/${userId}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
-
+        showAlert('Crewmember removed successfully!', 'good', 'The crew member has been removed from the job.');
         activeCrewMembers.value = activeCrewMembers.value.filter(crew => !(crew.userId === userId && crew.jobId === jobId));
         emit('removeCrewMember', userId);
         jobCounts.value.active--;
@@ -119,12 +125,21 @@ watch(
     { immediate: true }
 );
 
+const showAlert = (message, type, text) => {
+    alertMessage.value = message;
+    alertType.value = type;
+    alertText.value = text;
+    alertVisible.value = true;
+};
+
 onMounted(() => {
     fetchActiveCrewMembers();
 });
 </script>
 
 <template>
+    <Alert v-if="alertVisible" :type="alertType" :label="alertMessage" :text="alertText" />
+
     <div v-if="loading" class="loading">Loading...</div>
     <div v-for="crew in activeCrewMembers" :key="crew.userId" class="activeCrew surface-tertiary radius-xs"
         @click="navigateToProfile(crew.userUrl)">
