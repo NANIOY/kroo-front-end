@@ -1,8 +1,8 @@
 <script setup>
+import { onMounted, ref, defineEmits } from 'vue';
+import { IconoirProvider, Calendar } from '@iconoir/vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import Tag from '../../atoms/items/Tag.vue';
-import { IconoirProvider, Calendar } from '@iconoir/vue';
-import { onMounted, ref } from 'vue';
 import setupAxios from '../../../setupAxios';
 import Alert from '../../atoms/alerts/alert.vue';
 
@@ -12,6 +12,11 @@ const axiosInstance = setupAxios();
 const alertVisible = ref(false);
 const alertMessage = ref('');
 const alertType = ref('good');
+
+const emit = defineEmits(['jobAccepted', 'jobDeclined']);
+
+const offeredJobCount = ref(0);
+const ongoingJobCount = ref(0);
 
 const fetchJobs = async () => {
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
@@ -52,9 +57,43 @@ const fetchJobs = async () => {
             };
         });
 
+        offeredJobCount.value = offeredJobs.length;
+
     } catch (error) {
         console.error('Failed to fetch offered jobs or business details:', error);
     }
+};
+
+const handleJobOffer = async (jobId, action) => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+    if (!token) {
+        console.error('Authentication token is missing');
+        showAlert(`Job cannot be ${action}ed.`, 'bad');
+        return;
+    }
+
+    try {
+        await axiosInstance.post(`/crewJobInt/offers/${jobId}/${action}`, null, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (action === 'accept') {
+            emit('jobAccepted', jobId);
+            showAlert('Job accepted successfully!', 'good');
+        } else if (action === 'cancel') {
+            emit('jobDeclined', jobId);
+            showAlert('Job declined successfully!', 'good');
+        }
+    } catch (error) {
+        console.error(`Failed to ${action} job offer:`, error);
+        showAlert(`Job cannot be ${action}ed.`, 'bad');
+    }
+};
+
+const showAlert = (message, type) => {
+    alertMessage.value = message;
+    alertType.value = type;
+    alertVisible.value = true;
 };
 
 const getFormattedDate = (dateString, options) => {
@@ -68,52 +107,6 @@ const calculateDaysLeft = (dateString) => {
     const timeDifference = offerDate.getTime() - currentDate.getTime();
     const daysLeft = Math.ceil(timeDifference / (1000 * 3600 * 24));
     return daysLeft > 0 ? daysLeft : 0;
-};
-
-const acceptJobOffer = async (jobId) => {
-    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
-    if (!token) {
-        console.error('Authentication token is missing');
-        showAlert('Job cannot be accepted.', 'bad');
-        return;
-    }
-
-    try {
-        await axiosInstance.post(`/crewJobInt/offers/${jobId}/accept`, null, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-        fetchJobs();
-        showAlert('Job accepted successfully!', 'good');
-    } catch (error) {
-        console.error('Failed to accept job offer:', error);
-        showAlert('Job cannot be accepted.', 'bad');
-    }
-};
-
-const declineJobOffer = async (jobId) => {
-    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
-    if (!token) {
-        console.error('Authentication token is missing');
-        showAlert('Job cannot be declined.', 'bad');
-        return;
-    }
-
-    try {
-        await axiosInstance.post(`/crewJobInt/offers/${jobId}/reject`, null, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-        fetchJobs();
-        showAlert('Job declined successfully!', 'good');
-    } catch (error) {
-        console.error('Failed to decline job offer:', error);
-        showAlert('Job can not be declined.', 'bad');
-    }
-};
-
-const showAlert = (message, type) => {
-    alertMessage.value = message;
-    alertType.value = type;
-    alertVisible.value = true;
 };
 
 onMounted(fetchJobs);
@@ -158,8 +151,8 @@ onMounted(fetchJobs);
                 <div id="offered__job__info__date">
                     <Tag type="big">
                         <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, {
-                            month:
-                            'long' }) }}</p>
+                            month: 'long'
+                        }) }}</p>
                     </Tag>
                 </div>
                 <div id="offered__job__info__place">
@@ -174,17 +167,15 @@ onMounted(fetchJobs);
 
             <div id="offered__job__bottom">
                 <div>
-                    <p class="button-l">€ {{ job.wage }}/hr</p>
+                    <p class="text-bold-normal">€ {{ job.wage }}/hr</p>
                 </div>
                 <div id="offered__job__bottom__buttons">
-                    <NormalButton id="normalButton__details"
-                        class="button--tertiary offered__job__bottom__buttons_details" :hasIcon="false" :hasLabel="true"
-                        label="Details" iconName="" />
-                    <NormalButton id="normalButton__accept" class="button--primary offered__job__bottom__buttons_accept"
-                        :hasIcon="false" :hasLabel="true" label="Accept" iconName="" @click="acceptJobOffer(job._id)" />
                     <NormalButton id="normalButton__decline"
-                        class="button--danger offered__job__bottom__buttons_decline" :hasIcon="false" :hasLabel="true"
-                        label="Decline" iconName="" @click="declineJobOffer(job._id)" />
+                        class="button--tertiary offered__job__bottom__buttons_decline" :hasLabel="true" label="Decline"
+                        :hasRequest="false" @click="handleJobOffer(job._id, 'cancel')" />
+                    <NormalButton id="normalButton__accept" class="button--primary offered__job__bottom__buttons_accept"
+                        :hasLabel="true" label="Accept" :hasRequest="false"
+                        @click="handleJobOffer(job._id, 'accept')" />
                 </div>
             </div>
         </div>

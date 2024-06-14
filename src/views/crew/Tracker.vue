@@ -61,6 +61,21 @@ const fetchJobCounts = async () => {
   }
 };
 
+const updateCountsOnAccept = (jobId) => {
+  jobCounts.value.ongoing++;
+  jobCounts.value.offered--;
+  const acceptedJob = offeredJobs.value.find(job => job._id === jobId);
+  if (acceptedJob) {
+    ongoingJobs.value.push(acceptedJob);
+    offeredJobs.value = offeredJobs.value.filter(job => job._id !== jobId);
+  }
+};
+
+const updateCountsOnDecline = (jobId) => {
+  jobCounts.value.offered--;
+  offeredJobs.value = offeredJobs.value.filter(job => job._id !== jobId);
+};
+
 onMounted(fetchJobCounts);
 </script>
 
@@ -90,7 +105,7 @@ onMounted(fetchJobCounts);
     <div class="tracker__container">
       <h6>OFFERED &#8722; {{ jobCounts.offered }}</h6>
       <div class="tracker__container__column">
-        <OfferedJob :jobs="offeredJobs" />
+        <OfferedJob :jobs="offeredJobs" @jobAccepted="updateCountsOnAccept" @jobDeclined="updateCountsOnDecline" />
       </div>
     </div>
   </div>
