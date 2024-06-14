@@ -13,6 +13,7 @@ const emit = defineEmits(['jobCancelled']);
 
 const jobs = ref(props.jobs);
 const selectedJob = ref(null);
+const selectedJobId = ref(null);
 const isJobPopVisible = ref(false);
 const axiosInstance = setupAxios();
 
@@ -84,12 +85,14 @@ const getFormattedDate = (dateString, options) => {
 
 const showJobDetails = (job) => {
     selectedJob.value = job;
+    selectedJobId.value = job._id;
     isJobPopVisible.value = true;
 };
 
 const closeJobDetails = () => {
     isJobPopVisible.value = false;
     selectedJob.value = null;
+    selectedJobId.value = null;
 };
 
 onMounted(fetchJobs);
@@ -120,7 +123,7 @@ onMounted(fetchJobs);
                     <Tag type="big">
                         <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, {
                             month: 'long'
-                        }) }}</p>
+                            }) }}</p>
                     </Tag>
                 </div>
                 <div id="ongoing__job__info__place">
@@ -141,8 +144,8 @@ onMounted(fetchJobs);
             </div>
         </div>
 
-        <JobPop v-if="isJobPopVisible" :job="selectedJob" :isVisible="isJobPopVisible" @close="closeJobDetails"
-            jobType="ongoing" />
+        <JobPop v-if="isJobPopVisible" :job="selectedJob" :jobId="selectedJobId" :isVisible="isJobPopVisible"
+            @close="closeJobDetails" jobType="ongoing" />
     </div>
 </template>
 
