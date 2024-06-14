@@ -1,12 +1,16 @@
 <script setup>
-import { onMounted, ref, defineEmits } from 'vue';
+import { ref, onMounted, defineEmits } from 'vue';
 import { IconoirProvider, Calendar } from '@iconoir/vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import Tag from '../../atoms/items/Tag.vue';
 import setupAxios from '../../../setupAxios';
+import JobPop from '../popups/JobPop.vue';
 import Alert from '../../atoms/alerts/alert.vue';
 
 const jobs = ref([]);
+const selectedJob = ref(null);
+const selectedJobId = ref(null);
+const isJobPopVisible = ref(false);
 const axiosInstance = setupAxios();
 
 const alertVisible = ref(false);
@@ -14,9 +18,6 @@ const alertMessage = ref('');
 const alertType = ref('good');
 
 const emit = defineEmits(['jobAccepted', 'jobDeclined']);
-
-const offeredJobCount = ref(0);
-const ongoingJobCount = ref(0);
 
 const fetchJobs = async () => {
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
@@ -56,8 +57,6 @@ const fetchJobs = async () => {
                 daysLeft: calculateDaysLeft(job.date)
             };
         });
-
-        offeredJobCount.value = offeredJobs.length;
 
     } catch (error) {
         console.error('Failed to fetch offered jobs or business details:', error);
@@ -109,11 +108,26 @@ const calculateDaysLeft = (dateString) => {
     return daysLeft > 0 ? daysLeft : 0;
 };
 
+const showJobDetails = (job) => {
+    selectedJob.value = job;
+    selectedJobId.value = job._id;
+    isJobPopVisible.value = true;
+};
+
+const closeJobDetails = () => {
+    isJobPopVisible.value = false;
+    selectedJob.value = null;
+    selectedJobId.value = null;
+};
+
 onMounted(fetchJobs);
 </script>
 
 <template>
     <Alert v-if="alertVisible" :type="alertType" :label="alertMessage" />
+
+    <JobPop v-if="isJobPopVisible" :job="selectedJob" :jobId="selectedJobId" :isVisible="isJobPopVisible"
+        @close="closeJobDetails" jobType="offered" :onSuccess="() => { fetchJobs(); closeJobDetails(); }" />
 
     <IconoirProvider :icon-props="{
         'color': 'var(--black)',
@@ -121,7 +135,8 @@ onMounted(fetchJobs);
         'height': '20',
         'stroke-width': '1.8'
     }">
-        <div v-for="job in jobs" :key="job._id" id="offered__job" class="surface-tertiary radius-xs">
+        <div v-for="job in jobs" :key="job._id" id="offered__job" class="surface-tertiary radius-xs"
+            @click="showJobDetails(job)">
             <div id="offered__job__top">
                 <div id="offered__job__top__business">
                     <div>
@@ -172,10 +187,10 @@ onMounted(fetchJobs);
                 <div id="offered__job__bottom__buttons">
                     <NormalButton id="normalButton__decline"
                         class="button--tertiary offered__job__bottom__buttons_decline" :hasLabel="true" label="Decline"
-                        :hasRequest="false" @click="handleJobOffer(job._id, 'cancel')" />
+                        :hasRequest="false" @click.stop="handleJobOffer(job._id, 'cancel')" />
                     <NormalButton id="normalButton__accept" class="button--primary offered__job__bottom__buttons_accept"
                         :hasLabel="true" label="Accept" :hasRequest="false"
-                        @click="handleJobOffer(job._id, 'accept')" />
+                        @click.stop="handleJobOffer(job._id, 'accept')" />
                 </div>
             </div>
         </div>
