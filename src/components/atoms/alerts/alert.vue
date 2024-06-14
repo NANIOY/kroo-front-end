@@ -136,11 +136,10 @@ p {
   padding: 16px;
   align-items: flex-start;
   transition: opacity 0.5s ease-in-out;
-  position: fixed;
-  top: 88%;
-  left: 64.5%;
   z-index: 10000;
-  margin-top: 16px;
+  position: absolute;
+  bottom: 48px;
+  right: 48px;
 }
 
 .alert__icon__label {
