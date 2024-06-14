@@ -4,12 +4,18 @@ import setupAxios from '../../../setupAxios';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import Tag from '../../atoms/items/Tag.vue';
 import JobPop from '../popups/JobPop.vue';
+import Alert from '../../atoms/alerts/alert.vue';
 
 const jobs = ref([]);
 const selectedJob = ref(null);
 const isJobPopVisible = ref(false);
 const axiosInstance = setupAxios();
 const emit = defineEmits(['jobUnsaved', 'jobApplied']);
+
+const alertVisible = ref(false);
+const alertMessage = ref('');
+const alertType = ref('good');
+const alertText = ref('');
 
 const fetchJobs = async () => {
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
@@ -72,17 +78,34 @@ const removeJobFromList = (jobId) => {
 const handleUnsave = (jobId) => {
     removeJobFromList(jobId);
     emit('jobUnsaved');
+    setTimeout(() => {
+        fetchJobs();
+}, 3000);
+    showAlert('You succesfully unsaved the job!', 'good', 'The job will no longer appear in your saved jobs.');
 };
 
 const handleApply = (jobId) => {
     removeJobFromList(jobId);
     emit('jobApplied');
+    setTimeout(() => {
+        fetchJobs(); 
+    }, 3000);
+    showAlert('You succesfully applied!', 'good', 'You will be notified when the employer responds.');
+};
+
+const showAlert = (message, type, text) => {
+    alertMessage.value = message;
+    alertType.value = type;
+    alertVisible.value = true;
+    alertText.value= text;
 };
 
 onMounted(fetchJobs);
 </script>
 
 <template>
+    <Alert v-if="alertVisible" :type="alertType" :label="alertMessage" :text="alertText" />
+
     <div v-for="job in jobs" :key="job._id" id="saved__job" class="surface-tertiary radius-xs"
         @click="showJobDetails(job)">
         <div id="saved__job__top">
