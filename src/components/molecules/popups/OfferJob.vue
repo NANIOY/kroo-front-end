@@ -24,8 +24,9 @@ const emits = defineEmits(['close', 'submit']);
 
 const axiosInstance = setupAxios();
 const jobs = ref([]);
-const selectedJobId = ref(null);
+const selectedJobTitle = ref(null);
 const jobOptions = ref([]);
+const jobTitleToIdMap = ref({});
 
 const fetchAvailableJobs = async () => {
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
@@ -40,6 +41,10 @@ const fetchAvailableJobs = async () => {
         });
         jobs.value = response.data.linkedJobs.filter(job => job.status === 'open');
         jobOptions.value = jobs.value.map(job => job.title);
+        jobTitleToIdMap.value = jobs.value.reduce((map, job) => {
+            map[job.title] = job._id;
+            return map;
+        }, {});
     } catch (error) {
         console.error('Failed to fetch available jobs:', error);
     }
@@ -52,8 +57,14 @@ const sendJobOffer = async () => {
         return;
     }
 
+    const selectedJobId = jobTitleToIdMap.value[selectedJobTitle.value];
+    if (!selectedJobId) {
+        console.error('Selected job ID is missing');
+        return;
+    }
+
     try {
-        await axiosInstance.post(`/bussJobInt/${selectedJobId.value}/offer`, {
+        await axiosInstance.post(`/bussJobInt/${selectedJobId}/offer`, {
             email: props.email
         }, {
             headers: { 'Authorization': `Bearer ${token}` }
@@ -84,11 +95,11 @@ watch(() => props.isVisible, (newVal) => {
                 <h3>Select a Job to Offer</h3>
             </div>
             <div class="offerjob__body">
-                <DropDown v-model="selectedJobId" :options="jobOptions" placeholder="Select a job" />
+                <DropDown v-model="selectedJobTitle" :options="jobOptions" placeholder="Select a job" />
             </div>
             <div class="offerjob__buttons">
                 <LargeButton label="Send Offer" class="button--primary" @click="sendJobOffer"
-                    :disabled="!selectedJobId" />
+                    :disabled="!selectedJobTitle" :hasRequest="false" />
                 <LargeButton label="Cancel" class="button--tertiary" @click="closeModal" :hasRequest="false" />
             </div>
         </div>
