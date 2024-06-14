@@ -86,6 +86,9 @@ const fetchCrewSuggestions = async () => {
 
         const crewDataList = await Promise.all(crewDataPromises);
 
+        // define base max points
+        const baseMaxPoints = 4;
+
         crewSuggestions.value = crewDataList.map(({ member, crewData }) => {
             console.log('Functions', member.username, ':', crewData.basicInfo.functions);
 
@@ -103,13 +106,17 @@ const fetchCrewSuggestions = async () => {
                 }
             });
 
-            // log points
+            // convert points to percentage
+            const perc = (points / baseMaxPoints) * 100;
+
+            // log points and percentage
             console.log(`Points for ${member.username}:`, points);
+            console.log(`Percentage for ${member.username}:`, perc);
 
             return {
                 img: crewData.basicInfo.profileImage,
                 name: member.username,
-                perc: points,
+                perc,
                 jobtitle: 'Job title', // HARD CODED
                 functions: crewData.basicInfo.functions,
                 userUrl: member.userUrl
