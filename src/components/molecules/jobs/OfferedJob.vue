@@ -4,9 +4,14 @@ import Tag from '../../atoms/items/Tag.vue';
 import { IconoirProvider, Calendar } from '@iconoir/vue';
 import { onMounted, ref } from 'vue';
 import setupAxios from '../../../setupAxios';
+import Alert from '../../atoms/alerts/alert.vue';
 
 const jobs = ref([]);
 const axiosInstance = setupAxios();
+
+const alertVisible = ref(false);
+const alertMessage = ref('');
+const alertType = ref('good');
 
 const fetchJobs = async () => {
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
@@ -69,6 +74,7 @@ const acceptJobOffer = async (jobId) => {
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
     if (!token) {
         console.error('Authentication token is missing');
+        showAlert('Job cannot be accepted.', 'bad');
         return;
     }
 
@@ -77,8 +83,10 @@ const acceptJobOffer = async (jobId) => {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         fetchJobs();
+        showAlert('Job accepted successfully!', 'good');
     } catch (error) {
         console.error('Failed to accept job offer:', error);
+        showAlert('Job cannot be accepted.', 'bad');
     }
 };
 
@@ -86,6 +94,7 @@ const declineJobOffer = async (jobId) => {
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
     if (!token) {
         console.error('Authentication token is missing');
+        showAlert('Job cannot be declined.', 'bad');
         return;
     }
 
@@ -94,15 +103,25 @@ const declineJobOffer = async (jobId) => {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         fetchJobs();
+        showAlert('Job declined successfully!', 'good');
     } catch (error) {
         console.error('Failed to decline job offer:', error);
+        showAlert('Job can not be declined.', 'bad');
     }
+};
+
+const showAlert = (message, type) => {
+    alertMessage.value = message;
+    alertType.value = type;
+    alertVisible.value = true;
 };
 
 onMounted(fetchJobs);
 </script>
 
 <template>
+    <Alert v-if="alertVisible" :type="alertType" :label="alertMessage" />
+
     <IconoirProvider :icon-props="{
         'color': 'var(--black)',
         'width': '20',
