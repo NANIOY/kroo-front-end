@@ -87,39 +87,45 @@ const fetchCrewSuggestions = async () => {
         const crewDataList = await Promise.all(crewDataPromises);
 
         // define base max points
-        const baseMaxPoints = 4;
+        const baseMaxPoints = 7;
 
         const suggestions = crewDataList.map(({ member, crewData }) => {
-            console.log('Functions', member.username, ':', crewData.basicInfo.functions);
-
-            let points = 0;
+            let bestFitPoints = 0;
             let bestFitJob = null;
-            let highestPoints = 0;
 
             activeJobs.value.forEach(job => {
-                console.log('Comparing Job Function:', job.jobFunction);
+                let points = 0;
+
                 const normalizedJobFunction = job.jobFunction.trim().toLowerCase();
                 const hasMatchingFunction = crewData.basicInfo.functions.some(func => {
                     const normalizedFunc = func.trim().toLowerCase();
-                    console.log(`Checking if '${normalizedFunc}' matches '${normalizedJobFunction}'`);
                     return normalizedFunc === normalizedJobFunction;
                 });
-
                 if (hasMatchingFunction) {
                     points += 4;
-
-                    if (points > highestPoints) {
-                        highestPoints = points;
-                        bestFitJob = job.title;
-                    }
                 }
+
+                // Check skill matches
+                const crewSkills = crewData.profileDetails.skills.map(skill => skill.trim().toLowerCase());
+                const jobSkills = job.skills.map(skill => skill.trim().toLowerCase());
+                const skillMatches = crewSkills.filter(skill => jobSkills.includes(skill)).length;
+
+                points += skillMatches;
+
+                if (points > bestFitPoints) {
+                    bestFitPoints = points;
+                    bestFitJob = job.title;
+                }
+
+                // log skill matches
+                console.log(`Skill Matches for ${member.username} on Job ${job.title}:`, skillMatches);
             });
 
             // convert points to percentage
-            const perc = (points / baseMaxPoints) * 100;
+            const perc = Math.floor((bestFitPoints / baseMaxPoints) * 100);
 
             // log points and percentage
-            console.log(`Points for ${member.username}:`, points);
+            console.log(`Points for ${member.username}:`, bestFitPoints);
             console.log(`Percentage for ${member.username}:`, perc);
 
             return {
@@ -181,13 +187,6 @@ const handleDaySelected = (date) => {
     selectedDate.value = date;
     filterEventsBySelectedDate();
 };
-
-// Initialize data on mount
-onMounted(() => {
-    fetchActiveJobs();
-    fetchCrewSuggestions();
-    fetchCalendarEvents();
-});
 
 const navigateToProfile = (userUrl) => {
     const userId = userUrl.split('/').pop();
