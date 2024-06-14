@@ -90,7 +90,7 @@ onMounted(fetchJobs);
         <div id="applied__job__buttons">
             <NormalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
                 :hasLabel="true" label="Cancel" @click.stop method="DELETE"
-                :endpoint="`/crewJobInt/${job.applicationId}`" @success="removeJobFromList(job.applicationId)" />
+                :endpoint="`/crewJobInt/applications/${job.applicationId}`" @success="removeJobFromList(job.applicationId)" />
             <NormalButton id="normalButton__details" class="button--primary" :hasIcon="false" :hasLabel="true"
                 label="Details" :hasRequest="false" @click.stop="showJobDetails(job)" />
         </div>
