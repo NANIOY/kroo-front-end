@@ -1,9 +1,9 @@
 <script setup>
+import { defineProps, defineEmits, ref, onMounted } from 'vue';
+import setupAxios from '../../../setupAxios';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import Tag from '../../atoms/items/Tag.vue';
-import { ref, onMounted } from 'vue';
-import setupAxios from '../../../setupAxios';
-import { defineProps, defineEmits } from 'vue';
+import JobPop from '../popups/JobPop.vue';
 
 const props = defineProps({
     jobs: Array
@@ -12,6 +12,8 @@ const props = defineProps({
 const emit = defineEmits(['jobCancelled']);
 
 const jobs = ref(props.jobs);
+const selectedJob = ref(null);
+const isJobPopVisible = ref(false);
 const axiosInstance = setupAxios();
 
 const fetchJobs = async () => {
@@ -80,12 +82,23 @@ const getFormattedDate = (dateString, options) => {
     return date.toLocaleDateString('en-US', options);
 };
 
+const showJobDetails = (job) => {
+    selectedJob.value = job;
+    isJobPopVisible.value = true;
+};
+
+const closeJobDetails = () => {
+    isJobPopVisible.value = false;
+    selectedJob.value = null;
+};
+
 onMounted(fetchJobs);
 </script>
 
 <template>
     <div>
-        <div v-for="job in jobs" :key="job._id" id="ongoing__job" class="surface-tertiary radius-xs">
+        <div v-for="job in jobs" :key="job._id" id="ongoing__job" class="surface-tertiary radius-xs"
+            @click="showJobDetails(job)">
             <div id="ongoing__job__top">
                 <div id="ongoing__job__top__business">
                     <div>
@@ -107,7 +120,7 @@ onMounted(fetchJobs);
                     <Tag type="big">
                         <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, {
                             month: 'long'
-                            }) }}</p>
+                        }) }}</p>
                     </Tag>
                 </div>
                 <div id="ongoing__job__info__place">
@@ -122,11 +135,14 @@ onMounted(fetchJobs);
 
             <div id="ongoing__job__buttons">
                 <NormalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
-                    :hasLabel="true" label="Cancel" iconName="" :hasRequest="false" @click="cancelJob(job._id)" />
+                    :hasLabel="true" label="Cancel" iconName="" :hasRequest="false" @click.stop="cancelJob(job._id)" />
                 <NormalButton id="normalButton__details" class="button--primary" :hasIcon="false" :hasLabel="true"
-                    label="Details" iconName="" :hasRequest="false" />
+                    label="Details" iconName="" :hasRequest="false" @click.stop="showJobDetails(job)" />
             </div>
         </div>
+
+        <JobPop v-if="isJobPopVisible" :job="selectedJob" :isVisible="isJobPopVisible" @close="closeJobDetails"
+            jobType="ongoing" />
     </div>
 </template>
 
