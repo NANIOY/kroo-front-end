@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted, watch, defineEmits } from 'vue';
 import setupAxios from '../../../setupAxios';
-import Tag from '../../atoms/items/Tag.vue'
-import TransparentButton from '../../atoms/buttons/TransparentButton.vue'
+import Tag from '../../atoms/items/Tag.vue';
+import TransparentButton from '../../atoms/buttons/TransparentButton.vue';
 
 const props = defineProps({
     members: {
@@ -11,7 +11,7 @@ const props = defineProps({
     }
 });
 
-const emit = defineEmits(['navigateToProfile']);
+const emit = defineEmits(['navigateToProfile', 'removeCrewMember']);
 
 const activeCrewMembers = ref([]);
 const loading = ref(true);
@@ -90,6 +90,27 @@ const navigateToProfile = (userUrl) => {
     emit('navigateToProfile', userUrl);
 };
 
+const removeCrewMember = async (jobId, userId) => {
+    const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
+    if (!token) {
+        console.error('Authentication token is missing');
+        return;
+    }
+
+    try {
+        await axiosInstance.delete(`/bussJobInt/${jobId}/activecrew/${userId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        activeCrewMembers.value = activeCrewMembers.value.filter(crew => !(crew.userId === userId && crew.jobId === jobId));
+        emit('removeCrewMember', userId);
+        jobCounts.value.active--;
+    } catch (error) {
+        console.error('Failed to remove crew member:', error);
+    }
+};
+
+
 watch(
     () => props.members,
     (newMembers) => {
@@ -112,7 +133,8 @@ onMounted(() => {
                 alt="Crew image" />
             <div>
                 <h4 class="activeCrew__top__name">{{ crew.username }}</h4>
-                <TransparentButton @click.stop class="activeCrew__top__button" :hasIcon="true" iconName="Xmark" />
+                <TransparentButton @click.stop="removeCrewMember(crew.jobId, crew.userId)"
+                    class="activeCrew__top__button" :hasIcon="true" iconName="Xmark" />
             </div>
         </div>
 

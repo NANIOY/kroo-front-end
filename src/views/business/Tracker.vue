@@ -166,8 +166,9 @@ const updateCountsOnAccept = (member) => {
     addActiveCrewMember(member);
 };
 
-const updateCountsOnReject = () => {
-    jobCounts.value.applied--;
+const updateCountsOnReject = (userId) => {
+    jobCounts.value.active--;
+    activeCrewMembers.value = activeCrewMembers.value.filter(crew => crew.userId !== userId);
 };
 
 const handleJobClick = async (job) => {
@@ -200,7 +201,6 @@ onMounted(() => {
         }
     });
 });
-
 </script>
 
 <template>
@@ -238,7 +238,8 @@ onMounted(() => {
             <h6>ACTIVE CREW &#8722; {{ jobCounts.active }}</h6>
             <div class="tracker__container__column">
                 <ActiveCrew v-if="activeCrewMembers.length > 0" :members="activeCrewMembers"
-                    @navigateToProfile="navigateToProfile" />
+                    @navigateToProfile="navigateToProfile" @removeCrewMember="updateCountsOnReject" />
+
                 <div v-else class="placeholder text-reg-l">No active crew members available.</div>
             </div>
         </div>
