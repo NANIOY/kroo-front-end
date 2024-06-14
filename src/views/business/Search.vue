@@ -3,7 +3,6 @@ import { ref, onMounted, computed } from 'vue';
 import SearchCrew from '../../components/molecules/crew/SearchCrew.vue';
 import SearchCrewFilter from '../../components/molecules/filter/SearchCrewFilter.vue';
 import setupAxios from '../../setupAxios';
-import moment from 'moment';
 
 const axiosInstance = setupAxios();
 
