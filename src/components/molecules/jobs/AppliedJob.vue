@@ -3,6 +3,7 @@ import { ref, onMounted, defineEmits } from 'vue';
 import setupAxios from '../../../setupAxios';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 import JobPop from '../popups/JobPop.vue';
+import Alert from '../../atoms/alerts/alert.vue';
 
 const jobs = ref([]);
 const selectedJob = ref(null);
@@ -10,6 +11,10 @@ const selectedJobId = ref(null);
 const isJobPopVisible = ref(false);
 const axiosInstance = setupAxios();
 const emit = defineEmits(['jobCancelled']);
+
+const alertVisible = ref(false);
+const alertMessage = ref('');
+const alertType = ref('good');
 
 const fetchJobs = async () => {
     const token = sessionStorage.getItem('sessionToken') || sessionStorage.getItem('rememberMeToken');
@@ -68,12 +73,21 @@ const closeJobDetails = () => {
 const removeJobFromList = (jobId) => {
     jobs.value = jobs.value.filter(job => job.applicationId !== jobId);
     emit('jobCancelled');
+    showAlert('Job canceled successfully!', 'good');
+};
+
+const showAlert = (message, type) => {
+    alertMessage.value = message;
+    alertType.value = type;
+    alertVisible.value = true;
 };
 
 onMounted(fetchJobs);
 </script>
 
 <template>
+    <Alert v-if="alertVisible" :type="alertType" :label="alertMessage" />
+
     <div v-for="job in jobs" :key="job._id" id="applied__job" class="surface-tertiary radius-xs"
         @click="showJobDetails(job)">
         <div id="applied__job__top">
