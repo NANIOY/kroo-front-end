@@ -47,7 +47,7 @@ const fetchJobs = async (businessId) => {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         jobs.value = response.data.linkedJobs;
-        emit('jobsUpdated');  // Emit event when jobs are fetched
+        emit('jobsUpdated');
     } catch (error) {
         console.error('Failed to fetch jobs:', error);
     }
@@ -70,7 +70,7 @@ onMounted(async () => {
 });
 
 const removeJobFromList = (jobId) => {
-    jobs.value = jobs.value.filter(job => job.applicationId !== jobId);
+    jobs.value = jobs.value.filter(job => job._id !== jobId);
     emit('jobCancelled');
     showAlert('Job canceled successfully!', 'good');
 };
@@ -80,8 +80,6 @@ const showAlert = (message, type) => {
     alertType.value = type;
     alertVisible.value = true;
 };
-
-
 </script>
 
 <template>
@@ -118,7 +116,9 @@ const showAlert = (message, type) => {
             <div id="posted__job__info">
                 <div id="posted__job__info__date">
                     <Tag type="big">
-                        <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, { month: 'long' }) }}</p>
+                        <p>{{ getFormattedDate(job.date, { day: 'numeric' }) }} {{ getFormattedDate(job.date, {
+                            month:
+                            'long' }) }}</p>
                     </Tag>
                 </div>
                 <div id="posted__job__info__place">
@@ -132,12 +132,11 @@ const showAlert = (message, type) => {
             </div>
 
             <div id="posted__job__buttons">
+                <NormalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
+                    :hasLabel="true" label="Delete job" @click.stop method="DELETE" :endpoint="`/bussJob/${job._id}`"
+                    @success="removeJobFromList(job._id)" />
                 <NormalButton id="normalButton__details" class="button--primary" :hasIcon="false" :hasLabel="true"
                     label="Details" :hasRequest="false" @click.stop="handleJobClick(job)" />
-                <NormalButton id="normalButton__cancel" class="button--tertiary button__stroke" :hasIcon="false"
-                :hasLabel="true" label="Delete job" @click.stop method="DELETE"
-                :endpoint="`/bussJobInt/applications/${job.jobId}`"
-                @success="removeJobFromList(job.jobId)" />
             </div>
         </div>
     </IconoirProvider>
