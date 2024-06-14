@@ -20,7 +20,6 @@ const router = useRouter();
 const activeJobs = ref([]);
 const crewSuggestions = ref([]);
 const isModalVisible = ref(false);
-const isJobPopVisible = ref(false);
 const loading = ref(true);
 const calendarEvents = ref([]);
 const selectedDate = ref(new Date());
@@ -61,30 +60,164 @@ const fetchActiveJobs = async () => {
         const jobResponse = await axiosInstance.get(`/bussjob/${businessId}`);
         const sortedJobs = jobResponse.data.linkedJobs.sort((a, b) => new Date(a.date) - new Date(b.date));
         activeJobs.value = sortedJobs.slice(0, 3);
+        activeJobs.value.forEach(job => console.log('Job Function:', job.jobFunction));
     } catch (error) {
         console.error('Error fetching active jobs:', error);
     }
 };
 
-// Fetch crew suggestions
+// fetch crew suggestions
 const fetchCrewSuggestions = async () => {
     try {
         const { data } = await axiosInstance.get('/user');
-        const crewMembers = data.data.users.filter(user => user.crewData).slice(0, 4);
-        crewSuggestions.value = await Promise.all(crewMembers.map(async member => {
-            const crewDataResponse = await axiosInstance.get(`/crew/${member.crewData}`);
-            const crewData = crewDataResponse.data.data;
+        const crewMembers = data.data.users.filter(user => user.crewData);
+
+        // fetch crew data for each crew member in parallel
+        const crewDataPromises = crewMembers.map(member => axiosInstance.get(`/crew/${member.crewData}`));
+        const crewDataResponses = await Promise.all(crewDataPromises);
+        const crewDataList = crewDataResponses.map((response, index) => ({
+            member: crewMembers[index],
+            crewData: response.data.data
+        }));
+
+        // define base max points
+        const baseMaxPoints = 16; // 4 (function) + 1*skills + 3 (location) + 2 (languages) + 5 (availability)
+
+        // memoize getCoordinates to avoid redundant API calls
+        const coordinatesCache = {};
+        const getCoordinates = async (city, country) => {
+            const key = `${city}-${country}`;
+            if (coordinatesCache[key]) return coordinatesCache[key];
+
+            try {
+                const response = await axiosInstance.get('/geo/coordinates', { params: { city, country } });
+                coordinatesCache[key] = response.data;
+                return response.data;
+            } catch (error) {
+                console.error('Error fetching coordinates:', error);
+                return null;
+            }
+        };
+
+        // utility function to calculate distance
+        const calculateDistance = (lat1, lon1, lat2, lon2) => {
+            const toRadians = degree => degree * (Math.PI / 180);
+            const R = 6371; // earth radius in km
+            const dLat = toRadians(lat2 - lat1);
+            const dLon = toRadians(lon2 - lon1);
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c; // distance in km
+        };
+
+        const suggestionsPromises = crewDataList.map(async ({ member, crewData }) => {
+            let bestFitPoints = 0;
+            let bestFitJob = null;
+
+            const crewCoords = await getCoordinates(crewData.profileDetails.city, crewData.profileDetails.country);
+
+            for (const job of activeJobs.value) {
+                let points = 0;
+
+                // function match
+                const normalizedJobFunction = job.jobFunction.trim().toLowerCase();
+                const hasMatchingFunction = crewData.basicInfo.functions.some(func => func.trim().toLowerCase() === normalizedJobFunction);
+                if (hasMatchingFunction) points += 4; // 4 points for function match
+
+                // skill match
+                if (hasMatchingFunction) {
+                    const crewSkills = crewData.profileDetails.skills.map(skill => skill.trim().toLowerCase());
+                    const jobSkills = job.skills.map(skill => skill.trim().toLowerCase());
+                    const skillMatches = crewSkills.filter(skill => jobSkills.includes(skill)).length;
+                    points += skillMatches; // 1 point per matching skill if function matches
+                }
+
+                // location match
+                const jobCoords = await getCoordinates(job.location.city, job.location.country);
+                if (crewCoords && jobCoords) {
+                    const distance = calculateDistance(crewCoords.lat, crewCoords.lon, jobCoords.lat, jobCoords.lon);
+                    const workRadius = crewData.profileDetails.workRadius || 0;
+                    if (distance <= workRadius) {
+                        points += hasMatchingFunction ? 3 : 1; // 3 points if location matches and function matches, 1 point if location matches
+                    }
+                }
+
+                // language match
+                if (hasMatchingFunction) {
+                    try {
+                        const businessResponse = await axiosInstance.get(`/business/${job.businessId}`);
+                        const businessLanguages = businessResponse.data.data.business.businessInfo.languages || [];
+                        const crewLanguages = crewData.profileDetails.languages || [];
+                        const languageMatch = businessLanguages.some(lang => crewLanguages.includes(lang)) ? 2 : 0; // 2 points if at least one language matches and function matches
+                        points += languageMatch;
+                    } catch (error) {
+                        console.error('Error fetching business details:', error);
+                    }
+                }
+
+                // availability match
+                if (crewData.googleCalendar && crewData.googleCalendar.accessToken) {
+                    try {
+                        const eventsResponse = await axiosInstance.get(`/calendar/google/events?userId=${member._id}`);
+                        const events = eventsResponse.data;
+
+                        const jobStart = moment(job.date);
+                        const jobEnd = moment(jobStart).add(2, 'hours'); // assuming each job is 2 hours long, adjust as necessary
+
+                        const isAvailable = !events.some(event => {
+                            const eventStart = moment(event.start.dateTime || event.start.date);
+                            const eventEnd = moment(event.end.dateTime || event.end.date);
+
+                            if (!eventStart.isValid() || !eventEnd.isValid()) {
+                                console.error('Invalid event dates:', event);
+                                return false;
+                            }
+
+                            return jobStart.isBefore(eventEnd) && jobEnd.isAfter(eventStart);
+                        });
+
+                        // calculate availability match points
+                        if (isAvailable) {
+                            points += hasMatchingFunction ? 5 : 2; // 5 points if no overlap and function matches, 2 points if no overlap and function doesn't match
+                        }
+                    } catch (error) {
+                        console.error('Error fetching user events:', error);
+                    }
+                }
+
+                if (points > bestFitPoints) {
+                    bestFitPoints = points;
+                    bestFitJob = job.title;
+                }
+            }
+
+            // convert points to percentage
+            const perc = Math.floor((bestFitPoints / baseMaxPoints) * 100);
+
             return {
                 img: crewData.basicInfo.profileImage,
                 name: member.username,
-                perc: '85', // HARD CODED
-                jobtitle: 'Job title', // HARD CODED
+                perc,
+                jobtitle: bestFitJob || 'No matching job', // use best fit job or default
                 functions: crewData.basicInfo.functions,
                 userUrl: member.userUrl
             };
-        }));
+        });
+
+        const suggestions = await Promise.all(suggestionsPromises);
+
+        // filter out null suggestions
+        crewSuggestions.value = suggestions.filter(suggestion => suggestion !== null);
+
+        // sort suggestions by percentage and limit to top 4
+        crewSuggestions.value = crewSuggestions.value.sort((a, b) => b.perc - a.perc).slice(0, 4);
+
     } catch (error) {
         console.error('Error fetching crew suggestions:', error);
+    } finally {
+        loading.value = false;
     }
 };
 
@@ -130,13 +263,6 @@ const handleDaySelected = (date) => {
     filterEventsBySelectedDate();
 };
 
-// Initialize data on mount
-onMounted(() => {
-    fetchActiveJobs();
-    fetchCrewSuggestions();
-    fetchCalendarEvents();
-});
-
 const navigateToProfile = (userUrl) => {
     const userId = userUrl.split('/').pop();
     window.open(`/#/user/${userId}`, '_blank');
@@ -179,6 +305,12 @@ const handleCreateJob = (jobData) => {
 const handleDeleteJob = (jobId) => {
     closeModal();
 };
+
+onMounted(() => {
+    fetchActiveJobs().then(fetchCrewSuggestions);
+    fetchCalendarEvents();
+});
+
 </script>
 
 <template>
@@ -216,11 +348,17 @@ const handleDeleteJob = (jobId) => {
                         class="dashboard__left__header__button dashboard__left__header__button--sug" hasLabel="true"
                         label="Search more" iconName="NavArrowRight" iconPosition="right" />
                 </div>
-                <div class="dashboard__left__block--sug__jobs">
-                    <CrewSug v-if="activeJobs.length > 0" v-for="crew in crewSuggestions" :key="crew.name" v-bind="crew"
-                        @navigateToProfile="navigateToProfile" />
-                    <div v-else class="placeholder text-reg-l">No crew suggestions available until there are active job
-                        postings.</div>
+                <div>
+                    <div v-if="loading" class="skeleton-container">
+                        <CrewSug class="container" v-for="n in (activeJobs.length ? 4 : 8)" :key="n" :crew="null" />
+                    </div>
+                    <div v-else class="dashboard__left__block--sug__jobs">
+                        <CrewSug v-if="activeJobs.length > 0" v-for="crew in crewSuggestions" :key="crew.name"
+                            v-bind="crew" @navigateToProfile="navigateToProfile" />
+                        <div v-else class="placeholder text-reg-l">No crew suggestions available until there are active
+                            job
+                            postings.</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -366,5 +504,28 @@ h5 {
 
 .schedulecard {
     min-height: 80px;
+}
+
+/* SKELETON LOADING */
+.skeleton-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.skeleton-container .container {
+    background-color: var(--neutral-20);
+    border-radius: 4px;
+    animation: pulse 0.2s infinite alternate;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 </style>
