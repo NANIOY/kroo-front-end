@@ -87,7 +87,7 @@ const fetchCrewSuggestions = async () => {
         const crewDataList = await Promise.all(crewDataPromises);
 
         // define base max points
-        const baseMaxPoints = 13; // 4 (function) + 1*skills + 3 (location) + 2 (languages)
+        const baseMaxPoints = 16; // 4 (function) + 1*skills + 3 (location) + 2 (languages) + 5 (availability)
 
         const getCoordinates = async (city, country) => {
             try {
@@ -160,6 +160,45 @@ const fetchCrewSuggestions = async () => {
                     }
                 }
 
+                // availability match
+                if (crewData.googleCalendar && crewData.googleCalendar.accessToken) {
+                    let availabilityMatch = 0;
+                    let overlaps = [];
+                    try {
+                        const eventsResponse = await axiosInstance.get(`/calendar/google/events?userId=${member._id}`);
+                        const events = eventsResponse.data;
+
+                        const jobStart = moment(job.date);
+                        const jobEnd = moment(jobStart).add(2, 'hours'); // assuming each job is 2 hours long, adjust as necessary
+
+                        const isAvailable = !events.some(event => {
+                            const eventStartStr = event.start.dateTime || event.start.date;
+                            const eventEndStr = event.end.dateTime || event.end.date;
+
+                            const eventStart = moment(eventStartStr);
+                            const eventEnd = moment(eventEndStr);
+
+                            if (!eventStart.isValid() || !eventEnd.isValid()) {
+                                console.error('Invalid event dates:', event);
+                                return false;
+                            }
+
+                            const overlap = (jobStart.isBefore(eventEnd) && jobEnd.isAfter(eventStart));
+                            if (overlap) {
+                                overlaps.push({ eventStart: eventStart.toISOString(), eventEnd: eventEnd.toISOString() });
+                            }
+                            return overlap;
+                        });
+
+                        // calculate availability match points
+                        if (isAvailable) {
+                            points += hasMatchingFunction ? 5 : 2; // 5 points if no overlap and function matches, 2 points if no overlap and function doesn't match
+                        }
+                    } catch (error) {
+                        console.error('Error fetching user events:', error);
+                    }
+                }
+
                 if (points > bestFitPoints) {
                     bestFitPoints = points;
                     bestFitJob = job.title;
@@ -168,8 +207,6 @@ const fetchCrewSuggestions = async () => {
 
             // convert points to percentage
             const perc = Math.floor((bestFitPoints / baseMaxPoints) * 100);
-
-            console.log(`Points for ${member.username}:`, bestFitPoints, `Percentage:`, perc);
 
             return {
                 img: crewData.basicInfo.profileImage,
