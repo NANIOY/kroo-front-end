@@ -72,27 +72,26 @@ const fetchCrewSuggestions = async () => {
         const { data } = await axiosInstance.get('/user');
         const crewMembers = data.data.users.filter(user => user.crewData);
 
-        // fetch crew data for each crew member
-        const crewDataPromises = crewMembers.map(async member => {
-            const crewDataResponse = await axiosInstance.get(`/crew/${member.crewData}`);
-            const crewData = crewDataResponse.data.data;
-
-            return {
-                member,
-                crewData
-            };
-        });
-
-        const crewDataList = await Promise.all(crewDataPromises);
+        // fetch crew data for each crew member in parallel
+        const crewDataPromises = crewMembers.map(member => axiosInstance.get(`/crew/${member.crewData}`));
+        const crewDataResponses = await Promise.all(crewDataPromises);
+        const crewDataList = crewDataResponses.map((response, index) => ({
+            member: crewMembers[index],
+            crewData: response.data.data
+        }));
 
         // define base max points
         const baseMaxPoints = 16; // 4 (function) + 1*skills + 3 (location) + 2 (languages) + 5 (availability)
 
+        // memoize getCoordinates to avoid redundant API calls
+        const coordinatesCache = {};
         const getCoordinates = async (city, country) => {
+            const key = `${city}-${country}`;
+            if (coordinatesCache[key]) return coordinatesCache[key];
+
             try {
-                const response = await axiosInstance.get('/geo/coordinates', {
-                    params: { city, country },
-                });
+                const response = await axiosInstance.get('/geo/coordinates', { params: { city, country } });
+                coordinatesCache[key] = response.data;
                 return response.data;
             } catch (error) {
                 console.error('Error fetching coordinates:', error);
@@ -100,8 +99,9 @@ const fetchCrewSuggestions = async () => {
             }
         };
 
+        // utility function to calculate distance
         const calculateDistance = (lat1, lon1, lat2, lon2) => {
-            const toRadians = (degree) => degree * (Math.PI / 180);
+            const toRadians = degree => degree * (Math.PI / 180);
             const R = 6371; // earth radius in km
             const dLat = toRadians(lat2 - lat1);
             const dLon = toRadians(lon2 - lon1);
@@ -112,19 +112,18 @@ const fetchCrewSuggestions = async () => {
             return R * c; // distance in km
         };
 
-        const suggestions = await Promise.all(crewDataList.map(async ({ member, crewData }) => {
+        const suggestionsPromises = crewDataList.map(async ({ member, crewData }) => {
             let bestFitPoints = 0;
             let bestFitJob = null;
+
+            const crewCoords = await getCoordinates(crewData.profileDetails.city, crewData.profileDetails.country);
 
             for (const job of activeJobs.value) {
                 let points = 0;
 
                 // function match
                 const normalizedJobFunction = job.jobFunction.trim().toLowerCase();
-                const hasMatchingFunction = crewData.basicInfo.functions.some(func => {
-                    const normalizedFunc = func.trim().toLowerCase();
-                    return normalizedFunc === normalizedJobFunction;
-                });
+                const hasMatchingFunction = crewData.basicInfo.functions.some(func => func.trim().toLowerCase() === normalizedJobFunction);
                 if (hasMatchingFunction) points += 4; // 4 points for function match
 
                 // skill match
@@ -136,7 +135,6 @@ const fetchCrewSuggestions = async () => {
                 }
 
                 // location match
-                const crewCoords = await getCoordinates(crewData.profileDetails.city, crewData.profileDetails.country);
                 const jobCoords = await getCoordinates(job.location.city, job.location.country);
                 if (crewCoords && jobCoords) {
                     const distance = calculateDistance(crewCoords.lat, crewCoords.lon, jobCoords.lat, jobCoords.lon);
@@ -161,8 +159,6 @@ const fetchCrewSuggestions = async () => {
 
                 // availability match
                 if (crewData.googleCalendar && crewData.googleCalendar.accessToken) {
-                    let availabilityMatch = 0;
-                    let overlaps = [];
                     try {
                         const eventsResponse = await axiosInstance.get(`/calendar/google/events?userId=${member._id}`);
                         const events = eventsResponse.data;
@@ -171,22 +167,15 @@ const fetchCrewSuggestions = async () => {
                         const jobEnd = moment(jobStart).add(2, 'hours'); // assuming each job is 2 hours long, adjust as necessary
 
                         const isAvailable = !events.some(event => {
-                            const eventStartStr = event.start.dateTime || event.start.date;
-                            const eventEndStr = event.end.dateTime || event.end.date;
-
-                            const eventStart = moment(eventStartStr);
-                            const eventEnd = moment(eventEndStr);
+                            const eventStart = moment(event.start.dateTime || event.start.date);
+                            const eventEnd = moment(event.end.dateTime || event.end.date);
 
                             if (!eventStart.isValid() || !eventEnd.isValid()) {
                                 console.error('Invalid event dates:', event);
                                 return false;
                             }
 
-                            const overlap = (jobStart.isBefore(eventEnd) && jobEnd.isAfter(eventStart));
-                            if (overlap) {
-                                overlaps.push({ eventStart: eventStart.toISOString(), eventEnd: eventEnd.toISOString() });
-                            }
-                            return overlap;
+                            return jobStart.isBefore(eventEnd) && jobEnd.isAfter(eventStart);
                         });
 
                         // calculate availability match points
@@ -215,12 +204,14 @@ const fetchCrewSuggestions = async () => {
                 functions: crewData.basicInfo.functions,
                 userUrl: member.userUrl
             };
-        }));
+        });
 
-        // Filter out null suggestions
+        const suggestions = await Promise.all(suggestionsPromises);
+
+        // filter out null suggestions
         crewSuggestions.value = suggestions.filter(suggestion => suggestion !== null);
 
-        // Sort by percentage and take the top 4
+        // sort suggestions by percentage and limit to top 4
         crewSuggestions.value = crewSuggestions.value.sort((a, b) => b.perc - a.perc).slice(0, 4);
 
     } catch (error) {
@@ -517,24 +508,24 @@ h5 {
 
 /* SKELETON LOADING */
 .skeleton-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
 }
 
 .skeleton-container .container {
-  background-color: var(--neutral-20);
-  border-radius: 4px;
-  animation: pulse 0.2s infinite alternate;
+    background-color: var(--neutral-20);
+    border-radius: 4px;
+    animation: pulse 0.2s infinite alternate;
 }
 
 @keyframes pulse {
-  0% {
-    opacity: 0.8;
-  }
+    0% {
+        opacity: 0.8;
+    }
 
-  100% {
-    opacity: 1;
-  }
+    100% {
+        opacity: 1;
+    }
 }
 </style>
