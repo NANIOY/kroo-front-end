@@ -113,6 +113,14 @@ watch(props, () => {
                     <LargeButton v-if="jobType === 'ongoing'" label="Cancel"
                         class="jobpop__bottom__button button--tertiary " method="POST"
                         :endpoint="`/crewJobInt/ongoing/${jobId}/cancel`" :onSuccess="onSuccess" />
+
+                    <!-- OFFERED BUTTONS -->
+                    <LargeButton v-if="jobType === 'offered'" label="Decline"
+                        class="jobpop__bottom__button button--tertiary " method="POST"
+                        :endpoint="`/crewJobInt/offers/${jobId}/cancel`" :postData="{}" :onSuccess="onSuccess" />
+                    <LargeButton v-if="jobType === 'offered'" label="Accept"
+                        class="jobpop__bottom__button button--primary" method="POST"
+                        :endpoint="`/crewJobInt/offers/${jobId}/accept`" :postData="{}" :onSuccess="onSuccess" />
                 </div>
             </div>
         </div>
