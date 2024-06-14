@@ -61,10 +61,6 @@ onMounted(async () => {
     const businessId = await fetchBusinessId();
     if (businessId) {
         await fetchJobs(businessId);
-        // Fetch jobs and update job count periodically
-        setInterval(async () => {
-            await fetchJobs(businessId);
-        }, 900); // Fetch jobs every second (adjust the interval as needed)
     }
 });
 </script>
