@@ -20,7 +20,6 @@ const router = useRouter();
 const activeJobs = ref([]);
 const crewSuggestions = ref([]);
 const isModalVisible = ref(false);
-const isJobPopVisible = ref(false);
 const loading = ref(true);
 const calendarEvents = ref([]);
 const selectedDate = ref(new Date());
@@ -226,6 +225,8 @@ const fetchCrewSuggestions = async () => {
 
     } catch (error) {
         console.error('Error fetching crew suggestions:', error);
+    } finally {
+        loading.value = false;
     }
 };
 
@@ -356,11 +357,17 @@ onMounted(() => {
                         class="dashboard__left__header__button dashboard__left__header__button--sug" hasLabel="true"
                         label="Search more" iconName="NavArrowRight" iconPosition="right" />
                 </div>
-                <div class="dashboard__left__block--sug__jobs">
-                    <CrewSug v-if="activeJobs.length > 0" v-for="crew in crewSuggestions" :key="crew.name" v-bind="crew"
-                        @navigateToProfile="navigateToProfile" />
-                    <div v-else class="placeholder text-reg-l">No crew suggestions available until there are active job
-                        postings.</div>
+                <div>
+                    <div v-if="loading" class="skeleton-container">
+                        <CrewSug class="container" v-for="n in (activeJobs.length ? 4 : 8)" :key="n" :crew="null" />
+                    </div>
+                    <div v-else class="dashboard__left__block--sug__jobs">
+                        <CrewSug v-if="activeJobs.length > 0" v-for="crew in crewSuggestions" :key="crew.name"
+                            v-bind="crew" @navigateToProfile="navigateToProfile" />
+                        <div v-else class="placeholder text-reg-l">No crew suggestions available until there are active
+                            job
+                            postings.</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -506,5 +513,28 @@ h5 {
 
 .schedulecard {
     min-height: 80px;
+}
+
+/* SKELETON LOADING */
+.skeleton-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+.skeleton-container .container {
+  background-color: var(--neutral-20);
+  border-radius: 4px;
+  animation: pulse 0.2s infinite alternate;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 </style>
