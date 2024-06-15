@@ -1,113 +1,75 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, watchEffect } from 'vue';
 import PortfolioItem from '../../atoms/profile/PortfolioItem.vue';
+import { defineProps } from 'vue';
 
-const getRandomHeight = (remainingHeight, remainingItems, maxHeight) => {
-    if (remainingItems === 1) {
-        return remainingHeight; // return the remaining height if it's the last item
+const props = defineProps({
+    user: {
+        type: Object,
+        required: true
     }
-    const minHeight = 160; // min height of each item
-    const effectiveMaxHeight = Math.min(maxHeight, remainingHeight - (remainingItems - 1) * minHeight);
-    return Math.floor(Math.random() * (effectiveMaxHeight - minHeight + 1)) + minHeight;
+});
+
+const getRandomHeight = (minHeight, maxHeight) => {
+    return Math.floor(Math.random() * (maxHeight - minHeight + 1)) + minHeight;
 };
 
-const balanceHeights = (items, columns, columnHeight, maxHeight) => {
+const distributeItems = (items, columns, minHeight, maxHeight) => {
     const columnItems = Array.from({ length: columns }, () => []);
-    let itemIndex = 0;
+    let heights = Array.from({ length: columns }, () => 0);
 
-    for (let i = 0; i < columns; i++) {
-        let remainingHeight = columnHeight;
-        let remainingItems = Math.ceil((items.length - itemIndex) / (columns - i));
+    items.forEach(item => {
+        const columnIndex = heights.indexOf(Math.min(...heights));
+        const height = getRandomHeight(minHeight, maxHeight);
+        columnItems[columnIndex].push({ ...item, height });
+        heights[columnIndex] += height;
+    });
 
-        while (remainingHeight > 0 && remainingItems > 0) {
-            const height = getRandomHeight(remainingHeight, remainingItems, maxHeight);
-            columnItems[i].push({ ...items[itemIndex], height });
-            remainingHeight -= height;
-            remainingItems--;
-            itemIndex++;
+    // Adjust the last item in each column to ensure columns are of equal height
+    const maxHeightInColumns = Math.max(...heights);
+    columnItems.forEach((column, columnIndex) => {
+        if (column.length > 0) {
+            const lastItem = column[column.length - 1];
+            lastItem.height += (maxHeightInColumns - heights[columnIndex]);
         }
-    }
+    });
 
     return columnItems;
 };
 
-const rawPortfolioItems = ref([
-    { imageSrc: 'https://fakeimg.pl/1070x751' },
-    { imageSrc: 'https://fakeimg.pl/608x520' },
-    { imageSrc: 'https://fakeimg.pl/989x613' },
-    { imageSrc: 'https://fakeimg.pl/818x600' },
-    { imageSrc: 'https://fakeimg.pl/669x445' },
-    { imageSrc: 'https://fakeimg.pl/588x889' },
-    { imageSrc: 'https://fakeimg.pl/742x761' },
-    { imageSrc: 'https://fakeimg.pl/1086x1177' },
-    { imageSrc: 'https://fakeimg.pl/476x1107' },
-    { imageSrc: 'https://fakeimg.pl/271x299' },
-    { imageSrc: 'https://fakeimg.pl/608x520' },
-    { imageSrc: 'https://fakeimg.pl/1070x751' },
-    { imageSrc: 'https://fakeimg.pl/608x520' },
-    { imageSrc: 'https://fakeimg.pl/989x613' },
-    { imageSrc: 'https://fakeimg.pl/818x600' },
-    { imageSrc: 'https://fakeimg.pl/669x445' },
-    { imageSrc: 'https://fakeimg.pl/588x889' },
-    { imageSrc: 'https://fakeimg.pl/742x761' },
-    { imageSrc: 'https://fakeimg.pl/1086x1177' },
-    { imageSrc: 'https://fakeimg.pl/476x1107' },
-    { imageSrc: 'https://fakeimg.pl/271x299' },
-    { imageSrc: 'https://fakeimg.pl/608x520' },
-    { imageSrc: 'https://fakeimg.pl/1070x751' },
-    { imageSrc: 'https://fakeimg.pl/608x520' },
-    { imageSrc: 'https://fakeimg.pl/989x613' },
-    { imageSrc: 'https://fakeimg.pl/818x600' },
-    { imageSrc: 'https://fakeimg.pl/669x445' },
-    { imageSrc: 'https://fakeimg.pl/588x889' },
-    { imageSrc: 'https://fakeimg.pl/742x761' },
-    { imageSrc: 'https://fakeimg.pl/1086x1177' },
-    { imageSrc: 'https://fakeimg.pl/476x1107' },
-    { imageSrc: 'https://fakeimg.pl/271x299' },
-    { imageSrc: 'https://fakeimg.pl/608x520' },
-    { imageSrc: 'https://fakeimg.pl/1070x751' },
-    { imageSrc: 'https://fakeimg.pl/608x520' },
-    { imageSrc: 'https://fakeimg.pl/989x613' },
-    { imageSrc: 'https://fakeimg.pl/818x600' },
-    { imageSrc: 'https://fakeimg.pl/669x445' },
-    { imageSrc: 'https://fakeimg.pl/588x889' },
-    { imageSrc: 'https://fakeimg.pl/742x761' },
-    { imageSrc: 'https://fakeimg.pl/1086x1177' },
-    { imageSrc: 'https://fakeimg.pl/476x1107' },
-    { imageSrc: 'https://fakeimg.pl/271x299' },
-    { imageSrc: 'https://fakeimg.pl/608x520' },
-    { imageSrc: 'https://fakeimg.pl/1070x751' },
-    { imageSrc: 'https://fakeimg.pl/608x520' },
-    { imageSrc: 'https://fakeimg.pl/989x613' },
-    { imageSrc: 'https://fakeimg.pl/818x600' },
-    { imageSrc: 'https://fakeimg.pl/669x445' },
-    { imageSrc: 'https://fakeimg.pl/588x889' },
-    { imageSrc: 'https://fakeimg.pl/742x761' },
-    { imageSrc: 'https://fakeimg.pl/989x613' },
-    { imageSrc: 'https://fakeimg.pl/271x299' },
-    { imageSrc: 'https://fakeimg.pl/476x1107' },
-    { imageSrc: 'https://fakeimg.pl/271x299' },
-    { imageSrc: 'https://fakeimg.pl/608x520' },
-    { imageSrc: 'https://fakeimg.pl/271x299' },
-]);
-
+const portfolioItems = ref([]);
 const columns = ref(3);
-const columnHeight = 5600; // height of each column
-const maxHeight = 400; // max height of each item
+const minHeight = 156; // min height of each item
+const maxHeight = 480; // max height of each item
 const portfolioColumns = ref([]);
 
 const arrangePortfolio = () => {
-    portfolioColumns.value = balanceHeights(rawPortfolioItems.value, columns.value, columnHeight, maxHeight);
+    portfolioColumns.value = distributeItems(portfolioItems.value, columns.value, minHeight, maxHeight);
 };
 
-onMounted(arrangePortfolio);
+watchEffect(() => {
+    if (props.user && props.user.crewData.careerDetails && props.user.crewData.careerDetails.portfolioWork) {
+        const filledItems = props.user.crewData.careerDetails.portfolioWork.map(work => ({
+            imageSrc: work.url,
+            status: 'filled'
+        }));
+
+        const lockedItems = Array.from({ length: 56 - filledItems.length }, () => ({
+            imageSrc: 'https://fakeimg.pl/600x400?text=Locked',
+            status: 'locked'
+        }));
+
+        portfolioItems.value = [...filledItems, ...lockedItems];
+        arrangePortfolio();
+    }
+});
 </script>
 
 <template>
     <div class="portfolio">
         <div v-for="(column, index) in portfolioColumns" :key="index" class="portfolio__column">
-            <PortfolioItem v-for="item in column" :key="item.imageSrc" :imageSrc="item.imageSrc"
-                :height="item.height + 'px'" />
+            <PortfolioItem v-for="(item, itemIndex) in column" :key="item.imageSrc + itemIndex" :imageSrc="item.imageSrc"
+                :height="item.height + 'px'" :status="item.status" />
         </div>
     </div>
 </template>
