@@ -17,6 +17,11 @@ const props = defineProps({
         default: 'profile',
         required: true
     },
+    dataType: {
+        type: String,
+        default: 'crew',  // default to 'crew' if not provided
+        required: true
+    }
 });
 
 const userIdFromSession = sessionStorage.getItem('userId');
@@ -34,6 +39,7 @@ const handleFileChange = async (event) => {
     formData.append('file', file);
     formData.append('userId', userIdFromSession);
     formData.append('imageType', props.imageType);
+    formData.append('dataType', props.dataType);
 
     try {
         const axiosInstance = setupAxios();
@@ -51,7 +57,6 @@ const handleFileChange = async (event) => {
 
 const emit = defineEmits(['imageChanged']);
 </script>
-
 
 <template>
     <div class="imageUpload">
@@ -80,7 +85,7 @@ const emit = defineEmits(['imageChanged']);
 .imageUpload__square {
     border: 2px solid var(--black);
     background-color: transparent;
-    padding: 10px;
+    box-sizing: border-box;
     cursor: pointer;
     display: flex;
     justify-content: center;

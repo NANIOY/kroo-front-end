@@ -3,22 +3,109 @@ import { ref } from 'vue';
 import Form from '../../components/organisms/forms/Form.vue';
 import LoginImage from '../../components/molecules/login/LoginImage.vue';
 
-const dropdown = ref({
-    hasLabel: true,
-    label: 'Agenda service',
-    placeholder: 'Choose service',
-    options: ['Google Calendar', 'Outlook Calendar', 'Apple Calendar'],
-    localStorageKey: 'agendaService',
-    group: 'basicInfo'
-});
+const multidropdownProps = ref([
+    {
+        hasLabel: true,
+        label: 'Media types',
+        placeholder: 'Select your media types...',
+        options: [
+            "Animation",
+            "Children's programming",
+            "Commercials",
+            "Documentaries",
+            "Feature films",
+            "Game shows",
+            "Music videos",
+            "Reality television",
+            "Short films",
+            "Sports broadcasts",
+            "Television programs",
+            "Television shows",
+            "Web series"
+        ],
+        localStorageKey: 'mediaTypes',
+        group: 'businessInfo'
+    },
+    {
+        hasLabel: true,
+        label: 'Languages',
+        placeholder: 'Select your languages...',
+        options: [
+            'English',
+            'Español',
+            'Deutsch',
+            'Français',
+            'Italiano',
+            'Português',
+            'Русский',
+            'Nederlands',
+            'Polski',
+            'Svenska',
+            'Norsk',
+            'Dansk',
+            'Suomi',
+            'Ελληνικά',
+            'Čeština',
+            'Magyar',
+            'Türkçe',
+            'Română',
+            'Български',
+            'Українська',
+            'Slovenčina',
+            'Lietuvių',
+            'Latviešu',
+            'Eesti',
+            'Hrvatski',
+            'Srpski',
+            'Српски',
+            'Slovenščina',
+            'Беларуская',
+            'Íslenska',
+            'العربية',
+            'हिन्दी',
+            '中文',
+            '日本語',
+            '한국어',
+            'فارسی',
+            'বাংলা',
+            'עברית',
+            'ਪੰਜਾਬੀ',
+            'தமிழ்',
+            'తెలుగు',
+            'മലയാളം',
+            'ਪੰਜਾਬੀ',
+            'ગુજરાતી'
+        ],
+        localStorageKey: 'languages',
+        group: 'businessInfo'
+    }
+]);
+
+const localfields = ref([
+    {
+        hasLabel: true,
+        label: 'Bio',
+        placeholder: 'Tell us about your company',
+        localStorageKey: 'bio',
+        group: 'businessInfo'
+    },
+    {
+        hasLabel: true,
+        label: 'Tagline',
+        placeholder: 'Enter a tagline',
+        localStorageKey: 'tagline',
+        group: 'businessInfo'
+    }
+]);
 </script>
 
 <template>
     <div class="registerContainer">
-        <Form class="registerContainer__form" header="Connectivity" :hasSteps="true"
-            steps="Set up business account: step 2/5" :dropdown="dropdown" :hasBack="true" :hasText="true"
-            text="Establish seamless connections to enhance your business network." :hasSocialInput="true"
-            :hasLargeButton="true" buttonLabel="Next" redirect="/register/business/step-3" />
+        <Form class="registerContainer__form" header="Business info" :hasSteps="true"
+            steps="Set up business account: step 2/5" :hasBack="true" :hasText="true"
+            text="Tell us more about your company."
+            :hasSocialInput="false" :localfields="localfields" :multidropdowns="multidropdownProps"
+            :hasMultiDropdown=true :hasLargeButton="true" buttonLabel="Next" redirect="/register/business/step-3" />
         <LoginImage class="registerContainer__image" />
     </div>
 </template>

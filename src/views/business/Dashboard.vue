@@ -112,6 +112,12 @@ const fetchCrewSuggestions = async () => {
             return R * c; // distance in km
         };
 
+        if (activeJobs.value.length === 0) {
+            crewSuggestions.value = [];
+            loading.value = false;
+            return;
+        }
+
         const suggestionsPromises = crewDataList.map(async ({ member, crewData }) => {
             let bestFitPoints = 0;
             let bestFitJob = null;
