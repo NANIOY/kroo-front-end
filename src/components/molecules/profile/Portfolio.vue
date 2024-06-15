@@ -52,6 +52,7 @@ const distributeItems = (items, columns, minHeight, maxHeight) => {
         heights[columnIndex] += height;
     });
 
+    // adjust last item in each column to ensure columns are of equal height
     const maxHeightInColumns = Math.max(...heights);
     columnItems.forEach((column, columnIndex) => {
         if (column.length > 0) {
@@ -65,8 +66,8 @@ const distributeItems = (items, columns, minHeight, maxHeight) => {
 
 const portfolioItems = ref([]);
 const columns = ref(3);
-const minHeight = 156;
-const maxHeight = 480;
+const minHeight = 156; // min height of each item
+const maxHeight = 480; // max height of each item
 const portfolioColumns = ref([]);
 
 const arrangePortfolio = () => {
@@ -74,7 +75,6 @@ const arrangePortfolio = () => {
 };
 
 const portfolioPopVisible = ref(false);
-const portfolioPopData = ref({});
 
 const handleOpenClick = () => {
     portfolioPopVisible.value = true;
@@ -85,9 +85,11 @@ const handlePortfolioSubmit = (portfolioData) => {
     arrangePortfolio();
 };
 
+const portfolioPopData = ref({});
+
 const handleEditItem = (item) => {
     portfolioPopVisible.value = true;
-    portfolioPopData.value = { ...item, _id: item._id };
+    portfolioPopData.value = { ...item };
 };
 
 watchEffect(() => {
@@ -113,7 +115,10 @@ watchEffect(() => {
             portfolioType: work.type
         }));
 
-        const openItemsCount = Math.min(limit - filledItems.length, 56 - filledItems.length);
+        const openItemsCount = props.isCurrentUserProfile
+            ? Math.min(limit - filledItems.length, 56 - filledItems.length)
+            : 0;
+
         const openItems = Array.from({ length: openItemsCount }, () => ({
             imageSrc: '',
             status: 'open',
@@ -135,10 +140,10 @@ watchEffect(() => {
 <template>
     <div class="portfolio">
         <div v-for="(column, index) in portfolioColumns" :key="index" class="portfolio__column">
-            <PortfolioItem v-for="(item, itemIndex) in column" :key="item.imageSrc + itemIndex"
+            <PortfolioItem v-for="(item, itemIndex) in column" :key="item._id || itemIndex" :_id="item._id"
                 :imageSrc="item.imageSrc" :height="item.height + 'px'" :status="item.status" :mimeType="item.mimeType"
                 :portfolioTitle="item.portfolioTitle" :portfolioType="item.portfolioType"
-                :isOwner="isCurrentUserProfile" :id="item._id" @edit="handleEditItem(item)" />
+                :isOwner="props.isCurrentUserProfile" @edit="handleEditItem(item)" />
         </div>
     </div>
     <PortfolioPop :isVisible="portfolioPopVisible" @close="portfolioPopVisible = false" @submit="handlePortfolioSubmit"
