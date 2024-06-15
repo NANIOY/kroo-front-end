@@ -1,58 +1,111 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
-import setupAxios from '../../setupAxios';
+import { ref } from 'vue';
 import Form from '../../components/organisms/forms/Form.vue';
 import LoginImage from '../../components/molecules/login/LoginImage.vue';
 
-const dropdown = ref({
-    hasLabel: true,
-    label: 'Agenda service',
-    placeholder: 'Choose service',
-    options: ['Google Calendar', 'Outlook Calendar', 'Apple Calendar'],
-    localStorageKey: 'agendaService',
-    group: 'basicInfo'
-});
-
-const inputUrlProps = {
-    label: 'Custom URL',
-    hasLabel: true,
-    placeholder: computed(() => `${username.value}`),
-    isError: false,
-    inputWidth: '100%',
-    type: 'business',
-};
-
-const inputUrl = ref(inputUrlProps);
-
-const axiosInstance = setupAxios();
-const username = ref('');
-
-const fetchUserData = async () => {
-    try {
-        const userId = sessionStorage.getItem('userId');
-
-        if (!userId) {
-            throw new Error('User ID not found in session storage');
-        }
-
-        const response = await axiosInstance.get(`/user/${userId}`);
-        const userData = response.data.data.user;
-
-        username.value = userData.username;
-    } catch (error) {
-        console.error('Error fetching user data:', error);
+const multidropdownProps = ref([
+    {
+        hasLabel: true,
+        label: 'Media types',
+        placeholder: 'Select your media types...',
+        options: [
+            "Animation",
+            "Children's programming",
+            "Commercials",
+            "Documentaries",
+            "Feature films",
+            "Game shows",
+            "Music videos",
+            "Reality television",
+            "Short films",
+            "Sports broadcasts",
+            "Television programs",
+            "Television shows",
+            "Web series"
+        ],
+        localStorageKey: 'mediaTypes',
+        group: 'businessInfo'
+    },
+    {
+        hasLabel: true,
+        label: 'Languages',
+        placeholder: 'Select your languages...',
+        options: [
+            'English',
+            'Español',
+            'Deutsch',
+            'Français',
+            'Italiano',
+            'Português',
+            'Русский',
+            'Nederlands',
+            'Polski',
+            'Svenska',
+            'Norsk',
+            'Dansk',
+            'Suomi',
+            'Ελληνικά',
+            'Čeština',
+            'Magyar',
+            'Türkçe',
+            'Română',
+            'Български',
+            'Українська',
+            'Slovenčina',
+            'Lietuvių',
+            'Latviešu',
+            'Eesti',
+            'Hrvatski',
+            'Srpski',
+            'Српски',
+            'Slovenščina',
+            'Беларуская',
+            'Íslenska',
+            'العربية',
+            'हिन्दी',
+            '中文',
+            '日本語',
+            '한국어',
+            'فارسی',
+            'বাংলা',
+            'עברית',
+            'ਪੰਜਾਬੀ',
+            'தமிழ்',
+            'తెలుగు',
+            'മലയാളം',
+            'ਪੰਜਾਬੀ',
+            'ગુજરાતી'
+        ],
+        localStorageKey: 'languages',
+        group: 'businessInfo'
     }
-};
+]);
 
-onMounted(fetchUserData);
+const localfields = ref([
+    {
+        hasLabel: true,
+        label: 'Bio',
+        placeholder: 'Tell us about your company',
+        localStorageKey: 'bio',
+        group: 'businessInfo'
+    },
+    {
+        hasLabel: true,
+        label: 'Tagline',
+        placeholder: 'Enter a tagline',
+        localStorageKey: 'tagline',
+        group: 'businessInfo'
+    }
+]);
 </script>
 
 <template>
     <div class="registerContainer">
-        <Form class="registerContainer__form" header="Connectivity" :hasSteps="true"
-            steps="Set up business account: step 2/5" :dropdown="dropdown" :inputUrl="inputUrl" :hasBack="true" :hasText="true"
-            text="Establish seamless connections to enhance your business network." :hasSocialInput="true"
-            :hasLargeButton="true" buttonLabel="Next" redirect="/register/business/step-3" />
+        <Form class="registerContainer__form" header="Show projects" :hasSteps="true"
+            steps="Set up business account: step 2/5" :hasBack="true" :hasText="true"
+            text="Highlight your company's projects." :hasSocialInput="false" :localfields="localfields"
+            :multidropdowns="multidropdownProps" :hasMultiDropdown=true :hasLargeButton="true" buttonLabel="Next"
+            redirect="/register/business/step-3" />
         <LoginImage class="registerContainer__image" />
     </div>
 </template>
