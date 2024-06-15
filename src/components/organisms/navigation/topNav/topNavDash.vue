@@ -15,6 +15,7 @@ const userId = sessionStorage.getItem('userId');
 const name = ref(props.name);
 const func = ref(props.func);
 const profileImage = ref(props.profileImage);
+const businessLogo = ref('');
 const businessName = ref('');
 const hasBusiness = ref(false);
 const currentRole = ref(sessionStorage.getItem('role'));
@@ -46,7 +47,9 @@ const fetchUserData = async () => {
       try {
         const businessResponse = await axiosInstance.get(`/business/${businessDataId}`);
         if (businessResponse && businessResponse.data) {
-          businessName.value = businessResponse.data.data.business.businessInfo.companyName;
+          const businessInfo = businessResponse.data.data.business.businessInfo;
+          businessName.value = businessInfo.companyName;
+          businessLogo.value = businessInfo.logo;
           hasBusiness.value = true;
         } else {
           businessName.value = '';
@@ -60,6 +63,11 @@ const fetchUserData = async () => {
     } else {
       businessName.value = '';
       hasBusiness.value = false;
+    }
+
+    // use business logo as profile image if no profile image is available
+    if (!profileImage.value && businessLogo.value) {
+      profileImage.value = businessLogo.value;
     }
   } catch (error) {
     console.error('Error fetching user data:', error);

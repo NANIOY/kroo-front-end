@@ -46,22 +46,27 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'search']);
 
 const inputType = ref(props.isPassword ? 'password' : 'text');
-const inputValue = computed({
-  get() {
-    return props.modelValue;
-  },
-  set(value) {
-    emit('update:modelValue', value);
-    if (props.hasSearchFunction) {
-      emit('search', value);
-    }
-  }
-});
+const inputValue = ref(props.modelValue);
 
 onMounted(() => {
   if (props.localStorageKey && props.group) {
-    const storedValue = localStorage.getItem(`${props.group}-${props.localStorageKey}`);
-    inputValue.value = storedValue || '';
+    const postData = JSON.parse(localStorage.getItem('postData')) || {};
+    const groupData = postData[props.group] || {};
+    inputValue.value = groupData[props.localStorageKey] || props.modelValue;
+  }
+});
+
+watch(inputValue, (newVal) => {
+  if (props.localStorageKey && props.group) {
+    const postData = JSON.parse(localStorage.getItem('postData')) || {};
+    const groupData = postData[props.group] || {};
+    groupData[props.localStorageKey] = newVal;
+    postData[props.group] = groupData;
+    localStorage.setItem('postData', JSON.stringify(postData));
+  }
+  emit('update:modelValue', newVal);
+  if (props.hasSearchFunction) {
+    emit('search', newVal);
   }
 });
 
@@ -78,20 +83,17 @@ const iconComponents = {
 
 const getIconComponent = (name) => iconComponents[name];
 
-watch(inputValue, (newVal) => {
-  if (props.localStorageKey && props.group) {
-    localStorage.setItem(`${props.group}-${props.localStorageKey}`, newVal);
-  }
-  emit('update:modelValue', newVal);
-  if (props.hasSearchFunction) {
-    emit('search', newVal);
-  }
+const capitalizedFirstWordLabel = computed(() => {
+  if (!props.label) return '';
+  const words = props.label.split(' ');
+  words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1).toLowerCase();
+  return words.join(' ');
 });
 </script>
 
 <template>
   <div class="inputContainer">
-    <label v-if="props.hasLabel">{{ props.label }}</label>
+    <label v-if="props.hasLabel">{{ capitalizedFirstWordLabel }}</label>
     <div class="inputContainer__wrapper">
       <span v-if="props.hasIconLeft" class="icon icon--left">
         <component :is="getIconComponent(props.iconLeftName)" />

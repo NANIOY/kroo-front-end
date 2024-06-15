@@ -15,21 +15,19 @@ const props = defineProps({
     currentUser: {
         type: Object,
         required: true
+    },
+    isCurrentUserProfile: {
+        type: Boolean,
+        required: true
     }
 });
 
 const route = useRoute();
 const activeTab = ref('About');
 
-const isCurrentUserProfile = ref(route.path === '/profile');
-
 const handleTabChange = (newTab) => {
     activeTab.value = newTab;
 };
-
-watch(route, (newRoute) => {
-    isCurrentUserProfile.value = newRoute.path === '/profile';
-}, { immediate: true });
 </script>
 
 <template>
@@ -42,7 +40,7 @@ watch(route, (newRoute) => {
         </div>
         <div class="profileright__content">
             <div class="profileright__content__inner">
-                <Portfolio v-if="activeTab === 'Portfolio'" :user="user" />
+                <Portfolio v-if="activeTab === 'Portfolio'" :user="user" :isCurrentUserProfile="isCurrentUserProfile" />
                 <About v-if="activeTab === 'About'" :user="user" />
                 <Activity v-if="activeTab === 'Activity'" :user="user" />
             </div>
