@@ -16,6 +16,8 @@ const emit = defineEmits(['navigateToProfile']);
 
 const loading = ref(true);
 
+const tagLimit = 2;
+
 onMounted(() => {
     setTimeout(() => {
         loading.value = false;
@@ -40,8 +42,12 @@ const navigateToProfile = () => {
 
             <div class="container__mid">
                 <div class="container__mid__tags">
-                    <Tag v-for="func in functions" :key="func" type="colored" class="container__mid__tags__tag">{{ func
-                        }}</Tag>
+                    <Tag v-for="(func, index) in functions.slice(0, tagLimit)" :key="func" type="colored" class="container__mid__tags__tag">
+                        {{ func }}
+                    </Tag>
+                    <Tag v-if="functions.length > tagLimit" type="colored" class="container__mid__tags__tag">
+                        +{{ functions.length - tagLimit }}
+                    </Tag>
                 </div>
                 <div class="container__mid__location">
                     <span class="container__mid__location__city text-reg-l">{{ city }}</span>
@@ -138,13 +144,16 @@ const navigateToProfile = () => {
 
 /* MIDDLE */
 .container__mid {
-    gap: 16px;
+    gap: 8px;
+    display: flex;
+    align-items: center;
 }
 
 .container__mid__location {
     display: flex;
     flex-direction: column;
     text-align: right;
+    white-space: nowrap;
 }
 
 /* BOTTOM */
