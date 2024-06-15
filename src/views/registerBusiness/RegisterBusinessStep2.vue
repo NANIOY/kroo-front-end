@@ -101,11 +101,11 @@ const localfields = ref([
 
 <template>
     <div class="registerContainer">
-        <Form class="registerContainer__form" header="Show projects" :hasSteps="true"
+        <Form class="registerContainer__form" header="Business info" :hasSteps="true"
             steps="Set up business account: step 2/5" :hasBack="true" :hasText="true"
-            text="Highlight your company's projects." :hasSocialInput="false" :localfields="localfields"
-            :multidropdowns="multidropdownProps" :hasMultiDropdown=true :hasLargeButton="true" buttonLabel="Next"
-            redirect="/register/business/step-3" />
+            text="Tell us more about your company."
+            :hasSocialInput="false" :localfields="localfields" :multidropdowns="multidropdownProps"
+            :hasMultiDropdown=true :hasLargeButton="true" buttonLabel="Next" redirect="/register/business/step-3" />
         <LoginImage class="registerContainer__image" />
     </div>
 </template>
