@@ -80,7 +80,7 @@ const emit = defineEmits(['imageChanged']);
 .imageUpload__square {
     border: 2px solid var(--black);
     background-color: transparent;
-    padding: 10px;
+    box-sizing: border-box;
     cursor: pointer;
     display: flex;
     justify-content: center;
