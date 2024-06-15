@@ -113,7 +113,7 @@ const postData = ref({
     userUrl: ''
 });
 
-const emit = defineEmits(['update:selectedRole']);
+const emit = defineEmits(['update:selectedRole', 'submit']);
 
 const handleButtonSelect = (role) => {
     emit('update:selectedRole', role);
@@ -160,6 +160,10 @@ const handleFileUploaded = (file, localStorageKey, group) => {
 const handleUrlChange = (localStorageKey, userUrl) => {
     updatePostData(localStorageKey, userUrl);
 };
+
+const handleButtonClick = () => {
+    emit('submit');
+};
 </script>
 
 <template>
@@ -179,11 +183,11 @@ const handleUrlChange = (localStorageKey, userUrl) => {
         <!-- INPUTS -->
         <div class="form__inputs">
             <SocialInput v-if="hasSocialInput" />
-            <InputCombo v-if="inputCombo" :label="inputCombo.label" :input1Placeholder="inputCombo.input1Placeholder"
+            <!-- <InputCombo v-if="inputCombo" :label="inputCombo.label" :input1Placeholder="inputCombo.input1Placeholder"
                 :input2Placeholder="inputCombo.input2Placeholder" :dropdownOptions="inputCombo.dropdownOptions"
                 :showCounter="inputCombo.showCounter" :showDropdown="inputCombo.showDropdown"
                 :buttonLabel="inputCombo.buttonLabel" :buttonIcon="inputCombo.buttonIcon" class="form__inputs__field"
-                @click="handleButtonClick" />
+                @click="handleButtonClick" /> -->
             <DropBillCombo class="form__inputs__field" v-if="dropBillCombo" />
             <PaymentMethodCombo class="form__inputs__field" v-if="paymentMethodCombo" />
 
@@ -246,7 +250,7 @@ const handleUrlChange = (localStorageKey, userUrl) => {
         <div class="form__buttons">
             <LargeButton v-if="(hasLargeButton)" :label="buttonLabel" :endpoint="endpoint" :postData="postData"
                 :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary"
-                :hasRequest="false" />
+                :hasRequest="false" @click="handleButtonClick" />
             <AuthButton v-if="(hasAuthButton)" :label="buttonLabel" :endpoint="endpoint" :postData="postData"
                 :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" />
             <LocalStorageButton v-if="(hasLocalStorageButton)" :label="buttonLabel" :endpoint="endpoint"

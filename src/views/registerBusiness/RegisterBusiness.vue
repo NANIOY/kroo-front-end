@@ -17,9 +17,9 @@ const localfields = ref([
 
 const axiosInstance = setupAxios();
 const username = ref('');
-const companyNameInput = ref('');
 const companyNameNotFound = ref(false);
 const businessNames = ref([]);
+const businessMap = ref(new Map());
 
 onMounted(async () => {
     try {
@@ -37,9 +37,11 @@ onMounted(async () => {
         const businessResponse = await axiosInstance.get('/business');
 
         if (Array.isArray(businessResponse.data.data.businesses)) {
-            businessNames.value = businessResponse.data.data.businesses.map(
-                business => business.businessInfo.companyName.toLowerCase()
-            );
+            businessResponse.data.data.businesses.forEach(business => {
+                const name = business.businessInfo.companyName.toLowerCase();
+                businessMap.value.set(name, business._id);
+            });
+            businessNames.value = Array.from(businessMap.value.keys());
         } else {
             console.error('Unexpected response structure:', businessResponse.data);
         }
@@ -67,6 +69,21 @@ const inputNoteText = computed(() => {
         ? 'Company not found. Check the spelling or continue to create your company.'
         : 'Company found. Press next to request to join the team.';
 });
+
+const handleSubmit = async () => {
+    const companyName = localfields.value.find(field => field.localStorageKey === 'companyName').value.toLowerCase();
+    if (businessMap.value.has(companyName)) {
+        const businessId = businessMap.value.get(companyName);
+        try {
+            await axiosInstance.post(`/business/join?businessId=${businessId}`);
+            console.log('Join request sent successfully');
+        } catch (error) {
+            console.error('Error sending join request:', error);
+        }
+    } else {
+        window.location.href = '/#/register/business/step-1';
+    }
+};
 </script>
 
 <template>
@@ -74,11 +91,12 @@ const inputNoteText = computed(() => {
         <Form class="registerContainer__form" :header="'Hello ' + username" :hasSteps="false" steps="" :hasBack="true"
             :hasSkip="false" :hasText="true"
             text="Create your business account below and enter the company name. If it exists, join your employer or create your business on kroo."
-            :localfields="localfields" :hasLargeButton="true" buttonLabel="Next" redirect="/register/business/step-1"
-            v-model:companyNameInput="companyNameInput" :inputNoteText="inputNoteText" />
+            :localfields="localfields" :hasLargeButton="true" buttonLabel="Next" :inputNoteText="inputNoteText"
+            @submit="handleSubmit" />
         <LoginImage class="registerContainer__image" />
     </div>
 </template>
+
 
 <style>
 .registerContainer {
