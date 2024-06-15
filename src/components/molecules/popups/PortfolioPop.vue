@@ -95,7 +95,8 @@ const showAlert = (message, type) => {
                 <InputField v-model="title" placeholder="Enter title" :hasLabel="true" label="Title" />
                 <DropDown v-model="selectedType" :options="typeOptions" :hasLabel="true" placeholder="Select type"
                     label="Type" />
-                <UploadFile @fileUploaded="handleFileUpload" :hasLabel="true" label="Upload file" :autoUpload="false" />
+                <UploadFile @fileUploaded="handleFileUpload" :hasLabel="true" label="Upload file" :autoUpload="false"
+                    :fileTypes="['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'image/svg+xml', 'video/mp4', 'video/webm', 'audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/wave', 'audio/ogg']" />
             </div>
             <div class="portfoliopop__buttons">
                 <LargeButton label="Submit" class="button--primary" :hasRequest="false" @click="handleSubmit" />

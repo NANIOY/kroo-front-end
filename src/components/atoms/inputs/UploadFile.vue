@@ -24,6 +24,10 @@ const props = defineProps({
     autoUpload: {
         type: Boolean,
         default: true
+    },
+    fileTypes: {
+        type: String,
+        default: '.pdf,.doc,.docx,.jpg,.jpeg,.png'
     }
 });
 
@@ -70,7 +74,7 @@ const emit = defineEmits(['fileUploaded']);
         <label v-if="hasLabel">{{ label }}</label>
         <div class="inputContainer__wrapper">
             <input type="file" ref="fileInput" @change="handleFileChange" style="display: none;"
-                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                :accept="fileTypes">
             <input type="text" :value="fileName || ''" :placeholder="fileName ? '' : placeholder"
                 :class="{ error: isError }" :style="{ width: inputWidth }" readonly @click="openFileExplorer">
             <span class="icon" @click="openFileExplorer">
