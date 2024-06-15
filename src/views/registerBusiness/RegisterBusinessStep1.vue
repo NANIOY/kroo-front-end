@@ -25,18 +25,17 @@ const imageUploads = ref([
         shape: 'circle',
         label: 'Logo',
         localStorageKey: 'logo',
-        group: 'businessInfo'
+        group: 'businessInfo',
+        dataType: 'business'
     },
     {
         shape: 'square',
         label: 'Banner image',
         localStorageKey: 'bannerImage',
-        group: 'businessInfo'
+        group: 'businessInfo',
+        dataType: 'business'
     }
 ]);
-
-
-
 </script>
 
 <template>

@@ -205,7 +205,7 @@ const handleButtonClick = () => {
             <div v-if="hasImageUpload" class="form__inputs__image">
                 <ImageUploadButton v-for="(imageUpload, index) in imageUploads" :key="index" :shape="imageUpload.shape"
                     :label="imageUpload.label" :localStorageKey="imageUpload.localStorageKey" :group="imageUpload.group"
-                    :imageType="imageUpload.imageType"
+                    :imageType="imageUpload.imageType" :dataType="imageUpload.dataType"
                     @imageChanged="(imageData) => handleImageChanged(imageData, imageUpload.localStorageKey, imageUpload.group)" />
             </div>
 
