@@ -76,7 +76,7 @@ const toggleDropdownText = (index) => {
     align-items: flex-start;
     justify-content: space-between;
     width: 100%;
-    padding: 0 4px;
+    padding: 12px 4px 0 4px;
     border-bottom: 2px solid var(--neutral-70);
     cursor: pointer;
     color: var(--color-text-text-primary, #0E0F0F);
@@ -98,9 +98,19 @@ const toggleDropdownText = (index) => {
 
 .dropdown-text {
     display: none;
+    color: #000;
+    /* Added text color */
+    font-family: Orkney;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 140%;
+    /* 22.4px */
 }
 
 .show-text {
     display: block;
+    align-self: stretch;
+    /* Added to stretch the text */
 }
 </style>
