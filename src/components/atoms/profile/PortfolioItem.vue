@@ -57,7 +57,11 @@ const handleClick = () => {
   if (props.isOwner) {
     handleEdit();
   } else {
-    handlePlay();
+    if (showOverlay.value) {
+      handleClose();
+    } else {
+      handlePlay();
+    }
   }
 };
 
@@ -71,6 +75,7 @@ const handleClose = () => {
 
 const handleEdit = () => {
   emits('edit', {
+    _id: props._id,
     imageSrc: props.imageSrc,
     height: props.height,
     status: props.status,
@@ -115,19 +120,17 @@ const handleEdit = () => {
         </div>
       </template>
       <Overlay v-if="showOverlay" @overlayClick="handleClose">
-        <div class="portfolioitem__fullscreenOverlay__content" @click.stop>
+        <div class="portfolioitem__fullscreenOverlay__content">
           <template v-if="isImage">
-            <img :src="props.imageSrc" alt="Portfolio image" class="portfolioitem__fullscreenOverlay__content__media"
-              @click.stop />
+            <img :src="props.imageSrc" alt="Portfolio image" class="portfolioitem__fullscreenOverlay__content__media" />
           </template>
           <template v-if="isVideo">
             <video controls autoplay :src="props.imageSrc"
               :poster="props.poster || '../../../assets/img/glasses-full.webp'"
-              class="portfolioitem__fullscreenOverlay__content__media" @click.stop></video>
+              class="portfolioitem__fullscreenOverlay__content__media"></video>
           </template>
           <template v-if="isAudio">
-            <audio controls autoplay :src="props.imageSrc" class="portfolioitem__fullscreenOverlay__content__media"
-              @click.stop></audio>
+            <audio controls autoplay :src="props.imageSrc" class="portfolioitem__fullscreenOverlay__content__media"></audio>
           </template>
         </div>
       </Overlay>
