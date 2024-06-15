@@ -69,15 +69,23 @@ const handleClose = () => {
 };
 
 const handleEdit = () => {
-  emits('edit', { title: props.portfolioTitle, type: props.portfolioType, src: props.imageSrc });
+  emits('edit', {
+    imageSrc: props.imageSrc,
+    height: props.height,
+    status: props.status,
+    mimeType: props.mimeType,
+    poster: props.poster,
+    portfolioTitle: props.portfolioTitle,
+    portfolioType: props.portfolioType
+  });
 };
 </script>
 
 <template>
-  <div class="portfolioitem" :style="{ height: props.height }">
+  <div class="portfolioitem" :style="{ height: props.height }" @click="handleClick">
     <template v-if="props.status === 'filled'">
       <template v-if="isImage">
-        <div class="portfolioitem__image-wrapper" @click="handleClick">
+        <div class="portfolioitem__image-wrapper">
           <img :src="props.imageSrc" alt="Portfolio image" class="portfolioitem__img" />
           <div class="portfolioitem__overlay">
             <div class="portfolioitem__overlay-content">
@@ -88,7 +96,7 @@ const handleEdit = () => {
         </div>
       </template>
       <template v-else-if="isVideo || isAudio">
-        <div class="portfolioitem__media" @click="handleClick">
+        <div class="portfolioitem__media">
           <template v-if="isVideo">
             <video :poster="props.poster || '../../../assets/img/glasses-full.webp'" class="portfolioitem__img" muted
               autoplay loop playsinline controlslist="nodownload nofullscreen noremoteplayback" disablePictureInPicture>
@@ -106,7 +114,7 @@ const handleEdit = () => {
         </div>
       </template>
       <Overlay v-if="showOverlay" @overlayClick="handleClose">
-        <div class="portfolioitem__fullscreenOverlay__content">
+        <div class="portfolioitem__fullscreenOverlay__content" @click.stop>
           <template v-if="isImage">
             <img :src="props.imageSrc" alt="Portfolio image" class="portfolioitem__fullscreenOverlay__content__media"
               @click.stop />
@@ -117,7 +125,8 @@ const handleEdit = () => {
               class="portfolioitem__fullscreenOverlay__content__media" @click.stop></video>
           </template>
           <template v-if="isAudio">
-            <audio controls autoplay :src="props.imageSrc" class="portfolioitem__fullscreenOverlay__content__media" @click.stop></audio>
+            <audio controls autoplay :src="props.imageSrc" class="portfolioitem__fullscreenOverlay__content__media"
+              @click.stop></audio>
           </template>
         </div>
       </Overlay>
@@ -182,10 +191,6 @@ const handleEdit = () => {
   transform: scale(1.1);
 }
 
-.portfolioitem__img:hover {
-  filter: blur(4px);
-}
-
 .portfolioitem__overlay {
   position: absolute;
   top: 0;
@@ -209,6 +214,7 @@ const handleEdit = () => {
   color: var(--white);
   text-align: center;
   max-width: 88%;
+  position: relative;
 }
 
 .portfolioitem__content {

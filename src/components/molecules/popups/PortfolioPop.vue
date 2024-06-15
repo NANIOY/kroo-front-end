@@ -12,13 +12,17 @@ const props = defineProps({
     isVisible: {
         type: Boolean,
         default: false,
+    },
+    initialData: {
+        type: Object,
+        default: () => ({})
     }
 });
 
 const emits = defineEmits(['close', 'submit']);
 const axiosInstance = setupAxios();
-const title = ref('');
-const selectedType = ref(null);
+const title = ref(props.initialData.portfolioTitle || '');
+const selectedType = ref(props.initialData.portfolioType || null);
 const file = ref(null);
 const typeOptions = ['Short Film', 'Feature Film', 'Documentary', 'Music Video', 'Commercial', 'Animation', 'Web Series', 'TV Show', 'Corporate Video', 'Experimental', 'Photography', 'Other'];
 
@@ -81,6 +85,11 @@ const showAlert = (message, type) => {
     alertType.value = type;
     alertVisible.value = true;
 };
+
+watch(() => props.initialData, (newData) => {
+    title.value = newData.portfolioTitle || '';
+    selectedType.value = newData.portfolioType || null;
+});
 </script>
 
 <template>
@@ -89,7 +98,7 @@ const showAlert = (message, type) => {
     <Overlay v-if="isVisible" @overlayClick="closeModal">
         <div class="portfoliopop" @click.stop>
             <div class="portfoliopop__top">
-                <h3>Add Portfolio Work</h3>
+                <h3>Edit Portfolio Work</h3>
             </div>
             <div class="portfoliopop__body">
                 <InputField v-model="title" placeholder="Enter title" :hasLabel="true" label="Title" />
