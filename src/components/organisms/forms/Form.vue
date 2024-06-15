@@ -214,7 +214,9 @@ const handleButtonClick = () => {
                 :hasIconLeft="localfield.hasIconLeft" :iconRightName="localfield.iconRightName"
                 :hasIconRight="localfield.hasIconRight" :placeholder="localfield.placeholder"
                 :isError="localfield.isError" :isPassword="localfield.isPassword" class="form__inputs__field"
-                v-model:modelValue="localfield.value" />
+                v-model:modelValue="localfield.value"
+                @update:modelValue="(value) => handleInputChange(localfield.group, localfield.localStorageKey, value)" />
+
 
             <Slider v-if="slider" class="form__inputs__slider" :label="slider.label" :maxValue="slider.maxValue"
                 :localStorageKey="slider.localStorageKey" :group="slider.group"
