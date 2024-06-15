@@ -1,6 +1,6 @@
 <script setup>
 import setupAxios from '../../setupAxios';
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import Form from '../../components/organisms/forms/Form.vue';
 import LoginImage from '../../components/molecules/login/LoginImage.vue';
 
@@ -35,7 +35,6 @@ onMounted(async () => {
         username.value = userData.username;
 
         const businessResponse = await axiosInstance.get('/business');
-        console.log('Full business response:', businessResponse);
 
         if (Array.isArray(businessResponse.data.data.businesses)) {
             businessNames.value = businessResponse.data.data.businesses.map(
@@ -49,13 +48,25 @@ onMounted(async () => {
     }
 });
 
+const hasTyped = ref(false);
+
 watch(
     () => localfields.value.find(field => field.localStorageKey === 'companyName').value,
     (newValue) => {
+        if (newValue !== '') {
+            hasTyped.value = true;
+        }
         console.log('Company name input changed:', newValue);
         companyNameNotFound.value = !businessNames.value.includes(newValue.toLowerCase());
     }
 );
+
+const inputNoteText = computed(() => {
+    if (!hasTyped.value) return '';
+    return companyNameNotFound.value
+        ? 'Company not found. Check the spelling or continue to create your company.'
+        : 'Company found. Press next to request to join the team.';
+});
 </script>
 
 <template>
@@ -64,8 +75,7 @@ watch(
             :hasSkip="false" :hasText="true"
             text="Create your business account below and enter the company name. If it exists, join your employer or create your business on kroo."
             :localfields="localfields" :hasLargeButton="true" buttonLabel="Next" redirect="/register/business/step-1"
-            v-model:companyNameInput="companyNameInput"
-            :inputNoteText="companyNameNotFound ? 'Company not found. Check the spelling or continue to create your company.' : ''" />
+            v-model:companyNameInput="companyNameInput" :inputNoteText="inputNoteText" />
         <LoginImage class="registerContainer__image" />
     </div>
 </template>
