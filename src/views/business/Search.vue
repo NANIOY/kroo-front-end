@@ -63,8 +63,8 @@ const fetchCrewData = async () => {
 
 const fetchCrewSuggestions = async () => {
     try {
-        // define
-        const baseMaxPoints = 16; // 4 (function) + 1*skills + 3 (location) + 2 (languages) + 5 (availability)
+        // define base max points for suggestions
+        const baseMaxPoints = 13; // 4 (function) + 1*skills + 2 (languages) + 5 (availability)
 
         // memoize getCoordinates to avoid redundant API calls
         const coordinatesCache = {};
@@ -100,7 +100,7 @@ const fetchCrewSuggestions = async () => {
             let bestFitPoints = 0;
             let bestFitJob = null;
 
-            const crewCoords = await getCoordinates(crewData.profileDetails.city, crewData.profileDetails.country);
+            const crewCoords = activeJobs.value.length > 0 ? await getCoordinates(crewData.profileDetails.city, crewData.profileDetails.country) : null;
 
             for (const job of activeJobs.value) {
                 let points = 0;
@@ -119,12 +119,14 @@ const fetchCrewSuggestions = async () => {
                 }
 
                 // location match
-                const jobCoords = await getCoordinates(job.location.city, job.location.country);
-                if (crewCoords && jobCoords) {
-                    const distance = calculateDistance(crewCoords.lat, crewCoords.lon, jobCoords.lat, jobCoords.lon);
-                    const workRadius = crewData.profileDetails.workRadius || 0;
-                    if (distance <= workRadius) {
-                        points += hasMatchingFunction ? 3 : 1; // 3 points if location matches and function matches, 1 point if location matches
+                if (crewCoords && job.location.city && job.location.country) {
+                    const jobCoords = await getCoordinates(job.location.city, job.location.country);
+                    if (crewCoords && jobCoords) {
+                        const distance = calculateDistance(crewCoords.lat, crewCoords.lon, jobCoords.lat, jobCoords.lon);
+                        const workRadius = crewData.profileDetails.workRadius || 0;
+                        if (distance <= workRadius) {
+                            points += hasMatchingFunction ? 3 : 1; // 3 points if location matches and function matches, 1 point if location matches
+                        }
                     }
                 }
 
