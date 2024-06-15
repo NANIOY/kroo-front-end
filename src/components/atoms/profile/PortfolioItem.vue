@@ -84,7 +84,7 @@ const props = defineProps({
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: blur(8px);
+  filter: blur(12px);
   transition: 0.3s;
 }
 
@@ -94,7 +94,7 @@ const props = defineProps({
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(15, 15, 15, 0.6);
   pointer-events: none;
 }
 
