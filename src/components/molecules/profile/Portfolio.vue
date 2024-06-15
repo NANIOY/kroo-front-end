@@ -48,7 +48,7 @@ const distributeItems = (items, columns, minHeight, maxHeight) => {
         heights[columnIndex] += height;
     });
 
-    // Adjust the last item in each column to ensure columns are of equal height
+    // adjust the height of the last item in each column
     const maxHeightInColumns = Math.max(...heights);
     columnItems.forEach((column, columnIndex) => {
         if (column.length > 0) {
@@ -72,6 +72,15 @@ const arrangePortfolio = () => {
 
 watchEffect(() => {
     if (props.user && props.user.crewData.careerDetails && props.user.crewData.careerDetails.portfolioWork) {
+        const planLimits = {
+            free: 6,
+            silver: 18,
+            gold: 56
+        };
+
+        const currentPlan = props.user.crewData.paymentPlan || 'free';
+        const limit = planLimits[currentPlan];
+
         const filledItems = props.user.crewData.careerDetails.portfolioWork.map(work => ({
             imageSrc: work.url,
             status: 'filled',
@@ -79,14 +88,18 @@ watchEffect(() => {
             poster: work.posterUrl || ''
         }));
 
+        const openItemsCount = Math.min(limit - filledItems.length, 56 - filledItems.length);
+        const openItems = Array.from({ length: openItemsCount }, () => ({
+            status: 'open',
+            mimeType: 'image/png'
+        }));
 
-        const lockedItems = Array.from({ length: 56 - filledItems.length }, () => ({
-            imageSrc: 'https://fakeimg.pl/600x400?text=Locked',
+        const lockedItems = Array.from({ length: 56 - filledItems.length - openItemsCount }, () => ({
             status: 'locked',
             mimeType: 'image/png'
         }));
 
-        portfolioItems.value = [...filledItems, ...lockedItems];
+        portfolioItems.value = [...filledItems, ...openItems, ...lockedItems];
         arrangePortfolio();
     }
 });

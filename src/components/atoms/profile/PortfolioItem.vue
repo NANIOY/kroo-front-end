@@ -89,7 +89,7 @@ const handleClose = () => {
       <div class="portfolioitem__locked">
         <img src="../../../assets/img/glasses-full.webp" alt="Locked" class="portfolioitem__locked-img" />
         <div class="portfolioitem__locked-overlay"></div>
-        <div class="portfolioitem__message">
+        <div class="portfolioitem__message portfolioitem__message--locked">
           <Lock class="portfolioitem__lock-icon" />
           <h5>Upgrade to Pro</h5>
           <p class="text-reg-s">Unlock new ways to make your profile shine!</p>
