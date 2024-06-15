@@ -21,15 +21,6 @@ const customDropdownItems2 = [
 ];
 const customTitleLabel = 'Account';
 
-// Third set of data
-const customDropdownItems3 = [
-  { label: 'Third Dropdown 1', textOptions: 'Third Option A' },
-  { label: 'Third Dropdown 2', textOptions: 'Third Option B' },
-  { label: 'Third Dropdown 3', textOptions: 'Third Option C' },
-  { label: 'Third Dropdown 4', textOptions: 'Third Option D' },
-  { label: 'Third Dropdown 5', textOptions: 'Third Option E' },
-];
-const thirdTitleLabel = 'Connecting tools';
 </script>
 
 <template>
@@ -39,7 +30,6 @@ const thirdTitleLabel = 'Connecting tools';
       <div class="section-container">
         <HelpList :titleLabel="titleLabel" :dropdownItems="customDropdownItems" />
         <HelpList :titleLabel="customTitleLabel" :dropdownItems="customDropdownItems2" />
-        <HelpList :titleLabel="thirdTitleLabel" :dropdownItems="customDropdownItems3" />
       </div>
     </div>
   </div>
