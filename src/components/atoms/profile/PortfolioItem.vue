@@ -3,11 +3,15 @@ import { defineProps } from 'vue';
 
 const props = defineProps({
   imageSrc: String,
+  height: {
+    type: String,
+    default: 'auto'
+  }
 });
 </script>
 
 <template>
-  <div class="portfolioitem">
+  <div class="portfolioitem" :style="{ height: props.height }">
     <img :src="imageSrc" alt="Portfolio image" class="portfolioitem__img" />
     <div class="portfolioitem__content">
       <slot></slot>
@@ -23,7 +27,6 @@ const props = defineProps({
   display: block;
   position: relative;
   break-inside: avoid;
-  margin-bottom: 24px;
   cursor: pointer;
 }
 
