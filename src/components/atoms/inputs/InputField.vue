@@ -87,11 +87,18 @@ watch(inputValue, (newVal) => {
     emit('search', newVal);
   }
 });
+
+const capitalizedFirstWordLabel = computed(() => {
+  if (!props.label) return '';
+  const words = props.label.split(' ');
+  words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1).toLowerCase();
+  return words.join(' ');
+});
 </script>
 
 <template>
   <div class="inputContainer">
-    <label v-if="props.hasLabel">{{ props.label }}</label>
+    <label v-if="props.hasLabel">{{ capitalizedFirstWordLabel }}</label>
     <div class="inputContainer__wrapper">
       <span v-if="props.hasIconLeft" class="icon icon--left">
         <component :is="getIconComponent(props.iconLeftName)" />
