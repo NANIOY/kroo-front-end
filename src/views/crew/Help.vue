@@ -34,25 +34,19 @@ const thirdTitleLabel = 'Connecting tools';
 </script>
 
 <template>
-  <div class="test-container">
-    <div class="main-container">
-      <div class="side-by-side-container">
-        <Labels />
-        <div class="section-container">
-          <HelpList :titleLabel="titleLabel" :dropdownItems="customDropdownItems" />
-          <HelpList :titleLabel="customTitleLabel" :dropdownItems="customDropdownItems2" />
-          <HelpList :titleLabel="thirdTitleLabel" :dropdownItems="customDropdownItems3" />
-        </div>
+  <div class="main-container">
+    <div class="side-by-side-container">
+      <Labels />
+      <div class="section-container">
+        <HelpList :titleLabel="titleLabel" :dropdownItems="customDropdownItems" />
+        <HelpList :titleLabel="customTitleLabel" :dropdownItems="customDropdownItems2" />
+        <HelpList :titleLabel="thirdTitleLabel" :dropdownItems="customDropdownItems3" />
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.test-container {
-  display: flex;
-}
-
 .main-container {
   display: flex;
   flex-direction: column;
@@ -68,7 +62,7 @@ const thirdTitleLabel = 'Connecting tools';
   width: 100%;
 }
 
-.side-by-side-container > :first-child {
+.side-by-side-container> :first-child {
   flex-shrink: 0;
   width: 200px;
 }
