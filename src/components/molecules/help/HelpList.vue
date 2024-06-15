@@ -93,10 +93,9 @@ const toggleDropdownText = (index) => {
 
 .arrow-rotate {
     transition: transform 0.3s ease;
-    transform: rotate(0deg);
 }
 
-.arrow-rotate.arrow-rotate[style*="transform: rotate(180deg)"] {
+.arrow-rotate {
     transform: rotate(180deg);
 }
 
