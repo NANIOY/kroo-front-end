@@ -11,7 +11,7 @@ import Alert from '../../atoms/alerts/alert.vue';
 const props = defineProps({
     isVisible: {
         type: Boolean,
-        default: false,
+        default: false
     },
     initialData: {
         type: Object,
@@ -24,6 +24,7 @@ const axiosInstance = setupAxios();
 const title = ref(props.initialData.portfolioTitle || '');
 const selectedType = ref(props.initialData.portfolioType || null);
 const file = ref(null);
+const portfolioId = ref(props.initialData._id || null);
 const typeOptions = ['Short Film', 'Feature Film', 'Documentary', 'Music Video', 'Commercial', 'Animation', 'Web Series', 'TV Show', 'Corporate Video', 'Experimental', 'Photography', 'Other'];
 
 const alertVisible = ref(false);
@@ -44,8 +45,8 @@ const closeModal = () => {
 };
 
 const handleSubmit = async () => {
-    if (!title.value || !selectedType.value || !file.value) {
-        showAlert('Please fill in all fields and upload a file.', 'bad');
+    if (!title.value || !selectedType.value) {
+        showAlert('Please fill in all fields.', 'bad');
         return;
     }
 
@@ -60,11 +61,14 @@ const handleSubmit = async () => {
     const formData = new FormData();
     formData.append('portfolioTitle', title.value);
     formData.append('portfolioType', selectedType.value);
-    formData.append('file', file.value);
-    formData.append('userId', userId);
+
+    // Include the file if it's uploaded
+    if (file.value) {
+        formData.append('file', file.value);
+    }
 
     try {
-        const response = await axiosInstance.post('/file/portfolio', formData, {
+        const response = await axiosInstance.put(`/file/portfolio/${portfolioId.value}`, formData, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data'
@@ -75,8 +79,8 @@ const handleSubmit = async () => {
         closeModal();
         window.location.reload();
     } catch (error) {
-        console.error('Failed to upload portfolio:', error);
-        showAlert('Failed to upload portfolio.', 'bad');
+        console.error('Failed to update portfolio:', error);
+        showAlert('Failed to update portfolio.', 'bad');
     }
 };
 
@@ -89,6 +93,7 @@ const showAlert = (message, type) => {
 watch(() => props.initialData, (newData) => {
     title.value = newData.portfolioTitle || '';
     selectedType.value = newData.portfolioType || null;
+    portfolioId.value = newData._id || null;
 });
 </script>
 

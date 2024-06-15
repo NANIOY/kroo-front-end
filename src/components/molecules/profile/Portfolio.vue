@@ -86,8 +86,8 @@ const handlePortfolioSubmit = (portfolioData) => {
 };
 
 const handleEditItem = (item) => {
-    portfolioPopData.value = { ...item };
     portfolioPopVisible.value = true;
+    portfolioPopData.value = { ...item, _id: item._id };
 };
 
 watchEffect(() => {
@@ -104,6 +104,7 @@ watchEffect(() => {
         const limit = planLimits[currentPlan];
 
         const filledItems = props.user.crewData.careerDetails.portfolioWork.map(work => ({
+            _id: work._id,
             imageSrc: work.url,
             status: 'filled',
             mimeType: inferMimeType(work.url),
@@ -137,7 +138,7 @@ watchEffect(() => {
             <PortfolioItem v-for="(item, itemIndex) in column" :key="item.imageSrc + itemIndex"
                 :imageSrc="item.imageSrc" :height="item.height + 'px'" :status="item.status" :mimeType="item.mimeType"
                 :portfolioTitle="item.portfolioTitle" :portfolioType="item.portfolioType"
-                :isOwner="props.isCurrentUserProfile" @edit="handleEditItem(item)" />
+                :isOwner="isCurrentUserProfile" :id="item._id" @edit="handleEditItem(item)" />
         </div>
     </div>
     <PortfolioPop :isVisible="portfolioPopVisible" @close="portfolioPopVisible = false" @submit="handlePortfolioSubmit"

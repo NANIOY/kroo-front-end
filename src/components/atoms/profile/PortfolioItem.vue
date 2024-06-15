@@ -4,6 +4,7 @@ import { Lock, Play, Plus } from '@iconoir/vue';
 import Overlay from '../../molecules/popups/Overlay.vue';
 
 const props = defineProps({
+  _id: String,
   imageSrc: String,
   height: {
     type: String,
