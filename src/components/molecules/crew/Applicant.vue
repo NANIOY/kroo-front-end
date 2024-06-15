@@ -144,7 +144,7 @@ onMounted(() => {
         </div>
         <div id="applicant__info">
             <div class="applicant__info__left">
-                <Tag>{{ applicant.jobTitle }}</Tag>
+                <Tag type="big">{{ applicant.jobTitle }}</Tag>
             </div>
             <div id="applicant__info__right">
                 <p>{{ formatDate(applicant.Date) }}</p>

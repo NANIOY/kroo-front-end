@@ -155,7 +155,7 @@ onMounted(() => {
 
         <div id="activeCrew__info">
             <div class="activeCrew__info__left">
-                <Tag>{{ crew.jobFunction }}</Tag>
+                <Tag type="big">{{ crew.jobFunction }}</Tag>
             </div>
             <div id="activeCrew__info__right">
                 <p class="text-reg-normal">{{ formatDate(crew.date) }}</p>
