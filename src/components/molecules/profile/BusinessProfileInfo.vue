@@ -44,6 +44,10 @@ watchEffect(() => {
 
 <style scoped>
 
+.profile__container {
+padding: 0px 24px;
+}
+
 
 .profile__container__wrapper {
     display: flex;
