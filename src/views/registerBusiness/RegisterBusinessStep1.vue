@@ -43,9 +43,8 @@ const imageUploads = ref([
     <div class="registerContainer">
         <Form class="registerContainer__form" header="Business info" :hasSteps="true"
             steps="Set up business account: step 1/5" :hasBack="true" :hasSkip="false" :hasText="true"
-            text="Glad to see you here Grasshoppers Academy. Let’s get you up and running." :localfields="localfields"
-            :hasImageUpload="true" :imageUploads="imageUploads" :hasLargeButton="true" buttonLabel="Next"
-            redirect="/register/business/step-2">
+            text="Glad to see you here. Let’s get you up and running." :localfields="localfields" :hasImageUpload="true"
+            :imageUploads="imageUploads" :hasLargeButton="true" buttonLabel="Next" redirect="/register/business/step-2">
         </Form>
 
         <LoginImage class="registerContainer__image" />
