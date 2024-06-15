@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps, computed, ref, onMounted } from 'vue';
-import { Lock, Play } from '@iconoir/vue';
+import { Lock, Play, Plus } from '@iconoir/vue';
 import Overlay from '../../molecules/popups/Overlay.vue'; // Import the Overlay component
 
 const props = defineProps({
@@ -96,6 +96,15 @@ const handleClose = () => {
         </div>
       </div>
     </template>
+
+    <template v-else-if="props.status === 'open'">
+      <div class="portfolioitem__open">
+        <div class="portfolioitem__message portfolioitem__message--open">
+          <Plus class="portfolioitem__open-icon" />
+          <p class="text-reg-s">Upload a portfolio item</p>
+        </div>
+      </div>
+    </template>
     <div class="portfolioitem__content">
       <slot></slot>
     </div>
@@ -123,7 +132,10 @@ const handleClose = () => {
   transition: 0.3s;
 }
 
-.portfolioitem__img:hover {
+.portfolioitem__img:hover,
+.portfolioitem__locked-img:hover,
+.portfolioitem__open:hover,
+.portfolioitem__audio-placeholder:hover {
   transform: scale(1.1);
 }
 
@@ -153,10 +165,6 @@ const handleClose = () => {
   transition: 0.3s;
 }
 
-.portfolioitem__locked-img:hover {
-  transform: scale(1.1);
-}
-
 .portfolioitem__locked-overlay {
   position: absolute;
   top: 0;
@@ -179,6 +187,33 @@ const handleClose = () => {
   width: 64px;
   height: 64px;
   margin-bottom: 8px;
+}
+
+/* OPEN */
+.portfolioitem__open {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--gray);
+  transition: 0.3s;
+}
+
+.portfolioitem__message--open {
+  color: var(--black);
+}
+
+.portfolioitem__message--open p {
+  margin: 0;
+}
+
+.portfolioitem__open-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 0px;
 }
 
 /* MEDIA */
