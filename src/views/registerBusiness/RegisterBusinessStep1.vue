@@ -26,14 +26,16 @@ const imageUploads = ref([
         label: 'Logo',
         localStorageKey: 'logo',
         group: 'businessInfo',
-        dataType: 'business'
+        dataType: 'business',
+        imageType: 'profile'
     },
     {
         shape: 'square',
         label: 'Banner image',
         localStorageKey: 'bannerImage',
         group: 'businessInfo',
-        dataType: 'business'
+        dataType: 'business',
+        imageType: 'banner'
     }
 ]);
 </script>
