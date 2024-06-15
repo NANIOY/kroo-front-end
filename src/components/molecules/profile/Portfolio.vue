@@ -125,8 +125,8 @@ watchEffect(() => {
     <div class="portfolio">
         <div v-for="(column, index) in portfolioColumns" :key="index" class="portfolio__column">
             <PortfolioItem v-for="(item, itemIndex) in column" :key="item.imageSrc + itemIndex"
-                :imageSrc="item.imageSrc" :height="item.height + 'px'" :status="item.status"
-                :mimeType="item.mimeType" @click="item.status === 'open' ? handleOpenClick() : null" />
+                :imageSrc="item.imageSrc" :height="item.height + 'px'" :status="item.status" :mimeType="item.mimeType"
+                @click="item.status === 'open' ? handleOpenClick() : null" />
         </div>
     </div>
     <PortfolioPop :isVisible="portfolioPopVisible" @close="portfolioPopVisible = false"

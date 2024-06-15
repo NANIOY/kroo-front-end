@@ -51,7 +51,7 @@ const handleClose = () => {
   <div class="portfolioitem" :style="{ height: props.height }">
     <template v-if="props.status === 'filled'">
       <template v-if="isImage">
-        <img :src="props.imageSrc" alt="Portfolio image" class="portfolioitem__img" />
+        <img :src="props.imageSrc" alt="Portfolio image" class="portfolioitem__img" @click="handlePlay" />
       </template>
       <template v-else-if="isVideo || isAudio">
         <div class="portfolioitem__media" @click="handlePlay">
@@ -70,20 +70,24 @@ const handleClose = () => {
             <Play class="portfolioitem__overlay__icon" />
           </div>
         </div>
-        <Overlay v-if="showOverlay" @overlayClick="handleClose">
-          <div class="portfolioitem__fullscreenOverlay__content">
-            <template v-if="isVideo">
-              <video controls autoplay :src="props.imageSrc"
-                :poster="props.poster || '../../../assets/img/glasses-full.webp'"
-                class="portfolioitem__fullscreenOverlay__content__media" @click.stop></video>
-            </template>
-            <template v-else-if="isAudio">
-              <audio controls autoplay :src="props.imageSrc" class="portfolioitem__fullscreenOverlay__content__media"
-                @click.stop></audio>
-            </template>
-          </div>
-        </Overlay>
       </template>
+      <Overlay v-if="showOverlay" @overlayClick="handleClose">
+        <div class="portfolioitem__fullscreenOverlay__content">
+          <template v-if="isImage">
+            <img :src="props.imageSrc" alt="Portfolio image" class="portfolioitem__fullscreenOverlay__content__media"
+              @click.stop />
+          </template>
+          <template v-if="isVideo">
+            <video controls autoplay :src="props.imageSrc"
+              :poster="props.poster || '../../../assets/img/glasses-full.webp'"
+              class="portfolioitem__fullscreenOverlay__content__media" @click.stop></video>
+          </template>
+          <template v-if="isAudio">
+            <audio controls autoplay :src="props.imageSrc" class="portfolioitem__fullscreenOverlay__content__media"
+              @click.stop></audio>
+          </template>
+        </div>
+      </Overlay>
     </template>
     <template v-else-if="props.status === 'locked'">
       <div class="portfolioitem__locked">
@@ -253,7 +257,7 @@ const handleClose = () => {
 
 .portfolioitem__fullscreenOverlay__content__media {
   width: auto;
-  min-width: 50%;
+  min-width: 512px;
   height: auto;
   max-height: 72%;
   background-color: var(--black);
