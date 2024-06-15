@@ -2,13 +2,12 @@
 import HelpList from '../../components/molecules/help/HelpList.vue';
 import Labels from '../../components/molecules/help/Labels.vue';
 
-// First set of data
 const customDropdownItems = [
   { label: 'What is Kroo?', textOptions: 'The audiovisual industry struggles with complex planning, tight deadlines, and limited talent discovery due to reliance on personal networks. kroo tackles these challenges by connecting crew members with production houses. Crew can showcase their skills on detailed profiles, while production houses can quickly post vacancies to a pool of qualified candidates. Integrations with popular calendar and collaboration tools further streamline workflows. Developed through industry research and analysis, kroo aims to level the playing field, improve accessibility, and redefine efficiency standards in the audiovisual sector.' },
-  { label: 'Where can I see my job offers?', textOptions: 'Anything job related for crew and businesses can be found on the tracker page.' },
-  { label: 'Oops! I accidentally applied to a job. How can I withdraw my application?', textOptions: 'Don\'t worry, mistakes happen! You can easily withdraw your application by clicking on the job details or going to the tracker and canceling it there.' },
   { label: 'Is Kroo free to use?', textOptions: 'Yes, Kroo is free to use. We also provide optional subscriptions to offer extra features or to expand your profile. ' },
   { label: 'What devices can I use Kroo on?', textOptions: 'Kroo is currently only accesible through a web browser on your computer. We\'re currently still under development, future devices will be added soon.' },
+  { label: 'Where can I see my job offers?', textOptions: 'Anything job related for crew and businesses can be found on the tracker page.' },
+  { label: 'Oops! I accidentally applied to a job. How can I withdraw my application?', textOptions: 'Don\'t worry, mistakes happen! You can easily withdraw your application by clicking on the job details or going to the tracker and canceling it there.' },
 ];
 const titleLabel = 'Getting started';
 

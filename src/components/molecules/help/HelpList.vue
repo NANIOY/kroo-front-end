@@ -48,7 +48,7 @@ const toggleDropdownText = (index) => {
 }
 
 .title-label {
-    color: var(--color-text-text-primary, #0E0F0F);
+    color: var(--color-text-text-primary, --black);
     font-family: "Codec Pro";
     font-size: 32px;
     font-style: normal;
@@ -80,7 +80,7 @@ const toggleDropdownText = (index) => {
     padding: 12px 4px 0 4px;
     border-bottom: 2px solid var(--neutral-70);
     cursor: pointer;
-    color: var(--color-text-text-primary, #0E0F0F);
+    color: var(--color-text-text-primary, --black);
     font-family: Orkney;
     font-size: 20px;
     font-style: normal;
@@ -99,7 +99,7 @@ const toggleDropdownText = (index) => {
 
 .dropdown-text {
     display: none;
-    color: #000;
+    color: var(--black);
     font-family: Orkney;
     font-size: 16px;
     font-style: normal;
