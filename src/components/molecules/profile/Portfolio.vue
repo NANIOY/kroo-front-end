@@ -1,7 +1,7 @@
 <script setup>
-import { ref, watchEffect } from 'vue';
+import { ref, watchEffect, defineProps } from 'vue';
 import PortfolioItem from '../../atoms/profile/PortfolioItem.vue';
-import { defineProps } from 'vue';
+import PortfolioPop from '../../molecules/popups/PortfolioPop.vue';
 
 const props = defineProps({
     user: {
@@ -48,7 +48,7 @@ const distributeItems = (items, columns, minHeight, maxHeight) => {
         heights[columnIndex] += height;
     });
 
-    // adjust the height of the last item in each column
+    // Adjust the last item in each column to ensure columns are of equal height
     const maxHeightInColumns = Math.max(...heights);
     columnItems.forEach((column, columnIndex) => {
         if (column.length > 0) {
@@ -68,6 +68,16 @@ const portfolioColumns = ref([]);
 
 const arrangePortfolio = () => {
     portfolioColumns.value = distributeItems(portfolioItems.value, columns.value, minHeight, maxHeight);
+};
+
+const portfolioPopVisible = ref(false);
+
+const handleOpenClick = () => {
+    portfolioPopVisible.value = true;
+};
+
+const handlePortfolioSubmit = (portfolioData) => {
+    // Handle portfolio submission logic here
 };
 
 watchEffect(() => {
@@ -90,11 +100,13 @@ watchEffect(() => {
 
         const openItemsCount = Math.min(limit - filledItems.length, 56 - filledItems.length);
         const openItems = Array.from({ length: openItemsCount }, () => ({
+            imageSrc: '',
             status: 'open',
             mimeType: 'image/png'
         }));
 
         const lockedItems = Array.from({ length: 56 - filledItems.length - openItemsCount }, () => ({
+            imageSrc: 'https://fakeimg.pl/600x400?text=Locked',
             status: 'locked',
             mimeType: 'image/png'
         }));
@@ -110,9 +122,11 @@ watchEffect(() => {
         <div v-for="(column, index) in portfolioColumns" :key="index" class="portfolio__column">
             <PortfolioItem v-for="(item, itemIndex) in column" :key="item.imageSrc + itemIndex"
                 :imageSrc="item.imageSrc" :height="item.height + 'px'" :status="item.status"
-                :mimeType="item.mimeType" />
+                :mimeType="item.mimeType" @click="item.status === 'open' ? handleOpenClick() : null" />
         </div>
     </div>
+    <PortfolioPop :isVisible="portfolioPopVisible" @close="portfolioPopVisible = false"
+        @submit="handlePortfolioSubmit" />
 </template>
 
 <style scoped>
