@@ -75,13 +75,15 @@ watchEffect(() => {
         const filledItems = props.user.crewData.careerDetails.portfolioWork.map(work => ({
             imageSrc: work.url,
             status: 'filled',
-            mimeType: inferMimeType(work.url)
+            mimeType: inferMimeType(work.url),
+            poster: work.posterUrl || ''
         }));
+
 
         const lockedItems = Array.from({ length: 56 - filledItems.length }, () => ({
             imageSrc: 'https://fakeimg.pl/600x400?text=Locked',
             status: 'locked',
-            mimeType: 'image/png' // Set a default MIME type for locked items
+            mimeType: 'image/png'
         }));
 
         portfolioItems.value = [...filledItems, ...lockedItems];
@@ -93,8 +95,9 @@ watchEffect(() => {
 <template>
     <div class="portfolio">
         <div v-for="(column, index) in portfolioColumns" :key="index" class="portfolio__column">
-            <PortfolioItem v-for="(item, itemIndex) in column" :key="item.imageSrc + itemIndex" :imageSrc="item.imageSrc"
-                :height="item.height + 'px'" :status="item.status" :mimeType="item.mimeType" />
+            <PortfolioItem v-for="(item, itemIndex) in column" :key="item.imageSrc + itemIndex"
+                :imageSrc="item.imageSrc" :height="item.height + 'px'" :status="item.status"
+                :mimeType="item.mimeType" />
         </div>
     </div>
 </template>

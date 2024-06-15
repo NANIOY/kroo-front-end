@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, computed, ref } from 'vue';
+import { defineProps, computed, ref, onMounted } from 'vue';
 import { Lock, Play } from '@iconoir/vue';
 import Overlay from '../../molecules/popups/Overlay.vue'; // Import the Overlay component
 
@@ -17,6 +17,10 @@ const props = defineProps({
   mimeType: {
     type: String,
     required: true
+  },
+  poster: {
+    type: String,
+    default: ''  // Add poster prop
   }
 });
 
@@ -51,16 +55,27 @@ const handleClose = () => {
       </template>
       <template v-else-if="isVideo || isAudio">
         <div class="portfolioitem__media" @click="handlePlay">
-          <img :src="props.imageSrc" alt="Media placeholder" class="portfolioitem__img" />
-          <div class="portfolioitem__overlay">
+          <template v-if="isVideo">
+            <video :poster="props.poster || '../../../assets/img/glasses-full.webp'" class="portfolioitem__img" muted
+              autoplay loop playsinline controlslist="nodownload nofullscreen noremoteplayback" disablePictureInPicture>
+              <source :src="props.imageSrc" :type="props.mimeType">
+            </video>
+          </template>
+          <template v-else-if="isAudio">
+            <img :src="props.poster || '../../../assets/img/glasses-full.webp'" alt=""
+              class="portfolioitem__img portfolioitem__audio-placeholder" />
+          </template>
+
+          <div class="portfolioitem__overlay" v-if="!isVideo">
             <Play class="portfolioitem__overlay__icon" />
           </div>
         </div>
         <Overlay v-if="showOverlay" @overlayClick="handleClose">
           <div class="portfolioitem__fullscreenOverlay__content">
             <template v-if="isVideo">
-              <video controls autoplay :src="props.imageSrc" class="portfolioitem__fullscreenOverlay__content__media"
-                @click.stop></video>
+              <video controls autoplay :src="props.imageSrc"
+                :poster="props.poster || '../../../assets/img/glasses-full.webp'"
+                class="portfolioitem__fullscreenOverlay__content__media" @click.stop></video>
             </template>
             <template v-else-if="isAudio">
               <audio controls autoplay :src="props.imageSrc" class="portfolioitem__fullscreenOverlay__content__media"
@@ -138,6 +153,10 @@ const handleClose = () => {
   transition: 0.3s;
 }
 
+.portfolioitem__locked-img:hover {
+  transform: scale(1.1);
+}
+
 .portfolioitem__locked-overlay {
   position: absolute;
   top: 0;
@@ -178,7 +197,6 @@ const handleClose = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(15, 15, 15, 0.5);
 }
 
 .portfolioitem__overlay__icon {
@@ -204,5 +222,16 @@ const handleClose = () => {
   height: auto;
   max-height: 72%;
   background-color: var(--black);
+  border-radius: 16px !important;
+}
+
+.portfolioitem__audio-placeholder {
+  outline: 1px solid var(--black);
+  outline-offset: -1px;
+  border-radius: 16px;
+  background-image: url('../../../assets/img/upgrade.png');
+  background-size: cover;
+  background-position: center;
+  filter: blur(12px);
 }
 </style>
