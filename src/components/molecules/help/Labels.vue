@@ -25,7 +25,7 @@ const selectedButton = ref(0);
       iconLeftName="Search" class="labels__search-input" />
     <div class="button_container">
       <button v-for="(button, index) in buttons" :key="index" @click="selectedButton = index"
-        :style="{ backgroundColor: index === selectedButton ? 'var(--blurple)' : 'transparent' }" class="button">
+        :class="{ 'button--selected': index === selectedButton }" class="button">
         {{ button.label }}
       </button>
     </div>
@@ -56,7 +56,9 @@ const selectedButton = ref(0);
   width: 100%;
   cursor: pointer;
   background-color: transparent;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .button--selected {
