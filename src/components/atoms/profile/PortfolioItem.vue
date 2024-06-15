@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, computed, ref } from 'vue';
 import { Lock, Play } from '@iconoir/vue';
-import Overlay from '../../molecules/popups/Overlay.vue';
+import Overlay from '../../molecules/popups/Overlay.vue'; // Import the Overlay component
 
 const props = defineProps({
   imageSrc: String,
@@ -56,18 +56,18 @@ const handleClose = () => {
             <Play class="portfolioitem__overlay__icon" />
           </div>
         </div>
-        <div v-if="showOverlay" class="portfolioitem__fullscreenOverlay" @click="handleClose">
+        <Overlay v-if="showOverlay" @overlayClick="handleClose">
           <div class="portfolioitem__fullscreenOverlay__content">
             <template v-if="isVideo">
-              <video controls autoplay :src="props.imageSrc"
-                class="portfolioitem__fullscreenOverlay__content__media"></video>
+              <video controls autoplay :src="props.imageSrc" class="portfolioitem__fullscreenOverlay__content__media"
+                @click.stop></video>
             </template>
             <template v-else-if="isAudio">
-              <audio controls autoplay :src="props.imageSrc"
-                class="portfolioitem__fullscreenOverlay__content__media"></audio>
+              <audio controls autoplay :src="props.imageSrc" class="portfolioitem__fullscreenOverlay__content__media"
+                @click.stop></audio>
             </template>
           </div>
-        </div>
+        </Overlay>
       </template>
     </template>
     <template v-else-if="props.status === 'locked'">
@@ -178,38 +178,30 @@ const handleClose = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(15, 15, 15, 0.5);
 }
 
 .portfolioitem__overlay__icon {
   width: 48px;
   height: 48px;
-  color: white;
-}
-
-.portfolioitem__fullscreenOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  color: var(--white);
 }
 
 .portfolioitem__fullscreenOverlay__content {
-  position: relative;
-  max-width: 88%;
-  max-height: 88%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .portfolioitem__fullscreenOverlay__content__media {
-  width: 100%;
+  width: 72%;
   height: auto;
-  max-height: 100%;
+  max-height: 72%;
   background-color: var(--black);
 }
 </style>
