@@ -8,7 +8,9 @@ import ProfileRight from '../../components/organisms/profile/ProfileRight.vue';
 const user = ref(null);
 const loading = ref(true);
 const error = ref(null);
-const currentUser = ref(null);
+const currentUser = ref({
+  _id: sessionStorage.getItem('userId'),
+});
 
 const axiosInstance = setupAxios();
 const route = useRoute();

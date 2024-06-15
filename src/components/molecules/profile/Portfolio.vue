@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watchEffect } from 'vue';
+import { ref, watchEffect, computed } from 'vue';
 import PortfolioItem from '../../atoms/profile/PortfolioItem.vue';
 import PortfolioPop from '../../molecules/popups/PortfolioPop.vue';
 import { defineProps } from 'vue';
@@ -7,6 +7,10 @@ import { defineProps } from 'vue';
 const props = defineProps({
     user: {
         type: Object,
+        required: true
+    },
+    isCurrentUserProfile: {
+        type: Boolean,
         required: true
     }
 });
@@ -78,13 +82,20 @@ const handleOpenClick = () => {
 };
 
 const handlePortfolioSubmit = (portfolioData) => {
-    // Handle portfolio submission logic here
     console.log('Portfolio submitted:', portfolioData);
-    // Refresh the portfolio items list if necessary
     arrangePortfolio();
 };
 
+const portfolioPopData = ref({});
+
+const handleEditItem = (item) => {
+    portfolioPopVisible.value = true;
+    portfolioPopData.value = { ...item };
+};
+
 watchEffect(() => {
+    console.log('isCurrentUserProfile:', props.isCurrentUserProfile);
+
     if (props.user && props.user.crewData.careerDetails && props.user.crewData.careerDetails.portfolioWork) {
         const planLimits = {
             free: 6,
@@ -130,12 +141,13 @@ watchEffect(() => {
             <PortfolioItem v-for="(item, itemIndex) in column" :key="item.imageSrc + itemIndex"
                 :imageSrc="item.imageSrc" :height="item.height + 'px'" :status="item.status" :mimeType="item.mimeType"
                 :portfolioTitle="item.portfolioTitle" :portfolioType="item.portfolioType"
-                @click="item.status === 'open' ? handleOpenClick() : null" />
+                :isOwner="isCurrentUserProfile" @edit="handleEditItem(item)" />
         </div>
     </div>
-    <PortfolioPop :isVisible="portfolioPopVisible" @close="portfolioPopVisible = false"
-        @submit="handlePortfolioSubmit" />
+    <PortfolioPop :isVisible="portfolioPopVisible" @close="portfolioPopVisible = false" @submit="handlePortfolioSubmit"
+        :initialData="portfolioPopData" />
 </template>
+
 
 <style scoped>
 .portfolio {

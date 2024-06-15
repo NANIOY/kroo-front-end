@@ -1,7 +1,7 @@
 <script setup>
-import { defineProps, computed, ref, onMounted } from 'vue';
+import { defineProps, computed, ref, defineEmits } from 'vue';
 import { Lock, Play, Plus } from '@iconoir/vue';
-import Overlay from '../../molecules/popups/Overlay.vue'; // Import the Overlay component
+import Overlay from '../../molecules/popups/Overlay.vue';
 
 const props = defineProps({
   imageSrc: String,
@@ -29,8 +29,14 @@ const props = defineProps({
   portfolioType: {
     type: String,
     default: ''
+  },
+  isOwner: {
+    type: Boolean,
+    default: false
   }
 });
+
+const emits = defineEmits(['edit']);
 
 const isImage = computed(() => {
   return props.mimeType.startsWith('image/');
@@ -46,6 +52,14 @@ const isAudio = computed(() => {
 
 const showOverlay = ref(false);
 
+const handleClick = () => {
+  if (props.isOwner) {
+    handleEdit();
+  } else {
+    handlePlay();
+  }
+};
+
 const handlePlay = () => {
   showOverlay.value = true;
 };
@@ -53,13 +67,17 @@ const handlePlay = () => {
 const handleClose = () => {
   showOverlay.value = false;
 };
+
+const handleEdit = () => {
+  emits('edit', { title: props.portfolioTitle, type: props.portfolioType, src: props.imageSrc });
+};
 </script>
 
 <template>
   <div class="portfolioitem" :style="{ height: props.height }">
     <template v-if="props.status === 'filled'">
       <template v-if="isImage">
-        <div class="portfolioitem__image-wrapper" @click="handlePlay">
+        <div class="portfolioitem__image-wrapper" @click="handleClick">
           <img :src="props.imageSrc" alt="Portfolio image" class="portfolioitem__img" />
           <div class="portfolioitem__overlay">
             <div class="portfolioitem__overlay-content">
@@ -70,7 +88,7 @@ const handleClose = () => {
         </div>
       </template>
       <template v-else-if="isVideo || isAudio">
-        <div class="portfolioitem__media" @click="handlePlay">
+        <div class="portfolioitem__media" @click="handleClick">
           <template v-if="isVideo">
             <video :poster="props.poster || '../../../assets/img/glasses-full.webp'" class="portfolioitem__img" muted
               autoplay loop playsinline controlslist="nodownload nofullscreen noremoteplayback" disablePictureInPicture>
@@ -99,8 +117,7 @@ const handleClose = () => {
               class="portfolioitem__fullscreenOverlay__content__media" @click.stop></video>
           </template>
           <template v-if="isAudio">
-            <audio controls autoplay :src="props.imageSrc" class="portfolioitem__fullscreenOverlay__content__media"
-              @click.stop></audio>
+            <audio controls autoplay :src="props.imageSrc" class="portfolioitem__fullscreenOverlay__content__media" @click.stop></audio>
           </template>
         </div>
       </Overlay>
@@ -183,7 +200,8 @@ const handleClose = () => {
   transition: opacity 0.3s;
 }
 
-.portfolioitem__image-wrapper:hover .portfolioitem__overlay {
+.portfolioitem__image-wrapper:hover .portfolioitem__overlay,
+.portfolioitem__media:hover .portfolioitem__overlay {
   opacity: 1;
 }
 
