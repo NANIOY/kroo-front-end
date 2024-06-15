@@ -20,6 +20,10 @@ const props = defineProps({
     inputWidth: {
         type: String,
         default: '100%'
+    },
+    autoUpload: {
+        type: Boolean,
+        default: true
     }
 });
 
@@ -37,20 +41,24 @@ const handleFileChange = async (event) => {
     const file = event.target.files[0];
     fileName.value = file.name;
 
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('userId', userIdFromSession);
+    if (props.autoUpload) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('userId', userIdFromSession);
 
-    try {
-        const axiosInstance = setupAxios();
-        const response = await axiosInstance.post('/file/uploadfile', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-        emit('fileUploaded', response.data.fileUrl);
-    } catch (error) {
-        console.error('Error uploading file:', error);
+        try {
+            const axiosInstance = setupAxios();
+            const response = await axiosInstance.post('/file/uploadfile', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            emit('fileUploaded', response.data.fileUrl);
+        } catch (error) {
+            console.error('Error uploading file:', error);
+        }
+    } else {
+        emit('fileUploaded', file);
     }
 };
 
