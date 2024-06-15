@@ -44,6 +44,7 @@ const toggleDropdownText = (index) => {
     align-items: flex-start;
     gap: 20px;
     align-self: stretch;
+    width: 100%
 }
 
 .title-label {
