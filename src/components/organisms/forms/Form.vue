@@ -245,7 +245,7 @@ const handleUrlChange = (localStorageKey, userUrl) => {
         <!-- BUTTONS -->
         <div class="form__buttons">
             <LargeButton v-if="(hasLargeButton)" :label="buttonLabel" :endpoint="endpoint" :postData="postData"
-                :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" />
+                :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" :hasRequest="false" />
             <AuthButton v-if="(hasAuthButton)" :label="buttonLabel" :endpoint="endpoint" :postData="postData"
                 :redirect="redirect" :isRegistration="isRegistration" class="form__buttons__button button--primary" />
             <LocalStorageButton v-if="(hasLocalStorageButton)" :label="buttonLabel" :endpoint="endpoint"
