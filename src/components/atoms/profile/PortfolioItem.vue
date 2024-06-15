@@ -20,7 +20,15 @@ const props = defineProps({
   },
   poster: {
     type: String,
-    default: ''  // Add poster prop
+    default: ''
+  },
+  portfolioTitle: {
+    type: String,
+    default: ''
+  },
+  portfolioType: {
+    type: String,
+    default: ''
   }
 });
 
@@ -51,7 +59,15 @@ const handleClose = () => {
   <div class="portfolioitem" :style="{ height: props.height }">
     <template v-if="props.status === 'filled'">
       <template v-if="isImage">
-        <img :src="props.imageSrc" alt="Portfolio image" class="portfolioitem__img" @click="handlePlay" />
+        <div class="portfolioitem__image-wrapper" @click="handlePlay">
+          <img :src="props.imageSrc" alt="Portfolio image" class="portfolioitem__img" />
+          <div class="portfolioitem__overlay">
+            <div class="portfolioitem__overlay-content">
+              <h4>{{ props.portfolioTitle }}</h4>
+              <p>{{ props.portfolioType }}</p>
+            </div>
+          </div>
+        </div>
       </template>
       <template v-else-if="isVideo || isAudio">
         <div class="portfolioitem__media" @click="handlePlay">
@@ -127,6 +143,12 @@ const handleClose = () => {
   cursor: pointer;
 }
 
+.portfolioitem__image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
 .portfolioitem__img {
   width: 100%;
   height: 100%;
@@ -141,6 +163,34 @@ const handleClose = () => {
 .portfolioitem__open:hover,
 .portfolioitem__audio-placeholder:hover {
   transform: scale(1.1);
+}
+
+.portfolioitem__img:hover {
+  filter: blur(4px);
+}
+
+.portfolioitem__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.portfolioitem__image-wrapper:hover .portfolioitem__overlay {
+  opacity: 1;
+}
+
+.portfolioitem__overlay-content {
+  color: var(--white);
+  text-align: center;
+  max-width: 88%;
 }
 
 .portfolioitem__content {
@@ -225,17 +275,6 @@ const handleClose = () => {
   position: relative;
   width: 100%;
   height: 100%;
-}
-
-.portfolioitem__overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .portfolioitem__overlay__icon {

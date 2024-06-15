@@ -99,8 +99,11 @@ watchEffect(() => {
             imageSrc: work.url,
             status: 'filled',
             mimeType: inferMimeType(work.url),
-            poster: work.posterUrl || ''
+            poster: work.posterUrl || '',
+            portfolioTitle: work.title,
+            portfolioType: work.type
         }));
+
 
         const openItemsCount = Math.min(limit - filledItems.length, 56 - filledItems.length);
         const openItems = Array.from({ length: openItemsCount }, () => ({
@@ -126,6 +129,7 @@ watchEffect(() => {
         <div v-for="(column, index) in portfolioColumns" :key="index" class="portfolio__column">
             <PortfolioItem v-for="(item, itemIndex) in column" :key="item.imageSrc + itemIndex"
                 :imageSrc="item.imageSrc" :height="item.height + 'px'" :status="item.status" :mimeType="item.mimeType"
+                :portfolioTitle="item.portfolioTitle" :portfolioType="item.portfolioType"
                 @click="item.status === 'open' ? handleOpenClick() : null" />
         </div>
     </div>
