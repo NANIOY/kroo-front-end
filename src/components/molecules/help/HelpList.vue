@@ -7,7 +7,7 @@
                     {{ item.label }}
                     <NavArrowDown :class="{ 'arrow-rotate': isOpen[index] }" />
                 </div>
-                <div :id="'dropdown-text-' + index" class="dropdown-text" v-show="isOpen[index]">
+                <div :id="'dropdown-text-' + index" class="dropdown-text" :class="{ 'show-text': isOpen[index] }">
                     {{ item.textOptions }}
                 </div>
             </div>
@@ -96,7 +96,7 @@ const toggleDropdownText = (index) => {
     transform: rotate(0deg);
 }
 
-.arrow-rotate[style*="transform: rotate(180deg)"] {
+.arrow-rotate.arrow-rotate[style*="transform: rotate(180deg)"] {
     transform: rotate(180deg);
 }
 
