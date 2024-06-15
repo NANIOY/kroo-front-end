@@ -20,6 +20,8 @@ const username = ref('');
 const companyNameNotFound = ref(false);
 const businessNames = ref([]);
 const businessMap = ref(new Map());
+const joinRequestSent = ref(false);
+const buttonLabel = ref('Next');
 
 onMounted(async () => {
     try {
@@ -58,16 +60,18 @@ watch(
         if (newValue !== '') {
             hasTyped.value = true;
         }
-        console.log('Company name input changed:', newValue);
         companyNameNotFound.value = !businessNames.value.includes(newValue.toLowerCase());
+        joinRequestSent.value = false;
+        buttonLabel.value = companyNameNotFound.value ? 'Next' : 'Join';
     }
 );
 
 const inputNoteText = computed(() => {
     if (!hasTyped.value) return '';
+    if (joinRequestSent.value) return 'Join request sent successfully. Please check with your employer for an email.';
     return companyNameNotFound.value
         ? 'Company not found. Check the spelling or continue to create your company.'
-        : 'Company found. Press next to request to join the team.';
+        : 'Company found. Press Join to send a join request.';
 });
 
 const handleSubmit = async () => {
@@ -76,7 +80,7 @@ const handleSubmit = async () => {
         const businessId = businessMap.value.get(companyName);
         try {
             await axiosInstance.post(`/business/join?businessId=${businessId}`);
-            console.log('Join request sent successfully');
+            joinRequestSent.value = true;
         } catch (error) {
             console.error('Error sending join request:', error);
         }
@@ -91,12 +95,11 @@ const handleSubmit = async () => {
         <Form class="registerContainer__form" :header="'Hello ' + username" :hasSteps="false" steps="" :hasBack="true"
             :hasSkip="false" :hasText="true"
             text="Create your business account below and enter the company name. If it exists, join your employer or create your business on kroo."
-            :localfields="localfields" :hasLargeButton="true" buttonLabel="Next" :inputNoteText="inputNoteText"
+            :localfields="localfields" :hasLargeButton="true" :buttonLabel="buttonLabel" :inputNoteText="inputNoteText"
             @submit="handleSubmit" />
         <LoginImage class="registerContainer__image" />
     </div>
 </template>
-
 
 <style>
 .registerContainer {
