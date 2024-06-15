@@ -1,3 +1,25 @@
+<script setup>
+import { ref } from 'vue';
+import { NavArrowDown } from '@iconoir/vue';
+
+const props = defineProps({
+    titleLabel: {
+        type: String,
+        default: 'Dropdowns:'
+    },
+    dropdownItems: {
+        type: Array,
+        default: () => []
+    }
+});
+
+const isOpen = ref(new Array(props.dropdownItems.length).fill(false));
+
+const toggleDropdownText = (index) => {
+    isOpen.value[index] = !isOpen.value[index];
+};
+</script>
+
 <template>
     <div class="help-list-container">
         <label class="title-label">{{ titleLabel }}</label>
@@ -15,31 +37,6 @@
     </div>
 </template>
 
-<script setup>
-import { ref } from 'vue';
-import { NavArrowDown } from '@iconoir/vue';
-
-const props = defineProps({
-    titleLabel: {
-        type: String,
-        default: 'Dropdowns:'
-    },
-    dropdownItems: {
-        type: Array,
-        default: () => [
-            { label: 'First Dropdown', textOptions: 'Text 1' },
-            { label: 'Second Dropdown', textOptions: 'Text 2' },
-        ]
-    }
-});
-
-const isOpen = ref(new Array(props.dropdownItems.length).fill(false));
-
-const toggleDropdownText = (index) => {
-    isOpen.value[index] = !isOpen.value[index];
-};
-</script>
-
 <style scoped>
 .help-list-container {
     display: flex;
@@ -56,7 +53,6 @@ const toggleDropdownText = (index) => {
     font-style: normal;
     font-weight: 500;
     line-height: 100%;
-    /* 32px */
 }
 
 .dropdown-menu-container {
@@ -93,6 +89,7 @@ const toggleDropdownText = (index) => {
 
 .arrow-rotate {
     transition: transform 0.3s ease;
+    transform: rotate(0deg);
 }
 
 .arrow-rotate {
