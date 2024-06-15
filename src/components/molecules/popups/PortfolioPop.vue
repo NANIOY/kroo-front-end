@@ -40,8 +40,6 @@ const closeModal = () => {
 };
 
 const handleSubmit = async () => {
-    console.log('Submitting with:', title.value, selectedType.value, file.value);
-
     if (!title.value || !selectedType.value || !file.value) {
         showAlert('Please fill in all fields and upload a file.', 'bad');
         return;
@@ -71,6 +69,7 @@ const handleSubmit = async () => {
 
         emits('submit', response.data);
         closeModal();
+        window.location.reload();
     } catch (error) {
         console.error('Failed to upload portfolio:', error);
         showAlert('Failed to upload portfolio.', 'bad');
