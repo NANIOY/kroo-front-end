@@ -199,7 +199,8 @@ const handleClose = () => {
 }
 
 .portfolioitem__fullscreenOverlay__content__media {
-  width: 72%;
+  width: auto;
+  min-width: 50%;
   height: auto;
   max-height: 72%;
   background-color: var(--black);
