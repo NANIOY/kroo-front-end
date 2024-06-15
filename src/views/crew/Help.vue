@@ -12,13 +12,12 @@ const customDropdownItems = [
 ];
 const titleLabel = 'Getting started';
 
-// Second set of data (custom)
 const customDropdownItems2 = [
-  { label: 'Custom Dropdown 1', textOptions: 'Custom Option A' },
-  { label: 'Custom Dropdown 2', textOptions: 'Custom Option B' },
-  { label: 'Custom Dropdown 3', textOptions: 'Custom Option C' },
-  { label: 'Custom Dropdown 4', textOptions: 'Custom Option D' },
-  { label: 'Custom Dropdown 5', textOptions: 'Custom Option E' },
+  { label: 'How do I switch from a crew account to a business account?', textOptions: 'You can seamlessly switch accounts by clicking on your profile picture or icon in the top right corner of the screen. A dropdown menu will appear, providing the option to switch account type' },
+  { label: 'Can I delete my account?', textOptions: 'No, the account deletion function is currently under development. We understand the importance of user control, and we\'re working on implementing this feature as soon as possible. In the meantime, if you\'d like to take a break from the platform, you can simply log out.' },
+  { label: 'Is there a way to edit my profile after it has been created?', textOptions: 'Absolutely! You can easily edit your profile information. Simply click on your profile picture or icon in the top right corner, select profile, and then click the edit button. This will allow you to update details like your name, bio, contact information, and more.' },
+  { label: 'I have a problem with my account, where can I get some help?', textOptions: '"You can always send us a mail at Kroo.site@gmail.com and we will gladly help you solve the problem"' },
+  { label: 'How can I upgrade my account? ', textOptions: 'You can directly access the upgrade option on your Kroo dashboard. Look for a button or link labeled "Unlock Pro". Clicking on this button will take you to the subscription page where you can see the available subscription tiers and their benefits.' },
 ];
 const customTitleLabel = 'Account';
 
