@@ -215,7 +215,7 @@ const filteredCrewMembers = computed(() => {
         <SearchCrewFilter @search="handleSearch" @sort="handleSort" />
 
         <div class="crew-container">
-            <div v-if="loading" class="loading">Loading...</div>
+            <div v-if="loading" class="loading text-reg-normal">Loading...</div>
             <div v-else>
                 <div class="viewcontainer__crews">
                     <SearchCrew v-for="crew in filteredCrewMembers" :key="crew.name" :img="crew.img" :name="crew.name"

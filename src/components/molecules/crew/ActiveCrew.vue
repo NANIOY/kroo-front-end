@@ -140,7 +140,7 @@ onMounted(() => {
 <template>
     <Alert v-if="alertVisible" :type="alertType" :label="alertMessage" :text="alertText" />
 
-    <div v-if="loading" class="loading">Loading...</div>
+    <div v-if="loading" class="loading text-reg-normal">Loading...</div>
     <div v-for="crew in activeCrewMembers" :key="crew.userId" class="activeCrew surface-tertiary radius-xs"
         @click="navigateToProfile(crew.userUrl)">
         <div class="activeCrew__top">

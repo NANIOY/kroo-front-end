@@ -134,7 +134,7 @@ onMounted(() => {
 <template>
     <Alert v-if="alertVisible" :type="alertType" :label="alertMessage" :text="alertText" />
 
-    <div v-if="loading" class="loading">Loading...</div>
+    <div v-if="loading" class="loading text-reg-normal">Loading...</div>
     <div v-for="(applicant, index) in applicants" :key="applicant.userId" class="applicant surface-tertiary radius-xs"
         @click="navigateToProfile(applicant.user.userUrl)">
         <div class="applicant__top">
