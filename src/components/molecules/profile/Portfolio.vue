@@ -1,7 +1,8 @@
 <script setup>
-import { ref, watchEffect, defineProps } from 'vue';
+import { ref, watchEffect } from 'vue';
 import PortfolioItem from '../../atoms/profile/PortfolioItem.vue';
 import PortfolioPop from '../../molecules/popups/PortfolioPop.vue';
+import { defineProps } from 'vue';
 
 const props = defineProps({
     user: {
@@ -78,6 +79,9 @@ const handleOpenClick = () => {
 
 const handlePortfolioSubmit = (portfolioData) => {
     // Handle portfolio submission logic here
+    console.log('Portfolio submitted:', portfolioData);
+    // Refresh the portfolio items list if necessary
+    arrangePortfolio();
 };
 
 watchEffect(() => {

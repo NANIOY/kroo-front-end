@@ -1,5 +1,6 @@
 <script setup>
 import { ref, defineProps, defineEmits, watch } from 'vue';
+import setupAxios from '../../../setupAxios';
 import Overlay from '../../molecules/popups/Overlay.vue';
 import LargeButton from '../../atoms/buttons/LargeButton.vue';
 import DropDown from '../../atoms/inputs/DropDown.vue';
@@ -15,7 +16,7 @@ const props = defineProps({
 });
 
 const emits = defineEmits(['close', 'submit']);
-
+const axiosInstance = setupAxios();
 const title = ref('');
 const selectedType = ref(null);
 const file = ref(null);
@@ -26,27 +27,54 @@ const alertMessage = ref('');
 const alertType = ref('good');
 
 const handleFileUpload = (uploadedFile) => {
+    console.log('File uploaded:', uploadedFile);
     file.value = uploadedFile;
 };
+
+watch(file, (newFile) => {
+    console.log('File changed:', newFile);
+});
 
 const closeModal = () => {
     emits('close');
 };
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
+    console.log('Submitting with:', title.value, selectedType.value, file.value);
+
     if (!title.value || !selectedType.value || !file.value) {
         showAlert('Please fill in all fields and upload a file.', 'bad');
         return;
     }
 
-    const portfolioData = {
-        title: title.value,
-        type: selectedType.value,
-        file: file.value
-    };
+    const token = sessionStorage.getItem('sessionToken');
+    const userId = sessionStorage.getItem('userId');
 
-    emits('submit', portfolioData);
-    closeModal();
+    if (!token || !userId) {
+        showAlert('Session token or user ID is missing.', 'bad');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('portfolioTitle', title.value);
+    formData.append('portfolioType', selectedType.value);
+    formData.append('file', file.value);
+    formData.append('userId', userId);
+
+    try {
+        const response = await axiosInstance.post('/file/portfolio', formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        emits('submit', response.data);
+        closeModal();
+    } catch (error) {
+        console.error('Failed to upload portfolio:', error);
+        showAlert('Failed to upload portfolio.', 'bad');
+    }
 };
 
 const showAlert = (message, type) => {
@@ -68,7 +96,7 @@ const showAlert = (message, type) => {
                 <InputField v-model="title" placeholder="Enter title" :hasLabel="true" label="Title" />
                 <DropDown v-model="selectedType" :options="typeOptions" :hasLabel="true" placeholder="Select type"
                     label="Type" />
-                <UploadFile @fileUploaded="handleFileUpload" :hasLabel="true" label="Upload file" />
+                <UploadFile @fileUploaded="handleFileUpload" :hasLabel="true" label="Upload file" :autoUpload="false" />
             </div>
             <div class="portfoliopop__buttons">
                 <LargeButton label="Submit" class="button--primary" :hasRequest="false" @click="handleSubmit" />
