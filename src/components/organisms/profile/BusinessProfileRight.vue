@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref, watch, onMounted } from 'vue';
+import { defineProps, ref, watch, onMounted, computed } from 'vue';
 import Tabs from '../../molecules/profile/BusinessTabs.vue';
 import Portfolio from '../../molecules/profile/Portfolio.vue';
 import BusinessAbout from '../../molecules/profile/BusinessAbout.vue';
@@ -7,6 +7,10 @@ import setupAxios from '../../../setupAxios';
 
 const props = defineProps({
     business: {
+        type: Object,
+        required: true
+    },
+    currentUser: {
         type: Object,
         required: true
     }
@@ -46,6 +50,10 @@ watch(activeTab, (newTab) => {
     console.log(`Tab changed to: ${newTab}`);
 });
 
+const isCurrentUserProfile = computed(() => {
+    return props.currentUser.businessData === props.business._id;
+})
+
 onMounted(() => {
     fetchBusinessId();
 });
@@ -54,7 +62,7 @@ onMounted(() => {
 
 <template>
     <div class="profileright">
-        <Tabs :currentUser="props.business" :isCurrentUserProfile="true" @update:activeTab="handleTabChange" />
+        <Tabs :currentUser="props.business" :isCurrentUserProfile="isCurrentUserProfile" @update:activeTab="handleTabChange" />
         <div class="profileright__content">
             <div class="profileright__content__inner">
                 <Portfolio v-if="activeTab === 'Portfolio'" :user="props.business" />

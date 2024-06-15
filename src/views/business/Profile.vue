@@ -10,6 +10,7 @@ const name = ref(props.name);
 
 const business = ref(null);
 const hasBusiness = ref(false);
+const currentUser = ref(null);
 
 const axiosInstance = setupAxios();
 
@@ -18,6 +19,7 @@ const fetchUserData = async () => {
     const userResponse = await axiosInstance.get(`/user/${userId}`);
     const userData = userResponse.data.data.user;
     name.value = userData.username;
+    currentUser.value = userData;
 
     const businessDataId = userData.businessData;
     if (businessDataId) {
@@ -52,7 +54,7 @@ onMounted(() => {
 <template>
   <div class="profile" v-if="hasBusiness">
     <BusinessProfileLeft :business="business" />
-    <BusinessProfileRight :business="business" />
+    <BusinessProfileRight :business="business" :currentUser="currentUser" />
   </div>
   <div v-else>
     <p>No business data available</p>

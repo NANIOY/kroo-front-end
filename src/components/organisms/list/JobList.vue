@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { NavArrowDown, NavArrowUp } from '@iconoir/vue';
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
 
@@ -11,7 +11,19 @@ const props = defineProps({
     data: {
         type: Array,
         required: true
+    },
+    currentUser: {
+        type: Object,
+        required: true
+    },
+    business: {
+        type: Object,
+        required: true
     }
+});
+
+const isOwnProfile = computed(() => {
+    return props.currentUser && props.business && props.currentUser.businessData === props.business._id;
 });
 
 /* sort data */
@@ -83,7 +95,7 @@ function getArrowIcon(field) {
                         {{ item.location.city }}, {{ item.location.country }}
                     </div>
                     <div class="text-reg-normal">{{ new Date(item.date).toLocaleDateString() }}</div>
-                    <div class="list__actions">
+                    <div class="list__actions" v-if="!isOwnProfile">
                         <NormalButton class="button--tertiary button__savejob" label="Save job" />
                         <NormalButton class="button--primary button__apply" label="Apply" />
                     </div>

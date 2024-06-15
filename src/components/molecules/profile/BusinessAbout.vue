@@ -7,6 +7,10 @@ const props = defineProps({
     business: {
         type: Object,
         required: true
+    },
+    currentUser: {
+        type: Object,
+        required: true
     }
 });
 
@@ -42,7 +46,7 @@ watch(() => props.business, fetchLinkedJobs, { immediate: true });
                 <img class="radius-s banner" :src="business.businessInfo.bannerImage" alt="banner">
             </div>
         </div>
-        <JobList :data="jobs" />
+        <JobList :data="jobs" :currentUser="props.currentUser" :business="props.business" />
     </div>
 </template>
 
