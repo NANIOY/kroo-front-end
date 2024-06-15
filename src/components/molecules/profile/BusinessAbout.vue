@@ -38,8 +38,8 @@ watch(() => props.business, fetchLinkedJobs, { immediate: true });
             <div class="about__top__bio surface-tertiary radius-s">
                 <p>{{ business.businessInfo.bio }}</p>
             </div>
-            <div class="about__top__work">
-                <img class="radius-s work" :src="business.businessInfo.bannerImage" alt="portfolio work">
+            <div class="about__top__banner">
+                <img class="radius-s banner" :src="business.businessInfo.bannerImage" alt="banner">
             </div>
         </div>
         <JobList :data="jobs" />
@@ -78,9 +78,11 @@ p {
     gap: 20px;
 }
 
-.work {
+.banner {
     object-fit: cover;
-    max-height: 300px;
-
+    height: 300px;
+    width: 560px;
 }
+
+
 </style>
