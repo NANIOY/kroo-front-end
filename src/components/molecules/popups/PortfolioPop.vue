@@ -68,12 +68,24 @@ const handleSubmit = async () => {
     }
 
     try {
-        const response = await axiosInstance.put(`/file/portfolio/${portfolioId.value}`, formData, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'multipart/form-data'
-            }
-        });
+        let response;
+        if (portfolioId.value) {
+            // Edit existing item
+            response = await axiosInstance.put(`/file/portfolio/${portfolioId.value}`, formData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+        } else {
+            // Add new item
+            response = await axiosInstance.post('/file/portfolio', formData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+        }
 
         emits('submit', response.data);
         closeModal();
@@ -103,7 +115,7 @@ watch(() => props.initialData, (newData) => {
     <Overlay v-if="isVisible" @overlayClick="closeModal">
         <div class="portfoliopop" @click.stop>
             <div class="portfoliopop__top">
-                <h3>Edit Portfolio Work</h3>
+                <h3>{{ portfolioId ? 'Edit' : 'Add' }} Portfolio Work</h3>
             </div>
             <div class="portfoliopop__body">
                 <InputField v-model="title" placeholder="Enter title" :hasLabel="true" label="Title" />

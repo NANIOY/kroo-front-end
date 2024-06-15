@@ -13,7 +13,7 @@ const props = defineProps({
   status: {
     type: String,
     default: 'filled',
-    validator: (value) => ['filled', 'locked'].includes(value)
+    validator: (value) => ['filled', 'locked', 'open'].includes(value)
   },
   mimeType: {
     type: String,
@@ -37,7 +37,7 @@ const props = defineProps({
   }
 });
 
-const emits = defineEmits(['edit']);
+const emits = defineEmits(['edit', 'add']);
 
 const isImage = computed(() => {
   return props.mimeType.startsWith('image/');
@@ -55,7 +55,11 @@ const showOverlay = ref(false);
 
 const handleClick = () => {
   if (props.isOwner) {
-    handleEdit();
+    if (props.status === 'filled') {
+      handleEdit();
+    } else if (props.status === 'open') {
+      handleAdd();
+    }
   } else {
     if (showOverlay.value) {
       handleClose();
@@ -75,6 +79,19 @@ const handleClose = () => {
 
 const handleEdit = () => {
   emits('edit', {
+    _id: props._id,
+    imageSrc: props.imageSrc,
+    height: props.height,
+    status: props.status,
+    mimeType: props.mimeType,
+    poster: props.poster,
+    portfolioTitle: props.portfolioTitle,
+    portfolioType: props.portfolioType
+  });
+};
+
+const handleAdd = () => {
+  emits('add', {
     _id: props._id,
     imageSrc: props.imageSrc,
     height: props.height,
@@ -130,7 +147,8 @@ const handleEdit = () => {
               class="portfolioitem__fullscreenOverlay__content__media"></video>
           </template>
           <template v-if="isAudio">
-            <audio controls autoplay :src="props.imageSrc" class="portfolioitem__fullscreenOverlay__content__media"></audio>
+            <audio controls autoplay :src="props.imageSrc"
+              class="portfolioitem__fullscreenOverlay__content__media"></audio>
           </template>
         </div>
       </Overlay>
