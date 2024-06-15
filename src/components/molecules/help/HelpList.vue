@@ -99,18 +99,16 @@ const toggleDropdownText = (index) => {
 .dropdown-text {
     display: none;
     color: #000;
-    /* Added text color */
     font-family: Orkney;
     font-size: 16px;
     font-style: normal;
     font-weight: 300;
     line-height: 140%;
-    /* 22.4px */
 }
 
 .show-text {
     display: block;
     align-self: stretch;
-    /* Added to stretch the text */
+    padding-left: 4px;
 }
 </style>
