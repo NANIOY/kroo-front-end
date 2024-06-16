@@ -163,7 +163,7 @@ const logout = async () => {
     await axiosInstance.post('/auth/logout');
     localStorage.clear();
     sessionStorage.clear();
-    window.location.href = '../../../../views/Login.vue';
+    window.location.href = '../../../../#/Login.vue';
   } catch (error) {
     console.error('Logout failed:', error);
   }
