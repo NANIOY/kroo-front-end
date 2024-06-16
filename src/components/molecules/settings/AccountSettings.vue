@@ -161,15 +161,21 @@ export default {
 
 .profile-details__buttons-container {
   display: flex;
-height: 40px;
-align-items: center;
-gap: 12px;
-flex: 1 0 0;
+  height: 40px;
+  align-items: center;
+  gap: 12px;
+  flex: 1 0 0;
 }
 
 .profile-details__buttons {
   display: flex;
-align-items: flex-start;
-gap: 24px;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.profile-details__verification-button,
+.profile-details__password-button {
+  padding-left: 32px;
+  padding-right: 32px;
 }
 </style>
