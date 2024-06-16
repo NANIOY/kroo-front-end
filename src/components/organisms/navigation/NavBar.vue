@@ -74,7 +74,7 @@ updateActiveLabel(route.path);
             :isActive="activeLabel === 'Bookmark'" @toggleActive="toggleActiveLabel" />
           <NavbarLabel iconName="Tools" label="Tools" :hasLabel="false" :darkMode="true"
             :isActive="activeLabel === 'Tools'" @toggleActive="toggleActiveLabel" />
-          <NavbarLabel v-if="currentRole === 'business'" iconName="Community" label="Community" :hasLabel="false"
+          <NavbarLabel v-if="currentRole === 'business'" iconName="Community" label="Team" :hasLabel="false"
             :darkMode="true" :isActive="activeLabel === 'Community'" @toggleActive="toggleActiveLabel" />
         </div>
         <div id="navbar_contents--items_account">
