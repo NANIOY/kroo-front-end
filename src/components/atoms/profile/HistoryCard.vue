@@ -6,8 +6,23 @@ const props = defineProps({
 });
 
 const loading = ref(true);
+const jobPosition = ref('');
+
+const functions = [
+    "Sound Engineer",
+    "Light Technician",
+    "Camera Operator",
+    "Director",
+    "Producer",
+    "Editor",
+    "Animator",
+    "Production Assistant",
+    "Scriptwriter",
+    "Video Editor"
+];
 
 onMounted(() => {
+    jobPosition.value = functions[Math.floor(Math.random() * functions.length)];
     setTimeout(() => {
         loading.value = false;
     }, 500);
@@ -39,7 +54,7 @@ const formatMonth = (dateString) => {
             </div>
 
             <div class="container__mid">
-                <h4 class="container__mid__title">Function</h4>
+                <h5 class="container__mid__title">{{ jobPosition }}</h5>
                 <div class="container__mid__data">
                     <div class="container__mid__data__date">
                         <span class="container__mid__data__date__day text-reg-s">{{ formatDate(job.date) }}</span>
@@ -127,6 +142,7 @@ const formatMonth = (dateString) => {
 .container__top__image {
     width: 28px;
     height: 28px;
+    object-fit: cover;
 }
 
 /* MIDDLE */
