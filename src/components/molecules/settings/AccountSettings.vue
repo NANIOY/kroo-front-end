@@ -8,7 +8,6 @@ export default {
 };
 </script>
 
-
 <template>
   <div class="profile-details">
     <section class="profile-details__section profile-details__section--personal-info">
@@ -45,7 +44,8 @@ export default {
         <div class="profile-details__info-row">
           <div class="profile-details__info-item">
             <span class="profile-details__label">Description</span>
-            <textarea class="profile-details__textarea" readonly>Lorem ipsum dolor sit amet consectetur. Consectetur amet sem lorem sit diam interdum et accumsan risus. Condimentum gravida ut nec interdum eget eget. Lorem ipsum dolor sit amet consectetur. Consectetur amet sem lorem sit diam interdum et accumsan risus. Condimentum gravida ut nec interdum eget eget.</textarea>
+            <textarea class="profile-details__textarea"
+              readonly>Lorem ipsum dolor sit amet consectetur. Consectetur amet sem lorem sit diam interdum et accumsan risus. Condimentum gravida ut nec interdum eget eget. Lorem ipsum dolor sit amet consectetur. Consectetur amet sem lorem sit diam interdum et accumsan risus. Condimentum gravida ut nec interdum eget eget.</textarea>
           </div>
         </div>
         <NormalButton class="profile-details__edit-button button--primary" label="Edit" iconName="EditPencil" />
@@ -157,5 +157,12 @@ export default {
   align-items: center;
   flex-shrink: 0;
   font-family: var(--font-button, 'button');
+}
+
+.profile-details__buttons {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  margin-top: 20px;
 }
 </style>
