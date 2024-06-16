@@ -2,60 +2,62 @@
 import { ref } from 'vue';
 
 const items = [
-  { label: 'Account', endpoint: '#account' },
-  { label: 'Billing', endpoint: '#billing' },
-  { label: 'Notifications', endpoint: '#notifications' },
-  { label: 'Accessibility', endpoint: '#accessibility' }
+    { label: 'Account' },
+    { label: 'Billing' },
+    { label: 'Notifications' },
+    { label: 'Accessibility' }
 ];
 
-const selectedItem = ref(3); 
+const selectedItem = ref(0); 
 </script>
 
 <template>
-  <div class="settings">
-    <div class="button_container">
-      <a v-for="(item, index) in items" :key="index" :href="item.endpoint"
-        :class="{ 'button--selected': index === selectedItem }" class="button" @click="selectedItem = index">
-        {{ item.label }}
-      </a>
+    <div class="settings">
+        <div class="button_container">
+            <button v-for="(item, index) in items" :key="index" @click="selectedItem = index"
+                :class="{ 'button--selected': index === selectedItem }" class="button">
+                {{ item.label }}
+            </button>
+        </div>
     </div>
-  </div>
 </template>
 
 <style scoped>
 .settings {
-  display: flex;
-  flex-direction: column;
-  width: 192px;
-  height: 344px;
-  gap: 16px;
-  flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    height: 192px;
+    width: 184px;
 }
 
 .button_container {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
 }
 
 .button {
-  border: none;
-  padding: 10px;
-  text-align: left;
-  width: 100%;
-  cursor: pointer;
-  background-color: transparent;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  display: flex;
-  justify-content: flex-start;
-  text-decoration: none;
-  color: black;
-  font-size: 18px;
+    border: none;
+    padding: 10px;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    background-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    justify-content: flex-start;
+    display: flex;
+    padding: 8px;
+    align-items: center;
+    gap: 8px;
+    flex: 1 0 0;
 }
 
 .button--selected {
-  background-color: var(--blurple);
-  color: var(--white);
+    background-color: var(--blurple);
+    color: var(--white);
 }
 </style>
