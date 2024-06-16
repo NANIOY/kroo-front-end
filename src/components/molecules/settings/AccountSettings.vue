@@ -80,9 +80,11 @@ export default {
       </div>
     </section>
 
-    <div class="profile-details__buttons">
-      <NormalButton class="profile-details__verification-button button--primary" label="Add 2-step verification" />
-      <NormalButton class="profile-details__password-button button--primary" label="Change password" />
+    <div class="profile-details__buttons-container">
+      <div class="profile-details__buttons">
+        <NormalButton class="profile-details__verification-button button--secondary" label="Add 2-step verification" />
+        <NormalButton class="profile-details__password-button button--tertiary" label="Change password" />
+      </div>
     </div>
   </div>
 </template>
@@ -159,10 +161,19 @@ export default {
   font-family: var(--font-button, 'button');
 }
 
+.profile-details__buttons-container {
+  display: flex;
+height: 40px;
+padding: 0px 32px;
+justify-content: center;
+align-items: center;
+gap: 12px;
+flex: 1 0 0;
+}
+
 .profile-details__buttons {
   display: flex;
-  align-items: flex-start;
-  gap: 24px;
-  margin-top: 20px;
+align-items: flex-start;
+gap: 24px;
 }
 </style>
