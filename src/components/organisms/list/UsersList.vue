@@ -7,14 +7,14 @@ const sortField = ref('');
 const sortDirection = ref('asc');
 
 const data = ref([
-    { image:'https://placehold.co/32x32', name: 'John Doe', role: 'Producer', email: 'john@example.com', dateAdded: new Date('2023-01-01') },
-    { image:'https://placehold.co/32x32', name: 'Jane Smith', role: 'Editor', email: 'jane@example.com', dateAdded: new Date('2023-02-15') },
-    { image:'https://placehold.co/32x32', name: 'Alice Johnson', role: 'Audience', email: 'alice@example.com', dateAdded: new Date('2024-03-20') },
-    { image:'https://placehold.co/32x32', name: 'Mark Haas', role: 'Producer', email: 'mark@example.com', dateAdded: new Date('2021-03-20') },
-    { image:'https://placehold.co/32x32', name: 'Miranda Van Tielen', role: 'Editor', email: 'miranda@example.com', dateAdded: new Date('2019-03-20') },
-    { image:'https://placehold.co/32x32', name: 'Pedro Duprez', role: 'Audience', email: 'pedro.duprez1999@example.com', dateAdded: new Date('2018-03-20') },
-    { image:'https://placehold.co/32x32', name: 'Pascale Colman', role: 'Producer', email: 'pascale2014@example.com', dateAdded: new Date('2023-09-20') },
-    { image:'https://placehold.co/32x32', name: 'Christiane Rotthier', role: 'Editor', email: 'christy.rotthier1998@example.com', dateAdded: new Date('2023-05-20') },
+    { image:'https://res.cloudinary.com/dqzaz6d2o/image/upload/v1718316535/user-images/ilmnrncyb58lhsz4lcyq.png', name: 'John Doe', role: 'Producer', email: 'john@example.com', dateAdded: new Date('2023-01-01') },
+    { image:'https://res.cloudinary.com/dqzaz6d2o/image/upload/v1718447691/user-images/ezydknw1nplbeqlpfaso.jpg', name: 'Jane Doe', role: 'Editor', email: 'jane@example.com', dateAdded: new Date('2023-02-15') },
+    { image:'https://res.cloudinary.com/dqzaz6d2o/image/upload/f_auto,q_auto/v1/user-images/mskbahyax3fyagpya695', name: 'Alice Johnson', role: 'Audience', email: 'alice@example.com', dateAdded: new Date('2024-03-20') },
+    { image:'https://res.cloudinary.com/dqzaz6d2o/image/upload/v1718314026/user-images/kvyorjcio1gaikiqunex.png', name: 'Mark Haas', role: 'Producer', email: 'mark@example.com', dateAdded: new Date('2021-03-20') },
+    { image:'https://res.cloudinary.com/dqzaz6d2o/image/upload/v1718318705/user-images/ospygmc1fptrsrugi7t3.png', name: 'Miranda Van Tielen', role: 'Editor', email: 'miranda@example.com', dateAdded: new Date('2019-03-20') },
+    { image:'https://res.cloudinary.com/dqzaz6d2o/image/upload/v1718311064/user-images/nclcewvksnr0vaplrbat.png', name: 'Pedro Duprez', role: 'Audience', email: 'pedro.duprez1999@example.com', dateAdded: new Date('2018-03-20') },
+    { image:'https://res.cloudinary.com/dqzaz6d2o/image/upload/v1718306345/user-images/bpa3skfu8slxlwr6ogqm.png', name: 'Pascale Colman', role: 'Producer', email: 'pascale2014@example.com', dateAdded: new Date('2023-09-20') },
+    { image:'https://res.cloudinary.com/dqzaz6d2o/image/upload/v1718309893/user-images/cdgnqs4qd29tuvjlpsaq.png', name: 'Christiane Rotthier', role: 'Editor', email: 'christy.rotthier1998@example.com', dateAdded: new Date('2023-05-20') },
 ]);
 
 
