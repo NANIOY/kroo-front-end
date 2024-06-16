@@ -1,13 +1,14 @@
 <script>
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
+import Slider from '../../atoms/inputs/Slider.vue';
 
 export default {
   components: {
     NormalButton,
+    Slider,
   },
 };
 </script>
-
 
 <template>
   <div class="profile-details">
@@ -25,7 +26,7 @@ export default {
           </div>
           <div class="profile-details__info-item">
             <span class="profile-details__label">Age</span>
-            <p class="profile-details__text">Lorem Ipsum</p>
+            <Slider label="Age" :maxValue="100" localStorageKey="profile_settings" group="age" />
           </div>
         </div>
         <div class="profile-details__info-row">
@@ -45,7 +46,8 @@ export default {
         <div class="profile-details__info-row">
           <div class="profile-details__info-item">
             <span class="profile-details__label">Description</span>
-            <textarea class="profile-details__textarea" readonly>Lorem ipsum dolor sit amet consectetur. Consectetur amet sem lorem sit diam interdum et accumsan risus. Condimentum gravida ut nec interdum eget eget. Lorem ipsum dolor sit amet consectetur. Consectetur amet sem lorem sit diam interdum et accumsan risus. Condimentum gravida ut nec interdum eget eget.</textarea>
+            <textarea class="profile-details__textarea"
+              readonly>Lorem ipsum dolor sit amet consectetur. Consectetur amet sem lorem sit diam interdum et accumsan risus. Condimentum gravida ut nec interdum eget eget. Lorem ipsum dolor sit amet consectetur. Consectetur amet sem lorem sit diam interdum et accumsan risus. Condimentum gravida ut nec interdum eget eget.</textarea>
           </div>
         </div>
         <NormalButton class="profile-details__edit-button button--primary" label="Edit" iconName="EditPencil" />
@@ -71,18 +73,18 @@ export default {
         </div>
         <div class="profile-details__info-row">
           <div class="profile-details__info-item">
-            <span class="profile-details__label">Age</span>
-            <input class="profile-details__input" type="range" min="0" max="100" v-model="age">
-            <span class="profile-details__text">{{ age }}</span>
+            <Slider label="Age" :maxValue="100" localStorageKey="profile_settings" group="age" />
           </div>
         </div>
         <NormalButton class="profile-details__edit-button button--primary" label="Edit" iconName="EditPencil" />
       </div>
     </section>
 
-    <div class="profile-details__buttons">
-      <NormalButton class="profile-details__verification-button button--primary" label="Add 2-step verification" />
-      <NormalButton class="profile-details__password-button button--primary" label="Change password" />
+    <div class="profile-details__buttons-container">
+      <div class="profile-details__buttons">
+        <NormalButton class="profile-details__verification-button button--secondary" label="Add 2-step verification" />
+        <NormalButton class="profile-details__password-button button--tertiary" label="Change password" />
+      </div>
     </div>
   </div>
 </template>
@@ -157,5 +159,19 @@ export default {
   align-items: center;
   flex-shrink: 0;
   font-family: var(--font-button, 'button');
+}
+
+.profile-details__buttons-container {
+  display: flex;
+height: 40px;
+align-items: center;
+gap: 12px;
+flex: 1 0 0;
+}
+
+.profile-details__buttons {
+  display: flex;
+align-items: flex-start;
+gap: 24px;
 }
 </style>
