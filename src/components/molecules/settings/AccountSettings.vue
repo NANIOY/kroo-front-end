@@ -1,9 +1,11 @@
 <script>
 import NormalButton from '../../atoms/buttons/NormalButton.vue';
+import Slider from '../../atoms/inputs/Slider.vue';
 
 export default {
   components: {
     NormalButton,
+    Slider,
   },
 };
 </script>
@@ -24,7 +26,7 @@ export default {
           </div>
           <div class="profile-details__info-item">
             <span class="profile-details__label">Age</span>
-            <p class="profile-details__text">Lorem Ipsum</p>
+            <Slider label="Age" :maxValue="100" localStorageKey="profile_settings" group="age" />
           </div>
         </div>
         <div class="profile-details__info-row">
@@ -71,9 +73,7 @@ export default {
         </div>
         <div class="profile-details__info-row">
           <div class="profile-details__info-item">
-            <span class="profile-details__label">Age</span>
-            <input class="profile-details__input" type="range" min="0" max="100" v-model="age">
-            <span class="profile-details__text">{{ age }}</span>
+            <Slider label="Age" :maxValue="100" localStorageKey="profile_settings" group="age" />
           </div>
         </div>
         <NormalButton class="profile-details__edit-button button--primary" label="Edit" iconName="EditPencil" />
