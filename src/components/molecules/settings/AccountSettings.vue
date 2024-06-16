@@ -164,8 +164,6 @@ export default {
 .profile-details__buttons-container {
   display: flex;
 height: 40px;
-padding: 0px 32px;
-justify-content: center;
 align-items: center;
 gap: 12px;
 flex: 1 0 0;
