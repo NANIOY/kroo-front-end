@@ -358,7 +358,7 @@ const showAlert = (message, type, text) => {
                     <TimePicker v-model="localPostData.time" :hasLabel="true" label="Time" type="time"
                         placeholder="Select time" />
                 </div>
-                <div class="modal__multi">
+                <div class="modal__multi modal__multi--address">
                     <InputField v-model="localPostData.location.city" :hasLabel="true" label="City"
                         placeholder="Enter city" />
                     <InputField v-model="localPostData.location.address" :hasLabel="true" label="Address"
@@ -445,6 +445,11 @@ const showAlert = (message, type, text) => {
 
 .modal__multi--datetime> :nth-child(1),
 .modal__multi--datetime> :nth-child(2) {
+    width: 100%;
+}
+
+.modal__multi--address> :nth-child(1),
+.modal__multi--address> :nth-child(2) {
     width: 100%;
 }
 
