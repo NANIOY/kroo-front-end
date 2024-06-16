@@ -26,7 +26,7 @@ export default {
           </div>
           <div class="profile-details__info-item">
             <span class="profile-details__label">Age</span>
-            <Slider label="Age" :maxValue="100" localStorageKey="profile_settings" group="age" />
+            <p class="profile-details__text">Lorem Ipsum</p>
           </div>
         </div>
         <div class="profile-details__info-row">
@@ -72,9 +72,6 @@ export default {
           </div>
         </div>
         <div class="profile-details__info-row">
-          <div class="profile-details__info-item">
-            <Slider label="Age" :maxValue="100" localStorageKey="profile_settings" group="age" />
-          </div>
         </div>
         <NormalButton class="profile-details__edit-button button--primary" label="Edit" iconName="EditPencil" />
       </div>
@@ -93,6 +90,7 @@ export default {
 .profile-details {
   padding: 20px;
   font-family: var(--font-body);
+  width: 100%;
 }
 
 .profile-details__section {
@@ -163,15 +161,21 @@ export default {
 
 .profile-details__buttons-container {
   display: flex;
-height: 40px;
-align-items: center;
-gap: 12px;
-flex: 1 0 0;
+  height: 40px;
+  align-items: center;
+  gap: 12px;
+  flex: 1 0 0;
 }
 
 .profile-details__buttons {
   display: flex;
-align-items: flex-start;
-gap: 24px;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.profile-details__verification-button,
+.profile-details__password-button {
+  padding-left: 32px;
+  padding-right: 32px;
 }
 </style>
