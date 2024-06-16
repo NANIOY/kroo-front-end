@@ -91,6 +91,7 @@ export default {
   padding: 20px;
   font-family: var(--font-body);
   width: 100%;
+  margin-top: -20px;
 }
 
 .profile-details__section {
