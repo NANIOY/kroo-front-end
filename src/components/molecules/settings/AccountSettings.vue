@@ -1,5 +1,11 @@
 <script>
+import NormalButton from '../../atoms/buttons/NormalButton.vue';
 
+export default {
+  components: {
+    NormalButton,
+  },
+};
 </script>
 
 <template>
@@ -39,7 +45,7 @@
               readonly>Lorem ipsum dolor sit amet consectetur. Consectetur amet sem lorem sit diam interdum et accumsan risus. Condimentum gravida ut nec interdum eget eget. Lorem ipsum dolor sit amet consectetur. Consectetur amet sem lorem sit diam interdum et accumsan risus. Condimentum gravida ut nec interdum eget eget.</textarea>
           </div>
         </div>
-        <button class="edit-button">Edit</button>
+        <normalButton class="edit-button button--primary" label="Edit" iconName="EditPencil" />
       </div>
     </section>
   </div>
@@ -47,7 +53,6 @@
 
 <style scoped>
 .profile-details {
-  font-family: Arial, sans-serif;
   padding: 20px;
 }
 
@@ -61,7 +66,7 @@ h1 {
 }
 
 .info-box {
-  background-color: #f0f0f0;
+  background-color: var( --neutral-20);
   padding: 20px;
   border-radius: 10px;
   position: relative;
@@ -90,7 +95,7 @@ h1 {
 textarea {
   width: 100%;
   height: 60px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--white);
   border-radius: 5px;
   padding: 5px;
   resize: none;
@@ -100,11 +105,5 @@ textarea {
   position: absolute;
   right: 20px;
   top: 20px;
-  background-color: #6200ee;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
 }
 </style>
