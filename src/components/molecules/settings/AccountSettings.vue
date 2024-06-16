@@ -10,49 +10,49 @@ export default {
 
 <template>
   <div class="profile-details">
-    <section class="section personal-info">
-      <h1>Personal Information</h1>
-      <div class="info-box">
-        <div class="info-row">
-          <div class="info-item">
-            <span class="label">Name</span>
-            <p>Lorem Ipsum</p>
+    <section class="profile-details__section profile-details__section--personal-info">
+      <h1 class="profile-details__title">Personal Information</h1>
+      <div class="profile-details__info-box">
+        <div class="profile-details__info-row">
+          <div class="profile-details__info-item">
+            <span class="profile-details__label">Name</span>
+            <p class="profile-details__text">Lorem Ipsum</p>
           </div>
-          <div class="info-item">
-            <span class="label">Email</span>
-            <p>Lorem Ipsum</p>
+          <div class="profile-details__info-item">
+            <span class="profile-details__label">Email</span>
+            <p class="profile-details__text">Lorem Ipsum</p>
           </div>
-          <div class="info-item">
-            <span class="label">Age</span>
-            <p>Lorem Ipsum</p>
-          </div>
-        </div>
-        <div class="info-row">
-          <div class="info-item">
-            <span class="label">Function</span>
-            <p>Lorem Ipsum</p>
-          </div>
-          <div class="info-item">
-            <span class="label">Languages</span>
-            <p>Lorem Ipsum</p>
-          </div>
-          <div class="info-item">
-            <span class="label">Skills</span>
-            <p>Lorem Ipsum</p>
+          <div class="profile-details__info-item">
+            <span class="profile-details__label">Age</span>
+            <p class="profile-details__text">Lorem Ipsum</p>
           </div>
         </div>
-        <div class="info-row">
-          <div class="info-item">
-            <span class="label">Description</span>
-            <textarea
+        <div class="profile-details__info-row">
+          <div class="profile-details__info-item">
+            <span class="profile-details__label">Function</span>
+            <p class="profile-details__text">Lorem Ipsum</p>
+          </div>
+          <div class="profile-details__info-item">
+            <span class="profile-details__label">Languages</span>
+            <p class="profile-details__text">Lorem Ipsum</p>
+          </div>
+          <div class="profile-details__info-item">
+            <span class="profile-details__label">Skills</span>
+            <p class="profile-details__text">Lorem Ipsum</p>
+          </div>
+        </div>
+        <div class="profile-details__info-row">
+          <div class="profile-details__info-item">
+            <span class="profile-details__label">Description</span>
+            <textarea class="profile-details__textarea"
               readonly>Lorem ipsum dolor sit amet consectetur. Consectetur amet sem lorem sit diam interdum et accumsan risus. Condimentum gravida ut nec interdum eget eget. Lorem ipsum dolor sit amet consectetur. Consectetur amet sem lorem sit diam interdum et accumsan risus. Condimentum gravida ut nec interdum eget eget.</textarea>
           </div>
         </div>
-        <normalButton class="edit-button button--primary" label="Edit" iconName="EditPencil" />
+        <NormalButton class="profile-details__edit-button button--primary" label="Edit" iconName="EditPencil" />
       </div>
     </section>
   </div>
-</template>>
+</template>
 
 <style scoped>
 .profile-details {
@@ -60,50 +60,51 @@ export default {
   font-family: var(--font-body);
 }
 
-.section {
+.profile-details__section {
   margin-bottom: 20px;
 }
 
-h1 {
+.profile-details__title {
   font-size: 24px;
   margin-bottom: 10px;
   font-family: var(--font-header, 'header');
 }
 
-.info-box {
+.profile-details__info-box {
   background-color: var(--neutral-20);
   padding: 20px;
   border-radius: 10px;
   position: relative;
 }
 
-.info-row {
+.profile-details__info-row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
 }
 
-.info-item {
+.profile-details__info-item {
   flex: 1;
   margin-right: 20px;
 }
 
-.info-item .label {
+.profile-details__label {
   display: block;
   margin-bottom: 5px;
-  color: var(--color-text-text-primary);
+  color: var(--color-text-text-primary, #0E0F0F);
+  font-family: Orkney;
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
   line-height: 140%;
 }
 
-.info-item p {
+.profile-details__text {
   margin: 0;
   font-family: var(--font-body, 'body');
 }
 
-textarea {
+.profile-details__textarea {
   width: 100%;
   height: 60px;
   border: 1px solid var(--white);
@@ -113,7 +114,7 @@ textarea {
   font-family: var(--font-body, 'body');
 }
 
-.edit-button {
+.profile-details__edit-button {
   position: absolute;
   right: 20px;
   top: 20px;
