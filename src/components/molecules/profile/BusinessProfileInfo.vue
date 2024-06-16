@@ -11,14 +11,14 @@ const props = defineProps({
 });
 
 const companyName = ref('');
-const bio = ref('');
+const tagline = ref('');
 const mediaTypes = ref([]);
 const logo = ref('');
 
 watchEffect(() => {
     if (props.business) {
         companyName.value = props.business.businessInfo.companyName;
-        bio.value = props.business.businessInfo.bio;
+        tagline.value = props.business.businessInfo.tagline;
         mediaTypes.value = props.business.businessInfo.mediaTypes || [];
         logo.value = props.business.businessInfo.logo || '';
     }
@@ -35,7 +35,7 @@ watchEffect(() => {
                     <Tag class="types" v-for="(type, index) in mediaTypes" :key="index" type="colored">{{ type }}</Tag>
                 </div>
                 <div>
-                    <p>{{ bio }}</p>
+                    <p>{{ tagline }}</p>
                 </div>
             </div>
         </div>

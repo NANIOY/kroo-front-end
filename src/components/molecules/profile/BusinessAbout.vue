@@ -70,6 +70,7 @@ p {
 
 .about__top__bio {
     padding: 32px;
+    overflow-y: auto;
 }
 
 .about__top__bio {
