@@ -87,7 +87,7 @@ console.log(props.user.crewData);
   <div v-if="crewData" class="about">
     <div class="about__top">
       <div class="about__info">
-        <div>
+        <div class="about__banner__container">
             <img :src="bannerImage" alt="banner image" class="about__banner radius-s"/>
         </div>
         <div class="about__jobs radius-s">
@@ -197,6 +197,11 @@ ul {
     width: 355px;
     height: 150px;
     object-fit: cover;
+}
+
+.about__banner__container {
+    width: 355px;
+    height: 150px;
 }
 
 .about {
