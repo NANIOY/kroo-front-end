@@ -80,7 +80,7 @@ watchEffect(() => {
   }
 });
 
-console.log(props.user.crewData);
+console.log(educationTrainings.value);
 </script>
 
 <template>
@@ -133,27 +133,17 @@ console.log(props.user.crewData);
         <p>{{ crewData.profileDetails.bio }}</p>
       </div>
       <div class="about__education radius-s">
-        <h6 class="about__section-title">Education</h6>
+        <h6 class="about__section-title">Education and trainings</h6>
         <div class="about__items">
           <div v-for="education in educationTrainings" :key="education._id" class="about__item">
-            <p class="about__item-year">{{ education.year }}</p>
-            <p class="about__item-school text-bold-normal">{{ education.school }}</p>
-            <p class="about__item-course">{{ education.course }}</p>
+            <p class="about__item-year">{{ education.endYear }}</p>
+            <p class="about__item-school text-bold-normal">{{ education.where }}</p>
+            <p class="about__item-course">{{ education.title }}</p>
           </div>
         </div>
       </div>
-      <div class="about__training radius-s">
-        <h6 class="about__section-title">Trainings</h6>
-        <div class="about__items">
-          <div v-for="training in educationTrainings" :key="training._id" class="about__item">
-            <p class="about__item-year">{{ training.year }}</p>
-            <p class="about__item-school text-bold-normal">{{ training.school }}</p>
-            <p class="about__item-course">{{ training.course }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="about__skills">
-          <div class="about__tags radius-s">
+      <div class="about__skills radius-s">
+          <div class="about__tags">
             <div class="skills">
                 <Tag v-for="skill in skills" :key="skill">{{ skill }}</Tag>
             </div>
@@ -222,7 +212,8 @@ ul {
   flex: 2;
   background-color: var(--gray);
   padding: 24px;
-  height: 286px;
+  height: 286px !important;
+  overflow-y: auto;
 }
 
 .about__bio, .about__education, .about__training, .about__skills {
@@ -288,6 +279,7 @@ ul {
   flex-direction: row;
   gap: 16px;
   margin: 0%;
+  flex-wrap: wrap;
 }
 
 
