@@ -8,6 +8,7 @@ export default {
 };
 </script>
 
+
 <template>
   <div class="profile-details">
     <section class="profile-details__section profile-details__section--personal-info">
@@ -44,13 +45,45 @@ export default {
         <div class="profile-details__info-row">
           <div class="profile-details__info-item">
             <span class="profile-details__label">Description</span>
-            <textarea class="profile-details__textarea"
-              readonly>Lorem ipsum dolor sit amet consectetur. Consectetur amet sem lorem sit diam interdum et accumsan risus. Condimentum gravida ut nec interdum eget eget. Lorem ipsum dolor sit amet consectetur. Consectetur amet sem lorem sit diam interdum et accumsan risus. Condimentum gravida ut nec interdum eget eget.</textarea>
+            <textarea class="profile-details__textarea" readonly>Lorem ipsum dolor sit amet consectetur. Consectetur amet sem lorem sit diam interdum et accumsan risus. Condimentum gravida ut nec interdum eget eget. Lorem ipsum dolor sit amet consectetur. Consectetur amet sem lorem sit diam interdum et accumsan risus. Condimentum gravida ut nec interdum eget eget.</textarea>
           </div>
         </div>
         <NormalButton class="profile-details__edit-button button--primary" label="Edit" iconName="EditPencil" />
       </div>
     </section>
+
+    <section class="profile-details__section profile-details__section--address-info">
+      <h1 class="profile-details__title">Address</h1>
+      <div class="profile-details__info-box">
+        <div class="profile-details__info-row">
+          <div class="profile-details__info-item">
+            <span class="profile-details__label">Location</span>
+            <p class="profile-details__text">Lorem Ipsum</p>
+          </div>
+          <div class="profile-details__info-item">
+            <span class="profile-details__label">State/Province</span>
+            <p class="profile-details__text">Lorem Ipsum</p>
+          </div>
+          <div class="profile-details__info-item">
+            <span class="profile-details__label">Country</span>
+            <p class="profile-details__text">Lorem Ipsum</p>
+          </div>
+        </div>
+        <div class="profile-details__info-row">
+          <div class="profile-details__info-item">
+            <span class="profile-details__label">Age</span>
+            <input class="profile-details__input" type="range" min="0" max="100" v-model="age">
+            <span class="profile-details__text">{{ age }}</span>
+          </div>
+        </div>
+        <NormalButton class="profile-details__edit-button button--primary" label="Edit" iconName="EditPencil" />
+      </div>
+    </section>
+
+    <div class="profile-details__buttons">
+      <NormalButton class="profile-details__verification-button button--primary" label="Add 2-step verification" />
+      <NormalButton class="profile-details__password-button button--primary" label="Change password" />
+    </div>
   </div>
 </template>
 
