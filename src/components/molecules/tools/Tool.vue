@@ -164,7 +164,7 @@ export default {
 
 <style scoped>
 .tool-container {
-    width: 365px;
+    width: 364px;
     height: 250px;
     flex-shrink: 0;
     display: flex;
