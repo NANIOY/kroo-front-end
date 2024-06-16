@@ -1,14 +1,15 @@
 <script setup>
 import { ref } from 'vue';
+import { Accessibility, User, HandCard, Bell } from '@iconoir/vue';
 
 const items = [
-    { label: 'Account' },
-    { label: 'Billing' },
-    { label: 'Notifications' },
-    { label: 'Accessibility' }
+    { label: 'Account', icon: User },
+    { label: 'Billing', icon: HandCard },
+    { label: 'Notifications', icon: Bell },
+    { label: 'Accessibility', icon: Accessibility }
 ];
 
-const selectedItem = ref(0); 
+const selectedItem = ref(0);
 </script>
 
 <template>
@@ -16,7 +17,10 @@ const selectedItem = ref(0);
         <div class="button_container">
             <button v-for="(item, index) in items" :key="index" @click="selectedItem = index"
                 :class="{ 'button--selected': index === selectedItem }" class="button">
-                {{ item.label }}
+                <span class="icon-container">
+                    <component :is="item.icon" class="icon" />
+                </span>
+                <span class="label">{{ item.label }}</span>
             </button>
         </div>
     </div>
@@ -48,12 +52,24 @@ const selectedItem = ref(0);
     background-color: transparent;
     transition: background-color 0.3s ease, color 0.3s ease;
     display: flex;
-    justify-content: flex-start;
-    display: flex;
-    padding: 8px;
     align-items: center;
-    gap: 8px;
-    flex: 1 0 0;
+}
+
+.icon-container {
+    display: flex;
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+.icon {
+    width: 100%;
+    height: 100%;
+    color: var(--black);
+}
+
+.label {
+    flex: 1;
 }
 
 .button--selected {
