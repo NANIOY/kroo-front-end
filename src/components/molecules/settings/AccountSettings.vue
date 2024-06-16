@@ -26,7 +26,7 @@ export default {
           </div>
           <div class="profile-details__info-item">
             <span class="profile-details__label">Age</span>
-            <Slider label="Age" :maxValue="100" localStorageKey="profile_settings" group="age" />
+            <p class="profile-details__text">Lorem Ipsum</p>
           </div>
         </div>
         <div class="profile-details__info-row">
@@ -72,9 +72,6 @@ export default {
           </div>
         </div>
         <div class="profile-details__info-row">
-          <div class="profile-details__info-item">
-            <Slider label="Age" :maxValue="100" localStorageKey="profile_settings" group="age" />
-          </div>
         </div>
         <NormalButton class="profile-details__edit-button button--primary" label="Edit" iconName="EditPencil" />
       </div>
