@@ -176,7 +176,7 @@ const logout = async () => {
     sessionStorage.clear();
 
     // Redirect to login page
-    window.location.href = '../../../../#/Login.vue';
+    window.location.href = '../../../../#/login';
   } catch (error) {
     console.error('Logout failed:', error);
   }
