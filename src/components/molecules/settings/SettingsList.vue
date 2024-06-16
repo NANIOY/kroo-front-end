@@ -1,46 +1,61 @@
-<script>
-export default {
-    name: 'SettingsList'
-};
+<script setup>
+import { ref } from 'vue';
+
+const items = [
+  { label: 'Account', endpoint: '#account' },
+  { label: 'Billing', endpoint: '#billing' },
+  { label: 'Notifications', endpoint: '#notifications' },
+  { label: 'Accessibility', endpoint: '#accessibility' }
+];
+
+const selectedItem = ref(3); 
 </script>
 
 <template>
-    <div class="sidebar">
-        <ul>
-            <li><a href="#account">Account</a></li>
-            <li><a href="#billing">Billing</a></li>
-            <li><a href="#notifications">Notifications</a></li>
-            <li><a href="#accessibility" class="active">Accessibility</a></li>
-        </ul>
+  <div class="settings">
+    <div class="button_container">
+      <a v-for="(item, index) in items" :key="index" :href="item.endpoint"
+        :class="{ 'button--selected': index === selectedItem }" class="button" @click="selectedItem = index">
+        {{ item.label }}
+      </a>
     </div>
+  </div>
 </template>
 
 <style scoped>
-.sidebar {
-    width: 200px;
-    background-color: #f0f0f0;
-    padding: 20px;
+.settings {
+  display: flex;
+  flex-direction: column;
+  width: 192px;
+  height: 344px;
+  gap: 16px;
+  flex-shrink: 0;
 }
 
-.sidebar ul {
-    list-style-type: none;
-    padding: 0;
+.button_container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
 }
 
-.sidebar li {
-    margin: 20px 0;
+.button {
+  border: none;
+  padding: 10px;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  background-color: transparent;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  display: flex;
+  justify-content: flex-start;
+  text-decoration: none;
+  color: black;
+  font-size: 18px;
 }
 
-.sidebar a {
-    text-decoration: none;
-    color: black;
-    font-size: 18px;
-}
-
-.sidebar a.active {
-    color: white;
-    background-color: #6200ee;
-    padding: 10px;
-    border-radius: 5px;
+.button--selected {
+  background-color: var(--blurple);
+  color: var(--white);
 }
 </style>
