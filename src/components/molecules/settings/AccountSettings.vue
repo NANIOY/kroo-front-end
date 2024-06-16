@@ -30,12 +30,15 @@ export default {
         <div class="info-row">
           <div class="info-item">
             <span class="label">Function</span>
+            <p>Lorem Ipsum</p>
           </div>
           <div class="info-item">
             <span class="label">Languages</span>
+            <p>Lorem Ipsum</p>
           </div>
           <div class="info-item">
             <span class="label">Skills</span>
+            <p>Lorem Ipsum</p>
           </div>
         </div>
         <div class="info-row">
