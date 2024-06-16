@@ -1,11 +1,10 @@
 <script setup>
-
+import SettingsList from '../../components/molecules/settings/SettingsList.vue';
 </script>
 
 <template>
   <div>
-    <h1>Settings</h1>
-    <p>This is settings</p>
+    <SettingsList />
   </div>
 
 </template>
